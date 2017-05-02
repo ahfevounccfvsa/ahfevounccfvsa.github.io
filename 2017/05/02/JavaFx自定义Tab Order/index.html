@@ -48,7 +48,7 @@ https://bugs.openjdk.java.net/browse/JDK-80916">
 
 https://bugs.openjdk.java.net/browse/JDK-8090501
 https://bugs.openjdk.java.net/browse/JDK-80916">
-<meta property="og:updated_time" content="2017-05-02T10:49:33.000Z">
+<meta property="og:updated_time" content="2017-05-02T10:52:31.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JavaFx自定义Tab-Order">
 <meta name="twitter:description" content="Tab-order是什么？在界面上当你按tab键触发焦点转移的功能，这就是tab order。但是Javafx有个缺陷就是不方便自己设置tab-order的顺序。
@@ -206,6 +206,9 @@ https://bugs.openjdk.java.net/browse/JDK-80916">
 <li><a href="https://bugs.openjdk.java.net/browse/JDK-8091673" target="_blank" rel="external">https://bugs.openjdk.java.net/browse/JDK-8091673</a></li>
 </ol>
 <p>最后JDK中迫不得已临时把<code>Parent类</code>中的私有方法<code>setImpl_traversalEngine</code>设置为了<code>public</code>，让用户可以设置<code>Node</code>自己的<code>tab-order</code>顺序。</p>
+<blockquote>
+<p>相关解决方案 <a href="http://stackoverflow.com/questions/15238928/javafx-how-to-change-the-focus-traversal-policy" target="_blank" rel="external">stackoverflow</a></p>
+</blockquote>
 <p>示例：</p>
 <ol>
 <li>fxml文件</li>
@@ -233,15 +236,15 @@ https://bugs.openjdk.java.net/browse/JDK-80916">
 
   <div class="post-copyright">
     <p class="copyright-item">
-      <span>作者: </span>
+      <span>Author: </span>
       <span>cmlanche</span>
     </p>
     <p class="copyright-item">
-      <span>来源: </span>
+      <span>Origin: </span>
       <a href="http://www.cmlanche.com">http://www.cmlanche.com</a>
     </p>
     <p class="copyright-item">
-      <span>链接: </span>
+      <span>Link: </span>
       <a href="http://www.cmlanche.com/2017/05/02/JavaFx自定义Tab Order/">http://www.cmlanche.com/2017/05/02/JavaFx自定义Tab Order/</a>
     </p>
 
