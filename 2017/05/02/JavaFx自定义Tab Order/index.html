@@ -48,7 +48,8 @@ https://bugs.openjdk.java.net/browse/JDK-80916">
 
 https://bugs.openjdk.java.net/browse/JDK-8090501
 https://bugs.openjdk.java.net/browse/JDK-80916">
-<meta property="og:updated_time" content="2017-05-02T10:52:31.000Z">
+<meta property="og:image" content="http://opdi15302.bkt.clouddn.com/2017-05-03%2019_02_46.gif">
+<meta property="og:updated_time" content="2017-05-03T11:08:35.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JavaFx自定义Tab-Order">
 <meta name="twitter:description" content="Tab-order是什么？在界面上当你按tab键触发焦点转移的功能，这就是tab order。但是Javafx有个缺陷就是不方便自己设置tab-order的顺序。
@@ -57,6 +58,7 @@ https://bugs.openjdk.java.net/browse/JDK-80916">
 
 https://bugs.openjdk.java.net/browse/JDK-8090501
 https://bugs.openjdk.java.net/browse/JDK-80916">
+<meta name="twitter:image" content="http://opdi15302.bkt.clouddn.com/2017-05-03%2019_02_46.gif">
 
 
 <link rel="stylesheet" type="text/css" href="/css/style.css?v=2.3.x" />
@@ -219,6 +221,7 @@ https://bugs.openjdk.java.net/browse/JDK-80916">
 </ol>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.cmlanche.easymvvmfx.ui.login;</div><div class="line"></div><div class="line"><span class="keyword">import</span> com.fx.base.mvvm.BaseView;</div><div class="line"><span class="keyword">import</span> com.sun.javafx.scene.traversal.Algorithm;</div><div class="line"><span class="keyword">import</span> com.sun.javafx.scene.traversal.Direction;</div><div class="line"><span class="keyword">import</span> com.sun.javafx.scene.traversal.ParentTraversalEngine;</div><div class="line"><span class="keyword">import</span> com.sun.javafx.scene.traversal.TraversalContext;</div><div class="line"><span class="keyword">import</span> javafx.fxml.FXML;</div><div class="line"><span class="keyword">import</span> javafx.scene.Node;</div><div class="line"><span class="keyword">import</span> javafx.scene.control.Button;</div><div class="line"><span class="keyword">import</span> javafx.scene.control.TextField;</div><div class="line"><span class="keyword">import</span> javafx.scene.input.MouseEvent;</div><div class="line"><span class="keyword">import</span> javafx.scene.layout.VBox;</div><div class="line"><span class="keyword">import</span> tray.notification.NotificationType;</div><div class="line"><span class="keyword">import</span> tray.notification.TrayNotification;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * Created by cmlanche on 2016/12/9.</div><div class="line"> */</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LoginView</span> <span class="keyword">extends</span> <span class="title">BaseView</span>&lt;<span class="title">LoginViewModel</span>&gt; </span>&#123;</div><div class="line"></div><div class="line">    <span class="meta">@FXML</span></div><div class="line">    Button btn;</div><div class="line">    <span class="meta">@FXML</span></div><div class="line">    TextField t1;</div><div class="line">    <span class="meta">@FXML</span></div><div class="line">    TextField t2;</div><div class="line">    <span class="meta">@FXML</span></div><div class="line">    TextField t3;</div><div class="line">    <span class="meta">@FXML</span></div><div class="line">    VBox testbox;</div><div class="line"></div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onViewCreated</span><span class="params">()</span> </span>&#123;</div><div class="line">        t2.setFocusTraversable(<span class="keyword">true</span>);</div><div class="line">        t2.requestFocus();</div><div class="line"></div><div class="line">        testbox.setImpl_traversalEngine(<span class="keyword">new</span> ParentTraversalEngine(testbox, <span class="keyword">new</span> Algorithm() &#123;</div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> Node <span class="title">select</span><span class="params">(Node owner, Direction dir, TraversalContext context)</span> </span>&#123;</div><div class="line">                <span class="keyword">if</span> (<span class="string">"t2"</span>.equals(owner.getId())) &#123;</div><div class="line">                    <span class="keyword">return</span> t3;</div><div class="line">                &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="string">"t3"</span>.equals(owner.getId())) &#123;</div><div class="line">                    <span class="keyword">return</span> t1;</div><div class="line">                &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="string">"t1"</span>.equals(owner.getId())) &#123;</div><div class="line">                    <span class="keyword">return</span> btn;</div><div class="line">                &#125; <span class="keyword">else</span> &#123;</div><div class="line">                    <span class="keyword">return</span> t2;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> Node <span class="title">selectFirst</span><span class="params">(TraversalContext context)</span> </span>&#123;</div><div class="line">                <span class="keyword">return</span> t2;</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> Node <span class="title">selectLast</span><span class="params">(TraversalContext context)</span> </span>&#123;</div><div class="line">                <span class="keyword">return</span> t1;</div><div class="line">            &#125;</div><div class="line">        &#125;));</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>原来的<code>tab-order</code>顺序是<code>btn-&gt;t1-&gt;t2-&gt;t3</code>，现在的顺序是<code>t2-&gt;t3-&gt;t1-&gt;btn</code>。</p>
+<p><img src="http://opdi15302.bkt.clouddn.com/2017-05-03%2019_02_46.gif" alt="javafx-taborder"></p>
 <blockquote>
 <p>需要注意的是</p>
 <ol>
@@ -236,15 +239,15 @@ https://bugs.openjdk.java.net/browse/JDK-80916">
 
   <div class="post-copyright">
     <p class="copyright-item">
-      <span>Author: </span>
+      <span>作者: </span>
       <span>cmlanche</span>
     </p>
     <p class="copyright-item">
-      <span>Origin: </span>
+      <span>来源: </span>
       <a href="http://www.cmlanche.com">http://www.cmlanche.com</a>
     </p>
     <p class="copyright-item">
-      <span>Link: </span>
+      <span>链接: </span>
       <a href="http://www.cmlanche.com/2017/05/02/JavaFx自定义Tab Order/">http://www.cmlanche.com/2017/05/02/JavaFx自定义Tab Order/</a>
     </p>
 
