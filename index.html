@@ -155,6 +155,49 @@
     <header class="post-header">
       <h1 class="post-title">
         
+          <a class="post-link" href="/2017/05/06/hexo使用总结/">Hexo使用经验总结</a>
+        
+      </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          May 6, 2017
+        </span>
+      </div>
+    </header>
+
+    
+    
+
+    <div class="post-content">
+      
+        
+        
+          
+        
+
+        
+          <hr>
+<p>hexo使用方面的经验</p>
+          <div class="read-more">
+            <a href="/2017/05/06/hexo使用总结/" class="read-more-link">Read more..</a>
+          </div>
+        
+      
+    </div>
+
+    
+
+    
+
+  </article>
+
+    
+      
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">
+        
           <a class="post-link" href="/2017/05/02/JavaFx自定义Tab Order/">JavaFx自定义Tab-Order</a>
         
       </h1>
@@ -173,39 +216,15 @@
       
         
         
+          
+        
 
         
-          <blockquote>
+          <hr>
 <p>Tab-order是什么？在界面上当你按tab键触发焦点转移的功能，这就是tab order。但是Javafx有个缺陷就是不方便自己设置tab-order的顺序。</p>
-</blockquote>
-<p>15年JDK爆出这个bug，有人提过：</p>
-<ol>
-<li><a href="https://bugs.openjdk.java.net/browse/JDK-8090501" target="_blank" rel="external">https://bugs.openjdk.java.net/browse/JDK-8090501</a></li>
-<li><a href="https://bugs.openjdk.java.net/browse/JDK-8091673" target="_blank" rel="external">https://bugs.openjdk.java.net/browse/JDK-8091673</a></li>
-</ol>
-<p>最后JDK中迫不得已临时把<code>Parent类</code>中的私有方法<code>setImpl_traversalEngine</code>设置为了<code>public</code>，让用户可以设置<code>Node</code>自己的<code>tab-order</code>顺序。</p>
-<blockquote>
-<p>相关解决方案 <a href="http://stackoverflow.com/questions/15238928/javafx-how-to-change-the-focus-traversal-policy" target="_blank" rel="external">stackoverflow</a></p>
-</blockquote>
-<p>示例：</p>
-<ol>
-<li>fxml文件</li>
-</ol>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</div><div class="line"></div><div class="line">&lt;?import javafx.scene.control.Button?&gt;</div><div class="line">&lt;?import javafx.scene.control.Label?&gt;</div><div class="line">&lt;?import javafx.scene.control.TextField?&gt;</div><div class="line">&lt;?import javafx.scene.layout.BorderPane?&gt;</div><div class="line">&lt;?import javafx.scene.layout.VBox?&gt;</div><div class="line">&lt;?import java.net.URL?&gt;</div><div class="line"><span class="tag">&lt;<span class="name">BorderPane</span> <span class="attr">fx:id</span>=<span class="string">"root"</span> <span class="attr">xmlns</span>=<span class="string">"http://javafx.com/javafx/8.0.112"</span> <span class="attr">xmlns:fx</span>=<span class="string">"http://javafx.com/fxml/1"</span></span></div><div class="line">            <span class="attr">fx:controller</span>=<span class="string">"com.cmlanche.easymvvmfx.ui.login.LoginView"</span>&gt;</div><div class="line">    <span class="tag">&lt;<span class="name">center</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">Label</span> <span class="attr">style</span>=<span class="string">"-fx-font-size: 32"</span> <span class="attr">text</span>=<span class="string">"hello world"</span>/&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">center</span>&gt;</span></div><div class="line"></div><div class="line">    <span class="tag">&lt;<span class="name">bottom</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">VBox</span> <span class="attr">fx:id</span>=<span class="string">"testbox"</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">Button</span> <span class="attr">fx:id</span>=<span class="string">"btn"</span> <span class="attr">text</span>=<span class="string">"tray"</span>&gt;</span></div><div class="line">            <span class="tag">&lt;/<span class="name">Button</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">TextField</span> <span class="attr">fx:id</span>=<span class="string">"t1"</span>/&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">TextField</span> <span class="attr">fx:id</span>=<span class="string">"t2"</span>/&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">TextField</span> <span class="attr">fx:id</span>=<span class="string">"t3"</span>/&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">VBox</span>&gt;</span></div><div class="line"></div><div class="line">    <span class="tag">&lt;/<span class="name">bottom</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;/<span class="name">BorderPane</span>&gt;</span></div></pre></td></tr></table></figure>
-<ol>
-<li>Controller文件</li>
-</ol>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.cmlanche.easymvvmfx.ui.login;</div><div class="line"></div><div class="line"><span class="keyword">import</span> com.fx.base.mvvm.BaseView;</div><div class="line"><span class="keyword">import</span> com.sun.javafx.scene.traversal.Algorithm;</div><div class="line"><span class="keyword">import</span> com.sun.javafx.scene.traversal.Direction;</div><div class="line"><span class="keyword">import</span> com.sun.javafx.scene.traversal.ParentTraversalEngine;</div><div class="line"><span class="keyword">import</span> com.sun.javafx.scene.traversal.TraversalContext;</div><div class="line"><span class="keyword">import</span> javafx.fxml.FXML;</div><div class="line"><span class="keyword">import</span> javafx.scene.Node;</div><div class="line"><span class="keyword">import</span> javafx.scene.control.Button;</div><div class="line"><span class="keyword">import</span> javafx.scene.control.TextField;</div><div class="line"><span class="keyword">import</span> javafx.scene.input.MouseEvent;</div><div class="line"><span class="keyword">import</span> javafx.scene.layout.VBox;</div><div class="line"><span class="keyword">import</span> tray.notification.NotificationType;</div><div class="line"><span class="keyword">import</span> tray.notification.TrayNotification;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * Created by cmlanche on 2016/12/9.</div><div class="line"> */</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LoginView</span> <span class="keyword">extends</span> <span class="title">BaseView</span>&lt;<span class="title">LoginViewModel</span>&gt; </span>&#123;</div><div class="line"></div><div class="line">    <span class="meta">@FXML</span></div><div class="line">    Button btn;</div><div class="line">    <span class="meta">@FXML</span></div><div class="line">    TextField t1;</div><div class="line">    <span class="meta">@FXML</span></div><div class="line">    TextField t2;</div><div class="line">    <span class="meta">@FXML</span></div><div class="line">    TextField t3;</div><div class="line">    <span class="meta">@FXML</span></div><div class="line">    VBox testbox;</div><div class="line"></div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onViewCreated</span><span class="params">()</span> </span>&#123;</div><div class="line">        t2.setFocusTraversable(<span class="keyword">true</span>);</div><div class="line">        t2.requestFocus();</div><div class="line"></div><div class="line">        testbox.setImpl_traversalEngine(<span class="keyword">new</span> ParentTraversalEngine(testbox, <span class="keyword">new</span> Algorithm() &#123;</div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> Node <span class="title">select</span><span class="params">(Node owner, Direction dir, TraversalContext context)</span> </span>&#123;</div><div class="line">                <span class="keyword">if</span> (<span class="string">"t2"</span>.equals(owner.getId())) &#123;</div><div class="line">                    <span class="keyword">return</span> t3;</div><div class="line">                &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="string">"t3"</span>.equals(owner.getId())) &#123;</div><div class="line">                    <span class="keyword">return</span> t1;</div><div class="line">                &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="string">"t1"</span>.equals(owner.getId())) &#123;</div><div class="line">                    <span class="keyword">return</span> btn;</div><div class="line">                &#125; <span class="keyword">else</span> &#123;</div><div class="line">                    <span class="keyword">return</span> t2;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> Node <span class="title">selectFirst</span><span class="params">(TraversalContext context)</span> </span>&#123;</div><div class="line">                <span class="keyword">return</span> t2;</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> Node <span class="title">selectLast</span><span class="params">(TraversalContext context)</span> </span>&#123;</div><div class="line">                <span class="keyword">return</span> t1;</div><div class="line">            &#125;</div><div class="line">        &#125;));</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>原来的<code>tab-order</code>顺序是<code>btn-&gt;t1-&gt;t2-&gt;t3</code>，现在的顺序是<code>t2-&gt;t3-&gt;t1-&gt;btn</code>。</p>
-<p><img src="http://opdi15302.bkt.clouddn.com/2017-05-03%2019_02_46.gif" alt="javafx-taborder"></p>
-<blockquote>
-<p>需要注意的是</p>
-<ol>
-<li><code>setImpl_traversalEngine</code>是<code>deprecated</code>方法，以后可能废弃的api</li>
-<li><code>LoginView</code>是我的框架<a href="https://github.com/cmlanche/easyMvvmFx" target="_blank" rel="external">easyMvvmFx</a>构建的控制器，不能直接放在你代码中运行。</li>
-</ol>
-</blockquote>
-<h5 id="欢迎加我的qq群探讨JavaFx-最大最活跃的JavaFx社群-518914410"><a href="#欢迎加我的qq群探讨JavaFx-最大最活跃的JavaFx社群-518914410" class="headerlink" title="欢迎加我的qq群探讨JavaFx 最大最活跃的JavaFx社群 518914410"></a>欢迎加我的qq群探讨<code>JavaFx</code> <code>最大最活跃的JavaFx社群 518914410</code></h5>
+          <div class="read-more">
+            <a href="/2017/05/02/JavaFx自定义Tab Order/" class="read-more-link">Read more..</a>
+          </div>
         
       
     </div>
@@ -240,75 +259,15 @@
       
         
         
+          
+        
 
         
-          <blockquote>
-<p>​    我觉得每个写个人博客的作者都是孤独的，特别是刚开始写的时候，明明没有人关注，却要一个人默默的写东西，你期待着与很多人对话，但是当时一个人都没有，一种孤独的，难以持续坚持的感觉油然而生。    </p>
-<p>​    做个人博客网站，从我粗鄙的见识认为，有三类，一类是不懂技术的小白，使用wordpress，当然我虽然是搞技术的，在很长一段时间我长期使用wordpress，因为它非常简单容易上手，傻瓜式的操作，而且内容也非常容易管理，第二类呢是使用hexo、hugo等工具自己在服务器上进行复杂的配置然后才能搭建，我呢现在属于这类，第三类呢，是在第二类的基础上，能够自己开发网站的样式，这个需要比较深厚的前端技术，你需要懂js、html、css等很多知识，还需要很多实践才能做。</p>
-<p>​    当然上面的分类是不靠谱的，只是我脑瓜子随便一想得出的一个初步分类。我以后肯定是要制作专属自己的皮肤的，用来表达自己的个性（装逼）</p>
-<p>​    就不再唠嗑了，开始装逼了，哈哈哈</p>
-</blockquote>
-<h3 id="缘起"><a href="#缘起" class="headerlink" title="缘起"></a>缘起</h3><p>请看这几个博客，都是我精心挑选的</p>
-<ol>
-<li><a href="http://www.ahonn.me" target="_blank" rel="external">ahonn</a></li>
-</ol>
-<p>我的感触是，感叹这个作者写样式这么简洁大方，感叹这个网站响应速度这么快，第一个感叹是我以后要做的，第二个感叹是因为和我以前做的网站不一样，比我以前做的wordpress站点都快，后来我想到，主要有两个原因：</p>
-<ol>
-<li>服务器响应速度快。我之前使用过最快的云主机<a href="www.zun.com">尊云</a>，这家网站速度还可以，其实国内的阿里云、腾讯云都不错，只是昨天，也就是2017/04/01，愚人节的这一天，腾讯活动给了一个月的免费主机，ping速度还不错，然后我的这个网站就选用这家了。</li>
-<li><a href="http://www.ahonn.me" target="_blank" rel="external">ahomn</a>这个网站使用的是我们今天要介绍的hexo，它是一个静态网站生成器，也可以当一个服务器来运行，所以这个网站其实就是一些静态页面，我猜想是用nginx配置了服务器，请求这个网站只是返回一些静态网页而已，那自然是非常快的。</li>
-</ol>
-<h3 id="hexo"><a href="#hexo" class="headerlink" title="hexo"></a>hexo</h3><p><a href="http://hexo.io" target="_blank" rel="external">hexo</a>目前来说是我接触最好用的博客建站网站了，不需要配置数据库，灵活的配置项，可以把你写的文章和你用的样式进行<code>杂交</code>，生成对应样式的文章等，当然你也可以自己开发样式，自己做其他的修改。</p>
-<p>hexo之前用过几次，每次都是浅尝辄止，未得它的真正使用方式，我感觉很多个人博客都没有把这点说透，那是什么东西要说透呢，看下面的列表</p>
-<ol>
-<li><p>你云服务器上放的东西应该是一个纯粹的静态网站，而不是用命令<code>hexo server -p 80</code>生成的hexo服务器</p>
-</li>
-<li><p>你的云服务器上应该是用其他服务器比如nginx，tomcat，appache，jetty等运行的一个环境，你只要把你的静态网站放在对应的网站路径就好</p>
-</li>
-<li><p>hexo怎么写文章？你以为是像wordpress那样有个管理网站给你吗？不是，hexo它完全是一种纯命令行形式的工具，你需要用专业的文字编辑工具去写，这里推荐大家使用Typora(我也是今天才真正投入使用，真正认为它是神器)，是我最好用的markdown神器</p>
-<blockquote>
-<p>我的神器有如下几个，我都分享给你们</p>
-<ol>
-<li>Java最佳开发神器，idea</li>
-<li>写前端最佳开发神器，webstorm</li>
-<li>写markdown的最佳神器，Typora，这个要重点介绍下，下了好久了这个，但是一直没用起来，我以为没有实施预览，今天要写文章再次拿来使用，发现他的编辑与预览是同时产生的，这个真是牛啊，体验超级棒👍，这样的话，markdown语法也是很快就学会了，以后就不怕写不了牛逼哄哄的markdown了（以前看到大牛写的markdown那真是一个羡慕啊，无法言语啊）</li>
-<li>UML/ER图/代码生成神器，Visual Paradigm，这个网上没有破解，我只好痛心买了注册码，$349，好心疼，有按月付费的，但是我觉得我以后长期用，长痛不如短痛就买了</li>
-<li>API文档编写与生成代码神器 <a href="http://www.swagger.io" target="_blank" rel="external">Swagger</a>,这绝壁是神器，能让你快速开发你的服务，同时写好文档和测试，太牛逼了这个，现在也是特别火</li>
-<li>思维导图软件 Freemind，这个是免费的，从我大学就开始用了，但是当时没有领略到它加上快捷键之后是如此的简单便捷，我深深的爱上了这款软件</li>
-</ol>
-</blockquote>
-</li>
-<li><p>hexo文章怎么发布呢，使用命令<code>hexo deploy</code>，但是你需要配置你博客目录下的一个文件<code>_config.yml</code>，并配置下你要发布你本地网站上的文章到指定的服务器（发布前用命令<code>hexo generate</code>生成静态网站，在目录<code>public</code>下），怎么配置？这个分不同的服务器。</p>
-<blockquote>
-<p>我测试过<code>git</code>和我自己的云服务器<code>rsync</code>（找到你的<code>deploy</code>位置）</p>
-<p><strong>git配置:</strong></p>
-<p>deploy:</p>
-<p>​    type: git</p>
-<p>​    repo: <a href="https://github.com/cmlanche/cmlanche.github.io.git" target="_blank" rel="external">https://github.com/cmlanche/cmlanche.github.io.git</a></p>
-<p>​    branch: master</p>
-<p>​    message: “hello guys”</p>
-<p><strong>rsync</strong></p>
-<p>deploy:</p>
-<p>​    type: rsync</p>
-<p>​    host: 123.207.x.x(这里隐藏我的服务器ip，免得被很多人拿来测试了)</p>
-<p>​    user: root</p>
-<p>​    root: /root</p>
-<p>​    port: 22</p>
-<p>​    delete: true</p>
-<p>​    verbose: true</p>
-<p>​    ignore_error: false</p>
-<p>这种方式的话后边会要求你输入服务器密码的</p>
-</blockquote>
-<p>测试发现不能同时又两个<code>deploy</code>，这是我比较缺憾的，比较不满意的地方。</p>
-</li>
-<li><p>你写的文章怎么到你的云服务器或者github上了呢？再次重复下，你写文章，先发布（怎么发布？你只要把你写的markdown文件移动或者复制到你的博客根目录下的<code>/source/_posts/</code>目录下即可，注意标题格式）到你的本地环境的hexo上，并用<code>hexo generate</code>生成静态完整，再配置好<code>_config.yml</code>中的<code>deploy</code>选项，使用命令<code>hexo deploy</code>完成发布，这个过程看似繁琐，其实作为一个资深技术人来说，这是你应该做的，没必要用什么图形工具，那太low了，对不对？</p>
-</li>
-</ol>
-<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ol>
-<li>发现我对工具往往浅尝辄止，类似的事情发生太多，就上面说的<code>freemind</code>，<code>typora</code>，<code>hexo</code>，没有深入去实践，当初都给他们定下不好用的标签，实际上你错了</li>
-<li>既然这样一套成熟的开发方式已经摸熟了，以后就要坚持写博客，把我认为最有价值的内容带给大家，期待大家的关注</li>
-</ol>
-<p><img src="http://onrd7xdyg.bkt.clouddn.com/mmqrcode1491097217954.png" alt="关注我"></p>
-
+          <hr>
+<p>做个人博客网站，从我粗鄙的见识认为，有三类，一类是不懂技术的小白，使用wordpress，当然我虽然是搞技术的，在很长一段时间我长期使用wordpress，因为它非常简单容易上手，傻瓜式的操作，而且内容也非常容易管理，第二类呢是使用hexo、hugo等工具自己在服务器上进行复杂的配置然后才能搭建，我呢现在属于这类，第三类呢，是在第二类的基础上，能够自己开发网站的样式，这个需要比较深厚的前端技术，你需要懂js、html、css等很多知识，还需要很多实践才能做。</p>
+          <div class="read-more">
+            <a href="/2017/04/02/hexo网站的搭建实践与经验感触分享/" class="read-more-link">Read more..</a>
+          </div>
         
       
     </div>
