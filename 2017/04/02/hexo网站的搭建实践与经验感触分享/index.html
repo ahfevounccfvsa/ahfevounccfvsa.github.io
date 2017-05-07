@@ -32,17 +32,17 @@
 <link rel="canonical" href="http://www.cmlanche.com/2017/04/02/hexo网站的搭建实践与经验感触分享/"/>
 
 
-<meta name="description" content="做个人博客网站，从我粗鄙的见识认为，有三类，一类是不懂技术的小白，使用wordpress，当然我虽然是搞技术的，在很长一段时间我长期使用wordpress，因为它非常简单容易上手，傻瓜式的操作，而且内容也非常容易管理，第二类呢是使用hexo、hugo等工具自己在服务器上进行复杂的配置然后才能搭建，我呢现在属于这类，第三类呢，是在第二类的基础上，能够自己开发网站的样式，这个需要比较深厚的前端技术，">
+<meta name="description" content="做个人博客网站，从我粗鄙的见识认为，有三类，一类是不懂技术的小白，使用wordpress，当然我虽然是搞技术的，在很长一段时间我长期使用wordpress，因为它非常简单容易上手，傻瓜式的操作，而且内容也非常容易管理，第二类呢是使用hexo、hugo等工具自己在服务器上进行复杂的配置然后才能搭建，我呢现在属于这类，第三类呢，是在第二类的基础上，能够自己开发网站的样式，这个需要比较深厚的前端技术，你">
 <meta property="og:type" content="article">
 <meta property="og:title" content="hexo网站的搭建实践与经验感触分享">
 <meta property="og:url" content="http://www.cmlanche.com/2017/04/02/hexo网站的搭建实践与经验感触分享/index.html">
 <meta property="og:site_name" content="cmlanche">
-<meta property="og:description" content="做个人博客网站，从我粗鄙的见识认为，有三类，一类是不懂技术的小白，使用wordpress，当然我虽然是搞技术的，在很长一段时间我长期使用wordpress，因为它非常简单容易上手，傻瓜式的操作，而且内容也非常容易管理，第二类呢是使用hexo、hugo等工具自己在服务器上进行复杂的配置然后才能搭建，我呢现在属于这类，第三类呢，是在第二类的基础上，能够自己开发网站的样式，这个需要比较深厚的前端技术，">
+<meta property="og:description" content="做个人博客网站，从我粗鄙的见识认为，有三类，一类是不懂技术的小白，使用wordpress，当然我虽然是搞技术的，在很长一段时间我长期使用wordpress，因为它非常简单容易上手，傻瓜式的操作，而且内容也非常容易管理，第二类呢是使用hexo、hugo等工具自己在服务器上进行复杂的配置然后才能搭建，我呢现在属于这类，第三类呢，是在第二类的基础上，能够自己开发网站的样式，这个需要比较深厚的前端技术，你">
 <meta property="og:image" content="http://onrd7xdyg.bkt.clouddn.com/mmqrcode1491097217954.png">
-<meta property="og:updated_time" content="2017-05-06T08:24:10.000Z">
+<meta property="og:updated_time" content="2017-05-07T03:09:29.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="hexo网站的搭建实践与经验感触分享">
-<meta name="twitter:description" content="做个人博客网站，从我粗鄙的见识认为，有三类，一类是不懂技术的小白，使用wordpress，当然我虽然是搞技术的，在很长一段时间我长期使用wordpress，因为它非常简单容易上手，傻瓜式的操作，而且内容也非常容易管理，第二类呢是使用hexo、hugo等工具自己在服务器上进行复杂的配置然后才能搭建，我呢现在属于这类，第三类呢，是在第二类的基础上，能够自己开发网站的样式，这个需要比较深厚的前端技术，">
+<meta name="twitter:description" content="做个人博客网站，从我粗鄙的见识认为，有三类，一类是不懂技术的小白，使用wordpress，当然我虽然是搞技术的，在很长一段时间我长期使用wordpress，因为它非常简单容易上手，傻瓜式的操作，而且内容也非常容易管理，第二类呢是使用hexo、hugo等工具自己在服务器上进行复杂的配置然后才能搭建，我呢现在属于这类，第三类呢，是在第二类的基础上，能够自己开发网站的样式，这个需要比较深厚的前端技术，你">
 <meta name="twitter:image" content="http://onrd7xdyg.bkt.clouddn.com/mmqrcode1491097217954.png">
 
 
@@ -123,7 +123,7 @@
           <a class="menu-item-link" href="/">
             
             
-              Home
+              首页
             
           </a>
         </li>
@@ -132,7 +132,7 @@
           <a class="menu-item-link" href="/archives/">
             
             
-              Archives
+              归档
             
           </a>
         </li>
@@ -175,7 +175,7 @@
     
     
   <div class="post-toc" id="post-toc">
-    <h2 class="post-toc-title">Contents</h2>
+    <h2 class="post-toc-title">文章目录</h2>
     <div class="post-toc-content">
       <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#缘起"><span class="toc-text">缘起</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#hexo"><span class="toc-text">hexo</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#总结"><span class="toc-text">总结</span></a></li></ol>
     </div>
@@ -184,8 +184,7 @@
 
     <div class="post-content">
       
-        <hr>
-<p>做个人博客网站，从我粗鄙的见识认为，有三类，一类是不懂技术的小白，使用wordpress，当然我虽然是搞技术的，在很长一段时间我长期使用wordpress，因为它非常简单容易上手，傻瓜式的操作，而且内容也非常容易管理，第二类呢是使用hexo、hugo等工具自己在服务器上进行复杂的配置然后才能搭建，我呢现在属于这类，第三类呢，是在第二类的基础上，能够自己开发网站的样式，这个需要比较深厚的前端技术，你需要懂js、html、css等很多知识，还需要很多实践才能做。</p>
+        <p>做个人博客网站，从我粗鄙的见识认为，有三类，一类是不懂技术的小白，使用wordpress，当然我虽然是搞技术的，在很长一段时间我长期使用wordpress，因为它非常简单容易上手，傻瓜式的操作，而且内容也非常容易管理，第二类呢是使用hexo、hugo等工具自己在服务器上进行复杂的配置然后才能搭建，我呢现在属于这类，第三类呢，是在第二类的基础上，能够自己开发网站的样式，这个需要比较深厚的前端技术，你需要懂js、html、css等很多知识，还需要很多实践才能做。</p>
 <a id="more"></a>
 <blockquote>
 <p>​    我觉得每个写个人博客的作者都是孤独的，特别是刚开始写的时候，明明没有人关注，却要一个人默默的写东西，你期待着与很多人对话，但是当时一个人都没有，一种孤独的，难以持续坚持的感觉油然而生。    </p>
@@ -297,7 +296,7 @@
       <a class="prev" href="/2017/05/02/JavaFx自定义Tab Order/">
         <i class="iconfont icon-left"></i>
         <span class="prev-text nav-default">JavaFx自定义Tab-Order</span>
-        <span class="prev-text nav-mobile">Prev</span>
+        <span class="prev-text nav-mobile">上一篇</span>
       </a>
     
     
@@ -354,11 +353,11 @@
 
 <div class="copyright">
   <span class="power-by">
-    Powered by <a class="hexo-link" href="https://hexo.io/">Hexo</a>
+    由 <a class="hexo-link" href="https://hexo.io/">Hexo</a> 强力驱动
   </span>
   
   <span class="theme-info">
-    Theme - 
+    主题 - 
     <a class="theme-link" href="https://github.com/ahonn/hexo-theme-even">Even</a>
   </span>
 
@@ -369,13 +368,14 @@
       2015 - 
     
     2017
-
+    <span class="author"><a href="http://www.miitbeian.gov.cn/" target="_blank">京ICP备17020143号</a></span>
     <span class="heart">
       <i class="iconfont icon-heart"></i>
     </span>
     <span class="author">cmlanche</span>
   </span>
 </div>
+
       </footer>
 
       <div class="back-to-top" id="back-to-top">
@@ -429,7 +429,7 @@
         $content$
         <div class="read-more">
           <a href="$url$" class="read-more-link">
-            Read more..
+            阅读更多
           </a>
         </div>
       </div>
