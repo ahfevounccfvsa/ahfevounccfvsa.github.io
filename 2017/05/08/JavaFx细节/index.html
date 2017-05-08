@@ -39,7 +39,7 @@
 <meta property="og:site_name" content="cmlanche">
 <meta property="og:description" content="JavaFx中有一些疑难杂症，或许你以为你掌握了JavaFx，但是也未必知道我所说的这些问题和解决方案，如果有帮助到你的，可以加群最大最活跃的JavaFx社群：518914410 欢迎访问我的个人博客www.cmlanche.com">
 <meta property="og:image" content="http://opdi15302.bkt.clouddn.com/2017-05-08%2020_55_48.gif">
-<meta property="og:updated_time" content="2017-05-08T14:01:34.000Z">
+<meta property="og:updated_time" content="2017-05-08T14:15:13.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="记录JavaFx中非常重要的细节">
 <meta name="twitter:description" content="JavaFx中有一些疑难杂症，或许你以为你掌握了JavaFx，但是也未必知道我所说的这些问题和解决方案，如果有帮助到你的，可以加群最大最活跃的JavaFx社群：518914410 欢迎访问我的个人博客www.cmlanche.com">
@@ -198,7 +198,9 @@
 <p>如果你入门了，你告诉我，会显示<code>JavaBean</code>对象中的toString()返回的值，是的，没错，但是加入这个<code>JavaBean</code>是你无法更改的，又或者说你更改它会不<code>美观</code>，会破坏你写代码的美感，没错，的确会这样。</p>
 <p>然后更有经验的人会告诉我，你可以用<code>setCellFactory</code>来自己定义列表的值，确实列表的值变成了你想要的值，但是你同样会发现控件所选择的值还是<code>toString()</code>所表达的值。这怎么解决呢？</p>
 <p>其实<code>ComboBox</code>中有个叫<code>StringConverter</code>的东西，由它完成自定义转换，示例：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">&gt; <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">JavaBean</span></span>&#123;</div><div class="line">&gt;   <span class="keyword">public</span> String p1;</div><div class="line">&gt;   <span class="keyword">public</span> String p2;</div><div class="line">&gt; &#125;</div><div class="line">&gt;</div><div class="line">&gt; ComboBox&lt;JavaBean&gt; combox = <span class="keyword">new</span> ComboBox&lt;&gt;();</div><div class="line">&gt; combox.setConverter(<span class="keyword">new</span> StringConverter&lt;JavaBean&gt;()&#123;</div><div class="line">&gt;   <span class="meta">@Override</span></div><div class="line">&gt;   <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">(JavaBean bean)</span></span>&#123;</div><div class="line">&gt;     <span class="keyword">return</span> String.format(<span class="string">"%s(%s)"</span>, bean.p1, bean.p2);</div><div class="line">&gt;   &#125;</div><div class="line">&gt;   <span class="meta">@Override</span></div><div class="line">&gt;   <span class="function"><span class="keyword">public</span> JavaBean <span class="title">fromString</span><span class="params">(String str)</span></span>&#123;<span class="keyword">return</span> <span class="keyword">null</span>;&#125;</div><div class="line">&gt; &#125;);</div><div class="line">&gt;</div></pre></td></tr></table></figure>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">JavaBean</span></span>&#123;</div><div class="line">  <span class="keyword">public</span> String p1;</div><div class="line">  <span class="keyword">public</span> String p2;</div><div class="line">&#125;</div><div class="line"></div><div class="line">ComboBox&lt;JavaBean&gt; combox = <span class="keyword">new</span> ComboBox&lt;&gt;();</div><div class="line">combox.setConverter(<span class="keyword">new</span> StringConverter&lt;JavaBean&gt;()&#123;</div><div class="line">  <span class="meta">@Override</span></div><div class="line">  <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">(JavaBean bean)</span></span>&#123;</div><div class="line">    <span class="keyword">return</span> String.format(<span class="string">"%s(%s)"</span>, bean.p1, bean.p2);</div><div class="line">  &#125;</div><div class="line">  <span class="meta">@Override</span></div><div class="line">  <span class="function"><span class="keyword">public</span> JavaBean <span class="title">fromString</span><span class="params">(String str)</span></span>&#123;<span class="keyword">return</span> <span class="keyword">null</span>;&#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<blockquote>
 <p>其实只要设置<code>StringConverter</code>就可以了，不用设置<code>cellfactory</code>，后者更多的是用来更改ui外观的</p>
 </blockquote>
 </li>
@@ -216,15 +218,15 @@
 
   <div class="post-copyright">
     <p class="copyright-item">
-      <span>作者: </span>
+      <span>Author: </span>
       <span>cmlanche</span>
     </p>
     <p class="copyright-item">
-      <span>来源: </span>
+      <span>Origin: </span>
       <a href="http://www.cmlanche.com">http://www.cmlanche.com</a>
     </p>
     <p class="copyright-item">
-      <span>链接: </span>
+      <span>Link: </span>
       <a href="http://www.cmlanche.com/2017/05/08/JavaFx细节/">http://www.cmlanche.com/2017/05/08/JavaFx细节/</a>
     </p>
 
