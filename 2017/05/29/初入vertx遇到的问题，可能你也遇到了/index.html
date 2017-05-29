@@ -40,7 +40,7 @@
 <meta property="og:site_name" content="cmlanche">
 <meta property="og:description" content="vertx关于对StaticHandler的使用的理解vertx中的StaticHandle是一个非常有用的处理静态资源的处理器，里面已经帮你实现了对静态资源的各种访问设置，但是使用过程中，我把/*映射给了静态资源webroot，发现我无法添加新的route了，新route添加了都不接受事件响应。
 原因就是所有请求都让StaticHanle拦截了，对StaticHanle的使用应该让它走一个新的不">
-<meta property="og:updated_time" content="2017-05-29T04:52:13.000Z">
+<meta property="og:updated_time" content="2017-05-29T04:53:46.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="初入vertx遇到的问题，可能你也遇到了">
 <meta name="twitter:description" content="vertx关于对StaticHandler的使用的理解vertx中的StaticHandle是一个非常有用的处理静态资源的处理器，里面已经帮你实现了对静态资源的各种访问设置，但是使用过程中，我把/*映射给了静态资源webroot，发现我无法添加新的route了，新route添加了都不接受事件响应。
@@ -207,7 +207,7 @@
 <p>这样简历2个路由，分别用来<code>请求授权</code>，<code>获取authcode</code></p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line">     * 请求github登录</div><div class="line">     *</div><div class="line">     * <span class="doctag">@param</span> rc</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">login_github</span><span class="params">(RoutingContext rc)</span> </span>&#123;</div><div class="line">        String authorization_uri = githubAuth.authorizeURL(<span class="keyword">new</span> JsonObject()</div><div class="line">                .put(<span class="string">"redirect_uri"</span>, getPath() + <span class="string">"/oauth/github/code"</span>)</div><div class="line">                .put(<span class="string">"scope"</span>, <span class="string">"no_expiry"</span>));</div><div class="line">        info(authorization_uri);</div><div class="line">        rc.response().putHeader(<span class="string">"Location"</span>, authorization_uri)</div><div class="line">                .setStatusCode(<span class="number">302</span>)</div><div class="line">                .end();</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> * 获取到github的oauth code</div><div class="line"> *</div><div class="line"> * <span class="doctag">@param</span> rc</div><div class="line"> */</div><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">oauth_github_code</span><span class="params">(RoutingContext rc)</span> </span>&#123;</div><div class="line">    String code = rc.request().getParam(<span class="string">"code"</span>);</div><div class="line">    <span class="keyword">if</span> (code != <span class="keyword">null</span>) &#123;</div><div class="line">        githubAuth.getToken(<span class="keyword">new</span> JsonObject().put(<span class="string">"code"</span>, code).put(<span class="string">"redirect_uri"</span>, getPath() + <span class="string">"/oauth/github/token"</span>), res -&gt; &#123;</div><div class="line">            <span class="keyword">if</span> (res.failed()) &#123;</div><div class="line">                <span class="comment">// error, the code provided is not valid</span></div><div class="line">                info(<span class="string">"failed"</span>);</div><div class="line">            &#125; <span class="keyword">else</span> &#123;</div><div class="line">                <span class="comment">// save the token and continue...</span></div><div class="line">                info(<span class="string">"success"</span>);</div><div class="line">                AccessToken token = res.result();</div><div class="line">                info(token.principal().toString());</div><div class="line">                String access_token = token.principal().getString(<span class="string">"access_token"</span>);</div><div class="line">                rc.response().end(access_token);</div><div class="line">            &#125;</div><div class="line">        &#125;);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="vertx给我的感觉"><a href="#vertx给我的感觉" class="headerlink" title="vertx给我的感觉"></a>vertx给我的感觉</h3><p><code>vertx</code>非常灵活，然后又帮你做了非常多的大家都要做的一致性的工作，一致性的意思就是，代码都是那样，是共同的，非常喜欢<code>vertx</code>，之前学过<code>play2</code>,<code>springmvc</code>之类的<code>java web</code>框架，最后都前者因为极少中文文档，需要翻墙，开发者更是少之又少，国内也没见有推广它的，后缀因为过于庞大而放弃了，一直在寻找一个像<code>vertx</code>一样的<code>java web</code>框架，现在终于找到了。</p>
+<h3 id="vertx给我的感觉"><a href="#vertx给我的感觉" class="headerlink" title="vertx给我的感觉"></a>vertx给我的感觉</h3><p><code>vertx</code>非常灵活，然后又帮你做了非常多的大家都要做的一致性的工作，一致性的意思就是，代码都是那样，是共同的，非常喜欢<code>vertx</code>，之前学过<code>play2</code>,<code>springmvc</code>之类的<code>java web</code>框架，最后都前者因为极少中文文档，需要翻墙，开发者更是少之又少，国内也没见有推广它的，后缀因为过于庞大，要学的东西太多而放弃了，一直在寻找一个像<code>vertx</code>一样的<code>java web</code>框架，现在终于找到了。</p>
 <h3 id="欢迎加入我们的社群讨论技术"><a href="#欢迎加入我们的社群讨论技术" class="headerlink" title="欢迎加入我们的社群讨论技术"></a>欢迎加入我们的社群讨论技术</h3><p><code>JavaFx</code>最大最活跃的社群：<code>518914410</code></p>
 <p><code>Vertx</code>中国用户组：<code>515203212</code></p>
 
@@ -220,15 +220,15 @@
 
   <div class="post-copyright">
     <p class="copyright-item">
-      <span>作者: </span>
+      <span>Author: </span>
       <span>cmlanche</span>
     </p>
     <p class="copyright-item">
-      <span>来源: </span>
+      <span>Origin: </span>
       <a href="http://www.cmlanche.com">http://www.cmlanche.com</a>
     </p>
     <p class="copyright-item">
-      <span>链接: </span>
+      <span>Link: </span>
       <a href="http://www.cmlanche.com/2017/05/29/初入vertx遇到的问题，可能你也遇到了/">http://www.cmlanche.com/2017/05/29/初入vertx遇到的问题，可能你也遇到了/</a>
     </p>
 
