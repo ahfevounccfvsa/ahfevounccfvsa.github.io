@@ -115,7 +115,7 @@
           <a class="menu-item-link" href="/">
             
             
-              首页
+              Home
             
           </a>
         </li>
@@ -124,7 +124,7 @@
           <a class="menu-item-link" href="/archives/">
             
             
-              归档
+              Archives
             
           </a>
         </li>
@@ -183,6 +183,10 @@
 <p>代码示例：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">router.route(<span class="string">"/about"</span>).handler(rc-&gt;&#123;</div><div class="line">  rc.reroute(<span class="string">"/static/about.html"</span>);</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
 <p>对，就是<code>reroute</code>，同时注意你的路径，需要加<code>/static/</code>前缀</p>
+<p>这是网友大神<code>赵尘恩</code>给的一个解释性描述</p>
+<blockquote>
+<p><code>route</code>原理就是从上往下找<code>match</code>的路径，<code>reroute</code>就是把拦截到的再重新转发一下，如果<code>reroute</code>到同一个<code>path</code>容易造成死循环，还有<code>web</code>是通过前缀区分的，所以如果用<code>/*</code>来<code>route</code>的话，就会把所有的请求全部拦截到，应该加上<code>/static/*</code>来拦截</p>
+</blockquote>
 <h3 id="使用vertx的oauth2客户端验证授权github"><a href="#使用vertx的oauth2客户端验证授权github" class="headerlink" title="使用vertx的oauth2客户端验证授权github"></a>使用vertx的oauth2客户端验证授权github</h3><blockquote>
 <p>直接撸代码把</p>
 </blockquote>
@@ -194,6 +198,8 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line">     * 请求github登录</div><div class="line">     *</div><div class="line">     * <span class="doctag">@param</span> rc</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">login_github</span><span class="params">(RoutingContext rc)</span> </span>&#123;</div><div class="line">        String authorization_uri = githubAuth.authorizeURL(<span class="keyword">new</span> JsonObject()</div><div class="line">                .put(<span class="string">"redirect_uri"</span>, getPath() + <span class="string">"/oauth/github/code"</span>)</div><div class="line">                .put(<span class="string">"scope"</span>, <span class="string">"no_expiry"</span>));</div><div class="line">        info(authorization_uri);</div><div class="line">        rc.response().putHeader(<span class="string">"Location"</span>, authorization_uri)</div><div class="line">                .setStatusCode(<span class="number">302</span>)</div><div class="line">                .end();</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> * 获取到github的oauth code</div><div class="line"> *</div><div class="line"> * <span class="doctag">@param</span> rc</div><div class="line"> */</div><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">oauth_github_code</span><span class="params">(RoutingContext rc)</span> </span>&#123;</div><div class="line">    String code = rc.request().getParam(<span class="string">"code"</span>);</div><div class="line">    <span class="keyword">if</span> (code != <span class="keyword">null</span>) &#123;</div><div class="line">        githubAuth.getToken(<span class="keyword">new</span> JsonObject().put(<span class="string">"code"</span>, code).put(<span class="string">"redirect_uri"</span>, getPath() + <span class="string">"/oauth/github/token"</span>), res -&gt; &#123;</div><div class="line">            <span class="keyword">if</span> (res.failed()) &#123;</div><div class="line">                <span class="comment">// error, the code provided is not valid</span></div><div class="line">                info(<span class="string">"failed"</span>);</div><div class="line">            &#125; <span class="keyword">else</span> &#123;</div><div class="line">                <span class="comment">// save the token and continue...</span></div><div class="line">                info(<span class="string">"success"</span>);</div><div class="line">                AccessToken token = res.result();</div><div class="line">                info(token.principal().toString());</div><div class="line">                String access_token = token.principal().getString(<span class="string">"access_token"</span>);</div><div class="line">                rc.response().end(access_token);</div><div class="line">            &#125;</div><div class="line">        &#125;);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <h3 id="vertx给我的感觉"><a href="#vertx给我的感觉" class="headerlink" title="vertx给我的感觉"></a>vertx给我的感觉</h3><p><code>vertx</code>非常灵活，然后又帮你做了非常多的大家都要做的一致性的工作，一致性的意思就是，代码都是那样，是共同的，非常喜欢<code>vertx</code>，之前学过<code>play2</code>,<code>springmvc</code>之类的<code>java web</code>框架，最后都前者因为极少中文文档，需要翻墙，开发者更是少之又少，国内也没见有推广它的，后缀因为过于庞大而放弃了，一直在寻找一个像<code>vertx</code>一样的<code>java web</code>框架，现在终于找到了。</p>
+<h3 id="欢迎加入我们的社群讨论技术"><a href="#欢迎加入我们的社群讨论技术" class="headerlink" title="欢迎加入我们的社群讨论技术"></a>欢迎加入我们的社群讨论技术</h3><p><code>JavaFx</code>最大最活跃的社群：<code>518914410</code></p>
+<p><code>Vertx</code>中国用户组：<code>515203212</code></p>
 
         
       
@@ -278,7 +284,7 @@
         
           <p><code>JavaFx</code>中有一些疑难杂症，或许你以为你掌握了<code>JavaFx</code>，但是也未必知道我所说的这些问题和解决方案，如果有帮助到你的，可以加群<code>最大最活跃的JavaFx社群：518914410</code> 欢迎访问我的个人博客<a href="http://www.cmlanche.com">www.cmlanche.com</a></p>
           <div class="read-more">
-            <a href="/2017/05/08/JavaFx细节/" class="read-more-link">阅读更多</a>
+            <a href="/2017/05/08/JavaFx细节/" class="read-more-link">Read more..</a>
           </div>
         
       
@@ -320,7 +326,7 @@
         
           <p>首页的文章列表显示文章摘要，而不是整段文章：<a href="https://ohmyarch.github.io/2014/12/24/Hexo%E4%B8%BB%E9%A1%B5%E6%98%BE%E7%A4%BA%E6%91%98%E8%A6%81/">Hexo主页显示摘要</a></p>
           <div class="read-more">
-            <a href="/2017/05/06/hexo使用总结/" class="read-more-link">阅读更多</a>
+            <a href="/2017/05/06/hexo使用总结/" class="read-more-link">Read more..</a>
           </div>
         
       
@@ -362,7 +368,7 @@
         
           <p>Tab-order是什么？在界面上当你按tab键触发焦点转移的功能，这就是tab order。但是Javafx有个缺陷就是不方便自己设置tab-order的顺序。</p>
           <div class="read-more">
-            <a href="/2017/05/02/JavaFx自定义Tab Order/" class="read-more-link">阅读更多</a>
+            <a href="/2017/05/02/JavaFx自定义Tab Order/" class="read-more-link">Read more..</a>
           </div>
         
       
@@ -404,7 +410,7 @@
         
           <p>做个人博客网站，从我粗鄙的见识认为，有三类，一类是不懂技术的小白，使用wordpress，当然我虽然是搞技术的，在很长一段时间我长期使用wordpress，因为它非常简单容易上手，傻瓜式的操作，而且内容也非常容易管理，第二类呢是使用hexo、hugo等工具自己在服务器上进行复杂的配置然后才能搭建，我呢现在属于这类，第三类呢，是在第二类的基础上，能够自己开发网站的样式，这个需要比较深厚的前端技术，你需要懂js、html、css等很多知识，还需要很多实践才能做。</p>
           <div class="read-more">
-            <a href="/2017/04/02/hexo网站的搭建实践与经验感触分享/" class="read-more-link">阅读更多</a>
+            <a href="/2017/04/02/hexo网站的搭建实践与经验感触分享/" class="read-more-link">Read more..</a>
           </div>
         
       
@@ -467,11 +473,11 @@
 
 <div class="copyright">
   <span class="power-by">
-    由 <a class="hexo-link" href="https://hexo.io/">Hexo</a> 强力驱动
+    Powered by <a class="hexo-link" href="https://hexo.io/">Hexo</a>
   </span>
   
   <span class="theme-info">
-    主题 - 
+    Theme - 
     <a class="theme-link" href="https://github.com/ahonn/hexo-theme-even">Even</a>
   </span>
 
@@ -537,7 +543,7 @@
         $content$
         <div class="read-more">
           <a href="$url$" class="read-more-link">
-            阅读更多
+            Read more..
           </a>
         </div>
       </div>

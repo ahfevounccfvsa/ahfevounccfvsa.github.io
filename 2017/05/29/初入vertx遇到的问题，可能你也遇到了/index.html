@@ -40,7 +40,7 @@
 <meta property="og:site_name" content="cmlanche">
 <meta property="og:description" content="vertx关于对StaticHandler的使用的理解vertx中的StaticHandle是一个非常有用的处理静态资源的处理器，里面已经帮你实现了对静态资源的各种访问设置，但是使用过程中，我把/*映射给了静态资源webroot，发现我无法添加新的route了，新route添加了都不接受事件响应。
 原因就是所有请求都让StaticHanle拦截了，对StaticHanle的使用应该让它走一个新的不">
-<meta property="og:updated_time" content="2017-05-29T04:46:40.000Z">
+<meta property="og:updated_time" content="2017-05-29T04:52:13.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="初入vertx遇到的问题，可能你也遇到了">
 <meta name="twitter:description" content="vertx关于对StaticHandler的使用的理解vertx中的StaticHandle是一个非常有用的处理静态资源的处理器，里面已经帮你实现了对静态资源的各种访问设置，但是使用过程中，我把/*映射给了静态资源webroot，发现我无法添加新的route了，新route添加了都不接受事件响应。
@@ -124,7 +124,7 @@
           <a class="menu-item-link" href="/">
             
             
-              首页
+              Home
             
           </a>
         </li>
@@ -133,7 +133,7 @@
           <a class="menu-item-link" href="/archives/">
             
             
-              归档
+              Archives
             
           </a>
         </li>
@@ -176,9 +176,9 @@
     
     
   <div class="post-toc" id="post-toc">
-    <h2 class="post-toc-title">文章目录</h2>
+    <h2 class="post-toc-title">Contents</h2>
     <div class="post-toc-content">
-      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#vertx关于对StaticHandler的使用的理解"><span class="toc-text">vertx关于对StaticHandler的使用的理解</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用vertx的oauth2客户端验证授权github"><span class="toc-text">使用vertx的oauth2客户端验证授权github</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#vertx给我的感觉"><span class="toc-text">vertx给我的感觉</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#vertx关于对StaticHandler的使用的理解"><span class="toc-text">vertx关于对StaticHandler的使用的理解</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用vertx的oauth2客户端验证授权github"><span class="toc-text">使用vertx的oauth2客户端验证授权github</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#vertx给我的感觉"><span class="toc-text">vertx给我的感觉</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#欢迎加入我们的社群讨论技术"><span class="toc-text">欢迎加入我们的社群讨论技术</span></a></li></ol>
     </div>
   </div>
 
@@ -193,6 +193,10 @@
 <p>代码示例：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">router.route(<span class="string">"/about"</span>).handler(rc-&gt;&#123;</div><div class="line">  rc.reroute(<span class="string">"/static/about.html"</span>);</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
 <p>对，就是<code>reroute</code>，同时注意你的路径，需要加<code>/static/</code>前缀</p>
+<p>这是网友大神<code>赵尘恩</code>给的一个解释性描述</p>
+<blockquote>
+<p><code>route</code>原理就是从上往下找<code>match</code>的路径，<code>reroute</code>就是把拦截到的再重新转发一下，如果<code>reroute</code>到同一个<code>path</code>容易造成死循环，还有<code>web</code>是通过前缀区分的，所以如果用<code>/*</code>来<code>route</code>的话，就会把所有的请求全部拦截到，应该加上<code>/static/*</code>来拦截</p>
+</blockquote>
 <h3 id="使用vertx的oauth2客户端验证授权github"><a href="#使用vertx的oauth2客户端验证授权github" class="headerlink" title="使用vertx的oauth2客户端验证授权github"></a>使用vertx的oauth2客户端验证授权github</h3><blockquote>
 <p>直接撸代码把</p>
 </blockquote>
@@ -204,6 +208,8 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line">     * 请求github登录</div><div class="line">     *</div><div class="line">     * <span class="doctag">@param</span> rc</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">login_github</span><span class="params">(RoutingContext rc)</span> </span>&#123;</div><div class="line">        String authorization_uri = githubAuth.authorizeURL(<span class="keyword">new</span> JsonObject()</div><div class="line">                .put(<span class="string">"redirect_uri"</span>, getPath() + <span class="string">"/oauth/github/code"</span>)</div><div class="line">                .put(<span class="string">"scope"</span>, <span class="string">"no_expiry"</span>));</div><div class="line">        info(authorization_uri);</div><div class="line">        rc.response().putHeader(<span class="string">"Location"</span>, authorization_uri)</div><div class="line">                .setStatusCode(<span class="number">302</span>)</div><div class="line">                .end();</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> * 获取到github的oauth code</div><div class="line"> *</div><div class="line"> * <span class="doctag">@param</span> rc</div><div class="line"> */</div><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">oauth_github_code</span><span class="params">(RoutingContext rc)</span> </span>&#123;</div><div class="line">    String code = rc.request().getParam(<span class="string">"code"</span>);</div><div class="line">    <span class="keyword">if</span> (code != <span class="keyword">null</span>) &#123;</div><div class="line">        githubAuth.getToken(<span class="keyword">new</span> JsonObject().put(<span class="string">"code"</span>, code).put(<span class="string">"redirect_uri"</span>, getPath() + <span class="string">"/oauth/github/token"</span>), res -&gt; &#123;</div><div class="line">            <span class="keyword">if</span> (res.failed()) &#123;</div><div class="line">                <span class="comment">// error, the code provided is not valid</span></div><div class="line">                info(<span class="string">"failed"</span>);</div><div class="line">            &#125; <span class="keyword">else</span> &#123;</div><div class="line">                <span class="comment">// save the token and continue...</span></div><div class="line">                info(<span class="string">"success"</span>);</div><div class="line">                AccessToken token = res.result();</div><div class="line">                info(token.principal().toString());</div><div class="line">                String access_token = token.principal().getString(<span class="string">"access_token"</span>);</div><div class="line">                rc.response().end(access_token);</div><div class="line">            &#125;</div><div class="line">        &#125;);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <h3 id="vertx给我的感觉"><a href="#vertx给我的感觉" class="headerlink" title="vertx给我的感觉"></a>vertx给我的感觉</h3><p><code>vertx</code>非常灵活，然后又帮你做了非常多的大家都要做的一致性的工作，一致性的意思就是，代码都是那样，是共同的，非常喜欢<code>vertx</code>，之前学过<code>play2</code>,<code>springmvc</code>之类的<code>java web</code>框架，最后都前者因为极少中文文档，需要翻墙，开发者更是少之又少，国内也没见有推广它的，后缀因为过于庞大而放弃了，一直在寻找一个像<code>vertx</code>一样的<code>java web</code>框架，现在终于找到了。</p>
+<h3 id="欢迎加入我们的社群讨论技术"><a href="#欢迎加入我们的社群讨论技术" class="headerlink" title="欢迎加入我们的社群讨论技术"></a>欢迎加入我们的社群讨论技术</h3><p><code>JavaFx</code>最大最活跃的社群：<code>518914410</code></p>
+<p><code>Vertx</code>中国用户组：<code>515203212</code></p>
 
       
     </div>
@@ -248,7 +254,7 @@
     
       <a class="next" href="/2017/05/27/wement.io介绍文档/">
         <span class="next-text nav-default">wement.io介绍文档</span>
-        <span class="prev-text nav-mobile">下一篇</span>
+        <span class="prev-text nav-mobile">Next</span>
         <i class="iconfont icon-right"></i>
       </a>
     
@@ -305,11 +311,11 @@
 
 <div class="copyright">
   <span class="power-by">
-    由 <a class="hexo-link" href="https://hexo.io/">Hexo</a> 强力驱动
+    Powered by <a class="hexo-link" href="https://hexo.io/">Hexo</a>
   </span>
   
   <span class="theme-info">
-    主题 - 
+    Theme - 
     <a class="theme-link" href="https://github.com/ahonn/hexo-theme-even">Even</a>
   </span>
 
@@ -381,7 +387,7 @@
         $content$
         <div class="read-more">
           <a href="$url$" class="read-more-link">
-            阅读更多
+            Read more..
           </a>
         </div>
       </div>
