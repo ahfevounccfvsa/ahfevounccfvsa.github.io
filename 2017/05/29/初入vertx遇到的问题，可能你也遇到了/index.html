@@ -12,6 +12,8 @@
 
 
 
+  <meta name="description" content="初入vertx遇到的问题，可能你也遇到了"/>
+
 
 
 
@@ -27,15 +29,22 @@
 
 
 
-<link rel="canonical" href="http://www.cmlanche.com/"/>
+<link rel="canonical" href="http://www.cmlanche.com/2017/05/29/初入vertx遇到的问题，可能你也遇到了/"/>
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="cmlanche">
-<meta property="og:url" content="http://www.cmlanche.com/index.html">
+<meta name="description" content="vertx关于对StaticHandler的使用的理解vertx中的StaticHandle是一个非常有用的处理静态资源的处理器，里面已经帮你实现了对静态资源的各种访问设置，但是使用过程中，我把/*映射给了静态资源webroot，发现我无法添加新的route了，新route添加了都不接受事件响应。
+原因就是所有请求都让StaticHanle拦截了，对StaticHanle的使用应该让它走一个新的不">
+<meta property="og:type" content="article">
+<meta property="og:title" content="初入vertx遇到的问题，可能你也遇到了">
+<meta property="og:url" content="http://www.cmlanche.com/2017/05/29/初入vertx遇到的问题，可能你也遇到了/index.html">
 <meta property="og:site_name" content="cmlanche">
+<meta property="og:description" content="vertx关于对StaticHandler的使用的理解vertx中的StaticHandle是一个非常有用的处理静态资源的处理器，里面已经帮你实现了对静态资源的各种访问设置，但是使用过程中，我把/*映射给了静态资源webroot，发现我无法添加新的route了，新route添加了都不接受事件响应。
+原因就是所有请求都让StaticHanle拦截了，对StaticHanle的使用应该让它走一个新的不">
+<meta property="og:updated_time" content="2017-05-29T04:46:40.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="cmlanche">
+<meta name="twitter:title" content="初入vertx遇到的问题，可能你也遇到了">
+<meta name="twitter:description" content="vertx关于对StaticHandler的使用的理解vertx中的StaticHandle是一个非常有用的处理静态资源的处理器，里面已经帮你实现了对静态资源的各种访问设置，但是使用过程中，我把/*映射给了静态资源webroot，发现我无法添加新的route了，新route添加了都不接受事件响应。
+原因就是所有请求都让StaticHanle拦截了，对StaticHanle的使用应该让它走一个新的不">
 
 
 <link rel="stylesheet" type="text/css" href="/css/style.css?v=2.3.x" />
@@ -64,7 +73,7 @@
 
 
 
-    <title> cmlanche </title>
+    <title> 初入vertx遇到的问题，可能你也遇到了 · cmlanche </title>
   </head>
 
   <body><div id="mobile-navbar" class="mobile-navbar">
@@ -148,14 +157,12 @@
         <div class="content-wrapper">
           <div id="content" class="content">
             
-  <section id="posts" class="posts">
-    
-      
+  
   <article class="post">
     <header class="post-header">
       <h1 class="post-title">
         
-          <a class="post-link" href="/2017/05/29/初入vertx遇到的问题，可能你也遇到了/">初入vertx遇到的问题，可能你也遇到了</a>
+          初入vertx遇到的问题，可能你也遇到了
         
       </h1>
 
@@ -168,14 +175,17 @@
 
     
     
+  <div class="post-toc" id="post-toc">
+    <h2 class="post-toc-title">文章目录</h2>
+    <div class="post-toc-content">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#vertx关于对StaticHandler的使用的理解"><span class="toc-text">vertx关于对StaticHandler的使用的理解</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用vertx的oauth2客户端验证授权github"><span class="toc-text">使用vertx的oauth2客户端验证授权github</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#vertx给我的感觉"><span class="toc-text">vertx给我的感觉</span></a></li></ol>
+    </div>
+  </div>
+
 
     <div class="post-content">
       
-        
-        
-
-        
-          <h3 id="vertx关于对StaticHandler的使用的理解"><a href="#vertx关于对StaticHandler的使用的理解" class="headerlink" title="vertx关于对StaticHandler的使用的理解"></a>vertx关于对StaticHandler的使用的理解</h3><p><code>vertx</code>中的<code>StaticHandle</code>是一个非常有用的处理静态资源的处理器，里面已经帮你实现了对静态资源的各种访问设置，但是使用过程中，我把<code>/*</code>映射给了静态资源<code>webroot</code>，发现我无法添加新的<code>route</code>了，新<code>route</code>添加了都不接受事件响应。</p>
+        <h3 id="vertx关于对StaticHandler的使用的理解"><a href="#vertx关于对StaticHandler的使用的理解" class="headerlink" title="vertx关于对StaticHandler的使用的理解"></a>vertx关于对StaticHandler的使用的理解</h3><p><code>vertx</code>中的<code>StaticHandle</code>是一个非常有用的处理静态资源的处理器，里面已经帮你实现了对静态资源的各种访问设置，但是使用过程中，我把<code>/*</code>映射给了静态资源<code>webroot</code>，发现我无法添加新的<code>route</code>了，新<code>route</code>添加了都不接受事件响应。</p>
 <p>原因就是所有请求都让<code>StaticHanle</code>拦截了，对<code>StaticHanle</code>的使用应该让它走一个新的不一样的<code>route</code>，比如<code>/static/*</code>，这样的好处是，区分开了静态资源的访问，同时保护你的资源目录，这样修改了之后，你的<code>webroot</code>中的网页链接应该都加上<code>/static/</code>前缀，因为他们都会通过<code>StaticHanle</code>拦截，没有<code>/static/</code>的话，你的<code>server</code>是不认识的。</p>
 <blockquote>
 <p>怎样添加新<code>route</code>并指向静态资源的某个网页呢？比如<code>/about</code>我需要让它能够访问静态资源中的<code>/webroot/about.html</code>，因为我可能需要传递数据渲染网页中</p>
@@ -195,239 +205,67 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> * 获取到github的oauth code</div><div class="line"> *</div><div class="line"> * <span class="doctag">@param</span> rc</div><div class="line"> */</div><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">oauth_github_code</span><span class="params">(RoutingContext rc)</span> </span>&#123;</div><div class="line">    String code = rc.request().getParam(<span class="string">"code"</span>);</div><div class="line">    <span class="keyword">if</span> (code != <span class="keyword">null</span>) &#123;</div><div class="line">        githubAuth.getToken(<span class="keyword">new</span> JsonObject().put(<span class="string">"code"</span>, code).put(<span class="string">"redirect_uri"</span>, getPath() + <span class="string">"/oauth/github/token"</span>), res -&gt; &#123;</div><div class="line">            <span class="keyword">if</span> (res.failed()) &#123;</div><div class="line">                <span class="comment">// error, the code provided is not valid</span></div><div class="line">                info(<span class="string">"failed"</span>);</div><div class="line">            &#125; <span class="keyword">else</span> &#123;</div><div class="line">                <span class="comment">// save the token and continue...</span></div><div class="line">                info(<span class="string">"success"</span>);</div><div class="line">                AccessToken token = res.result();</div><div class="line">                info(token.principal().toString());</div><div class="line">                String access_token = token.principal().getString(<span class="string">"access_token"</span>);</div><div class="line">                rc.response().end(access_token);</div><div class="line">            &#125;</div><div class="line">        &#125;);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <h3 id="vertx给我的感觉"><a href="#vertx给我的感觉" class="headerlink" title="vertx给我的感觉"></a>vertx给我的感觉</h3><p><code>vertx</code>非常灵活，然后又帮你做了非常多的大家都要做的一致性的工作，一致性的意思就是，代码都是那样，是共同的，非常喜欢<code>vertx</code>，之前学过<code>play2</code>,<code>springmvc</code>之类的<code>java web</code>框架，最后都前者因为极少中文文档，需要翻墙，开发者更是少之又少，国内也没见有推广它的，后缀因为过于庞大而放弃了，一直在寻找一个像<code>vertx</code>一样的<code>java web</code>框架，现在终于找到了。</p>
 
-        
       
     </div>
 
     
-
-    
-
-  </article>
-
-    
       
-  <article class="post">
-    <header class="post-header">
-      <h1 class="post-title">
-        
-          <a class="post-link" href="/2017/05/27/wement.io介绍文档/">wement.io介绍文档</a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <span class="post-time">
-          May 27, 2017
-        </span>
-      </div>
-    </header>
-
-    
-    
-
-    <div class="post-content">
       
-        
-        
 
-        
-          <h3 id="What-is-wement-io"><a href="#What-is-wement-io" class="headerlink" title="What is wement.io"></a>What is wement.io</h3><p>Wement.io is a common comment system for all users whoever wants to quickly have a comment system. It has a shared powerfull server to provide data storage service. and it provide user ad service to ensure the benefits of users.</p>
-<h3 id="Comment-plugin"><a href="#Comment-plugin" class="headerlink" title="Comment plugin"></a>Comment plugin</h3><p>The goal of wement.io is provide a common comment plugin for users. you can directly use the api of wement.io to fetch or post data from wement.io. also for wordpress, z-blog, hexo, hugo and any other blog system, you can install the plugin which is already written by excellent coders, it really very simple and easy.</p>
-<h3 id="Data-storage-service"><a href="#Data-storage-service" class="headerlink" title="Data storage service"></a>Data storage service</h3><p>Wement.io have a powerful server which is provide for data storage service, you can call <a href="#">api</a> to post or get your websites comments.</p>
-<h3 id="Ads-service"><a href="#Ads-service" class="headerlink" title="Ads service"></a>Ads service</h3><p>Why you write things, but you can not get benefits, there are lots of <code>vampires</code> to squeeze your efforts with no paid for you. <em>wement.io</em> provide ads service for your website, all benefits are yours.</p>
-<h3 id="Open-source-amp-services"><a href="#Open-source-amp-services" class="headerlink" title="Open source &amp; services"></a>Open source &amp; services</h3><p>Wement.io is open source software and service. we’d like to invite you to get join us.</p>
-<p><a href="http://wement.io" target="_blank" rel="external">wement.io</a></p>
+  <div class="post-copyright">
+    <p class="copyright-item">
+      <span>作者: </span>
+      <span>cmlanche</span>
+    </p>
+    <p class="copyright-item">
+      <span>来源: </span>
+      <a href="http://www.cmlanche.com">http://www.cmlanche.com</a>
+    </p>
+    <p class="copyright-item">
+      <span>链接: </span>
+      <a href="http://www.cmlanche.com/2017/05/29/初入vertx遇到的问题，可能你也遇到了/">http://www.cmlanche.com/2017/05/29/初入vertx遇到的问题，可能你也遇到了/</a>
+    </p>
 
-        
+    <p class="copyright-item lincese">
       
-    </div>
+      本文采用<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可
+    </p>
+  </div>
 
-    
 
-    
 
-  </article>
-
-    
       
-  <article class="post">
-    <header class="post-header">
-      <h1 class="post-title">
-        
-          <a class="post-link" href="/2017/05/08/JavaFx细节/">记录JavaFx中非常重要的细节</a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <span class="post-time">
-          May 8, 2017
-        </span>
-      </div>
-    </header>
-
-    
-    
-
-    <div class="post-content">
       
-        
-        
-          
-        
-
-        
-          <p><code>JavaFx</code>中有一些疑难杂症，或许你以为你掌握了<code>JavaFx</code>，但是也未必知道我所说的这些问题和解决方案，如果有帮助到你的，可以加群<code>最大最活跃的JavaFx社群：518914410</code> 欢迎访问我的个人博客<a href="http://www.cmlanche.com">www.cmlanche.com</a></p>
-          <div class="read-more">
-            <a href="/2017/05/08/JavaFx细节/" class="read-more-link">阅读更多</a>
-          </div>
-        
-      
-    </div>
-
     
 
     
-
-  </article>
-
-    
-      
-  <article class="post">
-    <header class="post-header">
-      <h1 class="post-title">
+      <footer class="post-footer">
         
-          <a class="post-link" href="/2017/05/06/hexo使用总结/">Hexo使用经验总结</a>
         
-      </h1>
-
-      <div class="post-meta">
-        <span class="post-time">
-          May 6, 2017
-        </span>
-      </div>
-    </header>
-
+        
+  <nav class="post-nav">
     
     
-
-    <div class="post-content">
-      
-        
-        
-          
-        
-
-        
-          <p>首页的文章列表显示文章摘要，而不是整段文章：<a href="https://ohmyarch.github.io/2014/12/24/Hexo%E4%B8%BB%E9%A1%B5%E6%98%BE%E7%A4%BA%E6%91%98%E8%A6%81/">Hexo主页显示摘要</a></p>
-          <div class="read-more">
-            <a href="/2017/05/06/hexo使用总结/" class="read-more-link">阅读更多</a>
-          </div>
-        
-      
-    </div>
-
-    
-
-    
-
-  </article>
-
-    
-      
-  <article class="post">
-    <header class="post-header">
-      <h1 class="post-title">
-        
-          <a class="post-link" href="/2017/05/02/JavaFx自定义Tab Order/">JavaFx自定义Tab-Order</a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <span class="post-time">
-          May 2, 2017
-        </span>
-      </div>
-    </header>
-
-    
-    
-
-    <div class="post-content">
-      
-        
-        
-          
-        
-
-        
-          <p>Tab-order是什么？在界面上当你按tab键触发焦点转移的功能，这就是tab order。但是Javafx有个缺陷就是不方便自己设置tab-order的顺序。</p>
-          <div class="read-more">
-            <a href="/2017/05/02/JavaFx自定义Tab Order/" class="read-more-link">阅读更多</a>
-          </div>
-        
-      
-    </div>
-
-    
-
-    
-
-  </article>
-
-    
-      
-  <article class="post">
-    <header class="post-header">
-      <h1 class="post-title">
-        
-          <a class="post-link" href="/2017/04/02/hexo网站的搭建实践与经验感触分享/">hexo网站的搭建实践与经验感触分享</a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <span class="post-time">
-          Apr 2, 2017
-        </span>
-      </div>
-    </header>
-
-    
-    
-
-    <div class="post-content">
-      
-        
-        
-          
-        
-
-        
-          <p>做个人博客网站，从我粗鄙的见识认为，有三类，一类是不懂技术的小白，使用wordpress，当然我虽然是搞技术的，在很长一段时间我长期使用wordpress，因为它非常简单容易上手，傻瓜式的操作，而且内容也非常容易管理，第二类呢是使用hexo、hugo等工具自己在服务器上进行复杂的配置然后才能搭建，我呢现在属于这类，第三类呢，是在第二类的基础上，能够自己开发网站的样式，这个需要比较深厚的前端技术，你需要懂js、html、css等很多知识，还需要很多实践才能做。</p>
-          <div class="read-more">
-            <a href="/2017/04/02/hexo网站的搭建实践与经验感触分享/" class="read-more-link">阅读更多</a>
-          </div>
-        
-      
-    </div>
-
-    
-
-    
-
-  </article>
-
-    
-  </section>
-
-  
-  <nav class="pagination">
-    
+      <a class="next" href="/2017/05/27/wement.io介绍文档/">
+        <span class="next-text nav-default">wement.io介绍文档</span>
+        <span class="prev-text nav-mobile">下一篇</span>
+        <i class="iconfont icon-right"></i>
+      </a>
     
   </nav>
 
+      </footer>
+    
+
+  </article>
+
 
           </div>
           
+  <div class="comments" id="comments">
+    
+  </div>
+
 
         </div>  
       </main>
@@ -498,6 +336,12 @@
     </div>
 
     
+  
+
+  
+  
+
+
 
 
     
