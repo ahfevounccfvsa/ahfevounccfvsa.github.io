@@ -32,19 +32,16 @@
 <link rel="canonical" href="http://www.cmlanche.com/2017/05/29/初入vertx遇到的问题，可能你也遇到了/"/>
 
 
-<meta name="description" content="vertx关于对StaticHandler的使用的理解vertx中的StaticHandle是一个非常有用的处理静态资源的处理器，里面已经帮你实现了对静态资源的各种访问设置，但是使用过程中，我把/*映射给了静态资源webroot，发现我无法添加新的route了，新route添加了都不接受事件响应。
-原因就是所有请求都让StaticHanle拦截了，对StaticHanle的使用应该让它走一个新的不">
+<meta name="description" content="wement.io的服务器准备采用vertx来开发，vertx的开发速度非常快，有很多写好的组件，这篇文章作为学习vertx的第一篇文章，总结了一些新手可能会遇到的问题。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="初入vertx遇到的问题，可能你也遇到了">
 <meta property="og:url" content="http://www.cmlanche.com/2017/05/29/初入vertx遇到的问题，可能你也遇到了/index.html">
 <meta property="og:site_name" content="cmlanche">
-<meta property="og:description" content="vertx关于对StaticHandler的使用的理解vertx中的StaticHandle是一个非常有用的处理静态资源的处理器，里面已经帮你实现了对静态资源的各种访问设置，但是使用过程中，我把/*映射给了静态资源webroot，发现我无法添加新的route了，新route添加了都不接受事件响应。
-原因就是所有请求都让StaticHanle拦截了，对StaticHanle的使用应该让它走一个新的不">
-<meta property="og:updated_time" content="2017-05-29T05:01:36.000Z">
+<meta property="og:description" content="wement.io的服务器准备采用vertx来开发，vertx的开发速度非常快，有很多写好的组件，这篇文章作为学习vertx的第一篇文章，总结了一些新手可能会遇到的问题。">
+<meta property="og:updated_time" content="2017-06-06T05:56:09.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="初入vertx遇到的问题，可能你也遇到了">
-<meta name="twitter:description" content="vertx关于对StaticHandler的使用的理解vertx中的StaticHandle是一个非常有用的处理静态资源的处理器，里面已经帮你实现了对静态资源的各种访问设置，但是使用过程中，我把/*映射给了静态资源webroot，发现我无法添加新的route了，新route添加了都不接受事件响应。
-原因就是所有请求都让StaticHanle拦截了，对StaticHanle的使用应该让它走一个新的不">
+<meta name="twitter:description" content="wement.io的服务器准备采用vertx来开发，vertx的开发速度非常快，有很多写好的组件，这篇文章作为学习vertx的第一篇文章，总结了一些新手可能会遇到的问题。">
 
 
 <link rel="stylesheet" type="text/css" href="/css/style.css?v=2.3.x" />
@@ -185,7 +182,9 @@
 
     <div class="post-content">
       
-        <h3 id="vertx关于对StaticHandler的使用的理解"><a href="#vertx关于对StaticHandler的使用的理解" class="headerlink" title="vertx关于对StaticHandler的使用的理解"></a>vertx关于对StaticHandler的使用的理解</h3><p><code>vertx</code>中的<code>StaticHandle</code>是一个非常有用的处理静态资源的处理器，里面已经帮你实现了对静态资源的各种访问设置，但是使用过程中，我把<code>/*</code>映射给了静态资源<code>webroot</code>，发现我无法添加新的<code>route</code>了，新<code>route</code>添加了都不接受事件响应。</p>
+        <p><code>wement.io</code>的服务器准备采用<code>vertx</code>来开发，vertx的开发速度非常快，有很多写好的组件，这篇文章作为学习vertx的第一篇文章，总结了一些新手可能会遇到的问题。</p>
+<a id="more"></a>
+<h3 id="vertx关于对StaticHandler的使用的理解"><a href="#vertx关于对StaticHandler的使用的理解" class="headerlink" title="vertx关于对StaticHandler的使用的理解"></a>vertx关于对StaticHandler的使用的理解</h3><p><code>vertx</code>中的<code>StaticHandle</code>是一个非常有用的处理静态资源的处理器，里面已经帮你实现了对静态资源的各种访问设置，但是使用过程中，我把<code>/*</code>映射给了静态资源<code>webroot</code>，发现我无法添加新的<code>route</code>了，新<code>route</code>添加了都不接受事件响应。</p>
 <p>原因就是所有请求都让<code>StaticHanle</code>拦截了，对<code>StaticHanle</code>的使用应该让它走一个新的不一样的<code>route</code>，比如<code>/static/*</code>，这样的好处是，区分开了静态资源的访问，同时保护你的资源目录，这样修改了之后，你的<code>webroot</code>中的网页链接应该都加上<code>/static/</code>前缀，因为他们都会通过<code>StaticHanle</code>拦截，没有<code>/static/</code>的话，你的<code>server</code>是不认识的。</p>
 <blockquote>
 <p>怎样添加新<code>route</code>并指向静态资源的某个网页呢？比如<code>/about</code>我需要让它能够访问静态资源中的<code>/webroot/about.html</code>，因为我可能需要传递数据渲染网页中</p>
@@ -226,15 +225,15 @@
 
   <div class="post-copyright">
     <p class="copyright-item">
-      <span>Author: </span>
+      <span>作者: </span>
       <span>cmlanche</span>
     </p>
     <p class="copyright-item">
-      <span>Origin: </span>
+      <span>来源: </span>
       <a href="http://www.cmlanche.com">http://www.cmlanche.com</a>
     </p>
     <p class="copyright-item">
-      <span>Link: </span>
+      <span>链接: </span>
       <a href="http://www.cmlanche.com/2017/05/29/初入vertx遇到的问题，可能你也遇到了/">http://www.cmlanche.com/2017/05/29/初入vertx遇到的问题，可能你也遇到了/</a>
     </p>
 
