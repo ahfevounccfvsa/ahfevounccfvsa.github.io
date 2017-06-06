@@ -38,7 +38,7 @@
 <meta property="og:url" content="http://www.cmlanche.com/2017/06/06/JavaFx新手入门之布局SplitPane分隔容器/index.html">
 <meta property="og:site_name" content="cmlanche">
 <meta property="og:description" content="JavaFx新手入门，首先应该从布局容器入手，常用的布局容器有StackPane, BorderPane, HBox, VBox等，本文介绍相对使用频率较少的SplitPane，分隔容器">
-<meta property="og:updated_time" content="2017-06-06T13:02:19.000Z">
+<meta property="og:updated_time" content="2017-06-06T13:05:33.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JavaFx新手入门之布局 - SplitPane分隔容器">
 <meta name="twitter:description" content="JavaFx新手入门，首先应该从布局容器入手，常用的布局容器有StackPane, BorderPane, HBox, VBox等，本文介绍相对使用频率较少的SplitPane，分隔容器">
@@ -121,7 +121,7 @@
           <a class="menu-item-link" href="/">
             
             
-              首页
+              Home
             
           </a>
         </li>
@@ -130,7 +130,7 @@
           <a class="menu-item-link" href="/archives/">
             
             
-              归档
+              Archives
             
           </a>
         </li>
@@ -185,20 +185,9 @@
 <li><p><code>SplitPane</code>中有图片的话，怎么让ImageView随着视图区域的变化而变化？</p>
 <p>答案是：监听<code>SplitPane</code>的<code>divider</code>的变化，动态去改变<code>ImageView</code>的大小</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Controller</span> <span class="keyword">implements</span> <span class="title">Initializable</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="meta">@FXML</span></div><div class="line">    ImageView image1;</div><div class="line">    <span class="meta">@FXML</span></div><div class="line">    ImageView image2;</div><div class="line">    <span class="meta">@FXML</span></div><div class="line">    SplitPane splitpane;</div></pre></td></tr></table></figure>
-<pre><code>@Override
-public void initialize(URL location, ResourceBundle resources) {
-    splitpane.getDividers().get(0).positionProperty().addListener((observable, oldValue, newValue) -&gt; {
-        System.out.println(newValue);
-        int w = 600;
-        double w1 = w * newValue.doubleValue();
-        double w2 = w - w1;
-        image1.setFitWidth(w1);
-        image2.setFitWidth(w2);
-    });
-}
-</code></pre><p>}</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">​</div></pre></td></tr></table></figure></li>
+</li>
 </ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Override</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">initialize</span><span class="params">(URL location, ResourceBundle resources)</span></span>&#123;</div><div class="line">    splitpane.getDividers().get(<span class="number">0</span>).positionProperty().addListener((observable, oldValue, newValue) -&gt; &#123;</div><div class="line">        System.out.println(newValue);</div><div class="line">        <span class="keyword">int</span> w = <span class="number">600</span>;</div><div class="line">        <span class="keyword">double</span> w1 = w * newValue.doubleValue();</div><div class="line">        <span class="keyword">double</span> w2 = w - w1;</div><div class="line">        image1.setFitWidth(w1);</div><div class="line">        image2.setFitWidth(w2);</div><div class="line">    &#125;);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 
       
     </div>
@@ -243,13 +232,13 @@ public void initialize(URL location, ResourceBundle resources) {
       <a class="prev" href="/2017/06/06/JavaFx新手入门布局介绍/">
         <i class="iconfont icon-left"></i>
         <span class="prev-text nav-default">JavaFx新手入门布局介绍</span>
-        <span class="prev-text nav-mobile">上一篇</span>
+        <span class="prev-text nav-mobile">Prev</span>
       </a>
     
     
       <a class="next" href="/2017/05/29/初入vertx遇到的问题，可能你也遇到了/">
         <span class="next-text nav-default">初入vertx遇到的问题，可能你也遇到了</span>
-        <span class="prev-text nav-mobile">下一篇</span>
+        <span class="prev-text nav-mobile">Next</span>
         <i class="iconfont icon-right"></i>
       </a>
     
@@ -306,11 +295,11 @@ public void initialize(URL location, ResourceBundle resources) {
 
 <div class="copyright">
   <span class="power-by">
-    由 <a class="hexo-link" href="https://hexo.io/">Hexo</a> 强力驱动
+    Powered by <a class="hexo-link" href="https://hexo.io/">Hexo</a>
   </span>
   
   <span class="theme-info">
-    主题 - 
+    Theme - 
     <a class="theme-link" href="https://github.com/ahonn/hexo-theme-even">Even</a>
   </span>
 
@@ -382,7 +371,7 @@ public void initialize(URL location, ResourceBundle resources) {
         $content$
         <div class="read-more">
           <a href="$url$" class="read-more-link">
-            阅读更多
+            Read more..
           </a>
         </div>
       </div>
