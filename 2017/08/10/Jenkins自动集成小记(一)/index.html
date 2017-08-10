@@ -12,6 +12,8 @@
 
 
 
+  <meta name="description" content="Jenkins自动集成小记"/>
+
 
 
 
@@ -30,12 +32,12 @@
 <link rel="canonical" href="http://www.cmlanche.com/2017/08/10/Jenkins自动集成小记(一)/"/>
 
 
-<meta name="description" content="Jenkins自动集成小记Jenkins是用来自动构建任务的，也许你还不知道什么叫自动构建任务，它的意思是可以针对某个任务进行自动化，比如你开发的某个软件，每次写完代码提交到github之后，你可以设置让Jenkins自动进行打包构建发布包或者进行Units测试，发布报告，不用你每次手工在IDE中去Build，尤其是当打包非常繁琐的时候，用自动化构建可以极大的提高工作效率。">
+<meta name="description" content="Jenkins是用来自动构建任务的，也许你还不知道什么叫自动构建任务，它的意思是可以针对某个任务进行自动化，比如你开发的某个软件，每次写完代码提交到github之后，你可以设置让Jenkins自动进行打包构建发布包或者进行Units测试，发布报告，不用你每次手工在IDE中去Build，尤其是当打包非常繁琐的时候，用自动化构建可以极大的提高工作效率。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="cmlanche">
+<meta property="og:title" content="Jenkins自动集成小记">
 <meta property="og:url" content="http://www.cmlanche.com/2017/08/10/Jenkins自动集成小记(一)/index.html">
 <meta property="og:site_name" content="cmlanche">
-<meta property="og:description" content="Jenkins自动集成小记Jenkins是用来自动构建任务的，也许你还不知道什么叫自动构建任务，它的意思是可以针对某个任务进行自动化，比如你开发的某个软件，每次写完代码提交到github之后，你可以设置让Jenkins自动进行打包构建发布包或者进行Units测试，发布报告，不用你每次手工在IDE中去Build，尤其是当打包非常繁琐的时候，用自动化构建可以极大的提高工作效率。">
+<meta property="og:description" content="Jenkins是用来自动构建任务的，也许你还不知道什么叫自动构建任务，它的意思是可以针对某个任务进行自动化，比如你开发的某个软件，每次写完代码提交到github之后，你可以设置让Jenkins自动进行打包构建发布包或者进行Units测试，发布报告，不用你每次手工在IDE中去Build，尤其是当打包非常繁琐的时候，用自动化构建可以极大的提高工作效率。">
 <meta property="og:image" content="http://onrd7xdyg.bkt.clouddn.com/QQ20170810-225528@2x.png">
 <meta property="og:image" content="http://onrd7xdyg.bkt.clouddn.com/QQ20170810-225926@2x.png">
 <meta property="og:image" content="http://onrd7xdyg.bkt.clouddn.com/QQ20170810-230126@2x.png">
@@ -43,10 +45,10 @@
 <meta property="og:image" content="http://onrd7xdyg.bkt.clouddn.com/3ECD3136-0E4B-4507-BD7C-90CDA2883D17.png">
 <meta property="og:image" content="http://onrd7xdyg.bkt.clouddn.com/QQ20170810-230230@2x.png">
 <meta property="og:image" content="http://onrd7xdyg.bkt.clouddn.com/QQ20170810-230641@2x.png">
-<meta property="og:updated_time" content="2017-08-10T15:22:55.000Z">
+<meta property="og:updated_time" content="2017-08-10T15:26:08.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="cmlanche">
-<meta name="twitter:description" content="Jenkins自动集成小记Jenkins是用来自动构建任务的，也许你还不知道什么叫自动构建任务，它的意思是可以针对某个任务进行自动化，比如你开发的某个软件，每次写完代码提交到github之后，你可以设置让Jenkins自动进行打包构建发布包或者进行Units测试，发布报告，不用你每次手工在IDE中去Build，尤其是当打包非常繁琐的时候，用自动化构建可以极大的提高工作效率。">
+<meta name="twitter:title" content="Jenkins自动集成小记">
+<meta name="twitter:description" content="Jenkins是用来自动构建任务的，也许你还不知道什么叫自动构建任务，它的意思是可以针对某个任务进行自动化，比如你开发的某个软件，每次写完代码提交到github之后，你可以设置让Jenkins自动进行打包构建发布包或者进行Units测试，发布报告，不用你每次手工在IDE中去Build，尤其是当打包非常繁琐的时候，用自动化构建可以极大的提高工作效率。">
 <meta name="twitter:image" content="http://onrd7xdyg.bkt.clouddn.com/QQ20170810-225528@2x.png">
 
 
@@ -79,7 +81,7 @@
 
   <link rel="stylesheet" type="text/css" href="/lib/index.css" />
 
-    <title>  · cmlanche </title>
+    <title> Jenkins自动集成小记 · cmlanche </title>
   </head>
 
   <body><div id="mobile-navbar" class="mobile-navbar">
@@ -168,7 +170,7 @@
     <header class="post-header">
       <h1 class="post-title">
         
-          
+          Jenkins自动集成小记
         
       </h1>
 
@@ -184,15 +186,14 @@
   <div class="post-toc" id="post-toc">
     <h2 class="post-toc-title">Contents</h2>
     <div class="post-toc-content">
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Jenkins自动集成小记"><span class="toc-text">Jenkins自动集成小记</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#前言"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#安装Jenkins"><span class="toc-text">安装Jenkins</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#创建一个任务"><span class="toc-text">创建一个任务</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#邮件通知"><span class="toc-text">邮件通知</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Jenkins分享（一）小结"><span class="toc-text">Jenkins分享（一）小结</span></a></li></ol></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#前言"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#安装Jenkins"><span class="toc-text">安装Jenkins</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#创建一个任务"><span class="toc-text">创建一个任务</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#邮件通知"><span class="toc-text">邮件通知</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Jenkins分享（一）小结"><span class="toc-text">Jenkins分享（一）小结</span></a></li></ol>
     </div>
   </div>
 
 
     <div class="post-content">
       
-        <hr>
-<h2 id="Jenkins自动集成小记"><a href="#Jenkins自动集成小记" class="headerlink" title="Jenkins自动集成小记"></a>Jenkins自动集成小记</h2><p>Jenkins是用来自动构建任务的，也许你还不知道什么叫自动构建任务，它的意思是可以针对某个任务进行自动化，比如你开发的某个软件，每次写完代码提交到<code>github</code>之后，你可以设置让Jenkins自动进行打包构建发布包或者进行Units测试，发布报告，不用你每次手工在<code>IDE</code>中去Build，尤其是当打包非常繁琐的时候，用自动化构建可以极大的提高工作效率。</p>
+        <p>Jenkins是用来自动构建任务的，也许你还不知道什么叫自动构建任务，它的意思是可以针对某个任务进行自动化，比如你开发的某个软件，每次写完代码提交到<code>github</code>之后，你可以设置让Jenkins自动进行打包构建发布包或者进行Units测试，发布报告，不用你每次手工在<code>IDE</code>中去Build，尤其是当打包非常繁琐的时候，用自动化构建可以极大的提高工作效率。</p>
 <a id="more"></a>
 <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>公司是同事使用<code>Jenkins</code>做的自动化构建，非常方便，每次提交代码，自动检测打包是否成功，然后发送邮件通知，因为我们集成了<code>findingbugs</code>插件，在打包前还会对代码进行<code>findingbus</code>检索，告诉你<code>findingbus</code>的状态，还会生成release的发布包，非常之方便。</p>
 <p><code>wement.io</code>这个项目我想多人协作开发，自然想到了Jenkins，让大家能够配合的非常的舒服，昨天折腾了三小时，搞定了<code>Jenkins</code>，其中包括怎么创建一个任务，怎么设置<code>github</code>，和<code>github</code>的项目挂钩，怎么设置邮件通知。</p>
