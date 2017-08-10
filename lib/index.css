@@ -1,0 +1,206 @@
+#wm_comment{
+    display: table;
+    border-spacing: 0 12px;
+    font-family: -apple-system, "Helvetica Neue", "Arial", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
+}
+
+.wm-comment-header{
+    display: table-row;
+}
+
+.wm-input{
+    display: table-row;
+}
+
+.wm-comment-item .wm-user {
+    padding-top: 3px;
+}
+
+.wm-user{
+    display: table-cell;
+    vertical-align: top;
+    text-align: center;
+    min-width: 48px;
+    margin-right: 16px;
+}
+
+.feedback{
+    display: table;
+    width: 100%;
+}
+
+.wm-textarea{
+    vertical-align: top;
+    display: table-cell;
+    width: 100%;
+    padding: 0 0 0 8px;
+}
+
+.wm-user-headimage{
+    width: 36px;
+    height: 36px;
+    border-radius: 18px;
+    border-width: 1px;
+    border-color: transparent;
+    border-style: solid;
+    cursor: hand;
+}
+.wm-user-headimage:hover{
+    border-width: 1px;
+    border-style: solid;
+    border-color: #0e88eb;
+}
+
+.wm-content-textarea:focus{
+    border-color: #0e88eb;
+}
+
+.wm-content-textarea{
+    width:100%;
+    padding:8px;
+    display:inline-block;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    border-color: lightgray;
+    border-width: 1px;
+    outline: none;
+    font-size: 14px;
+    line-height: 24px;
+    border-radius: 5px;
+    overflow: visible;
+}
+
+.wm-commit-btns{
+    float: right;
+    margin: 8px;
+}
+
+.wm-cancel-comment-btn{
+    font-size: 14px;
+    padding: auto 16px;
+    border-radius: 5px;
+    outline: none;
+    cursor: hand;
+    background-color: inherit;
+    color: #808080;
+    height: 34px;
+    width: 80px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    font-family: "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+    text-align: center;
+    text-decoration: none;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    -webkit-transition-property: all;
+    transition-property: all;
+    -webkit-transition-duration: .3s;
+    transition-duration: .3s;
+    display: inline-block;
+    border-style: none;
+}
+
+.wm-add-comment-btn{
+    font-size: 14px;
+    padding: auto 16px;
+    border-radius: 5px;
+    outline: none;
+    cursor: hand;
+    background-color: white;
+    border-width: 1px;
+    border-color: #0e88eb;
+    color: #0e88eb;
+    height: 34px;
+    width: 80px;
+    margin-left: 16px;
+    border-style: solid;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    font-family: "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+    text-align: center;
+    text-decoration: none;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    -webkit-transition-property: all;
+    transition-property: all;
+    -webkit-transition-duration: .3s;
+    transition-duration: .3s;
+}
+.wm-add-comment-btn:hover{
+    background-color: #0e88eb;
+    color: white;
+    border-color: #0e88eb;
+}
+
+.wm-seperator{
+    display: table-row;
+    height: 8px;
+    background-color: black;
+}
+
+.wm-comment-item{
+    display: table-row;
+}
+
+.wm-comment-content{
+    display: table-cell;
+    vertical-align: top;
+    text-align: left;
+    padding: 0 0 0 8px;
+}
+
+.wm-user-name{
+    font-size: 15px;
+    line-height: 24px;
+    font-style: normal;
+    font-weight: 700;
+    color: #333;
+}
+
+.wm-user-name > a{
+    font-size: 12px;
+    text-decoration: none;
+    color: #989898;
+    font-weight: normal;
+}
+
+.wm-user-name > a:visited{
+    color: #989898;
+}
+
+.wm-comment-user-content{
+    min-height: 22px;
+    font-size: 14px;
+    line-height: 24px;
+}
+
+.wm-comment-user-content p{
+    min-height: 24px;
+    margin: 0;
+}
+
+.wm-comment-user-content .wm-comment-user-content-bottom-sup{
+    float: right;
+    margin: auto;
+}
+
+.wm-comment-user-content-bottom span{
+    margin: auto 2px;
+}
+
+.wm-comment-user-content-bottom span a{
+    margin: auto 0 auto 2px;
+    text-decoration: none;
+    color: #808080;
+}
+.wm-comment-user-content-bottom span a:hover{
+    color: #333;
+}
+
+.wm-comment-user-content-bottom{
+    font-size: 12px;
+    color: #808080;
+}
