@@ -12,7 +12,7 @@
 
 
 
-  <meta name="description" content="JavaFx概要脑图"/>
+  <meta name="description" content="玩docker，记录遇到的问题"/>
 
 
 
@@ -29,21 +29,22 @@
 
 
 
-<link rel="canonical" href="http://www.cmlanche.com/2017/08/25/JavaFx概要脑图/"/>
+<link rel="canonical" href="http://www.cmlanche.com/2017/09/08/玩docker记录遇到的问题/"/>
 
 
-<meta name="description" content="本脑图是我自己总结的在JavaFx开发中的要点。">
+<meta name="description" content="###1. redis启动不了，遇到错误：Redis must be restarted after THP is disabled
+12345678910redis_1                       | 1:M 03 Sep 02:30:23.277 # WARNING you have Transparent Huge Pages (THP) support enabled in">
 <meta property="og:type" content="article">
-<meta property="og:title" content="JavaFx概要脑图">
-<meta property="og:url" content="http://www.cmlanche.com/2017/08/25/JavaFx概要脑图/index.html">
+<meta property="og:title" content="玩docker，记录遇到的问题">
+<meta property="og:url" content="http://www.cmlanche.com/2017/09/08/玩docker记录遇到的问题/index.html">
 <meta property="og:site_name" content="cmlanche">
-<meta property="og:description" content="本脑图是我自己总结的在JavaFx开发中的要点。">
-<meta property="og:image" content="http://onrd7xdyg.bkt.clouddn.com/JavaFx%E8%84%91%E5%9B%BE.jpg">
-<meta property="og:updated_time" content="2017-08-25T03:50:15.000Z">
+<meta property="og:description" content="###1. redis启动不了，遇到错误：Redis must be restarted after THP is disabled
+12345678910redis_1                       | 1:M 03 Sep 02:30:23.277 # WARNING you have Transparent Huge Pages (THP) support enabled in">
+<meta property="og:updated_time" content="2017-09-08T14:19:23.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="JavaFx概要脑图">
-<meta name="twitter:description" content="本脑图是我自己总结的在JavaFx开发中的要点。">
-<meta name="twitter:image" content="http://onrd7xdyg.bkt.clouddn.com/JavaFx%E8%84%91%E5%9B%BE.jpg">
+<meta name="twitter:title" content="玩docker，记录遇到的问题">
+<meta name="twitter:description" content="###1. redis启动不了，遇到错误：Redis must be restarted after THP is disabled
+12345678910redis_1                       | 1:M 03 Sep 02:30:23.277 # WARNING you have Transparent Huge Pages (THP) support enabled in">
 
 
 <link rel="stylesheet" type="text/css" href="/css/style.css?v=2.3.x" />
@@ -75,7 +76,7 @@
 
   <link rel="stylesheet" type="text/css" href="/lib/index.css" />
 
-    <title> JavaFx概要脑图 · cmlanche </title>
+    <title> 玩docker，记录遇到的问题 · cmlanche </title>
   </head>
 
   <body><div id="mobile-navbar" class="mobile-navbar">
@@ -164,13 +165,13 @@
     <header class="post-header">
       <h1 class="post-title">
         
-          JavaFx概要脑图
+          玩docker，记录遇到的问题
         
       </h1>
 
       <div class="post-meta">
         <span class="post-time">
-          Aug 25, 2017
+          Sep 8, 2017
         </span>
       </div>
     </header>
@@ -180,10 +181,17 @@
 
     <div class="post-content">
       
-        <p>本脑图是我自己总结的在JavaFx开发中的要点。</p>
-<p><img src="http://onrd7xdyg.bkt.clouddn.com/JavaFx%E8%84%91%E5%9B%BE.jpg" alt="JavaFx脑图"></p>
-<a id="more"></a>
-<p>如上</p>
+        <p>###1. redis启动不了，遇到错误：<code>Redis must be restarted after THP is disabled</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">redis_1                       | 1:M 03 Sep 02:30:23.277 # WARNING you have Transparent Huge Pages (THP) support enabled in your kernel. This will create latency and memory usage issues with Redis. To fix this issue run the command &apos;echo never &gt; /sys/kernel/mm/transparent_hugepage/enabled&apos; as root, and add it to your /etc/rc.local in order to retain the setting after a reboot. Redis must be restarted after THP is disabled.</div><div class="line">redis_1                       | 1:M 03 Sep 02:30:23.277 * Ready to accept connections</div><div class="line">redis_1                       | 1:signal-handler (1504406005) Received SIGTERM scheduling shutdown...</div><div class="line">redis_1                       | 1:M 03 Sep 02:33:25.631 # User requested shutdown...</div><div class="line">redis_1                       | 1:M 03 Sep 02:33:25.695 * Saving the final RDB snapshot before exiting.</div><div class="line">redis_1                       | 1:M 03 Sep 02:33:25.743 * DB saved on disk</div><div class="line">redis_1                       | 1:M 03 Sep 02:33:25.743 # Redis is now ready to exit, bye bye...</div><div class="line">redis_1                       | 1:C 03 Sep 02:33:37.004 # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo</div><div class="line">redis_1                       | 1:C 03 Sep 02:33:37.005 # Redis version=4.0.1, bits=64, commit=00000000, modified=0, pid=1, just started</div><div class="line">redis_1                       | 1:C 03 Sep 02:33:37.005 # Warning: no config file specified, using the default config. In order to specify a config file use redis-server /path/to/redis.conf</div></pre></td></tr></table></figure>
+<p>错误提示中写明了：<code>To fix this issue run the command &#39;echo never &gt; /sys/kernel/mm/transparent_hugepage/enabled&#39; as root, and add it to your /etc/rc.local in order to retain the setting after a reboot. Redis must be restarted after THP is disabled.</code></p>
+<p>如果你在mac上开发的话，会发现找不到对应路径，其实应该在docker的vm中操作，我建了一个docker-machine，叫default，然后登陆进去改的。</p>
+<ol>
+<li><code>docker-machine ssh</code>  # 登陆进入默认的docker虚拟机，默认的是default，如果没有，请自己建立</li>
+<li><code>sudo -i</code> # 表示切换为用户为root用户，否则无法sudu授权</li>
+<li><code>sudo echo never &gt; /sys/kernel/mm/transparent_hugepage/enabled</code> </li>
+<li><code>vi /etc/rc.local</code> 把3对应的命令拷贝进去，然后<code>:wq!</code>保存退出</li>
+</ol>
+<p>参考：<a href="https://stackoverflow.com/questions/32646952/docker-machine-boot2docker-root-password" target="_blank" rel="external">https://stackoverflow.com/questions/32646952/docker-machine-boot2docker-root-password</a></p>
 
       
     </div>
@@ -203,7 +211,7 @@
     </p>
     <p class="copyright-item">
       <span>链接: </span>
-      <a href="http://www.cmlanche.com/2017/08/25/JavaFx概要脑图/">http://www.cmlanche.com/2017/08/25/JavaFx概要脑图/</a>
+      <a href="http://www.cmlanche.com/2017/09/08/玩docker记录遇到的问题/">http://www.cmlanche.com/2017/09/08/玩docker记录遇到的问题/</a>
     </p>
 
     <p class="copyright-item lincese">
@@ -225,15 +233,9 @@
         
   <nav class="post-nav">
     
-      <a class="prev" href="/2017/09/08/玩docker记录遇到的问题/">
-        <i class="iconfont icon-left"></i>
-        <span class="prev-text nav-default">玩docker，记录遇到的问题</span>
-        <span class="prev-text nav-mobile">Prev</span>
-      </a>
     
-    
-      <a class="next" href="/2017/08/11/Postgres数据错误pg_ctl-cannot-be-run-as-root/">
-        <span class="next-text nav-default">Postgres数据错误：pg_ctl cannot be run as root</span>
+      <a class="next" href="/2017/08/25/JavaFx概要脑图/">
+        <span class="next-text nav-default">JavaFx概要脑图</span>
         <span class="prev-text nav-mobile">Next</span>
         <i class="iconfont icon-right"></i>
       </a>
