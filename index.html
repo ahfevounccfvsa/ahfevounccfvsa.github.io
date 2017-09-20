@@ -156,58 +156,6 @@
     <header class="post-header">
       <h1 class="post-title">
         
-          <a class="post-link" href="/2017/09/08/玩docker记录遇到的问题/">玩docker，记录遇到的问题</a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <span class="post-time">
-          Sep 8, 2017
-        </span>
-      </div>
-    </header>
-
-    
-    
-
-    <div class="post-content">
-      
-        
-        
-          
-        
-
-        
-          <p>###redis启动不了，遇到错误：<code>Redis must be restarted after THP is disabled</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">redis_1                       | 1:M 03 Sep 02:30:23.277 # WARNING you have Transparent Huge Pages (THP) support enabled in your kernel. This will create latency and memory usage issues with Redis. To fix this issue run the command &apos;echo never &gt; /sys/kernel/mm/transparent_hugepage/enabled&apos; as root, and add it to your /etc/rc.local in order to retain the setting after a reboot. Redis must be restarted after THP is disabled.</div><div class="line">redis_1                       | 1:M 03 Sep 02:30:23.277 * Ready to accept connections</div><div class="line">redis_1                       | 1:signal-handler (1504406005) Received SIGTERM scheduling shutdown...</div><div class="line">redis_1                       | 1:M 03 Sep 02:33:25.631 # User requested shutdown...</div><div class="line">redis_1                       | 1:M 03 Sep 02:33:25.695 * Saving the final RDB snapshot before exiting.</div><div class="line">redis_1                       | 1:M 03 Sep 02:33:25.743 * DB saved on disk</div><div class="line">redis_1                       | 1:M 03 Sep 02:33:25.743 # Redis is now ready to exit, bye bye...</div><div class="line">redis_1                       | 1:C 03 Sep 02:33:37.004 # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo</div><div class="line">redis_1                       | 1:C 03 Sep 02:33:37.005 # Redis version=4.0.1, bits=64, commit=00000000, modified=0, pid=1, just started</div><div class="line">redis_1                       | 1:C 03 Sep 02:33:37.005 # Warning: no config file specified, using the default config. In order to specify a config file use redis-server /path/to/redis.conf</div></pre></td></tr></table></figure>
-<p>错误提示中写明了：<code>To fix this issue run the command &#39;echo never &gt; /sys/kernel/mm/transparent_hugepage/enabled&#39; as root, and add it to your /etc/rc.local in order to retain the setting after a reboot. Redis must be restarted after THP is disabled.</code></p>
-<p>如果你在mac上开发的话，会发现找不到对应路径，其实应该在docker的vm中操作，我建了一个docker-machine，叫default，然后登陆进去改的。</p>
-<ol>
-<li><code>docker-machine ssh</code>  # 登陆进入默认的docker虚拟机，默认的是default，如果没有，请自己建立</li>
-<li><code>sudo -i</code> # 表示切换为用户为root用户，否则无法sudu授权</li>
-<li><code>sudo echo never &gt; /sys/kernel/mm/transparent_hugepage/enabled</code> </li>
-<li><code>vi /etc/rc.local</code> 把3对应的命令拷贝进去，然后<code>:wq!</code>保存退出</li>
-</ol>
-<p>参考：<a href="https://stackoverflow.com/questions/32646952/docker-machine-boot2docker-root-password">https://stackoverflow.com/questions/32646952/docker-machine-boot2docker-root-password</a></p>
-          <div class="read-more">
-            <a href="/2017/09/08/玩docker记录遇到的问题/" class="read-more-link">Read more..</a>
-          </div>
-        
-      
-    </div>
-
-    
-
-    
-
-  </article>
-
-    
-      
-  <article class="post">
-    <header class="post-header">
-      <h1 class="post-title">
-        
           <a class="post-link" href="/2017/08/25/JavaFx概要脑图/">JavaFx概要脑图</a>
         
       </h1>
@@ -570,6 +518,48 @@
           <p><code>JavaFx</code>中有一些疑难杂症，或许你以为你掌握了<code>JavaFx</code>，但是也未必知道我所说的这些问题和解决方案，如果有帮助到你的，可以加群<code>最大最活跃的JavaFx社群：518914410</code> 欢迎访问我的个人博客<a href="http://www.cmlanche.com">www.cmlanche.com</a></p>
           <div class="read-more">
             <a href="/2017/05/08/JavaFx细节/" class="read-more-link">Read more..</a>
+          </div>
+        
+      
+    </div>
+
+    
+
+    
+
+  </article>
+
+    
+      
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">
+        
+          <a class="post-link" href="/2017/05/06/hexo使用总结/">Hexo使用经验总结</a>
+        
+      </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          May 6, 2017
+        </span>
+      </div>
+    </header>
+
+    
+    
+
+    <div class="post-content">
+      
+        
+        
+          
+        
+
+        
+          <p>首页的文章列表显示文章摘要，而不是整段文章：<a href="https://ohmyarch.github.io/2014/12/24/Hexo%E4%B8%BB%E9%A1%B5%E6%98%BE%E7%A4%BA%E6%91%98%E8%A6%81/">Hexo主页显示摘要</a></p>
+          <div class="read-more">
+            <a href="/2017/05/06/hexo使用总结/" class="read-more-link">Read more..</a>
           </div>
         
       
