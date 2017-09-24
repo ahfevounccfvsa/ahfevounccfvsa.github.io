@@ -1,10 +1,23 @@
 <!DOCTYPE html>
-<html lang="">
-  <head>
-    
-<meta charset="UTF-8"/>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
 
 
 <meta http-equiv="Cache-Control" content="no-transform" />
@@ -18,16 +31,67 @@
 
 
 
-  <link rel="alternate" href="/atom.xml" title="cmlanche">
 
 
 
 
-  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=2.3.x" />
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
 
 
 
-<link rel="canonical" href="http://www.cmlanche.com/"/>
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2" />
+
+
+
+
 
 
 <meta property="og:type" content="website">
@@ -38,688 +102,1639 @@
 <meta name="twitter:title" content="cmlanche">
 
 
-<link rel="stylesheet" type="text/css" href="/css/style.css?v=2.3.x" />
 
-
-
-  <link rel="stylesheet" type="text/css" href="/lib/fancybox/jquery.fancybox.css" />
-
-
-
-
-
-<script>
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
   var CONFIG = {
-    search: true,
-    searchPath: "/search.xml",
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
     fancybox: true,
-    toc: true,
-  }
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
 </script>
 
 
 
+  <link rel="canonical" href="http://www.cmlanche.com/"/>
 
+
+
+
+
+  <title>cmlanche</title>
   
 
 
 
 
-    <title> cmlanche </title>
-  </head>
 
-  <body><div id="mobile-navbar" class="mobile-navbar">
-  <div class="mobile-header-logo">
-    <a href="/." class="logo">cmlanche</a>
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left 
+   page-home 
+ ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">cmlanche</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">金鳞岂是池中物</p>
+      
   </div>
-  <div class="mobile-navbar-icon">
-    <span></span>
-    <span></span>
-    <span></span>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
   </div>
 </div>
 
-<nav id="mobile-menu" class="mobile-menu slideout-menu">
-  <ul class="mobile-menu-list">
-    
-      <a href="/">
-        <li class="mobile-menu-item">
-          
-          
-            Home
-          
-        </li>
-      </a>
-    
-      <a href="/archives/">
-        <li class="mobile-menu-item">
-          
-          
-            Archives
-          
-        </li>
-      </a>
-    
-  </ul>
-</nav>
+<nav class="site-nav">
+  
 
-    <div class="container" id="mobile-panel">
-      <header id="header" class="header"><div class="logo-wrapper">
-  <a href="/." class="logo">cmlanche</a>
-</div>
-
-<nav class="site-navbar">
   
     <ul id="menu" class="menu">
       
-        <li class="menu-item">
-          <a class="menu-item-link" href="/">
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
             
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
-              Home
-            
+            首页
           </a>
         </li>
       
-        <li class="menu-item">
-          <a class="menu-item-link" href="/archives/">
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
             
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
-              Archives
-            
+            归档
           </a>
         </li>
       
-      
-        <li class="menu-search">
-          <form>
-            <i class="iconfont icon-search" id="open-search"></i>
-            <input type="text" class="search-input" id="search-input" />
-            <i class="iconfont icon-close" id="close-search"></i>
-          </form>
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
         </li>
+      
+
       
     </ul>
   
+
+  
 </nav>
 
-      </header>
 
-      <main id="main" class="main">
-        <div class="content-wrapper">
-          <div id="content" class="content">
-            
-  <section id="posts" class="posts">
-    
-      
-  <article class="post">
-    <header class="post-header">
-      <h1 class="post-title">
-        
-          <a class="post-link" href="/2017/08/25/JavaFx概要脑图/">JavaFx概要脑图</a>
-        
-      </h1>
 
-      <div class="post-meta">
-        <span class="post-time">
-          Aug 25, 2017
-        </span>
-      </div>
+ </div>
     </header>
 
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+  <section id="posts" class="posts-expand">
     
-    
-
-    <div class="post-content">
       
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.cmlanche.com/2017/08/25/JavaFx概要脑图/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="cmlanche">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cmlanche">
+    </span>
+
+    
+      <header class="post-header">
+
         
         
-          
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/08/25/JavaFx概要脑图/" itemprop="url">JavaFx概要脑图</a></h1>
         
 
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-25T11:50:15+08:00">
+                2017-08-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
         
           <p>本脑图是我自己总结的在JavaFx开发中的要点。</p>
 <p><img src="http://onrd7xdyg.bkt.clouddn.com/JavaFx%E8%84%91%E5%9B%BE.jpg" alt="JavaFx脑图"></p>
-          <div class="read-more">
-            <a href="/2017/08/25/JavaFx概要脑图/" class="read-more-link">Read more..</a>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/08/25/JavaFx概要脑图/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
           </div>
+          <!--/noindex-->
         
       
     </div>
+    
+    
+    
+
+    
 
     
 
     
 
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
   </article>
 
+
     
       
-  <article class="post">
-    <header class="post-header">
-      <h1 class="post-title">
-        
-          <a class="post-link" href="/2017/08/11/Postgres数据错误pg_ctl-cannot-be-run-as-root/">Postgres数据错误：pg_ctl cannot be run as root</a>
-        
-      </h1>
 
-      <div class="post-meta">
-        <span class="post-time">
-          Aug 11, 2017
-        </span>
-      </div>
-    </header>
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.cmlanche.com/2017/08/11/Postgres数据错误pg_ctl-cannot-be-run-as-root/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="cmlanche">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cmlanche">
+    </span>
 
     
-    
+      <header class="post-header">
 
-    <div class="post-content">
-      
         
         
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/08/11/Postgres数据错误pg_ctl-cannot-be-run-as-root/" itemprop="url">Postgres数据错误：pg_ctl cannot be run as root</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-11T22:31:05+08:00">
+                2017-08-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
           
-        
 
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
         
           <p>某日重启电脑之后，用pgAmin 4打开数据库，发现一直停留在起始画面，用其他工具连接数据都无法连接成功，然后我想重启Postgresql数据库，用命令<code>./pg_ctl -D../data start</code>发现出现错误：<code>pg_ctl: cannot be run as root</code></p>
-          <div class="read-more">
-            <a href="/2017/08/11/Postgres数据错误pg_ctl-cannot-be-run-as-root/" class="read-more-link">Read more..</a>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/08/11/Postgres数据错误pg_ctl-cannot-be-run-as-root/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
           </div>
+          <!--/noindex-->
         
       
     </div>
+    
+    
+    
+
+    
 
     
 
     
 
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
   </article>
 
+
     
       
-  <article class="post">
-    <header class="post-header">
-      <h1 class="post-title">
-        
-          <a class="post-link" href="/2017/08/10/Jenkins自动集成小记(一)/">Jenkins自动集成小记</a>
-        
-      </h1>
 
-      <div class="post-meta">
-        <span class="post-time">
-          Aug 10, 2017
-        </span>
-      </div>
-    </header>
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.cmlanche.com/2017/08/10/Jenkins自动集成小记(一)/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="cmlanche">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cmlanche">
+    </span>
 
     
-    
+      <header class="post-header">
 
-    <div class="post-content">
-      
         
         
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/08/10/Jenkins自动集成小记(一)/" itemprop="url">Jenkins自动集成小记</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-10T22:33:02+08:00">
+                2017-08-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
           
-        
 
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
         
           <p>Jenkins是用来自动构建任务的，也许你还不知道什么叫自动构建任务，它的意思是可以针对某个任务进行自动化，比如你开发的某个软件，每次写完代码提交到<code>github</code>之后，你可以设置让Jenkins自动进行打包构建发布包或者进行Units测试，发布报告，不用你每次手工在<code>IDE</code>中去Build，尤其是当打包非常繁琐的时候，用自动化构建可以极大的提高工作效率。</p>
-          <div class="read-more">
-            <a href="/2017/08/10/Jenkins自动集成小记(一)/" class="read-more-link">Read more..</a>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/08/10/Jenkins自动集成小记(一)/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
           </div>
+          <!--/noindex-->
         
       
     </div>
+    
+    
+    
+
+    
 
     
 
     
 
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
   </article>
 
+
     
       
-  <article class="post">
-    <header class="post-header">
-      <h1 class="post-title">
-        
-          <a class="post-link" href="/2017/06/08/JavaFx-TableView详解/">JavaFx TableView疑难详解</a>
-        
-      </h1>
 
-      <div class="post-meta">
-        <span class="post-time">
-          Jun 8, 2017
-        </span>
-      </div>
-    </header>
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.cmlanche.com/2017/06/08/JavaFx-TableView详解/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="cmlanche">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cmlanche">
+    </span>
 
     
-    
+      <header class="post-header">
 
-    <div class="post-content">
-      
         
         
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/06/08/JavaFx-TableView详解/" itemprop="url">JavaFx TableView疑难详解</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-08T10:11:14+08:00">
+                2017-06-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
           
-        
 
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
         
           <p>TableView是个十分有用的控件，适应性和灵活性非常强，可以对它进行任意的修改，比如界面样式、功能。本文将从一步步提问的方式讲解TableView</p>
-          <div class="read-more">
-            <a href="/2017/06/08/JavaFx-TableView详解/" class="read-more-link">Read more..</a>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/06/08/JavaFx-TableView详解/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
           </div>
+          <!--/noindex-->
         
       
     </div>
+    
+    
+    
+
+    
 
     
 
     
 
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
   </article>
 
+
     
       
-  <article class="post">
-    <header class="post-header">
-      <h1 class="post-title">
-        
-          <a class="post-link" href="/2017/06/06/JavaFx新手入门布局介绍/">JavaFx新手入门布局介绍</a>
-        
-      </h1>
 
-      <div class="post-meta">
-        <span class="post-time">
-          Jun 6, 2017
-        </span>
-      </div>
-    </header>
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.cmlanche.com/2017/06/06/JavaFx新手入门布局介绍/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="cmlanche">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cmlanche">
+    </span>
 
     
-    
+      <header class="post-header">
 
-    <div class="post-content">
-      
         
         
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/06/06/JavaFx新手入门布局介绍/" itemprop="url">JavaFx新手入门布局介绍</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-06T20:57:29+08:00">
+                2017-06-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
           
-        
 
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
         
           <p><code>JavaFx</code>新手入门，首先应该从布局容器入手，常用的布局容器有<code>StackPane</code>, <code>BorderPane</code>, <code>HBox</code>, <code>VBox</code>等，在使用他们时，特别是手动编写fxml布局文件时，了解他们的特性可以加速你的编写过程，能够活学活用。本文一次性介绍他们的特点。</p>
-          <div class="read-more">
-            <a href="/2017/06/06/JavaFx新手入门布局介绍/" class="read-more-link">Read more..</a>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/06/06/JavaFx新手入门布局介绍/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
           </div>
+          <!--/noindex-->
         
       
     </div>
+    
+    
+    
+
+    
 
     
 
     
 
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
   </article>
 
+
     
       
-  <article class="post">
-    <header class="post-header">
-      <h1 class="post-title">
-        
-          <a class="post-link" href="/2017/06/06/JavaFx新手入门之布局SplitPane分隔容器/">JavaFx新手入门之布局 - SplitPane分隔容器</a>
-        
-      </h1>
 
-      <div class="post-meta">
-        <span class="post-time">
-          Jun 6, 2017
-        </span>
-      </div>
-    </header>
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.cmlanche.com/2017/06/06/JavaFx新手入门之布局SplitPane分隔容器/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="cmlanche">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cmlanche">
+    </span>
 
     
-    
+      <header class="post-header">
 
-    <div class="post-content">
-      
         
         
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/06/06/JavaFx新手入门之布局SplitPane分隔容器/" itemprop="url">JavaFx新手入门之布局 - SplitPane分隔容器</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-06T20:37:10+08:00">
+                2017-06-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
           
-        
 
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
         
           <p><code>JavaFx</code>新手入门，首先应该从布局容器入手，常用的布局容器有<code>StackPane</code>, <code>BorderPane</code>, <code>HBox</code>, <code>VBox</code>等，本文介绍相对使用频率较少的<code>SplitPane</code>，<strong>分隔容器</strong></p>
-          <div class="read-more">
-            <a href="/2017/06/06/JavaFx新手入门之布局SplitPane分隔容器/" class="read-more-link">Read more..</a>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/06/06/JavaFx新手入门之布局SplitPane分隔容器/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
           </div>
+          <!--/noindex-->
         
       
     </div>
+    
+    
+    
+
+    
 
     
 
     
 
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
   </article>
 
+
     
       
-  <article class="post">
-    <header class="post-header">
-      <h1 class="post-title">
-        
-          <a class="post-link" href="/2017/05/29/初入vertx遇到的问题，可能你也遇到了/">初入vertx遇到的问题，可能你也遇到了</a>
-        
-      </h1>
 
-      <div class="post-meta">
-        <span class="post-time">
-          May 29, 2017
-        </span>
-      </div>
-    </header>
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.cmlanche.com/2017/05/29/初入vertx遇到的问题，可能你也遇到了/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="cmlanche">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cmlanche">
+    </span>
 
     
-    
+      <header class="post-header">
 
-    <div class="post-content">
-      
         
         
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/05/29/初入vertx遇到的问题，可能你也遇到了/" itemprop="url">初入vertx遇到的问题，可能你也遇到了</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-29T12:35:39+08:00">
+                2017-05-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
           
-        
 
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
         
           <p><code>wement.io</code>的服务器准备采用<code>vertx</code>来开发，vertx的开发速度非常快，有很多写好的组件，这篇文章作为学习vertx的第一篇文章，总结了一些新手可能会遇到的问题。</p>
-          <div class="read-more">
-            <a href="/2017/05/29/初入vertx遇到的问题，可能你也遇到了/" class="read-more-link">Read more..</a>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/05/29/初入vertx遇到的问题，可能你也遇到了/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
           </div>
+          <!--/noindex-->
         
       
     </div>
+    
+    
+    
+
+    
 
     
 
     
 
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
   </article>
 
+
     
       
-  <article class="post">
-    <header class="post-header">
-      <h1 class="post-title">
-        
-          <a class="post-link" href="/2017/05/27/wement.io介绍文档/">wement.io介绍文档</a>
-        
-      </h1>
 
-      <div class="post-meta">
-        <span class="post-time">
-          May 27, 2017
-        </span>
-      </div>
-    </header>
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.cmlanche.com/2017/05/27/wement.io介绍文档/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="cmlanche">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cmlanche">
+    </span>
 
     
-    
+      <header class="post-header">
 
-    <div class="post-content">
-      
         
         
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/05/27/wement.io介绍文档/" itemprop="url">wement.io介绍文档</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-27T18:16:45+08:00">
+                2017-05-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
           
-        
 
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
         
           <p><code>wement.io</code>是我准备开源做的一个开源公共的评论服务，分为评论插件，数据存储服务，广告服务。developing中，敬请期待</p>
-          <div class="read-more">
-            <a href="/2017/05/27/wement.io介绍文档/" class="read-more-link">Read more..</a>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/05/27/wement.io介绍文档/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
           </div>
+          <!--/noindex-->
         
       
     </div>
+    
+    
+    
+
+    
 
     
 
     
 
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
   </article>
 
+
     
       
-  <article class="post">
-    <header class="post-header">
-      <h1 class="post-title">
-        
-          <a class="post-link" href="/2017/05/08/JavaFx细节/">记录JavaFx中非常重要的细节</a>
-        
-      </h1>
 
-      <div class="post-meta">
-        <span class="post-time">
-          May 8, 2017
-        </span>
-      </div>
-    </header>
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.cmlanche.com/2017/05/08/JavaFx细节/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="cmlanche">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cmlanche">
+    </span>
 
     
-    
+      <header class="post-header">
 
-    <div class="post-content">
-      
         
         
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/05/08/JavaFx细节/" itemprop="url">记录JavaFx中非常重要的细节</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-08T20:48:58+08:00">
+                2017-05-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
           
-        
 
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
         
           <p><code>JavaFx</code>中有一些疑难杂症，或许你以为你掌握了<code>JavaFx</code>，但是也未必知道我所说的这些问题和解决方案，如果有帮助到你的，可以加群<code>最大最活跃的JavaFx社群：518914410</code> 欢迎访问我的个人博客<a href="http://www.cmlanche.com">www.cmlanche.com</a></p>
-          <div class="read-more">
-            <a href="/2017/05/08/JavaFx细节/" class="read-more-link">Read more..</a>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/05/08/JavaFx细节/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
           </div>
+          <!--/noindex-->
         
       
     </div>
+    
+    
+    
+
+    
 
     
 
     
 
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
   </article>
 
+
     
       
-  <article class="post">
-    <header class="post-header">
-      <h1 class="post-title">
-        
-          <a class="post-link" href="/2017/05/06/hexo使用总结/">Hexo使用经验总结</a>
-        
-      </h1>
 
-      <div class="post-meta">
-        <span class="post-time">
-          May 6, 2017
-        </span>
-      </div>
-    </header>
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.cmlanche.com/2017/05/06/hexo使用总结/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="cmlanche">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cmlanche">
+    </span>
 
     
-    
+      <header class="post-header">
 
-    <div class="post-content">
-      
         
         
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/05/06/hexo使用总结/" itemprop="url">Hexo使用经验总结</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-06T16:28:04+08:00">
+                2017-05-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
           
-        
 
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
         
           <p>首页的文章列表显示文章摘要，而不是整段文章：<a href="https://ohmyarch.github.io/2014/12/24/Hexo%E4%B8%BB%E9%A1%B5%E6%98%BE%E7%A4%BA%E6%91%98%E8%A6%81/">Hexo主页显示摘要</a></p>
-          <div class="read-more">
-            <a href="/2017/05/06/hexo使用总结/" class="read-more-link">Read more..</a>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/05/06/hexo使用总结/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
           </div>
+          <!--/noindex-->
         
       
     </div>
+    
+    
+    
+
+    
 
     
 
     
 
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
   </article>
+
 
     
   </section>
 
   
   <nav class="pagination">
-    
-    
-      <a class="next" href="/page/2/">
-        <span class="next-text">Next</span>
-        <i class="iconfont icon-right"></i>
-      </a>
-    
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
   </nav>
+
 
 
           </div>
           
-          <!-- 
- -->
-        </div>  
-      </main>
 
-      <footer id="footer" class="footer">
 
-  <div class="social-links">
-    
-      
+          
+
+        </div>
         
-          <a href="mailto:your@email.com" class="iconfont icon-email" title="email"></a>
-        
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-    
-    
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
   </div>
 
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
 
-<div class="copyright">
-  <span class="power-by">
-    Powered by <a class="hexo-link" href="https://hexo.io/">Hexo</a>
-  </span>
+      
+
+      
+
+      <section class="site-overview sidebar-panel sidebar-panel-active">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="cmlanche" />
+          <p class="site-author-name" itemprop="name">cmlanche</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
   
-  <span class="theme-info">
-    Theme - 
-    <a class="theme-link" href="https://github.com/ahonn/hexo-theme-even">Even</a>
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
   </span>
-
-  <span class="copyright-year">
-    
-    &copy; 
-     
-      2015 - 
-    
-    2017
-    <span class="author"><a href="http://www.miitbeian.gov.cn/" target="_blank">京ICP备17020143号</a></span>
-    <span class="heart">
-      <i class="iconfont icon-heart"></i>
-    </span>
-    <span class="author">cmlanche</span>
-  </span>
+  <span class="author" itemprop="copyrightHolder">cmlanche</span>
 </div>
 
-      </footer>
 
-      <div class="back-to-top" id="back-to-top">
-        <i class="iconfont icon-up"></i>
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
       </div>
-    </div>
+    </footer>
 
     
-
-
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
     
+
+  </div>
+
   
 
-
-
-
-<script>
-wement = {
-    appid: "8659f72674440553f1ee7890cc24345"
-};
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
 </script>
 
 
-  
-    <script type="text/javascript" src="/lib/jquery/jquery-3.1.1.min.js"></script>
-  
 
-  
-    <script type="text/javascript" src="/lib/slideout/slideout.js"></script>
-  
 
-  
-    <script type="text/javascript" src="/lib/fancybox/jquery.fancybox.pack.js"></script>
-  
 
-  
-    <script type="text/javascript" src="/lib/wement.js"></script>
+
+
+
+
   
 
 
-    <script type="text/javascript" src="/js/src/even.js?v=2.3.x"></script>
-<script type="text/javascript" src="/js/src/bootstrap.js?v=2.3.x"></script>
 
-    
-  <script type="text/html" id="search-result">
-    <article class="post">
-      <header class="post-header">
-        <h1 class="post-title">
-          <a href="$url$" class="post-link">
-            $title$
-          </a>
-        </h1>
-      </header>
-      <div class="post-content">
-        $content$
-        <div class="read-more">
-          <a href="$url$" class="read-more-link">
-            Read more..
-          </a>
-        </div>
-      </div>
-    </article>
-  </script>
-  <script type="text/html" id="no-search-result">
-    <div class="no-result">
-      <h2>No result found!</h2>
-    </div>
-  </script>
-  <script type="text/javascript" src="/js/src/search.js?v=2.3.x"></script>
 
-  </body>
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  
+    <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
 </html>
