@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="cmlanche">
 <meta property="og:description" content="cmlanche: 您叫什么名字？ StackPane  cmlanche: 您好，StackPane君，可以问下您在JavaFX家族中是什么地位？ stackpane君: 我可重要了，我是在JavaFx中所有布局中使用常用的，是大哥的角色，我经常罩这那帮小弟  cmlanche: 你说的小弟是指谁？ stackpane君:我小弟可多了，比如著名的vbox和hbox这对孪生兄弟，还有超级明星Bor">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-12-02T14:43:41.000Z">
+<meta property="og:updated_time" content="2017-12-03T02:39:49.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JavaFx新手教程-布局-StackPane">
 <meta name="twitter:description" content="cmlanche: 您叫什么名字？ StackPane  cmlanche: 您好，StackPane君，可以问下您在JavaFX家族中是什么地位？ stackpane君: 我可重要了，我是在JavaFx中所有布局中使用常用的，是大哥的角色，我经常罩这那帮小弟  cmlanche: 你说的小弟是指谁？ stackpane君:我小弟可多了，比如著名的vbox和hbox这对孪生兄弟，还有超级明星Bor">
@@ -335,7 +335,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  331 字
+                  442 字
                 </span>
               
 
@@ -351,7 +351,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  1 分钟
+                  2 分钟
                 </span>
               
             </div>
@@ -382,7 +382,22 @@
 <p><code>stackpane君:</code>我小弟可多了，比如著名的vbox和hbox这对孪生兄弟，还有超级明星BorderPane，还有一些不怎么出名但是也经常使用的GridPane，TiledPane，AnchorPane等等</p>
 </blockquote>
 <h5 id="cmlanche-您有什么特点吗？有那么重要吗？"><a href="#cmlanche-您有什么特点吗？有那么重要吗？" class="headerlink" title="cmlanche: 您有什么特点吗？有那么重要吗？"></a>cmlanche: 您有什么特点吗？有那么重要吗？</h5><blockquote>
-<p><code>stackpane君:</code> 你知道多重宇宙吧？我就像那样，在我的空间里，可以让我的孩子们共同拥有我的全部空间。对了，我还与一个特点就是我的孩子都是居中的，而且我的空间大小是充满我的父空间的。这么多特点让我显得很重要。</p>
+<p><code>stackpane君:</code> 你知道多重宇宙吧？我就像那样，</p>
+<ol>
+<li><p>在我的空间里，可以让我的孩子们共同拥有我的全部空间。对了，</p>
+</li>
+<li><p>默认情况下我让我的孩子们都是居中的，当然你可以调整它，在我的孩子上面增加一个属性StackPane.aligment，比如下面的代码使用了<code>StackPane.alignment=&quot;TOP_LEFT&quot;</code>，这样button1就在左上角的位置了！</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">&gt;    &lt;StackPane xmlns=<span class="string">"http://javafx.com/javafx"</span></div><div class="line">&gt;               xmlns:fx=<span class="string">"http://javafx.com/fxml"</span></div><div class="line">&gt;               fx:controller=<span class="string">"com.cmlanche.javafx.layouts.stackpane.StackPaneTest"</span></div><div class="line">&gt;               prefHeight=<span class="string">"400.0"</span> prefWidth=<span class="string">"600.0"</span> style=<span class="string">"-fx-background-color: grey;"</span>&gt;</div><div class="line">&gt;</div><div class="line">&gt;        &lt;Button fx:id=<span class="string">"button1"</span> text=<span class="string">"button1"</span> prefWidth=<span class="string">"100"</span> prefHeight=<span class="string">"200"</span> StackPane.alignment=<span class="string">"TOP_LEFT"</span>&gt;</div><div class="line">&gt;        &lt;/Button&gt;</div><div class="line">&gt;</div><div class="line">&gt;        &lt;Button fx:id=<span class="string">"button2"</span> text=<span class="string">"button2"</span> prefWidth=<span class="string">"200"</span> prefHeight=<span class="string">"100"</span>&gt;</div><div class="line">&gt;        &lt;/Button&gt;</div><div class="line">&gt;    &lt;/StackPane&gt;</div><div class="line">&gt;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+</blockquote>
+<p>&gt;</p>
+<blockquote>
+<ol>
+<li><p>而且我的空间大小是充满我的父空间的。看如下图的灰色区域，都是我的空间</p>
+<p>​</p>
+</li>
+</ol>
 </blockquote>
 <h5 id="cmlanche-那您有哪些应用场景吗？"><a href="#cmlanche-那您有哪些应用场景吗？" class="headerlink" title="cmlanche: 那您有哪些应用场景吗？"></a>cmlanche: 那您有哪些应用场景吗？</h5><blockquote>
 <p><code>stackpane君:</code>比如说某一个区域需要共享，会被多个视图所共用，我就发挥作用啦。而且我可以轻易可以把元素居中，我总是铺满父布局的。</p>
@@ -451,6 +466,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/12/03/图片压缩(tinypng)+七牛云存储客户端/" rel="prev" title="图片压缩(tinypng)+七牛云存储客户端">
+                图片压缩(tinypng)+七牛云存储客户端 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -531,7 +550,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-count">15</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -544,7 +563,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-count">20</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
