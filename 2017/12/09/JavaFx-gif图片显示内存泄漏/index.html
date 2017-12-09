@@ -87,7 +87,8 @@
 <meta property="og:description" content="在javafx中显示gif是很方便的，直接把gif文件放到Image对象中即可，比如下代码： 123FileInputStream fis = new FileInputStream(new File(yourgiffile));imageview.setImage(new Image(fis))fis.close(); 显示方便，不表示能用啊！！！ 我加载一个369kb的gif文件，每次显示都会">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://bugs.openjdk.java.net/secure/useravatar?size=xsmall&avatarId=10122">
-<meta property="og:updated_time" content="2017-12-09T10:51:57.000Z">
+<meta property="og:image" content="http://opdi15302.bkt.clouddn.com/QQ20171209-185927@2x.png">
+<meta property="og:updated_time" content="2017-12-09T11:04:07.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JavaFx gif图片显示内存泄漏">
 <meta name="twitter:description" content="在javafx中显示gif是很方便的，直接把gif文件放到Image对象中即可，比如下代码： 123FileInputStream fis = new FileInputStream(new File(yourgiffile));imageview.setImage(new Image(fis))fis.close(); 显示方便，不表示能用啊！！！ 我加载一个369kb的gif文件，每次显示都会">
@@ -336,7 +337,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  226 字
+                  302 字
                 </span>
               
 
@@ -388,8 +389,9 @@
 <p><a href="https://bugs.openjdk.java.net/secure/ViewProfile.jspa?name=akirov" target="_blank" rel="external"><img src="https://bugs.openjdk.java.net/secure/useravatar?size=xsmall&amp;avatarId=10122" alt="akirov">Alexander Kirov (Inactive)</a> added a comment - 2013-08-29 05:58</p>
 <p>ok, close as verified on b104</p>
 </blockquote>
-<p>按照上面的说法，说是已经解决了，可是你麻痹真解决了吗？</p>
-<p>目前正在想解决办法…</p>
+<p>按照上面的说法，说是已经解决了，可是真解决了吗？</p>
+<p>不过有一点可疑的地方就是，我的gif文件尺寸都比较大，369kb的文件尺寸是1500 × 448，2.8M的文件的尺寸是2184 × 1300，查看内存占用发现堆大小涨的非常大，而使用的堆非常小，或许是因为尺寸过大，一次性申请了过大的内存导致的。</p>
+<p><img src="http://opdi15302.bkt.clouddn.com/QQ20171209-185927@2x.png" alt=""></p>
 
       
     </div>
