@@ -259,6 +259,184 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.cmlanche.com/2017/12/09/JavaFx-gif图片显示内存泄漏/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="cmlanche">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://avatars3.githubusercontent.com/u/5886757?v=4&s=400&u=c3fdc83b9817d98d87ed84c8e768855fd628c745">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cmlanche">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/12/09/JavaFx-gif图片显示内存泄漏/" itemprop="url">JavaFx gif图片显示内存泄漏</a></h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-09T18:44:40+08:00">
+                2017-12-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/12/09/JavaFx-gif图片显示内存泄漏/" class="leancloud_visitors" data-flag-title="JavaFx gif图片显示内存泄漏">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  226 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  1 分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>在javafx中显示gif是很方便的，直接把gif文件放到Image对象中即可，比如下代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">FileInputStream fis = <span class="keyword">new</span> FileInputStream(<span class="keyword">new</span> File(yourgiffile));</div><div class="line">imageview.setImage(<span class="keyword">new</span> Image(fis))</div><div class="line">fis.close();</div></pre></td></tr></table></figure>
+<p>显示方便，不表示能用啊！！！</p>
+<p>我加载一个369kb的gif文件，每次显示都会增加100M左右的内存！！！，加载一个2.8M的gif，每次都会增加300M以上的内存！！！</p>
+<p>Oh my god!!!</p>
+<p>简直无法忍受，各种谷歌发现以前有提过这个bug：</p>
+<p><a href="https://bugs.openjdk.java.net/browse/JDK-8119730" target="_blank" rel="external">https://bugs.openjdk.java.net/browse/JDK-8119730</a></p>
+<p><a href="https://bugs.openjdk.java.net/browse/JDK-8117172" target="_blank" rel="external">https://bugs.openjdk.java.net/browse/JDK-8117172</a></p>
+<blockquote>
+<p><a href="https://bugs.openjdk.java.net/secure/ViewProfile.jspa?name=cschudtjfx" target="_blank" rel="external">Christian Schudt (Inactive)</a> added a comment - 2013-08-29 05:36</p>
+<p>I also tested with my sample code from <a href="https://bugs.openjdk.java.net/browse/JDK-8119730" target="_blank" rel="external"><del>RT-28782</del></a>:<br>With JavaFX 2.2: OutOfMemoryError after a few iterations.<br>With JavaFX 8: No error. Memory stays low after 1000+ iterations.</p>
+<p><a href="https://bugs.openjdk.java.net/browse/JDK-8117172?focusedCommentId=13764469&amp;page=com.atlassian.jira.plugin.system.issuetabpanels:comment-tabpanel#comment-13764469" target="_blank" rel="external">Permalink</a></p>
+<p><a href="https://bugs.openjdk.java.net/secure/ViewProfile.jspa?name=akirov" target="_blank" rel="external"><img src="https://bugs.openjdk.java.net/secure/useravatar?size=xsmall&amp;avatarId=10122" alt="akirov">Alexander Kirov (Inactive)</a> added a comment - 2013-08-29 05:58</p>
+<p>ok, close as verified on b104</p>
+</blockquote>
+<p>按照上面的说法，说是已经解决了，可是你麻痹真解决了吗？</p>
+<p>目前正在想解决办法…</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://www.cmlanche.com/2017/12/03/图片压缩(tinypng)+七牛云存储客户端/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1781,172 +1959,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.cmlanche.com/2017/05/29/初入vertx遇到的问题，可能你也遇到了/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="cmlanche">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://avatars3.githubusercontent.com/u/5886757?v=4&s=400&u=c3fdc83b9817d98d87ed84c8e768855fd628c745">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="cmlanche">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/05/29/初入vertx遇到的问题，可能你也遇到了/" itemprop="url">初入vertx遇到的问题，可能你也遇到了</a></h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-29T12:35:39+08:00">
-                2017-05-29
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-             <span id="/2017/05/29/初入vertx遇到的问题，可能你也遇到了/" class="leancloud_visitors" data-flag-title="初入vertx遇到的问题，可能你也遇到了">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计&#58;</span>
-                
-                <span title="字数统计">
-                  986 字
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
-                
-                <span title="阅读时长">
-                  4 分钟
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p><code>wement.io</code>的服务器准备采用<code>vertx</code>来开发，vertx的开发速度非常快，有很多写好的组件，这篇文章作为学习vertx的第一篇文章，总结了一些新手可能会遇到的问题。</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/05/29/初入vertx遇到的问题，可能你也遇到了/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2001,7 +2013,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-count">16</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -2014,7 +2026,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">20</span>
+                  <span class="site-state-item-count">19</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
