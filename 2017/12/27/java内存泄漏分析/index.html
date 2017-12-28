@@ -79,17 +79,20 @@
 
 
 
-<meta name="description" content="jmap -heap pid 这个是获取某java进程的heap基本信息。 jmap -dump:format=b,file=heap.bin pid 这个是dump一份heap的内存分析状态文件，然后你用eclipse mat软件来导入这个文件，然后看看给出的分析报告。">
+<meta name="description" content="什么是内存泄漏？内存泄漏就是一些已经不使用的对象还存在于内存之中且垃圾回收机制无法回收它们，导致它们常驻内存，会使内存消耗越来越大，最终导致程序性能变差。  ###java导出heap数据的方法 jmap -heap pid 这个是获取某java进程的heap基本信息。 jmap -dump:format=b,file=heap.bin pid 这个是dump一份heap的内存分析状态文件，然后你">
 <meta property="og:type" content="article">
 <meta property="og:title" content="java内存泄漏分析">
 <meta property="og:url" content="http://www.cmlanche.com/2017/12/27/java内存泄漏分析/index.html">
 <meta property="og:site_name" content="cmlanche">
-<meta property="og:description" content="jmap -heap pid 这个是获取某java进程的heap基本信息。 jmap -dump:format=b,file=heap.bin pid 这个是dump一份heap的内存分析状态文件，然后你用eclipse mat软件来导入这个文件，然后看看给出的分析报告。">
+<meta property="og:description" content="什么是内存泄漏？内存泄漏就是一些已经不使用的对象还存在于内存之中且垃圾回收机制无法回收它们，导致它们常驻内存，会使内存消耗越来越大，最终导致程序性能变差。  ###java导出heap数据的方法 jmap -heap pid 这个是获取某java进程的heap基本信息。 jmap -dump:format=b,file=heap.bin pid 这个是dump一份heap的内存分析状态文件，然后你">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-12-28T04:58:37.000Z">
+<meta property="og:image" content="http://opdi15302.bkt.clouddn.com/jvm%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B.png">
+<meta property="og:image" content="http://opdi15302.bkt.clouddn.com/virsualvm-heap.png">
+<meta property="og:updated_time" content="2017-12-28T12:17:17.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="java内存泄漏分析">
-<meta name="twitter:description" content="jmap -heap pid 这个是获取某java进程的heap基本信息。 jmap -dump:format=b,file=heap.bin pid 这个是dump一份heap的内存分析状态文件，然后你用eclipse mat软件来导入这个文件，然后看看给出的分析报告。">
+<meta name="twitter:description" content="什么是内存泄漏？内存泄漏就是一些已经不使用的对象还存在于内存之中且垃圾回收机制无法回收它们，导致它们常驻内存，会使内存消耗越来越大，最终导致程序性能变差。  ###java导出heap数据的方法 jmap -heap pid 这个是获取某java进程的heap基本信息。 jmap -dump:format=b,file=heap.bin pid 这个是dump一份heap的内存分析状态文件，然后你">
+<meta name="twitter:image" content="http://opdi15302.bkt.clouddn.com/jvm%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B.png">
 
 
 
@@ -334,7 +337,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  66 字
+                  395 字
                 </span>
               
 
@@ -371,11 +374,19 @@
       
 
       
-        <p><code>jmap -heap pid</code></p>
+        <h3 id="什么是内存泄漏？"><a href="#什么是内存泄漏？" class="headerlink" title="什么是内存泄漏？"></a>什么是内存泄漏？</h3><p>内存泄漏就是一些已经不使用的对象还存在于内存之中且垃圾回收机制无法回收它们，导致它们常驻内存，会使内存消耗越来越大，最终导致程序性能变差。 </p>
+<p>###java导出heap数据的方法</p>
+<p><code>jmap -heap pid</code></p>
 <p>这个是获取某java进程的heap基本信息。</p>
 <p><code>jmap -dump:format=b,file=heap.bin pid</code></p>
 <p>这个是dump一份heap的内存分析状态文件，然后你用eclipse mat软件来导入这个文件，然后看看给出的分析报告。</p>
-<script src="//rum-static.pingdom.net/pa-5a4478f6d31eee0007000101.js" async></script>
+<h3 id="理解什么是heap（堆）"><a href="#理解什么是heap（堆）" class="headerlink" title="理解什么是heap（堆）"></a>理解什么是heap（堆）</h3><p>先来看一幅图，<strong>java内存模型</strong></p>
+<p><img src="http://opdi15302.bkt.clouddn.com/jvm%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B.png" alt="java内存模型"></p>
+<p>如果你用过visualvm，就会看到heap size的一个图，如下所示：</p>
+<p><img src="http://opdi15302.bkt.clouddn.com/virsualvm-heap.png" alt="visualvm heap size"></p>
+<p>图中的最大heapsize为2G，目前已申请的heap size为125M左右，在使用中的heapsize为67M左右，这个数据你得看懂，最大heapsize是你在启动java程序时指定的，如果没指定就jvm会有一个默认的指定，指定的方式是<code>java -Xms1024M -Xmx2048M</code>，其中-xms表示最小的堆大小，也就是默认启动会占用的堆大小，-xmx为最大的堆大小，也就是heap堆的容量，如果你的申请不到内存了，爆出oom错误，那就是说你的heap已经用光了，你就应该检讨为啥gc没有合理回收heap，造成内存泄漏了。</p>
+<p>实际上，你在资源管理器中看到的内存大小它是总大小，heap只是其中的一部分，heap占用1G，资源管理器中可能是1.5G。</p>
+
       
     </div>
     
@@ -477,8 +488,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -549,6 +569,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是内存泄漏？"><span class="nav-number">1.</span> <span class="nav-text">什么是内存泄漏？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#理解什么是heap（堆）"><span class="nav-number">2.</span> <span class="nav-text">理解什么是heap（堆）</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
