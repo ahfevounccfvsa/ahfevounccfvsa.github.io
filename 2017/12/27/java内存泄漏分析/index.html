@@ -88,7 +88,7 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://opdi15302.bkt.clouddn.com/jvm%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B.png">
 <meta property="og:image" content="http://opdi15302.bkt.clouddn.com/virsualvm-heap.png">
-<meta property="og:updated_time" content="2017-12-29T10:04:28.000Z">
+<meta property="og:updated_time" content="2017-12-29T10:23:16.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="java内存泄漏分析">
 <meta name="twitter:description" content="什么是内存泄漏？内存泄漏就是一些已经不使用的对象还存在于内存之中且垃圾回收机制无法回收它们，导致它们常驻内存，会使内存消耗越来越大，最终导致程序性能变差。">
@@ -376,8 +376,7 @@
       
         <h3 id="什么是内存泄漏？"><a href="#什么是内存泄漏？" class="headerlink" title="什么是内存泄漏？"></a>什么是内存泄漏？</h3><p>内存泄漏就是一些已经不使用的对象还存在于内存之中且垃圾回收机制无法回收它们，导致它们常驻内存，会使内存消耗越来越大，最终导致程序性能变差。 </p>
 <a id="more"></a>
-<p>###java导出heap数据的方法</p>
-<p><code>jmap -heap pid</code></p>
+<h3 id="java导出heap数据的方法"><a href="#java导出heap数据的方法" class="headerlink" title="java导出heap数据的方法"></a>java导出heap数据的方法</h3><p><code>jmap -heap pid</code></p>
 <p>这个是获取某java进程的heap基本信息。</p>
 <p><code>jmap -dump:format=b,file=heap.bin pid</code></p>
 <p>这个是dump一份heap的内存分析状态文件，然后你用eclipse mat软件来导入这个文件，然后看看给出的分析报告。</p>
@@ -585,7 +584,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是内存泄漏？"><span class="nav-number">1.</span> <span class="nav-text">什么是内存泄漏？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#理解什么是heap（堆）"><span class="nav-number">2.</span> <span class="nav-text">理解什么是heap（堆）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解决方案：优化内存使用！！！"><span class="nav-number">3.</span> <span class="nav-text">解决方案：优化内存使用！！！</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#注意String！学会StringBuilder和StringBuffer"><span class="nav-number">4.</span> <span class="nav-text">注意String！学会StringBuilder和StringBuffer</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是内存泄漏？"><span class="nav-number">1.</span> <span class="nav-text">什么是内存泄漏？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#java导出heap数据的方法"><span class="nav-number">2.</span> <span class="nav-text">java导出heap数据的方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#理解什么是heap（堆）"><span class="nav-number">3.</span> <span class="nav-text">理解什么是heap（堆）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解决方案：优化内存使用！！！"><span class="nav-number">4.</span> <span class="nav-text">解决方案：优化内存使用！！！</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#注意String！学会StringBuilder和StringBuffer"><span class="nav-number">5.</span> <span class="nav-text">注意String！学会StringBuilder和StringBuffer</span></a></li></ol></div>
             
 
           </div>
