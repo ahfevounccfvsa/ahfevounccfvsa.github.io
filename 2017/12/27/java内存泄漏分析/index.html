@@ -79,19 +79,19 @@
 
 
 
-<meta name="description" content="什么是内存泄漏？内存泄漏就是一些已经不使用的对象还存在于内存之中且垃圾回收机制无法回收它们，导致它们常驻内存，会使内存消耗越来越大，最终导致程序性能变差。  ###java导出heap数据的方法 jmap -heap pid 这个是获取某java进程的heap基本信息。 jmap -dump:format=b,file=heap.bin pid 这个是dump一份heap的内存分析状态文件，然后你">
+<meta name="description" content="什么是内存泄漏？内存泄漏就是一些已经不使用的对象还存在于内存之中且垃圾回收机制无法回收它们，导致它们常驻内存，会使内存消耗越来越大，最终导致程序性能变差。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="java内存泄漏分析">
 <meta property="og:url" content="http://www.cmlanche.com/2017/12/27/java内存泄漏分析/index.html">
 <meta property="og:site_name" content="cmlanche">
-<meta property="og:description" content="什么是内存泄漏？内存泄漏就是一些已经不使用的对象还存在于内存之中且垃圾回收机制无法回收它们，导致它们常驻内存，会使内存消耗越来越大，最终导致程序性能变差。  ###java导出heap数据的方法 jmap -heap pid 这个是获取某java进程的heap基本信息。 jmap -dump:format=b,file=heap.bin pid 这个是dump一份heap的内存分析状态文件，然后你">
+<meta property="og:description" content="什么是内存泄漏？内存泄漏就是一些已经不使用的对象还存在于内存之中且垃圾回收机制无法回收它们，导致它们常驻内存，会使内存消耗越来越大，最终导致程序性能变差。">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://opdi15302.bkt.clouddn.com/jvm%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B.png">
 <meta property="og:image" content="http://opdi15302.bkt.clouddn.com/virsualvm-heap.png">
-<meta property="og:updated_time" content="2017-12-28T12:17:17.000Z">
+<meta property="og:updated_time" content="2017-12-29T10:04:28.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="java内存泄漏分析">
-<meta name="twitter:description" content="什么是内存泄漏？内存泄漏就是一些已经不使用的对象还存在于内存之中且垃圾回收机制无法回收它们，导致它们常驻内存，会使内存消耗越来越大，最终导致程序性能变差。  ###java导出heap数据的方法 jmap -heap pid 这个是获取某java进程的heap基本信息。 jmap -dump:format=b,file=heap.bin pid 这个是dump一份heap的内存分析状态文件，然后你">
+<meta name="twitter:description" content="什么是内存泄漏？内存泄漏就是一些已经不使用的对象还存在于内存之中且垃圾回收机制无法回收它们，导致它们常驻内存，会使内存消耗越来越大，最终导致程序性能变差。">
 <meta name="twitter:image" content="http://opdi15302.bkt.clouddn.com/jvm%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B.png">
 
 
@@ -337,7 +337,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  395 字
+                  710 字
                 </span>
               
 
@@ -353,7 +353,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  1 分钟
+                  3 分钟
                 </span>
               
             </div>
@@ -375,6 +375,7 @@
 
       
         <h3 id="什么是内存泄漏？"><a href="#什么是内存泄漏？" class="headerlink" title="什么是内存泄漏？"></a>什么是内存泄漏？</h3><p>内存泄漏就是一些已经不使用的对象还存在于内存之中且垃圾回收机制无法回收它们，导致它们常驻内存，会使内存消耗越来越大，最终导致程序性能变差。 </p>
+<a id="more"></a>
 <p>###java导出heap数据的方法</p>
 <p><code>jmap -heap pid</code></p>
 <p>这个是获取某java进程的heap基本信息。</p>
@@ -386,6 +387,11 @@
 <p><img src="http://opdi15302.bkt.clouddn.com/virsualvm-heap.png" alt="visualvm heap size"></p>
 <p>图中的最大heapsize为2G，目前已申请的heap size为125M左右，在使用中的heapsize为67M左右，这个数据你得看懂，最大heapsize是你在启动java程序时指定的，如果没指定就jvm会有一个默认的指定，指定的方式是<code>java -Xms1024M -Xmx2048M</code>，其中-xms表示最小的堆大小，也就是默认启动会占用的堆大小，-xmx为最大的堆大小，也就是heap堆的容量，如果你的申请不到内存了，爆出oom错误，那就是说你的heap已经用光了，你就应该检讨为啥gc没有合理回收heap，造成内存泄漏了。</p>
 <p>实际上，你在资源管理器中看到的内存大小它是总大小，heap只是其中的一部分，heap占用1G，资源管理器中可能是1.5G。</p>
+<h3 id="解决方案：优化内存使用！！！"><a href="#解决方案：优化内存使用！！！" class="headerlink" title="解决方案：优化内存使用！！！"></a>解决方案：优化内存使用！！！</h3><p>怎么优化内存使用？</p>
+<p>首先从外部着手，要么适当增加heap size，方法使给vm增加参数<code>-Xmx2G（表示heap堆的最大大小为2G，其实-Xmx2048M也是2G，一个意思）</code>；要么更换垃圾回收期，比如你可以换换g1垃圾回收器，方法是<code>-XX:+UseG1GC</code>，g1垃圾回收器是并发的回收期，回收效率很高。</p>
+<p>然后从你的程序内不着手，分析你程序中占用内存大的，申请内存频繁的代码处是否有不必要的内存申请，我在我公司的itestin自动化录制工具中就发现了很多这样的案例。</p>
+<h3 id="注意String！学会StringBuilder和StringBuffer"><a href="#注意String！学会StringBuilder和StringBuffer" class="headerlink" title="注意String！学会StringBuilder和StringBuffer"></a>注意String！学会StringBuilder和StringBuffer</h3><p>关于这三者的基础知识很多了，不赘述，给个链接自己学习：<a href="https://www.cnblogs.com/A_ming/archive/2010/04/13/1711395.html" target="_blank" rel="external">这里</a></p>
+<p>我要说的就是，如果一个字符串很大，并且频繁的对它进行操作，比如replace，substring等，这样会造成很多同样大小的这样的字符串，非常消耗内存，使用StringBuilder之后，始终是对一个对象操作，不仅不需要生成额外的字符串变量而造成不必要的内存，而且可以提高执行速度！</p>
 
       
     </div>
@@ -579,7 +585,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是内存泄漏？"><span class="nav-number">1.</span> <span class="nav-text">什么是内存泄漏？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#理解什么是heap（堆）"><span class="nav-number">2.</span> <span class="nav-text">理解什么是heap（堆）</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是内存泄漏？"><span class="nav-number">1.</span> <span class="nav-text">什么是内存泄漏？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#理解什么是heap（堆）"><span class="nav-number">2.</span> <span class="nav-text">理解什么是heap（堆）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解决方案：优化内存使用！！！"><span class="nav-number">3.</span> <span class="nav-text">解决方案：优化内存使用！！！</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#注意String！学会StringBuilder和StringBuffer"><span class="nav-number">4.</span> <span class="nav-text">注意String！学会StringBuilder和StringBuffer</span></a></li></ol></div>
             
 
           </div>
