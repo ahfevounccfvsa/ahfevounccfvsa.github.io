@@ -1,0 +1,45 @@
+---
+title: 腾讯云建站主机的一次奇妙之旅
+tag: [腾讯云,建站主机]
+---
+
+# 十星主机 - 腾讯云建站主机
+
+>体验过无数个主机产商的虚拟主机服务，今天我把最佳虚拟主机产商颁给腾讯云，因为它给我太多惊喜。
+
+### 惊喜1：配置极高
+
+腾讯云建站主机只配置了三款，基础版、专业版、旗舰版，而且网页空间最低都是40G起步，CPU独享，内存独享，不限流量，比阿里云独享的配置都高。
+
+![](http://www.hostreport.cn/wp-content/uploads/2018/06/t-config.png)
+
+### 惊喜2：自动开启SSL数字证书，并且是免费的，浏览器https绿色标识
+
+在购买建站主机后，会有一个默认的临时域名，你会发现证书就已经签发好了，例如我购买签发的临时域名是[247915467.mylightsite.com](http://247915467.mylightsite.com),打开后会发现自动变成https，非常棒。当你绑定域名（注意必须是在腾讯购买的域名，如果不是可以把域名转移到腾讯云来）后会自动给这个域名签发证书，自动开启https访问，例如我绑定的域名是[elementor.net.cn](http://elementor.net.cn)。
+
+![](http://www.hostreport.cn/wp-content/uploads/2018/06/tencent-%E8%AF%81%E4%B9%A6%E8%87%AA%E5%8A%A8%E7%AD%BE%E5%8F%91-1024x361.png)
+
+### 惊喜3：Wordpress建站主机自动安装Wordpress
+
+当你购买wordpress建站主机，wordpress你会发现已经安装好了，已经可以访问了。
+
+### 惊喜4：香港主机免备案
+
+这个其实也不算什么惊喜，因为所有的相关主机都是免备案的，但是我原先以为腾讯的主机如果是在中国大陆开展业务都是要备案的，香港主机是不需要的。
+
+### 惊喜5：价格低
+
+基础班单年售价5折，只要294元，买两年4折，只要470元。而且初次购买建站主机可以领取一个购买域名送30元代金券礼包，相当于再优惠30元，这太优惠了。相比已经很便宜的阿里云独享香港主机经济版（单年售价298元，两年538元），还要优惠，并且配置更好（主要是数据空间要更好很多，腾讯云是40G，阿里云是5G）。Elementor中文网就买了两年的，这样优惠更多。
+
+腾讯主机Review：[Hostreport.cn](http://www.hostreport.cn/tencent-cloud-full-review/)
+
+腾讯云年终钜惠：[cloud.tencent.com](http://www.hostreport.cn/qcloud/ykzs)
+
+### 关于我
+
+1. 一个不想命运低头的黑衣剑士
+2. 个人博客：[cmlanche.com](http://www.cmlanche.com)
+3. 我的产品：[主机深度评测网](http://www.hostreport.cn)
+4. CSDN个人主页：[cmlanche](https://blog.csdn.net/u011476664)
+5. SegmentFault个人主页：[cmlanche](https://segmentfault.com/u/cmlanche_5b29dd8ac9fb7)
+6. 博客园个人主页：[cmlanche](http://www.cnblogs.com/cmgrass/)

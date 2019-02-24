@@ -1,0 +1,81 @@
+---
+title: 令人绝望的UIAutomator WebView自动化测试
+tags: [UIAutomator吐槽]
+---
+
+> 特别特别想吐槽Android UIAutomator对WebView的控件树渲染，谷歌简直就写了一坨屎，又乱又臭
+
+### 为什么要吐槽？
+
+需求是这样的，我们**期望通过UIAutomator对WebView来dump结构一致的控件树结构，以便在使用XPath定位的时候能够精准查询每个控件**。然而实际情况是：
+
+#### 1. 可以与不可以的问题
+
+UIAutomator在某些Android版本（好像是4.4.4以下不支持）上无法dump，只有一个android.webkit.WebView节点。
+
+#### 2. 就算可以dump，结构和内容也极度不统一
+
+UIAutomator就算能很好的dump应用中WebView的元素，但是结构也非常不统一，结构混乱。
+
+目前我碰到的情况有：
+
+##### 1. 识别能力不一致
+
+android 8.0会正确识别应用中的图片，把它标记为`android.widget.Image`，而在7.1等上却不能，只能识别成`android.view.View`
+
+##### 2.识别出的结构不一致
+
+有些可能会多增加一些`android.view.View`的包装视图，可能不仅仅是一层包装
+
+##### 3. 识别出的内容也不一样
+
+通常在高版本手机，比如8.0+上能把一些图片识别出带文本的View，低版本却不能
+
+### 吐槽
+
+就算你内容识别出文本了，View能正确识别为Image了，我都不怪你，我都可以做转化，比如我忽略问题，Image我都统一转化为View，但是结构不一致那就问题太大了，XPAth查找完全失效！在WebView中你无法利用其它条件来定位一个控件，能定位控件的文本、ID、class在WebView中都是不稳定因素。
+
+### 寻找思路解决这个问题
+
+#### 1. 将WebView设置为可调试模式，远程调试它
+
+本方案的目的就是要能够向WebView注入JavaScript代码，然后输出我们自己的一个查询结果，因为我们面对的是一个固定的网页html，所以它是兼容性很好的方式。
+
+实现方式就是调用WebView的静态方法`WebView.setWebContentsDebuggingEnabled(true)`，然后打开chrome://inspect调试当前WebView页面，但是很明显无效，设置调试模式仅仅对当前应用有效，对其他应用不产生任何效果，不然WebView就没啥安全性可言了。
+
+网上说（https://blog.csdn.net/zhulin2609/article/details/51437821）可以用root权限强制开启，但是我们的场景是面对成千上万的没root权限手机，去root显然不现实，本方案放弃
+
+#### 2. 利用VisualXposed来架设一个类似虚拟机的东西，用这个虚拟机来启动被测应用
+
+开源地址：https://github.com/android-hacker/VirtualXposed
+
+这个方案你需要掌握VisualApp和epic项目，它可以实现对被测应用的完全掌控，也不需要root权限，但是它过于复杂，不稳定性因素太多，兼容性有待验证，本方案可行，但对暂时Testin云测是不适用，留作待定研究吧。
+
+#### 3. 利用UIAutomator渲染的不稳定坑逼的WebView的AccessbilityNodeInfo来重新构造我们自己的控件树结构
+
+这种方案来源于我对界面控件元素区域的思考，虽然UIAutomator给的控件树不靠谱，但是界面上的信息它都有（如果能dump的话），如果我们按照控件的区域重新组织这个WebView的结构的话，是否可行？
+
+比如A区域在B区域的里面，那么我们认定A是B的子节点，如果A和B没有父子关系，他们处于同一Y坐标，那么他们可以认为是兄弟节点，如果他们的区域是一致的，那么他们其中之一是可以被忽略的，至于忽略谁，就要看谁附带的信息更有价值，比如A的带有文本或class是Image，显然A就更有价值，忽略B。
+
+按照上面的大致逻辑，我们可以构造一个自己的控件树，这样是否可以提高兼容性？
+
+实际上我做了测试，用云测Testin的700+个手机做了验证，在未使用本方案之前，通过了98台设备，使用本方案我测试了两次，第一次通过223，第二次是194次，提高了一倍
+
+**使用本方案之前**
+
+![image-20180817194907798](http://pc3aukg6f.bkt.clouddn.com/blog/uy4uz.png)
+
+**使用本方案之后**
+
+![image-20180817194831153](http://pc3aukg6f.bkt.clouddn.com/blog/i45u5.png)
+
+![image-20180817194933148](http://pc3aukg6f.bkt.clouddn.com/blog/6608f.png)
+
+有一些效果，但是还不够o(╥﹏╥)o
+
+[![](http://pc3aukg6f.bkt.clouddn.com/blog/i45u5.png)](http://www.baidu.com)
+
+### 最后我想问
+
+1. 谷歌的UIAutomator2.0测试框架在WebView上测试是很坑爹的，也是特别难解的，为什么不能让我们自定义渲染逻辑呢？
+2. 有哪位同学有更好的方式？能够兼容上千款不同的设备不同的版本？

@@ -1,0 +1,48 @@
+---
+title: 记录JavaFx中非常重要的细节
+tags: [javafx,javafx细节记录]
+---
+
+`JavaFx`中有一些疑难杂症，或许你以为你掌握了`JavaFx`，但是也未必知道我所说的这些问题和解决方案，如果有帮助到你的，可以加群`最大最活跃的JavaFx社群：518914410` 欢迎访问我的个人博客[www.cmlanche.com](http://www.cmlanche.com)
+
+<!--more-->
+
+### 已经解决的细节：
+
+1. 鼠标单击、双击以及多击事件（大于三次基本无意义）的执行。
+
+   ![鼠标事件](http://opdi15302.bkt.clouddn.com/2017-05-08%2020_55_48.gif)
+
+   > 从图中看出，`单击一次执行一次，双击，执行两次，click中走了两次，一次clickcount为1，另一次为2，多击和双击同理`
+
+2. `ComboBox<T>`这个控件中的`T`模板类型如果换成一个`JavaBean`类型的话，控件所选择的值和列表显示什么数据呢？
+
+   > 如果你入门了，你告诉我，会显示`JavaBean`对象中的toString()返回的值，是的，没错，但是加入这个`JavaBean`是你无法更改的，又或者说你更改它会不`美观`，会破坏你写代码的美感，没错，的确会这样。
+
+   > 然后更有经验的人会告诉我，你可以用`setCellFactory`来自己定义列表的值，确实列表的值变成了你想要的值，但是你同样会发现控件所选择的值还是`toString()`所表达的值。这怎么解决呢？
+
+   > 其实`ComboBox`中有个叫`StringConverter`的东西，由它完成自定义转换，示例：
+
+   ```java
+   public class JavaBean{
+     public String p1;
+     public String p2;
+   }
+
+   ComboBox<JavaBean> combox = new ComboBox<>();
+   combox.setConverter(new StringConverter<JavaBean>(){
+     @Override
+     public String toString(JavaBean bean){
+       return String.format("%s(%s)", bean.p1, bean.p2);
+     }
+     @Override
+     public JavaBean fromString(String str){return null;}
+   });
+   ```
+
+   > 其实只要设置`StringConverter`就可以了，不用设置`cellfactory`，后者更多的是用来更改ui外观的
+
+
+#### 处于未知的细节问题：
+
+1. 是否可以自定义系统提供的标题栏，这样更加省事

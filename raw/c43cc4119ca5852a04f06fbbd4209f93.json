@@ -1,0 +1,119 @@
+---
+title: 初入vertx遇到的问题，可能你也遇到了
+tags: [vertx]
+---
+
+`wement.io`的服务器准备采用`vertx`来开发，vertx的开发速度非常快，有很多写好的组件，这篇文章作为学习vertx的第一篇文章，总结了一些新手可能会遇到的问题。
+
+<!--more-->
+
+### vertx关于对StaticHandler的使用的理解
+
+`vertx`中的`StaticHandle`是一个非常有用的处理静态资源的处理器，里面已经帮你实现了对静态资源的各种访问设置，但是使用过程中，我把`/*`映射给了静态资源`webroot`，发现我无法添加新的`route`了，新`route`添加了都不接受事件响应。
+
+原因就是所有请求都让`StaticHanle`拦截了，对`StaticHanle`的使用应该让它走一个新的不一样的`route`，比如`/static/*`，这样的好处是，区分开了静态资源的访问，同时保护你的资源目录，这样修改了之后，你的`webroot`中的网页链接应该都加上`/static/`前缀，因为他们都会通过`StaticHanle`拦截，没有`/static/`的话，你的`server`是不认识的。
+
+> 怎样添加新`route`并指向静态资源的某个网页呢？比如`/about`我需要让它能够访问静态资源中的`/webroot/about.html`，因为我可能需要传递数据渲染网页中
+
+代码示例：
+
+```java
+router.route("/about").handler(rc->{
+  rc.reroute("/static/about.html");
+})
+```
+
+对，就是`reroute`，同时注意你的路径，需要加`/static/`前缀
+
+这是网友大神`赵尘恩`给的一个解释性描述
+
+> `route`原理就是从上往下找`match`的路径，`reroute`就是把拦截到的再重新转发一下，如果`reroute`到同一个`path`容易造成死循环，还有`web`是通过前缀区分的，所以如果用`/*`来`route`的话，就会把所有的请求全部拦截到，应该加上`/static/*`来拦截
+
+### 使用vertx的oauth2客户端验证授权github
+
+> 直接撸代码把
+
+初始化：
+
+```java
+private void init() {
+        JsonObject credentials = new JsonObject()
+                .put("clientID", "your github client id")
+                .put("clientSecret", "your github client secret")
+                .put("site", "https://github.com/login")
+                .put("tokenPath", "/oauth/access_token")
+                .put("authorizationPath", "/oauth/authorize");
+        githubAuth = OAuth2Auth.create(vertx, OAuth2FlowType.AUTH_CODE, credentials);
+    }
+```
+
+路由：
+
+```java
+router.route("/login/github").handler(routingContext -> login_github(routingContext));
+        router.route("/oauth/github/code").handler(routingContext -> oauth_github_code(routingContext));
+```
+
+这样简历2个路由，分别用来`请求授权`，`获取authcode`
+
+```java
+/**
+     * 请求github登录
+     *
+     * @param rc
+     */
+    private void login_github(RoutingContext rc) {
+        String authorization_uri = githubAuth.authorizeURL(new JsonObject()
+                .put("redirect_uri", getPath() + "/oauth/github/code")
+                .put("scope", "no_expiry"));
+        info(authorization_uri);
+        rc.response().putHeader("Location", authorization_uri)
+                .setStatusCode(302)
+                .end();
+    }
+```
+
+```java
+/**
+ * 获取到github的oauth code
+ *
+ * @param rc
+ */
+private void oauth_github_code(RoutingContext rc) {
+    String code = rc.request().getParam("code");
+    if (code != null) {
+        githubAuth.getToken(new JsonObject().put("code", code).put("redirect_uri", getPath() + "/oauth/github/token"), res -> {
+            if (res.failed()) {
+                // error, the code provided is not valid
+                info("failed");
+            } else {
+                // save the token and continue...
+                info("success");
+                AccessToken token = res.result();
+                info(token.principal().toString());
+                String access_token = token.principal().getString("access_token");
+                rc.response().end(access_token);
+            }
+        });
+    }
+}
+```
+
+### 80端口问题
+
+我使用的IDE是`idea`，测试发现让`vertx`去绑定`80`端口，提示`严重: java.net.SocketException: Permission denied`，如果你的端口被占用了，执行下面两个步骤
+
+1. 检查80端口是否被占用：`lsof -i:80`
+2. 如果被占用，则杀死进程：`kill -9 [pid]`
+
+发现结果还是无权限，后来才发现原因：`执行运行java程序没有sudo`，尚不知怎么解决怎么从idea执行，不过你可以先打包出来，然后使用`sudo java -jar XXX-production.jar`来执行你的生成jar包
+
+### vertx给我的感觉
+
+`vertx`非常灵活，然后又帮你做了非常多的大家都要做的一致性的工作，一致性的意思就是，代码都是那样，是共同的，非常喜欢`vertx`，之前学过`play2`,`springmvc`之类的`java web`框架，最后都前者因为极少中文文档，需要翻墙，开发者更是少之又少，国内也没见有推广它的，后缀因为过于庞大，要学的东西太多而放弃了，一直在寻找一个像`vertx`一样的`java web`框架，现在终于找到了。
+
+### 欢迎加入我们的社群讨论技术
+
+`JavaFx`最大最活跃的社群：`518914410`
+
+`Vertx`中国用户组：`515203212`

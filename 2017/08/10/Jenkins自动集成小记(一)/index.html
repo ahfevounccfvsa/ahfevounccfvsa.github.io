@@ -1,76 +1,386 @@
 <!DOCTYPE html>
-<html lang=zh-Hans>
-  <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <meta name="description" content="null">
-  <meta name="keywords" content="undefined">
+
+
+
   
-    <link rel="icon" href="/favicon.ico">
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   
-    
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="jenkins," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="Jenkins是用来自动构建任务的，也许你还不知道什么叫自动构建任务，它的意思是可以针对某个任务进行自动化，比如你开发的某个软件，每次写完代码提交到github之后，你可以设置让Jenkins自动进行打包构建发布包或者进行Units测试，发布报告，不用你每次手工在IDE中去Build，尤其是当打包非常繁琐的时候，用自动化构建可以极大的提高工作效率。">
+<meta name="keywords" content="jenkins">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Jenkins自动集成小记">
+<meta property="og:url" content="http://www.cmlanche.com/2017/08/10/Jenkins自动集成小记(一)/index.html">
+<meta property="og:site_name" content="cmlanche">
+<meta property="og:description" content="Jenkins是用来自动构建任务的，也许你还不知道什么叫自动构建任务，它的意思是可以针对某个任务进行自动化，比如你开发的某个软件，每次写完代码提交到github之后，你可以设置让Jenkins自动进行打包构建发布包或者进行Units测试，发布报告，不用你每次手工在IDE中去Build，尤其是当打包非常繁琐的时候，用自动化构建可以极大的提高工作效率。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://onrd7xdyg.bkt.clouddn.com/QQ20170810-225528@2x.png">
+<meta property="og:image" content="http://onrd7xdyg.bkt.clouddn.com/QQ20170810-225926@2x.png">
+<meta property="og:image" content="http://onrd7xdyg.bkt.clouddn.com/QQ20170810-230126@2x.png">
+<meta property="og:image" content="http://onrd7xdyg.bkt.clouddn.com/QQ20170810-230041@2x.png">
+<meta property="og:image" content="http://onrd7xdyg.bkt.clouddn.com/3ECD3136-0E4B-4507-BD7C-90CDA2883D17.png">
+<meta property="og:image" content="http://onrd7xdyg.bkt.clouddn.com/QQ20170810-230230@2x.png">
+<meta property="og:image" content="http://onrd7xdyg.bkt.clouddn.com/QQ20170810-230641@2x.png">
+<meta property="og:updated_time" content="2017-12-02T09:27:07.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Jenkins自动集成小记">
+<meta name="twitter:description" content="Jenkins是用来自动构建任务的，也许你还不知道什么叫自动构建任务，它的意思是可以针对某个任务进行自动化，比如你开发的某个软件，每次写完代码提交到github之后，你可以设置让Jenkins自动进行打包构建发布包或者进行Units测试，发布报告，不用你每次手工在IDE中去Build，尤其是当打包非常繁琐的时候，用自动化构建可以极大的提高工作效率。">
+<meta name="twitter:image" content="http://onrd7xdyg.bkt.clouddn.com/QQ20170810-225528@2x.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.cmlanche.com/2017/08/10/Jenkins自动集成小记(一)/"/>
+
+
+
+
+
   <title>Jenkins自动集成小记 | cmlanche</title>
-  <link rel="stylesheet" href="/style.css">
-  <link rel="stylesheet" href="/lib/jquery.fancybox.min.css">
-  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?c59df7cbbe6f65012be25796d2bd37e3";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
 </head>
 
-<body>
-  <header>
-  <div class="header-container">
-    <a class='logo' href="/">
-      <span>cmlanche</span>
-    </a>
-    <ul class="right-header">
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">cmlanche</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
       
-        <li class="nav-item">
-          
-            <a href="/" class="item-link">首页</a>
-          
+        <h1 class="site-subtitle" itemprop="description">金鳞岂是池中物</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
         </li>
       
-        <li class="nav-item">
-          
-            <a href="/about" class="item-link">关于</a>
-          
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
         </li>
       
-        <li class="nav-item">
-          
-            <a href="/archives" class="item-link">归档</a>
-          
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
         </li>
       
-        <li class="nav-item">
-          
-            <a href="/tags" class="item-link">标签</a>
-          
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
         </li>
+      
+
       
     </ul>
-  </div>
-</header>
+  
 
-  <main id='post'>
-  <div class="content">
-    <article>
-        <section class="content markdown-body">
-          <h1>Jenkins自动集成小记</h1>
-          <div class='post-meta'>
-            <i class="fa fa-calendar" aria-hidden="true"></i> <time>2017/08/10</time>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
             
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.cmlanche.com/2017/08/10/Jenkins自动集成小记(一)/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="cmlanche">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://avatars3.githubusercontent.com/u/5886757?v=4&s=400&u=c3fdc83b9817d98d87ed84c8e768855fd628c745">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cmlanche">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">Jenkins自动集成小记</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
             
-              | 
-                  <i class="fa fa-tag" aria-hidden="true"></i>
-                
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-10T22:33:02+08:00">
+                2017-08-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/08/10/Jenkins自动集成小记(一)/" class="leancloud_visitors" data-flag-title="Jenkins自动集成小记">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
                
-  <a href="/tags/#jenkins" class='tag'>jenkins</a>
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
 
+          
 
-            
-          </div>
-          <p>Jenkins是用来自动构建任务的，也许你还不知道什么叫自动构建任务，它的意思是可以针对某个任务进行自动化，比如你开发的某个软件，每次写完代码提交到<code>github</code>之后，你可以设置让Jenkins自动进行打包构建发布包或者进行Units测试，发布报告，不用你每次手工在<code>IDE</code>中去Build，尤其是当打包非常繁琐的时候，用自动化构建可以极大的提高工作效率。</p>
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  1,083 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  4 分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>Jenkins是用来自动构建任务的，也许你还不知道什么叫自动构建任务，它的意思是可以针对某个任务进行自动化，比如你开发的某个软件，每次写完代码提交到<code>github</code>之后，你可以设置让Jenkins自动进行打包构建发布包或者进行Units测试，发布报告，不用你每次手工在<code>IDE</code>中去Build，尤其是当打包非常繁琐的时候，用自动化构建可以极大的提高工作效率。</p>
 <a id="more"></a>
 <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>公司是同事使用<code>Jenkins</code>做的自动化构建，非常方便，每次提交代码，自动检测打包是否成功，然后发送邮件通知，因为我们集成了<code>findingbugs</code>插件，在打包前还会对代码进行<code>findingbus</code>检索，告诉你<code>findingbus</code>的状态，还会生成release的发布包，非常之方便。</p>
 <p><code>wement.io</code>这个项目我想多人协作开发，自然想到了Jenkins，让大家能够配合的非常的舒服，昨天折腾了三小时，搞定了<code>Jenkins</code>，其中包括怎么创建一个任务，怎么设置<code>github</code>，和<code>github</code>的项目挂钩，怎么设置邮件通知。</p>
@@ -89,171 +399,533 @@
 <p><img src="http://onrd7xdyg.bkt.clouddn.com/QQ20170810-230641@2x.png" alt=""></p>
 <p>然后保存即可，任务创建完成。但是如果你的项目是私有项目，你需要在你的服务器上生成ssh，然后贴到你的github上，这样做的目的是然github信任你的这个服务器，同时要注意你的Jenkins控制台，有可能要你输入ssh的证书密码。</p>
 <h3 id="邮件通知"><a href="#邮件通知" class="headerlink" title="邮件通知"></a>邮件通知</h3><p>一般来说这个时候右键通知是没问题的，但是我今天发现我提交代码之后，任务并没有自动构建，然后看<code>Jenkins</code>打的log是这样的：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="number">22</span>:<span class="number">23</span>:<span class="number">55</span> [WARNING] mvn dependency:tree -Ddetail=<span class="keyword">true</span> and the above output.</div><div class="line"><span class="number">22</span>:<span class="number">23</span>:<span class="number">55</span> [WARNING] See http:<span class="comment">//maven.apache.org/plugins/maven-shade-plugin/</span></div><div class="line"><span class="number">22</span>:<span class="number">23</span>:<span class="number">56</span> [INFO] ------------------------------------------------------------------------</div><div class="line"><span class="number">22</span>:<span class="number">23</span>:<span class="number">56</span> [INFO] BUILD SUCCESS</div><div class="line"><span class="number">22</span>:<span class="number">23</span>:<span class="number">56</span> [INFO] ------------------------------------------------------------------------</div><div class="line"><span class="number">22</span>:<span class="number">23</span>:<span class="number">56</span> [INFO] Total time: <span class="number">10.112</span>s</div><div class="line"><span class="number">22</span>:<span class="number">23</span>:<span class="number">56</span> [INFO] Finished at: Thu Aug <span class="number">10</span> <span class="number">22</span>:<span class="number">23</span>:<span class="number">56</span> CST <span class="number">2017</span></div><div class="line"><span class="number">22</span>:<span class="number">23</span>:<span class="number">56</span> [INFO] Final Memory: <span class="number">20</span>M/<span class="number">59</span>M</div><div class="line"><span class="number">22</span>:<span class="number">23</span>:<span class="number">56</span> [INFO] ------------------------------------------------------------------------</div><div class="line"><span class="number">22</span>:<span class="number">23</span>:<span class="number">56</span> Archiving artifacts</div><div class="line"><span class="number">22</span>:<span class="number">23</span>:<span class="number">56</span> Email was triggered <span class="keyword">for</span>: Always</div><div class="line"><span class="number">22</span>:<span class="number">23</span>:<span class="number">56</span> Sending email <span class="keyword">for</span> trigger: Always</div><div class="line"><span class="number">22</span>:<span class="number">23</span>:<span class="number">56</span> Not sending mail to unregistered user chengming<span class="meta">@testin</span>.cn because your SCM claimed <span class="keyword">this</span> was associated with a user ID ‘chengming<span class="string">' which your security realm does not recognize; you may need changes in your SCM plugin</span></div><div class="line"><span class="string">22:23:56 An attempt to send an e-mail to empty list of recipients, ignored.</span></div><div class="line"><span class="string">22:23:56 Finished: SUCCESS</span></div></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="number">22</span>:<span class="number">23</span>:<span class="number">55</span> [WARNING] mvn dependency:tree -Ddetail=<span class="keyword">true</span> and the above output.</span><br><span class="line"><span class="number">22</span>:<span class="number">23</span>:<span class="number">55</span> [WARNING] See http:<span class="comment">//maven.apache.org/plugins/maven-shade-plugin/</span></span><br><span class="line"><span class="number">22</span>:<span class="number">23</span>:<span class="number">56</span> [INFO] ------------------------------------------------------------------------</span><br><span class="line"><span class="number">22</span>:<span class="number">23</span>:<span class="number">56</span> [INFO] BUILD SUCCESS</span><br><span class="line"><span class="number">22</span>:<span class="number">23</span>:<span class="number">56</span> [INFO] ------------------------------------------------------------------------</span><br><span class="line"><span class="number">22</span>:<span class="number">23</span>:<span class="number">56</span> [INFO] Total time: <span class="number">10.112</span>s</span><br><span class="line"><span class="number">22</span>:<span class="number">23</span>:<span class="number">56</span> [INFO] Finished at: Thu Aug <span class="number">10</span> <span class="number">22</span>:<span class="number">23</span>:<span class="number">56</span> CST <span class="number">2017</span></span><br><span class="line"><span class="number">22</span>:<span class="number">23</span>:<span class="number">56</span> [INFO] Final Memory: <span class="number">20</span>M/<span class="number">59</span>M</span><br><span class="line"><span class="number">22</span>:<span class="number">23</span>:<span class="number">56</span> [INFO] ------------------------------------------------------------------------</span><br><span class="line"><span class="number">22</span>:<span class="number">23</span>:<span class="number">56</span> Archiving artifacts</span><br><span class="line"><span class="number">22</span>:<span class="number">23</span>:<span class="number">56</span> Email was triggered <span class="keyword">for</span>: Always</span><br><span class="line"><span class="number">22</span>:<span class="number">23</span>:<span class="number">56</span> Sending email <span class="keyword">for</span> trigger: Always</span><br><span class="line"><span class="number">22</span>:<span class="number">23</span>:<span class="number">56</span> Not sending mail to unregistered user chengming<span class="meta">@testin</span>.cn because your SCM claimed <span class="keyword">this</span> was associated with a user ID ‘chengming<span class="string">' which your security realm does not recognize; you may need changes in your SCM plugin</span></span><br><span class="line"><span class="string">22:23:56 An attempt to send an e-mail to empty list of recipients, ignored.</span></span><br><span class="line"><span class="string">22:23:56 Finished: SUCCESS</span></span><br></pre></td></tr></table></figure>
 <p>意思是构建成功了，但是发送邮件发现提交代码的用户名是<code>chengming</code>而不是我在<code>Jenkins</code>中设置的<code>cmlanche</code>，然后Jenkins自动忽略了发送邮件的这个行为。</p>
 <p>然后我在我的<code>sourcetree</code>中把提交代码的用户换回了<code>cmlanche</code>，任务自动构建，邮件发送成功！</p>
 <h3 id="Jenkins分享（一）小结"><a href="#Jenkins分享（一）小结" class="headerlink" title="Jenkins分享（一）小结"></a>Jenkins分享（一）小结</h3><p><code>Jenkins</code>是一个非常方便的工具，免费开源，推荐大家都来学习，都折腾下，对你以后大有好处。我其实也是刚刚学这个，知道的还不多，还需要花很多时间去折腾，有更新的收获我会慢慢分享出来。</p>
 <p>欢迎加入我的<code>Java栈群</code>：518914410，讨论有关Java的一切技术。</p>
-<p>参考另一个小菜的文章：<a href="http://www.jianshu.com/p/b2ed4d23a3a9" target="_blank" rel="external">Jenkins+Github持续集成</a></p>
+<p>参考另一个小菜的文章：<a href="http://www.jianshu.com/p/b2ed4d23a3a9" target="_blank" rel="noopener">Jenkins+Github持续集成</a></p>
 
-        </section>
-    </article>
-    
-        <!-- disqus 评论框 start -->
-        <div class="comment">
-            <div id="disqus_thread" class="disqus-thread">
-              <i>Loading comments box needs to over the wall</i>
-            </div>
-        </div>
-        <!-- disqus 评论框 end -->
-    
-    
-        <!-- livere 评论框 start -->
-        <div class="comment">
-            <div id="lv-container" data-id="city" data-uid="your_livere_uid"></div>
-        </div>
-        <!-- livere 评论框 end -->
-        
-  </div>
-  <aside>
-    
-    <div class="toc-container">
-        <h1>目录</h1>
-        <div class="content">
-            <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#安装Jenkins"><span class="toc-number">2.</span> <span class="toc-text">安装Jenkins</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#创建一个任务"><span class="toc-number">3.</span> <span class="toc-text">创建一个任务</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#邮件通知"><span class="toc-number">4.</span> <span class="toc-text">邮件通知</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Jenkins分享（一）小结"><span class="toc-number">5.</span> <span class="toc-text">Jenkins分享（一）小结</span></a></li></ol>
-        </div>
-    </div>
-    
-  </aside>
-</main>
-
-<!-- disqus 公共JS代码 -->
-<script type="text/javascript">
-  /* * * CONFIGURATION VARIABLES * * */
-  var disqus_shortname = "your_disqus_shortname";
-  var disqus_identifier = "http://www.cmlanche.com/2017/08/10/Jenkins自动集成小记(一)/";
-  var disqus_url = "http://www.cmlanche.com/2017/08/10/Jenkins自动集成小记(一)/";
-
-  isAgent(getDisqus)
-
-  // determine user agent in China
-  function isAgent(cb) {
-    var url = '//graph.facebook.com/feed?callback=h';
-    var xhr = new XMLHttpRequest();
-    var called = false;
-    xhr.open('GET', url);
-    xhr.onreadystatechange = function() {
-      if (xhr.readyState === 4 && xhr.status === 200) {
-      called = true;
-      cb(true);
-      }
-    };
-    xhr.send();
-    // timeout 1s, this facebook API is very fast.
-    setTimeout(function() {
-      if (!called) {
-      xhr.abort();
-      cb(false)
-      }
-    }, 1000);
-  }
-
-  function getDisqus(isAgent) {
-    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; 
-    dsq.async = true
-    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq)
-  }
-</script>
-<!-- disqus 公共JS代码 end -->
-
-
-<script type="text/javascript">
-  (function(d, s) {
-      var j, e = d.getElementsByTagName(s)[0];
-
-      if (typeof LivereTower === 'function') { return; }
-
-      j = d.createElement(s);
-      j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
-      j.async = true;
-
-      e.parentNode.insertBefore(j, e);
-  })(document, 'script');
-</script>
-
-
-  <footer>
-  <div class="copyright">
-    <div>
-      &copy; 2018 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a>&nbsp
-    </div>
-    <div>
-      Theme by <a href="https://github.com/lewis-geek/hexo-theme-Aath" target="_blank">Aath</a>
-    </div>
-  </div>
-</footer>
-
-
-<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
-<script src="/lib/in-view.min.js"></script>
-<script src="/lib/lodash.min.js"></script>
-<script>
-  var isDown = true
-  var oldY = 0
-  inView.offset(50)
-
-  document.body.addEventListener('touchstart', function(){});
-  
-  window.addEventListener('scroll', _.throttle(e => {
-    var currentY = window.scrollY
-    if((oldY - currentY) < 0) {
-      isDown = true
-    } else {
-      isDown = false
-    }
-    oldY = currentY
-  }, 250))
-
-  $("article img").each(function() {
-      var strA = "<a data-fancybox='gallery' href='" + this.src + "'></a>";
-      $(this).wrapAll(strA);
-  });
-
-  $('.toc-link').each(function() {
-      var href = $(this).attr("href");
       
-      inView(href).on('exit', () => {
-        if (isDown) {
-          handleActive(href)
-        }
-      })
+    </div>
+    
+    
+    
 
-      inView(href).on('enter', () => {
-        if (!isDown) {
-          handleActive(href)
-        }
-      })
+    
 
-      this.onclick = function(e) {
-        var pos = $(href).offset().top - 10;
-        $("html,body").animate({scrollTop: pos}, 300);
-        setTimeout(() => {
-          handleActive(href)
-        }, 350)
-        return false
-      }
-  })
+    
 
-  function handleActive(href) {
-    document.querySelectorAll('.toc-link').forEach(elm => {
-      elm.classList.remove('active')
-    })
-    document.querySelector(".toc [href='"+ href +"']").classList.add('active')
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    cmlanche
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://www.cmlanche.com/2017/08/10/Jenkins自动集成小记(一)/" title="Jenkins自动集成小记">http://www.cmlanche.com/2017/08/10/Jenkins自动集成小记(一)/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/jenkins/" rel="tag"># jenkins</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/06/08/JavaFx-TableView详解/" rel="next" title="JavaFx TableView疑难详解">
+                <i class="fa fa-chevron-left"></i> JavaFx TableView疑难详解
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/08/25/JavaFx概要脑图/" rel="prev" title="JavaFx概要脑图">
+                JavaFx概要脑图 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="https://avatars3.githubusercontent.com/u/5886757?v=4&s=400&u=c3fdc83b9817d98d87ed84c8e768855fd628c745"
+                alt="cmlanche" />
+            
+              <p class="site-author-name" itemprop="name">cmlanche</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">35</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">40</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/cmlanche" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-globe"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://weibo.com/cmlanche" target="_blank" title="Weibo">
+                    
+                      <i class="fa fa-fw fa-globe"></i>Weibo</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装Jenkins"><span class="nav-number">2.</span> <span class="nav-text">安装Jenkins</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建一个任务"><span class="nav-number">3.</span> <span class="nav-text">创建一个任务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#邮件通知"><span class="nav-number">4.</span> <span class="nav-text">邮件通知</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Jenkins分享（一）小结"><span class="nav-number">5.</span> <span class="nav-text">Jenkins分享（一）小结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">cmlanche</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
   }
 </script>
-<script src="/lib/jquery.fancybox.min.js"></script>
 
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("Vi44LQT7TQmENDPlLnbjbgmr-gzGzoHsz", "rB0cEcQ09hqDXQrXpOkWfyO6");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
 
 </body>
 </html>

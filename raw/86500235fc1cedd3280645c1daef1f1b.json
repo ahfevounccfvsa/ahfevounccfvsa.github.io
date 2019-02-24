@@ -1,0 +1,24 @@
+---
+title: 静态模板方法的用法
+tags: [java,静态模板方法]
+---
+
+静态模板方法首先是一个静态的方法，然后有指定模板，例如
+
+```java
+public class Utils {
+    public static void test(){} // 这是静态方法
+    public static void <T> test(int a){} // 这是静态模板方法
+}
+```
+
+我们使用静态方法是直接类名.方法名，例如`Utils.test()`，那静态模板方法呢？
+
+```java
+// 假如我们的模板是String
+Utils.<String>test(100)
+```
+
+这种写法我还是头一次见，感觉很新奇，所有会记录一下。
+
+如果直接写Utils.test(100)会在java6编译不过，你需要指定模板类型，它相当于函数的一部分（通常来说函数包含函数名称、返回值、参数三个部分，而模板是第四个部分）

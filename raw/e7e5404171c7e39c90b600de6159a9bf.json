@@ -1,0 +1,417 @@
+---
+title: JavaFx TableView疑难详解
+tags: [javafx,javafx-tableview]
+---
+
+TableView是个十分有用的控件，适应性和灵活性非常强，可以对它进行任意的修改，比如界面样式、功能。本文将从一步步提问的方式讲解TableView
+
+<!--more-->
+
+1. ### 创建已知列的TableView
+
+   已知列的表格的创建，需要把TableView的TableColumn关联到模型的属性，TableView是个模板类，其实是TableView<T>，这个T就是模型，例如下代码：
+
+   ```java
+   // MyModel.java
+   public class MyModel{
+     private String name;
+     private String url;
+     // getters, setters
+     ...
+   }
+   // init your tableView
+   TableColumn<MyModel, String> t1 = new TableColumn();
+   // 关联MyModel中的name属性
+   t1.setCellValueFactory(new PropertyValueFactory<>("name")); 
+   t1.setCellFactory(p->{
+     // 创建此列的Cell的时候的回调，允许让你自己去创建
+   });
+   ```
+
+   **特别要说明的是**，`setCellValueFactory`和`setCellFactory`不是冲突的，我用的时候一直以为是冲突，就是只能用其中一个，另外一个就失效了，其实不是，setCellFactory它的意图是在创建这列的时候要做的事情，你可以改变TableCell的任何内容，包括UI和Value，而setCellValueFactory呢，它的重点是关联属性，从你传递给它的Model中通过对应属性的getter来获取值。在setCellFactory中的TableCell有个回调，叫`updateItem`，它可以获取到你设置到此Cell的值，这个值是跟setCellValueFactory所关联的属性有关。
+
+2. ### 创建动态列的TableView
+
+   参考：https://community.oracle.com/thread/2474328
+
+   因为列是不定的，模型是没有属性对应的，创建列的时候你根本不知道列是什么，看如下实现代码：
+
+   ```java
+   column.setCellValueFactory(param -> {
+               ObservableList<VarCell> values = param.getValue();
+               if (columnIndex >= values.size()) {
+                   return new SimpleObjectProperty<>(null);
+               } else {
+                   return new SimpleObjectProperty<>(param.getValue().get(columnIndex));
+               }
+           });
+   ```
+
+   创建动态列的tableview，它的模型是一个`ObservableList<T>`，你的`setCellValueFactory`不能使用`PropertyValueFactory`，而是如上代码所示，**通过列的索引来获取此列的值**
+
+3. ### **[列拖动]** 如何捕获列拖动事件？
+
+   列拖动是tablview一个默认的自带的效果，但是并没有专门的事件给你去监听它，而是监听列的变化，方法：给tableview的columns添加Listener,判断变动列的状态是否是replaced的状态，例如：
+
+   ```java
+   tableView.getColumns().addListener(new ListChangeListener<TableColumn<ObservableList<VarCell>, ?>>() {
+               @Override
+               public void onChanged(Change<? extends TableColumn<ObservableList<VarCell>, ?>> change) {
+                   change.next();
+                   if (change.wasReplaced()) {
+                       // 表示当前拖动过了
+                   }
+               }
+           });
+   ```
+
+4. ### **[列拖动]** 如何防止第一列被拖动？
+
+   在上一问的基础上，实现第一列不允许被拖动的功能。
+
+   参考：https://stackoverflow.com/questions/30645606/javafx-restrict-column-rearrangement-on-drag-and-drop
+
+   ```java
+   tableView.getColumns().addListener(new ListChangeListener<TableColumn<ObservableList<String>, ?>>() {
+               private boolean suspended;
+
+               @Override
+               public void onChanged(Change<? extends TableColumn<ObservableList<String>, ?>> change) {
+                   change.next();
+
+                   if (change.wasReplaced() && !suspended) {
+                       List<TableColumn<ObservableList<String>, ?>> oldList = new ArrayList<>(change.getRemoved());
+                       List<TableColumn<ObservableList<String>, ?>> newList = new ArrayList<>(tableView.getColumns());
+
+                       // first column changed => revert to original list
+                       if (oldList.get(0) != newList.get(0)) {
+                           this.suspended = true;
+                           tableView.getColumns().setAll(oldList);
+                           this.suspended = false;
+                       } 
+                   }
+               }
+           });
+   ```
+
+   上面的代码中有三个关键的地方，是tableview原本提供的api，一个是`change.wasReplaced`表示当前的变动是否被替换了，第二个是`change.getRemoved`，表示获取要移除掉的列，进一步的意思就是原来的列，也就是此前的tablecolumns，第三个是`tableview.getColumns`这个是获取现在列，有了这些信息，就可以判断，`oldList.get(0)!=newList(0)`，表示如果新老列的第一列不相同，表示是第一列是变动的，但是我们不允许变动，因此，调用`tableview.getColumns().setAll(oldList)`用来恢复原来的列。这样就禁止拖动第一列了。
+
+5. ### **[列拖动]** 如何禁用列拖动效果？
+
+   参考：https://stackoverflow.com/questions/22202782/how-to-prevent-tableview-from-doing-tablecolumn-re-order-in-javafx-8
+
+   给列设置一个属性：`column.impl_setReorderable(false);`
+
+   `impl_setReorderable`前面带**impl_**前缀，表示它是一个将来可能会被删除的方法，但是为了解决目前无法解决的问题，暂时把impl的私有方法改为了public方法，参考我的博客中的如何[自定义Taborder](http://cmlanche.com/2017/05/02/JavaFx%E8%87%AA%E5%AE%9A%E4%B9%89Tab%20Order/)的文章，是一样的道理。
+
+6. ### **[行拖动]** 如何拖动行，进行换行？
+
+   参考：https://stackoverflow.com/questions/28603224/sort-tableview-with-drag-and-drop-rows
+
+   已经测试过的代码：
+
+   ```java
+   tableView.setRowFactory(tv -> {
+               TableRow<ObservableList<String>> row = new TableRow<>();
+
+               row.setOnDragDetected(event -> {
+                   log.info("row drag detected");
+                   if (!row.isEmpty()) {
+                       Integer index = row.getIndex();
+                       Dragboard db = row.startDragAndDrop(TransferMode.MOVE);
+                       db.setDragView(row.snapshot(null, null));
+                       ClipboardContent cc = new ClipboardContent();
+                       cc.put(SERIALIZED_MIME_TYPE, index);
+                       db.setContent(cc);
+                       event.consume();
+                   }
+               });
+
+               row.setOnDragOver(event -> {
+                   log.info("row drag over");
+                   Dragboard db = event.getDragboard();
+                   if (db.hasContent(SERIALIZED_MIME_TYPE)) {
+                       if (row.getIndex() != ((Integer) db.getContent(SERIALIZED_MIME_TYPE)).intValue()) {
+                           event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
+                           event.consume();
+                       }
+                   }
+               });
+
+               row.setOnDragDropped(event -> {
+                   log.info("row drag dropped");
+                   Dragboard db = event.getDragboard();
+                   if (db.hasContent(SERIALIZED_MIME_TYPE)) {
+                       int draggedIndex = (Integer) db.getContent(SERIALIZED_MIME_TYPE);
+                       ObservableList<String> draggedPerson = tableView.getItems().remove(draggedIndex);
+
+                       int dropIndex;
+
+                       if (row.isEmpty()) {
+                           dropIndex = tableView.getItems().size();
+                       } else {
+                           dropIndex = row.getIndex();
+                       }
+
+                       tableView.getItems().add(dropIndex, draggedPerson);
+
+                       event.setDropCompleted(true);
+                       tableView.getSelectionModel().select(dropIndex);
+                       event.consume();
+                   }
+               });
+
+               return row;
+           });
+   ```
+
+7. ### 修改TableView样式
+
+   使用css，参考如下我的测试代码
+
+   ```css
+   .table-view {
+       -fx-border-width: 1px;
+       -fx-border-color: #CACACA;
+       -fx-background-color: transparent;
+   }
+
+   .table-view:focused {
+       -fx-background-color: transparent;
+   }
+
+   .table-view .table-cell {
+       -fx-font-size: 12px;
+   }
+
+   .table-view .filler {
+       -fx-background-color: #BDE8FF;
+   }
+
+   .table-view .text {
+       -fx-text-fill: red;
+   }
+
+   .table-view .column-header {
+       -fx-background-color: #BDE8FF;
+       -fx-pref-height: 37px;
+       -fx-border-width: 1px;
+       -fx-border-color: #D9D9D9;
+       -fx-border-insets: -2px -2px 0px -2px;
+   }
+
+   .table-view .column-header-background .label {
+       -fx-text-fill: #363739;
+       -fx-font-weight: normal;
+       -fx-font-size: 12px;
+   }
+
+   .table-row-cell {
+       /*行高*/
+       -fx-cell-size: 35px;
+   }
+
+   .table-row-cell .cell {
+       -fx-alignment: center;
+       -fx-text-fill: #333333;
+   }
+
+   .table-view .table-cell:selected {
+       -fx-text-fill: white;
+   }
+
+   .table-view .table-column .column-header {
+       -fx-background-color: #363739;
+   }
+
+   .cell {
+       /*-fx-border-width: 0px 1px 0 0;*/
+       /*-fx-border-color: #CACACA;*/
+   }
+
+   .table-view .scroll-bar {
+       -fx-background-color: transparent;
+   }
+
+   .viewport {
+       -fx-background-color: white;
+   }
+   ```
+
+8. ### 如何自定义列头，比如自己设置一个可编辑的列头呢？
+
+   答案是给你的TableColumn设置`setGraphic`，可编辑的列头的话，你让你的graphic中有编辑框，双击显示编辑框，按enter键确认编辑，如下是一个我的实现：
+
+   ```java
+   package com.itestin.ui.datamgt.table;
+
+   import com.itestin.ui.recordNreplay.logic.CommonLogic;
+   import javafx.beans.property.BooleanProperty;
+   import javafx.beans.property.SimpleBooleanProperty;
+   import javafx.beans.property.SimpleStringProperty;
+   import javafx.beans.property.StringProperty;
+   import javafx.geometry.Pos;
+   import javafx.scene.control.Label;
+   import javafx.scene.control.TableColumn;
+   import javafx.scene.control.TextField;
+   import javafx.scene.control.Tooltip;
+   import javafx.scene.input.KeyCode;
+   import javafx.scene.layout.StackPane;
+
+   /**
+    * Created by cmlanche on 2017/6/1.
+    */
+   public class EditColumn extends StackPane {
+
+       private EditColumnCallback callback;
+
+       private Label label;
+       private TextField textField;
+
+       private StringProperty title;
+       private BooleanProperty editing;
+       private BooleanProperty editable;
+       private BooleanProperty textFieldFocus;
+       private TableColumn tableColumn;
+
+       private String oldTitle;
+
+       public EditColumn(TableColumn tableColumn) {
+           super();
+           this.tableColumn = tableColumn;
+           this.init();
+       }
+
+       private void init() {
+           this.setMaxWidth(120);
+           this.setAlignment(Pos.CENTER);
+           this.setStyle("-fx-background-color: #D9D9D9;");
+           label = new Label();
+           label.setStyle("-fx-font-size: 12px; -fx-text-fill: #333333;");
+           textField = new TextField();
+           textField.getStyleClass().add("tablefx-header-editor");
+           label.textProperty().bindBidirectional(titleProperty());
+           textField.textProperty().bindBidirectional(titleProperty());
+           label.setTooltip(new Tooltip());
+           label.getTooltip().textProperty().bindBidirectional(label.textProperty());
+           this.getChildren().addAll(label, textField);
+           editingProperty().addListener((observable, oldValue, newValue) -> {
+               if (isEditable()) {
+                   if (newValue) {
+                       label.setVisible(false);
+                       textField.setVisible(true);
+                       textField.setFocusTraversable(true);
+                       textField.requestFocus();
+                   } else {
+                       label.setVisible(true);
+                       textField.setVisible(false);
+                   }
+               }
+           });
+           textField.textProperty().addListener((observable, oldValue, newValue) -> {
+               textField.setStyle("-fx-border-color: #25B3FA;");
+           });
+           this.setStyle("-fx-background-color: transparent;");
+           textField.setOnKeyPressed(event -> {
+               if (isEditing()) {
+                   if (event.getCode() == KeyCode.ENTER) {
+                       event.consume(); // 放置对tabview的其他列产生影响，不让消息透传
+                       oldTitle = textField.getText();
+                       setEditing(false);
+                       // 提交编辑
+                       if (callback != null) {
+                           callback.editCommit(tableColumn, textField.getText());
+                       }
+                   } else if (event.getCode() == KeyCode.ESCAPE) {
+                       setTitle(oldTitle);
+                       setEditing(false);
+                       // 取消编辑
+                       if (callback != null) {
+                           callback.cancelEdit();
+                       }
+                   } else if (event.getCode() == KeyCode.TAB) {
+                       setEditing(false);
+                   }
+               }
+           });
+           textFieldFocusProperty().addListener((observable, oldValue, newValue) -> {
+               if (newValue) {
+                   textField.setFocusTraversable(true);
+                   textField.requestFocus();
+               }
+           });
+           setEditing(false);
+       }
+
+       public String getTitle() {
+           return titleProperty().get();
+       }
+
+       public StringProperty titleProperty() {
+           if (title == null) {
+               title = new SimpleStringProperty();
+           }
+           return title;
+       }
+
+       public void setTitle(String title) {
+           this.oldTitle = title;
+           this.titleProperty().set(title);
+       }
+
+       public boolean isEditing() {
+           return editingProperty().get();
+       }
+
+       public BooleanProperty editingProperty() {
+           if (editing == null) {
+               editing = new SimpleBooleanProperty(true);
+           }
+           return editing;
+       }
+
+       public void setEditing(boolean editing) {
+           this.editingProperty().set(editing);
+       }
+
+       public void setEditCallback(EditColumnCallback callback) {
+           this.callback = callback;
+       }
+
+       public boolean isEditable() {
+           return editableProperty().get();
+       }
+
+       public BooleanProperty editableProperty() {
+           if (editable == null) {
+               editable = new SimpleBooleanProperty(true);
+           }
+           return editable;
+       }
+
+       public void setEditable(boolean editable) {
+           this.editableProperty().set(editable);
+       }
+
+       public boolean isTextFieldFocus() {
+           return textFieldFocusProperty().get();
+       }
+
+       public BooleanProperty textFieldFocusProperty() {
+           if (textFieldFocus == null) {
+               textFieldFocus = new SimpleBooleanProperty();
+           }
+           return textFieldFocus;
+       }
+
+       public void setTextFieldFocus(boolean textFieldFocus) {
+           this.textFieldFocusProperty().set(textFieldFocus);
+       }
+   }
+   ```
+
+   ​
+
+### 最后欢迎加入我的javafx探讨群：`518914410`
+
+本文版权原创 by [cmlanche.com](cmlanche.com)

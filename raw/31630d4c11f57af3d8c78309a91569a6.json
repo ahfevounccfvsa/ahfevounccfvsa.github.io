@@ -1,0 +1,13 @@
+---
+title: Hexo使用经验总结
+tags: [hexo]
+---
+
+首页的文章列表显示文章摘要，而不是整段文章：[Hexo主页显示摘要](https://ohmyarch.github.io/2014/12/24/Hexo%E4%B8%BB%E9%A1%B5%E6%98%BE%E7%A4%BA%E6%91%98%E8%A6%81/)
+
+<!--more-->
+
+1. 首页的文章列表显示文章摘要，而不是整段文章：[Hexo主页显示摘要](https://ohmyarch.github.io/2014/12/24/Hexo%E4%B8%BB%E9%A1%B5%E6%98%BE%E7%A4%BA%E6%91%98%E8%A6%81/)
+2. 给github page设置域名后，有个过程是往你的github仓库中添加CNAME文件，写上你的域名，比如我的`cmlanche.com`，但是hexo每次deploy的时候会清空仓库，这样的话`CNAME`文件也被删除了，解决办法[参考](https://www.zhihu.com/question/28814437)
+
+

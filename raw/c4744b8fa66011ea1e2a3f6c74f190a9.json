@@ -1,0 +1,23 @@
+---
+title: Unable to start monitor 4454, An other instance is problaly using the same port
+tags: [idea]
+---
+
+> 最近两个月启动IDEA一直这个错误，终于今天忍不住了，找了下解决这个问题的方法
+
+<img src="https://ws2.sinaimg.cn/large/006tNc79ly1fte0ysjmz2j30ow09gdgz.jpg" width="400px">
+
+造成IDEA启动失败。
+
+<!--more-->
+
+### 解决办法
+
+禁用或者卸载Log4JPlugin插件，这个插件没什么卵用，14年之后就不再更新了。
+
+### 卸载方法
+
+菜单Preferences->Plugins，然后搜索log4JPlugin就出来了，然后Uninstall卸载
+
+![image-20180718151011317](https://ws1.sinaimg.cn/large/006tNc79ly1fte17sd0c8j31iy0tmdmn.jpg)
+

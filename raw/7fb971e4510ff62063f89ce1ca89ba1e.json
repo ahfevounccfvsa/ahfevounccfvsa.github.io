@@ -1,0 +1,62 @@
+---
+title: 解决Android Robotium(Instrumentation)初始化时getActivity阻塞的问题
+tags: [Robotium,自动化研发]
+---
+
+### 如果应用没有启动，阻塞了
+
+这种情况getActivity肯定会阻塞的，你需要调用startActivity启动起来：
+
+```java
+getInstrumentation().getTargetContext().startActivity(intent);
+```
+
+如果在Robotium中还是没启动，你就需要借助外力来启动它了，比如命令：
+
+```shell
+am start .... // 代码未写完整，意思就是你需要借助am的命令来启动应用
+```
+
+<!--more-->
+
+### 如果应用启动了，但还是阻塞了
+
+有两种方式可以尝试，第一种：
+
+```java
+ActivityMonitor monitor = getInstrumentation().addMonitor(activity.getName(), null, false);
+Activity activity = getInstrumentation().waitForMonitorWithTimeout(monitor, 10000);
+```
+
+这种方式的意思是，对测试的Activity追加一个Monitor来追踪它的状态，并等待返回一个Activity对象，超时时间为10s。但是这种方式未必总是有效，在极端情况下，还是会阻塞。此时你就需要用第二种方式尝试获取Activity了
+
+第二种方式：**Java反射**
+
+通过观察第一种方式的实现源码，我们发现被测Activity都是存放在`Instrumentation => ActivityThread(mThread) => ArrayMap<IBinder, ActivityClientRecord>(mActivities) => Activity`的一个map中的，那么我们通过反射的方式剥离3层，可以拿到这个对象。
+
+```java
+Object mThread = ReflectHelper.getField(getInstrumentation(), Instrumentation.class.getName(), "mThread");
+Log.e("tag", "inst mthread = " + mThread);
+if (mThread != null) {
+   Object mActivities = ReflectHelper.getField(mThread, null, "mActivities");
+   Log.e("tag", "inst mActivities = " + mActivities);
+   if (mActivities != null && mActivities instanceof Map) {
+       Map actMap = (Map) mActivities;
+       Set<Map.Entry> sets = actMap.entrySet();
+       Iterator<Map.Entry> iterable = sets.iterator();
+       while (iterable.hasNext()) {
+           Map.Entry entry = iterable.next();
+           Object actRecObj = entry.getValue();
+           Log.e("tag", "ActivityClientRecord: " + actRecObj);
+           Object actObj = ReflectHelper.getField(actRecObj, null, "activity");
+           Log.e("tag", "Activity: " + actObj);
+           if (actObj != null) {
+               return (Activity) actObj;
+           }
+       }
+    }
+}
+```
+
+上述的种种方式可以完全解决getActivity阻塞的问题！
+

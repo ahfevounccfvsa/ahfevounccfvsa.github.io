@@ -1,0 +1,51 @@
+---
+title: JavaFx新手教程-布局-StackPane
+tags: [javafx,javafx-layout,javafx-stackpane]
+---
+
+##### cmlanche: 您叫什么名字？
+
+> StackPane
+
+##### cmlanche: 您好，StackPane君，可以问下您在JavaFX家族中是什么地位？
+
+> `stackpane君:` 我可重要了，我是在JavaFx中所有布局中使用常用的，是大哥的角色，我经常`罩`这那帮小弟
+
+##### cmlanche: 你说的小弟是指谁？
+
+> `stackpane君:`我小弟可多了，比如著名的vbox和hbox这对孪生兄弟，还有超级明星BorderPane，还有一些不怎么出名但是也经常使用的GridPane，TiledPane，AnchorPane等等
+
+##### cmlanche: 您有什么特点吗？有那么重要吗？
+
+> `stackpane君:` 你知道多重宇宙吧？我就像那样，
+>
+> 1. 在我的空间里，可以让我的孩子们共同拥有我的全部空间。对了，
+>
+> 2. 默认情况下我让我的孩子们都是居中的，当然你可以调整它，在我的孩子上面增加一个属性StackPane.aligment，比如下面的代码使用了`StackPane.alignment="TOP_LEFT"`，这样button1就在左上角的位置了！
+>
+>    ```java
+>    <StackPane xmlns="http://javafx.com/javafx"
+>               xmlns:fx="http://javafx.com/fxml"
+>               fx:controller="com.cmlanche.javafx.layouts.stackpane.StackPaneTest"
+>               prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: grey;">
+>
+>        <Button fx:id="button1" text="button1" prefWidth="100" prefHeight="200" StackPane.alignment="TOP_LEFT">
+>        </Button>
+>
+>        <Button fx:id="button2" text="button2" prefWidth="200" prefHeight="100">
+>        </Button>
+>    </StackPane>
+>    ```
+>
+> 3. 而且我的空间大小是充满我的父空间的。看如下图的灰色区域，都是我的空间
+>
+>    ![](http://opdi15302.bkt.clouddn.com/stackpane1.png)
+
+##### cmlanche: 那您有哪些应用场景吗？
+
+> `stackpane君:`比如说某一个区域需要共享，会被多个视图所共用，我就发挥作用啦。而且我可以轻易可以把元素居中，我总是铺满父布局的。
+
+##### cmlanche: 有demo源码演示吗？
+
+> `stackpane君:`我的爸爸给我做了个演示例子，是开源的哦，欢迎star，[github](https://github.com/cmlanche/javafx-newer-starter.git)，我自己的例子在[这里](https://github.com/cmlanche/javafx-newer-starter/tree/master/layouts/src/com/cmlanche/javafx/layouts/stackpane)
+

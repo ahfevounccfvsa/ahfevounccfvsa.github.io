@@ -1,0 +1,38 @@
+---
+title: Android自动化·细数UIAutomator的坑·UIAutomator渲染WebView控件树在不同手机上的差异
+tags: [Android自动化,细数UIAutomator的坑]
+---
+
+我想只有[Testin云测](https://testin.cn)才会遇到这样的问题，云测的自动化技术是要抹掉手机的差异性的，就是说一套脚本可以在不同的手机产商不同的手机版本上成功运行，而云测会遇到很多很多各种各样因为手机产商与版本的差异导致脚本不兼容的问题，而今天我讲的是最近发现的UIAutomator在WebView控件树渲染在不同手机上的差异。
+
+Testin云测已跨越自动化测试的万水千山，欢迎来测！
+
+<!--more-->
+
+### 额外话
+
+对WebView来说，UIAutomator的能力是很有限的，更别提小程序使用的腾讯X5内核的Webview，以及国外流行的Crosswalk，他们俩UIAutomator是根本无法识别的，但是云测对小程序有独特的支持。下回我会分析UIAutomator为啥无法很好识别WebView。
+
+### 正题
+
+中国手机产商太多了，而且Android版本分布也特别凌乱，从4.3到8.0都有，而它对WebView的渲染能力也各有不同，经过我分析云测700个手机在同一WebView页面的执行结果，我发现有的控件树可能是这样的:
+
+```xml
+<node class="android.webkit.WebView" bounds="[0,0,100,100]">
+    <node class="android.view.View" bounds="[0,0,20,20]">
+        <node class="android.view.TextView" bounds="[0,0,20,20]">
+	    </node>
+    </node>
+</node>
+```
+
+而有的是这样的
+
+```xml
+<node class="android.webkit.WebView" bounds="[0,0,100,100]">
+    <node class="android.view.TextView" bounds="[0,0,20,20]">
+    </node>
+</node>
+```
+
+我们发现TextView外层居然有一层皮，而有的居然没有，这是不一致的，这样会导致后续依赖控件树结构的xpath查询会失败，怎么抹掉这种差异性呢？问题我已道出，怎么解我也有办法，但是涉及到公司机密，我也只能点到为止。

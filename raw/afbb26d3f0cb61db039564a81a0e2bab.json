@@ -1,0 +1,69 @@
+---
+title: hexo自动部署到git、ftp（虚拟主机等）、云服务器的方式
+tag: [hexo,git,ftp,云服务器]
+---
+
+自动部署很有用，当你写完文章后，直接使用`hexo d`就可以自动更新你的网站了
+
+### 部署到git
+
+首先你需要在你的blog下安装git deployer插件：`npm install hexo-deployer-git --save`，然后再把如下代码添加到你的_config.yml文件中
+
+```shell
+### git deploy
+deploy:
+  type: git
+  repo: https://github.com/cmlanche/cmlanche.github.io.git  # 你的远程仓库
+  branch: master # 你的远程残酷分支
+  message: "hello guys" # 每次提交的信息
+```
+
+
+
+需要注意的是，部署到git需要再本地安装你ssh key，也就是说允许本地进行读写远程git仓库，否则你会没权限的
+
+### 部署到ftp服务器
+
+你可能会用一台虚拟主机来部署你的hexo个人站点，那么fip怎么部署? 首先你需要下载安装ftp deployer插件：`npm install hexo-deployer-ftpsync --save`，然后把你下面的代码贴到你的_config.yml中，注意修改ftp的相关参数。
+
+```shell
+#### ftp deploy
+deploy:
+ type: ftpsync
+ host: ftpserver # ftp服务器地址
+ user: ftpusername # ftp用户名
+ pass: xxxx # 你的ftp用户密码
+ remote: xxx # 你要上传到的地址，例如/wwwroot
+ port: 21 # ftp端口，不同的ftp可能会不一样
+ delete: true # 上传本地文件是否删除ftp中的所有文件
+ verbose: true # 是否打印调试信息
+ ignore_errors: false # 是否忽略错误
+```
+### 部署到远程主机，通常如VPS或者云服务器
+
+同样要下载hexo deployer: `npm install hexo-deployer-rsync --save`，然后代码奉上：
+
+```shell
+deploy:
+  type: rsync
+  host: <host> # 主机地址
+  user: <user> # 用户名
+  root: <root> # 要上传到的目录
+  port: [port] # Default is 22
+  delete: [true|false] # Default is true
+  args: <rsync args>
+  verbose: [true|false] # Default is true
+  ignore_errors: [true|false] # Default is false
+```
+
+
+>关于我
+
+一个试图摆脱“地心引力”的黑衣剑士
+
+一个主机深度评测站主：[HostReport.cn](http://www.hostreport.cn)
+
+一个向往自由职业的自由人
+
+个人博客：[cmlanche.com](http://www.cmlanche.com)
+

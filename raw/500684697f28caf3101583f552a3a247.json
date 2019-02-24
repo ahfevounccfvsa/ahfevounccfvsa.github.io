@@ -1,0 +1,103 @@
+---
+title: Bloogle开发日记 | 制作一个滚动大纲的前端网页
+tags: [bloogle,网页前端]
+---
+
+从零教学怎么制作一个滚动大纲
+
+![](http://pboedpdg9.bkt.clouddn.com/letsblog%E5%BC%80%E5%8F%91%E6%97%A5%E8%AE%B0-%E6%BB%9A%E5%8A%A8%E5%A4%A7%E7%BA%B2.gif)
+
+<!--more-->
+
+### 前端页面
+
+大纲区域是一个列表，列表中的每项的超链接`<a>`都有一个`#id`的超链接指向gif中左侧的内容区域的heading标题
+
+### JS代码
+
+1. 当滚动时，我们要求大纲区域停靠在顶部
+
+```javascript
+// 获取大纲侧边栏的元素对象
+var aside = document.getElementsByClassName("outline")[0];
+// 获取大纲侧边栏的元素对象距离浏览器顶部的距离
+var aside_sticky_offset_top = aside.offsetTop;
+// 当窗口滚动会触发window.onscroll方法
+window.onscroll = function() {
+    // window.pageYOffset是滚动条在垂直方向上的滚动距离
+    // 当滚动距离大于aside_sticky_offset_top时，表示大纲侧边栏滚动到了顶部，要求大纲停靠在顶部不动
+    // 则可以给css增加一个class，aside-sticky
+    if(window.pageYOffset > aside_sticky_offset_top) {
+        aside.classList.add("aside-sticky");
+    } else {
+        aside.classList.remove("aside-sticky");
+    }
+};
+```
+
+```css
+.aside-sticky {
+    position: sticky;
+    top: 0;
+    width: 100%;
+}
+```
+
+2. 继续滚动，当浏览器窗口越过某个heading标题的时候，要求将对应的大纲侧边栏的列表项设置为active活动状态。
+
+```javascript
+function scrollDetactHeading() {
+    // 获取所有的heading标题对象
+    var headings = document.getElementsByClassName("heading");
+    var nearestHeading = null, nearestHeadingPageYOffset = null;
+    console.clear();
+    // 循环遍历所有标题对象，找出当前选择的是哪个标题
+    for (var i = 0; i < headings.length; i++) {
+        var h = headings[i];
+        // 计算标题距离浏览器视窗顶部的距离
+        var result = h.offsetTop - window.pageYOffset;
+        console.log(result);
+        // 只有为0或者为负数才表示浏览器窗口顶部穿过了标题栏下的内容区域
+       	// 并且result的负数值越大，越表示当前最近标题是谁
+        if (0 === result) {
+            nearestHeading = h;
+            break
+        } else if (result < 0) {
+            if (nearestHeadingPageYOffset == null ||
+                nearestHeadingPageYOffset <= result) {
+                nearestHeadingPageYOffset = result;
+                nearestHeading = h;
+            }
+        }
+    }
+
+    // 如果nearestHeading不为空，表示找到了当前所选择的标题
+    if (null != nearestHeading) {
+        // 找到侧边栏对象，清空侧边栏对象列表项的所有活动状态
+        var menulist = document.querySelector(".outline .menu-list");
+        for (var i = 0; i < menulist.children.length; i++) {
+            var a = menulist.children[i].getElementsByTagName("a")[0];
+            a.classList.remove("is-active");
+        }
+        // 找出最终活动的列表项，设置为active的状态
+        var activeA = document.querySelector("a[href='#" + nearestHeading.id + "']");
+        activeA.classList.add("is-active");
+    }
+}
+```
+
+```javascript
+window.onscroll = function() {
+    if(window.pageYOffset > aside_sticky_offset_top) {
+        aside.classList.add("aside-sticky");
+    } else {
+        aside.classList.remove("aside-sticky");
+    }
+
+	// 当滚动时触发大纲滚动检测
+    scrollDetactHeading();
+};
+```
+
+### 开源地址：[https://github.com/letsblogio/website-pure-html](https://github.com/letsblogio/website-pure-html)
+

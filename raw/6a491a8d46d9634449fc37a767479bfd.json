@@ -1,0 +1,62 @@
+---
+title: JavaFx新手入门之布局 - SplitPane分隔容器
+tags: [javafx,splitpane]
+---
+
+`JavaFx`新手入门，首先应该从布局容器入手，常用的布局容器有`StackPane`, `BorderPane`, `HBox`, `VBox`等，本文介绍相对使用频率较少的`SplitPane`，**分隔容器**
+
+<!--more-->
+
+1. 怎么创建分隔的视图区域？
+
+   SplitPane的一级子Node就是SplitPane所分开的一个视图区域，例如下fxml代码：
+
+   ```xml
+   <?import javafx.scene.control.SplitPane?>
+   <?import javafx.scene.image.Image?>
+   <?import javafx.scene.image.ImageView?>
+   <?import javafx.scene.layout.StackPane?>
+   <?import javafx.scene.layout.VBox?>
+   <StackPane fx:controller="sample.Controller"
+              xmlns:fx="http://javafx.com/fxml" alignment="center">
+
+       <SplitPane fx:id="splitpane">
+           <VBox fx:id="left" prefWidth="300" prefHeight="200" style="-fx-background-color: antiquewhite">
+               <ImageView fx:id="image1" preserveRatio="true" pickOnBounds="true">
+                   <image>
+                       <Image url="@/sample/test.jpg"/>
+                   </image>
+               </ImageView>
+           </VBox>
+           <VBox fx:id="right" prefWidth="300" prefHeight="300" style="-fx-background-color: aquamarine">
+               <ImageView fx:id="image2" preserveRatio="true" pickOnBounds="true">
+                   <image>
+                       <Image url="@/sample/test.jpg"/>
+                   </image>
+               </ImageView>
+           </VBox>
+       </SplitPane>
+   </StackPane>
+   ```
+
+2. `SplitPane`中有图片的话，怎么让ImageView随着视图区域的变化而变化？
+
+   答案是：监听`SplitPane`的`divider`的变化，动态去改变`ImageView`的大小
+
+   ```java
+    @Override
+      public void initialize(URL location, ResourceBundle resources){
+          splitpane.getDividers().get(0).positionProperty().addListener((observable, oldValue, newValue) -> {
+              System.out.println(newValue);
+              int w = 600;
+              double w1 = w * newValue.doubleValue();
+              double w2 = w - w1;
+              image1.setFitWidth(w1);
+              image2.setFitWidth(w2);
+          });
+      }
+   ```
+
+   ![image](http://opdi15302.bkt.clouddn.com/QQ20170606-0@2x.png)
+
+

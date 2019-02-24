@@ -1,0 +1,186 @@
+---
+title: 聊一聊JavaFx中的TextFormatter以及一元操作符UnaryOperator
+tags: [javafx,textformatter,unaryoperator,lambda表达式]
+---
+
+### 直击主题：它在JavaFx中可以实现什么效果
+
+它可以格式化输入文本的内容，可以允许输入哪种值，可以规定光标的位置，例如可以实现一个输入框只允许输入数字，
+
+例如`textfield`表示输入框对象，那么设置格式化内容的话就应该像这样子：`textfield.setTextformatter(new TextFormatter<String>(IntegerFilter))`, 而其中`IntegerFilter`就是只允许输入数字的过滤器，它的代码是怎样的呢？
+
+```java
+/**
+ * Created by cmlanche on 2017/7/10.
+ * 整数过滤器
+ * 应用：比如使一个输入框只能输入数字
+ */
+public class IntegerFilter implements UnaryOperator<TextFormatter.Change> {
+    private final static Pattern DIGIT_PATTERN = Pattern.compile("\\d*");
+
+    @Override
+    public TextFormatter.Change apply(TextFormatter.Change change) {
+        return DIGIT_PATTERN.matcher(change.getText()).matches() ? change : null;
+    }
+}
+```
+
+DIGIT_PATTERN大家都能看出来它是正则表达式，是匹配文本是否是整数的表达式。
+
+apply方法中的实现的意思是，只要符合整数就返回change，否则返回null
+
+<!--more-->
+
+经过测试发现，当返回change的时候，可以允许输入，如输入0~9中的任意数字都可以输入，但输入非数字的话，会返回null，此时发现输入框光标不会移动，而且内容也不会变化，说明null是禁用的意思。
+
+还有个细节就是当按下delete键时，change对象中有个方法叫`isDeleted`返回true，而文本是空，当按下其他字符，如1时，change中的getText为`1`，change还有个getControl和getControlText可以返回控件和控件的文本。说明change是包含了当前变化的内容和不变的内容。
+
+那么这个TextFormatter就厉害了，利用change中的信息，可以实现对输入框的各种格式需求，上面例子中让输入框只能输入数字只是TextFormatter的冰山一角，还可以实现各种各样的其他需求，例如让输入框中的值只能是浮点数，只能是字母，字符数只能是6位。有了它，都可以不用对它的值再进行额外的校验，而且可以通用起来，只需要编写不同的过滤器就可以了。
+
+### 源码解析：TextFormatter是如何发挥作用的？
+
+从上面的分析我们可以清楚的看到是TextFormatter中的filter发挥了过滤作用，而TextFormatter是给TextField使用的，那么TextFormatter必定有函数给TextField来调用，所以我们找到了getFilter，我们在TextField中找这个函数可以看到：
+
+```java
+    /**
+     * Replaces a range of characters with the given text.
+     *
+     * @param start The starting index in the range, inclusive. This must be &gt;= 0 and &lt; the end.
+     * @param end The ending index in the range, exclusive. This is one-past the last character to
+     *            delete (consistent with the String manipulation methods). This must be &gt; the start,
+     *            and &lt;= the length of the text.
+     * @param text The text that is to replace the range. This must not be null.
+     */
+    public void replaceText(final int start, final int end, final String text) {
+        if (start > end) {
+            throw new IllegalArgumentException();
+        }
+
+        if (text == null) {
+            throw new NullPointerException();
+        }
+
+        if (start < 0
+            || end > getLength()) {
+            throw new IndexOutOfBoundsException();
+        }
+
+        if (!this.text.isBound()) {
+            final int oldLength = getLength();
+            TextFormatter<?> formatter = getTextFormatter();
+            TextFormatter.Change change = new TextFormatter.Change(this, getFormatterAccessor(), start, end, text);
+            if (formatter != null && formatter.getFilter() != null) {
+                change = formatter.getFilter().apply(change);
+                if (change == null) {
+                    return;
+                }
+            }
+
+            // Update the content
+            updateContent(change, oldLength == 0);
+
+        }
+    }
+```
+
+```java
+    /**
+     * Positions the anchor and caretPosition explicitly.
+     */
+    public void selectRange(int anchor, int caretPosition) {
+        caretPosition = Utils.clamp(0, caretPosition, getLength());
+        anchor = Utils.clamp(0, anchor, getLength());
+
+        TextFormatter.Change change = new TextFormatter.Change(this, getFormatterAccessor(), anchor, caretPosition);
+        TextFormatter<?> formatter = getTextFormatter();
+        if (formatter != null && formatter.getFilter() != null) {
+            change = formatter.getFilter().apply(change);
+            if (change == null) {
+                return;
+            }
+        }
+
+        updateContent(change, false);
+    }
+```
+
+```java
+    private boolean filterAndSet(String value) {
+        // Send the new value through the textFormatter, if one exists.
+        TextFormatter<?> formatter = getTextFormatter();
+        int length = content.length();
+        if (formatter != null && formatter.getFilter() != null && !text.isBound()) {
+            TextFormatter.Change change = new TextFormatter.Change(
+                    TextInputControl.this, getFormatterAccessor(), 0, length, value, 0, 0);
+            change = formatter.getFilter().apply(change);
+            if (change == null) {
+                return false;
+            }
+            replaceText(change.start, change.end, change.text, change.getAnchor(), change.getCaretPosition());
+        } else {
+            replaceText(0, length, value, 0, 0);
+        }
+        return true;
+    }
+```
+
+如上，从TextField源码中我们找到了三个与TextFormatter的filter有关的方法，他们的大致意思就是当有变化产生时（例如按下字符`1`），就会触发一个change产生，然后就会调用filter来产生一个新的change对象，这个对象会改变最终输入框中的内容。
+
+### 陌生知识：UnaryOperator
+
+和大家一样，平时很少看到这个类，我百度查了一下，这个类叫一元运算符，它继承自`java.util.function.Function`，是jdk中的内容，不是javafx的（包括UnaryOperator也是jdk的内容），源码是这样的：
+
+```java
+/**
+ * Represents an operation on a single operand that produces a result of the
+ * same type as its operand.  This is a specialization of {@code Function} for
+ * the case where the operand and result are of the same type.
+ *
+ * <p>This is a <a href="package-summary.html">functional interface</a>
+ * whose functional method is {@link #apply(Object)}.
+ *
+ * @param <T> the type of the operand and result of the operator
+ *
+ * @see Function
+ * @since 1.8
+ */
+@FunctionalInterface
+public interface UnaryOperator<T> extends Function<T, T> {
+
+    /**
+     * Returns a unary operator that always returns its input argument.
+     *
+     * @param <T> the type of the input and output of the operator
+     * @return a unary operator that always returns its input argument
+     */
+    static <T> UnaryOperator<T> identity() {
+        return t -> t;
+    }
+}
+```
+
+它的意思是输入和输出是同一个值，函数`identity`的意思是总是返回输入的参数，而且只有一个参数，这个一元操作符UnaryOperator被注解@FuntionalInterface了，它是java.lang.包中的内容，代码如下：
+
+```java
+@Documented
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.TYPE)
+public @interface FunctionalInterface {}
+```
+
+已经涉及到很深的内容了，而`identity`我猜测应该是与jdk内部实现有关的，会被自动调用的，所有关于他们就到此为止，不再深入分析。
+
+而我注意到一点，一元操作符UnaryOperator有更优雅的用法。文章开头我们注意到IntegerFilter，我们的写法是让它实现UnaryOperator，但其实可以这么做：
+
+```java
+textfield.setTextFormatter(new TextFormatter<String>((change)->{
+    Pattern DIGIT_PATTERN = Pattern.compile("\\d*");
+    return DIGIT_PATTERN.matcher(change.getText()).matches() ? change : null;
+}))
+```
+
+为啥变化这么大？
+
+慢慢分析发现对lambda知识的了解的欠缺，接下来的内容涉及到java函数式编程lambda表达式的核心内容，敬请下篇文章更新(*^▽^*)
+
+转载请注明出处：https://www.cmlanche.com/

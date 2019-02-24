@@ -1,0 +1,42 @@
+---
+title: JavaFx中gif图片显示内存泄漏
+---
+
+在javafx中显示gif是很方便的，直接把gif文件放到Image对象中即可，比如下代码：
+
+```java
+FileInputStream fis = new FileInputStream(new File(yourgiffile));
+imageview.setImage(new Image(fis))
+fis.close();
+```
+
+显示方便，不表示能用啊！！！
+
+我加载一个369kb的gif文件，每次显示都会增加100M左右的内存！！！，加载一个2.8M的gif，每次都会增加300M以上的内存！！！
+
+Oh my god!!!
+
+简直无法忍受，各种谷歌发现以前有提过这个bug：
+
+<https://bugs.openjdk.java.net/browse/JDK-8119730>
+
+https://bugs.openjdk.java.net/browse/JDK-8117172
+
+> [Christian Schudt (Inactive)](https://bugs.openjdk.java.net/secure/ViewProfile.jspa?name=cschudtjfx) added a comment - 2013-08-29 05:36
+>
+> I also tested with my sample code from [~~RT-28782~~](https://bugs.openjdk.java.net/browse/JDK-8119730):
+> With JavaFX 2.2: OutOfMemoryError after a few iterations.
+> With JavaFX 8: No error. Memory stays low after 1000+ iterations.
+>
+> [Permalink](https://bugs.openjdk.java.net/browse/JDK-8117172?focusedCommentId=13764469&page=com.atlassian.jira.plugin.system.issuetabpanels:comment-tabpanel#comment-13764469)
+>
+> [![akirov](https://bugs.openjdk.java.net/secure/useravatar?size=xsmall&avatarId=10122)Alexander Kirov (Inactive)](https://bugs.openjdk.java.net/secure/ViewProfile.jspa?name=akirov) added a comment - 2013-08-29 05:58
+>
+> ok, close as verified on b104
+
+按照上面的说法，说是已经解决了，可是真解决了吗？
+
+不过有一点可疑的地方就是，我的gif文件尺寸都比较大，369kb的文件尺寸是1500 × 448，2.8M的文件的尺寸是2184 × 1300，查看内存占用发现堆大小涨的非常大，而使用的堆非常小，或许是因为尺寸过大，一次性申请了过大的内存导致的。
+
+![](http://opdi15302.bkt.clouddn.com/QQ20171209-185927@2x.png)
+

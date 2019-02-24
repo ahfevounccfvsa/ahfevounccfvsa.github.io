@@ -1,0 +1,8 @@
+### 安装指定版本的node的方法
+
+```shell
+sudo npm cache clean -f  # 清除缓存
+sudo npm install -g n # 安装node版本工具n
+sudo n 10.13.0 # 10.13.0 是版本号
+# sudo n stable # 安装当前最新的最稳定版本的node
+```

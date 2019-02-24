@@ -1,0 +1,26 @@
+---
+title: 使用java-api在windows上打开本地html文件无法传递query参数
+tags: [java]
+---
+
+使用java api，比如：
+
+awt api:
+
+```java
+Desktop.getDesktop().browse(URI.create("file:///c:\\test.html?q=abc"));
+```
+
+javafx api:
+
+```java
+getHostServices().showDocument("file:///c:\\test.html?q=abc")
+```
+
+打开的浏览器会发现query参数`q=abc`无法传递到浏览器，只能单纯的打开`test.html`，但是mac上经过测试上述两种方式都是可以正常打开的并传递参数的。
+
+值得一提的是，如果uri不是`file:///`的文件协议的话，是可以传递参数的，比如url变成`http://www.baidu.com?q=abc`，是能把q参数传递给浏览器。
+
+### 怎么解决呢?
+
+你可以让你的本地html文件再关联一个js文件，然后打开的时候你把要传递的参数写到文件中，当第一次打开html文件时会从js读取参数，然后重新加载，这样就可以解决啦，只是会加载两次而已。

@@ -1,0 +1,130 @@
+---
+title: JavaFx自定义Tab-Order
+tags: [javafx,javafx-tab-order]
+---
+
+Tab-order是什么？在界面上当你按tab键触发焦点转移的功能，这就是tab order。但是Javafx有个缺陷就是不方便自己设置tab-order的顺序。
+
+<!--more-->
+
+15年JDK爆出这个bug，有人提过：
+
+1. https://bugs.openjdk.java.net/browse/JDK-8090501
+2. https://bugs.openjdk.java.net/browse/JDK-8091673
+
+最后JDK中迫不得已临时把`Parent类`中的私有方法`setImpl_traversalEngine`设置为了`public`，让用户可以设置`Node`自己的`tab-order`顺序。
+
+> 相关解决方案 [stackoverflow](http://stackoverflow.com/questions/15238928/javafx-how-to-change-the-focus-traversal-policy)
+
+示例：
+
+1. fxml文件
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+<?import java.net.URL?>
+<BorderPane fx:id="root" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.cmlanche.easymvvmfx.ui.login.LoginView">
+    <center>
+        <Label style="-fx-font-size: 32" text="hello world"/>
+    </center>
+
+    <bottom>
+        <VBox fx:id="testbox">
+            <Button fx:id="btn" text="tray">
+            </Button>
+            <TextField fx:id="t1"/>
+            <TextField fx:id="t2"/>
+            <TextField fx:id="t3"/>
+        </VBox>
+
+    </bottom>
+
+</BorderPane>
+```
+
+2. Controller文件
+
+```java
+package com.cmlanche.easymvvmfx.ui.login;
+
+import com.fx.base.mvvm.BaseView;
+import com.sun.javafx.scene.traversal.Algorithm;
+import com.sun.javafx.scene.traversal.Direction;
+import com.sun.javafx.scene.traversal.ParentTraversalEngine;
+import com.sun.javafx.scene.traversal.TraversalContext;
+import javafx.fxml.FXML;
+import javafx.scene.Node;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.VBox;
+import tray.notification.NotificationType;
+import tray.notification.TrayNotification;
+
+/**
+ * Created by cmlanche on 2016/12/9.
+ */
+public class LoginView extends BaseView<LoginViewModel> {
+
+    @FXML
+    Button btn;
+    @FXML
+    TextField t1;
+    @FXML
+    TextField t2;
+    @FXML
+    TextField t3;
+    @FXML
+    VBox testbox;
+
+
+    @Override
+    protected void onViewCreated() {
+        t2.setFocusTraversable(true);
+        t2.requestFocus();
+
+        testbox.setImpl_traversalEngine(new ParentTraversalEngine(testbox, new Algorithm() {
+            @Override
+            public Node select(Node owner, Direction dir, TraversalContext context) {
+                if ("t2".equals(owner.getId())) {
+                    return t3;
+                } else if ("t3".equals(owner.getId())) {
+                    return t1;
+                } else if ("t1".equals(owner.getId())) {
+                    return btn;
+                } else {
+                    return t2;
+                }
+            }
+
+            @Override
+            public Node selectFirst(TraversalContext context) {
+                return t2;
+            }
+
+            @Override
+            public Node selectLast(TraversalContext context) {
+                return t1;
+            }
+        }));
+    }
+}
+```
+
+原来的`tab-order`顺序是`btn->t1->t2->t3`，现在的顺序是`t2->t3->t1->btn`。
+
+![javafx-taborder](http://opdi15302.bkt.clouddn.com/2017-05-03%2019_02_46.gif)
+
+> 需要注意的是
+>
+> 1. `setImpl_traversalEngine`是`deprecated`方法，以后可能废弃的api
+> 2. `LoginView`是我的框架[easyMvvmFx](https://github.com/cmlanche/easyMvvmFx)构建的控制器，不能直接放在你代码中运行。
+
+##### 欢迎加我的qq群探讨`JavaFx` `最大最活跃的JavaFx社群 518914410`  

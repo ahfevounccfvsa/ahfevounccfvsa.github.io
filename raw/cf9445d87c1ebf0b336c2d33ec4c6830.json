@@ -1,0 +1,80 @@
+---
+title: Jenkins自动集成小记
+tags: [jenkins]
+---
+
+Jenkins是用来自动构建任务的，也许你还不知道什么叫自动构建任务，它的意思是可以针对某个任务进行自动化，比如你开发的某个软件，每次写完代码提交到`github`之后，你可以设置让Jenkins自动进行打包构建发布包或者进行Units测试，发布报告，不用你每次手工在`IDE`中去Build，尤其是当打包非常繁琐的时候，用自动化构建可以极大的提高工作效率。
+
+<!--more-->
+
+### 前言
+
+公司是同事使用`Jenkins`做的自动化构建，非常方便，每次提交代码，自动检测打包是否成功，然后发送邮件通知，因为我们集成了`findingbugs`插件，在打包前还会对代码进行`findingbus`检索，告诉你`findingbus`的状态，还会生成release的发布包，非常之方便。
+
+`wement.io`这个项目我想多人协作开发，自然想到了Jenkins，让大家能够配合的非常的舒服，昨天折腾了三小时，搞定了`Jenkins`，其中包括怎么创建一个任务，怎么设置`github`，和`github`的项目挂钩，怎么设置邮件通知。
+
+### 安装`Jenkins`
+
+直接去`Jenkins`官网下载`war`包，我这里是直接部署在阿里云的centos7上的，然后用`scp xxx.war root@yourip:/home`直接从本地拷贝到云服务器上，拷贝之后直接用`java -jar xxx.war`就可以运行成功了，如果你期望退出命令行还不关闭`Jenkins`的话，就用命令`nohug java -jar xxx.war`(centos 用nohup)来运行包，java进程自动在后台运行了，关闭命令行窗口也不会退出程序，这样你的`Jenkins`就运行了，默认端口监听在8080，如果你也是用的云服务器，请确保你的8080端口是允许访问的。
+
+当然，要运行`Jenkins`，你需要安装Java环境，如果你的代码仓库用`git`的话请安装git，分别命令如下：
+
+`yum install java`
+
+`yum install git`
+
+还没有完，Jenkins运行成功了，你再在浏览器上打开`yourip:8080`跟随`Jenkins`安装向导，用默认提示安装完成即可，接下来就是创建任务了。
+
+### 创建一个任务
+
+![](http://onrd7xdyg.bkt.clouddn.com/QQ20170810-225528@2x.png)
+
+选择第一性，`构建一个自由风格的软件项目`
+
+![](http://onrd7xdyg.bkt.clouddn.com/QQ20170810-225926@2x.png)
+
+![](http://onrd7xdyg.bkt.clouddn.com/QQ20170810-230126@2x.png)
+
+![](http://onrd7xdyg.bkt.clouddn.com/QQ20170810-230041@2x.png)
+
+![](http://onrd7xdyg.bkt.clouddn.com/3ECD3136-0E4B-4507-BD7C-90CDA2883D17.png)
+
+![](http://onrd7xdyg.bkt.clouddn.com/QQ20170810-230230@2x.png)
+
+![](http://onrd7xdyg.bkt.clouddn.com/QQ20170810-230641@2x.png)
+
+然后保存即可，任务创建完成。但是如果你的项目是私有项目，你需要在你的服务器上生成ssh，然后贴到你的github上，这样做的目的是然github信任你的这个服务器，同时要注意你的Jenkins控制台，有可能要你输入ssh的证书密码。
+
+### 邮件通知
+
+一般来说这个时候右键通知是没问题的，但是我今天发现我提交代码之后，任务并没有自动构建，然后看`Jenkins`打的log是这样的：
+
+```java
+22:23:55 [WARNING] mvn dependency:tree -Ddetail=true and the above output.
+22:23:55 [WARNING] See http://maven.apache.org/plugins/maven-shade-plugin/
+22:23:56 [INFO] ------------------------------------------------------------------------
+22:23:56 [INFO] BUILD SUCCESS
+22:23:56 [INFO] ------------------------------------------------------------------------
+22:23:56 [INFO] Total time: 10.112s
+22:23:56 [INFO] Finished at: Thu Aug 10 22:23:56 CST 2017
+22:23:56 [INFO] Final Memory: 20M/59M
+22:23:56 [INFO] ------------------------------------------------------------------------
+22:23:56 Archiving artifacts
+22:23:56 Email was triggered for: Always
+22:23:56 Sending email for trigger: Always
+22:23:56 Not sending mail to unregistered user chengming@testin.cn because your SCM claimed this was associated with a user ID ‘chengming' which your security realm does not recognize; you may need changes in your SCM plugin
+22:23:56 An attempt to send an e-mail to empty list of recipients, ignored.
+22:23:56 Finished: SUCCESS
+```
+
+意思是构建成功了，但是发送邮件发现提交代码的用户名是`chengming`而不是我在`Jenkins`中设置的`cmlanche`，然后Jenkins自动忽略了发送邮件的这个行为。
+
+然后我在我的`sourcetree`中把提交代码的用户换回了`cmlanche`，任务自动构建，邮件发送成功！
+
+### Jenkins分享（一）小结
+
+`Jenkins`是一个非常方便的工具，免费开源，推荐大家都来学习，都折腾下，对你以后大有好处。我其实也是刚刚学这个，知道的还不多，还需要花很多时间去折腾，有更新的收获我会慢慢分享出来。
+
+欢迎加入我的`Java栈群`：518914410，讨论有关Java的一切技术。
+
+参考另一个小菜的文章：[Jenkins+Github持续集成](http://www.jianshu.com/p/b2ed4d23a3a9)
