@@ -407,7 +407,7 @@
 </table>
 <h3 id="UIAutomator1-0"><a href="#UIAutomator1-0" class="headerlink" title="UIAutomator1.0"></a>UIAutomator1.0</h3><p>官网已经没有1.0的链接了，只有2.0的，我在其他地方找到老学习链接：<a href="https://stuff.mit.edu/afs/sipb/project/android/docs/tools/help/uiautomator/index.html" target="_blank" rel="noopener">https://stuff.mit.edu/afs/sipb/project/android/docs/tools/help/uiautomator/index.html</a></p>
 <p>UIAutomator的运行包是一个jar包，运行命令大致如</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> yourtest.jar是你的jar在android系统的具体文件路径，通常放在/data/<span class="built_in">local</span>/tmp/目录下</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> yourjarclass是你要执行的测试方法，例如com.test.YourTestClass<span class="comment">#functionname</span></span></span><br><span class="line">adb shell uiautomator runtest yourtest.jar -c yourjarclass#function</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span> yourtest.jar是你的jar在android系统的具体文件路径，通常放在/data/local/tmp/目录下</span><br><span class="line"><span class="meta">#</span> yourjarclass是你要执行的测试方法，例如com.test.YourTestClass#functionname</span><br><span class="line">adb shell uiautomator runtest yourtest.jar -c yourjarclass#function</span><br></pre></td></tr></table></figure>
 <p>运行起来后，我们用命令查看UIAutomator1.0的进程是shell的</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">chengmingdembp:Downloads cmlanche$ adb shell ps | grep uia</span><br><span class="line">shell     4101  4098  2048608 61680 futex_wait 7f81656170 S uiautomator</span><br><span class="line">chengmingdembp:Downloads cmlanche$</span><br></pre></td></tr></table></figure>
 <p>所以它的权限是比较高的，启动之后便可以执行，也不需要安装，虽然它在这方面很便利，但它的获取控件信息的能力很鸡肋，只能获取到一个AccessibilityNodeInfo的root节点，而实际上，多root的情况是普遍存在的，尤其是5.0以后的android版本。</p>
@@ -416,7 +416,7 @@
 <p>官网：<a href="https://developer.android.com/training/testing/ui-automator" target="_blank" rel="noopener">https://developer.android.com/training/testing/ui-automator</a></p>
 <p>更好上网请用：<a href="https://www.expressrefer.com/refer-friend?referrer_id=13813836&amp;utm_campaign=referrals&amp;utm_medium=copy_link&amp;utm_source=referral_dashboard" target="_blank" rel="noopener">expressvpn</a></p>
 <p>2.0加入了Instrument支持，它的执行命令类似这样的：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 详情请到官网学习</span></span><br><span class="line">adb shell am instrument -w -r -e debug false -e class ....</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span> 详情请到官网学习</span><br><span class="line">adb shell am instrument -w -r -e debug false -e class ....</span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -573,7 +573,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">40</span>
+                  <span class="site-state-item-count">42</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
