@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="tinypng,七牛云,七牛云客户端,个人博客客户端," />
+  <meta name="keywords" content="hostingranking.cn,技术架构," />
 
 
 
@@ -79,21 +79,23 @@
 
 
 
-<meta name="description" content="想法来源个人写博客，很多情况下需要图片，而图片的话需要压缩，否则占用空间太大，使得网站反应慢，而且占流量，同时减少云存储大小，减少损失，对静态网站比如hexo或者hugo直接写markdown这种形式的博客，需要上传文件取得一个文件url，那么现有就没有一个很好的方式来自动处理这种需求了。 ###目前想做的功能  压缩图片（支持png，gif，jpg） 图片上传（使用七牛云） 直接复制markdo">
-<meta name="keywords" content="tinypng,七牛云,七牛云客户端,个人博客客户端">
+<meta name="description" content="本篇纯粹只讲hostingranking.cn网站的技术架构，也就是怎么做到的，达到什么效果。至于它是什么，为什么要做暂且不说，另篇会分享。  技术组成首先hostingranking.cn是基于ghost博客平台而构建的，ghost最强大的部分就是可以最大限度的让你DIY网站，能力特别强。如下是技术组成图：  技术讲解    运行环境 用途     Ghost Nodejs 博客平台，可供主题">
+<meta name="keywords" content="hostingranking.cn,技术架构">
 <meta property="og:type" content="article">
-<meta property="og:title" content="图片压缩(tinypng)+七牛云存储客户端">
-<meta property="og:url" content="http://www.cmlanche.com/2017/12/03/图片压缩(tinypng)+七牛云存储客户端/index.html">
+<meta property="og:title" content="hostingranking.cn·基于ghost的轻量技术架构整理">
+<meta property="og:url" content="http://www.cmlanche.com/2019/02/24/hostingranking.cn技术架构/index.html">
 <meta property="og:site_name" content="cmlanche">
-<meta property="og:description" content="想法来源个人写博客，很多情况下需要图片，而图片的话需要压缩，否则占用空间太大，使得网站反应慢，而且占流量，同时减少云存储大小，减少损失，对静态网站比如hexo或者hugo直接写markdown这种形式的博客，需要上传文件取得一个文件url，那么现有就没有一个很好的方式来自动处理这种需求了。 ###目前想做的功能  压缩图片（支持png，gif，jpg） 图片上传（使用七牛云） 直接复制markdo">
+<meta property="og:description" content="本篇纯粹只讲hostingranking.cn网站的技术架构，也就是怎么做到的，达到什么效果。至于它是什么，为什么要做暂且不说，另篇会分享。  技术组成首先hostingranking.cn是基于ghost博客平台而构建的，ghost最强大的部分就是可以最大限度的让你DIY网站，能力特别强。如下是技术组成图：  技术讲解    运行环境 用途     Ghost Nodejs 博客平台，可供主题">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://opdi15302.bkt.clouddn.com/QQ20171203-112955@2x.png">
-<meta property="og:image" content="http://opdi15302.bkt.clouddn.com/QQ20171203-113116@2x.png">
-<meta property="og:updated_time" content="2017-12-03T03:55:51.000Z">
+<meta property="og:image" content="https://cmlanche-1251406926.cos.ap-guangzhou.myqcloud.com/blog/o6rge.png">
+<meta property="og:image" content="https://cmlanche-1251406926.cos.ap-guangzhou.myqcloud.com/blog/7yo6p.png">
+<meta property="og:image" content="https://cmlanche-1251406926.cos.ap-guangzhou.myqcloud.com/blog/g3dpx.png">
+<meta property="og:image" content="https://cmlanche-1251406926.cos.ap-guangzhou.myqcloud.com/blog/cdi8l.png">
+<meta property="og:updated_time" content="2019-02-24T07:13:49.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="图片压缩(tinypng)+七牛云存储客户端">
-<meta name="twitter:description" content="想法来源个人写博客，很多情况下需要图片，而图片的话需要压缩，否则占用空间太大，使得网站反应慢，而且占流量，同时减少云存储大小，减少损失，对静态网站比如hexo或者hugo直接写markdown这种形式的博客，需要上传文件取得一个文件url，那么现有就没有一个很好的方式来自动处理这种需求了。 ###目前想做的功能  压缩图片（支持png，gif，jpg） 图片上传（使用七牛云） 直接复制markdo">
-<meta name="twitter:image" content="http://opdi15302.bkt.clouddn.com/QQ20171203-112955@2x.png">
+<meta name="twitter:title" content="hostingranking.cn·基于ghost的轻量技术架构整理">
+<meta name="twitter:description" content="本篇纯粹只讲hostingranking.cn网站的技术架构，也就是怎么做到的，达到什么效果。至于它是什么，为什么要做暂且不说，另篇会分享。  技术组成首先hostingranking.cn是基于ghost博客平台而构建的，ghost最强大的部分就是可以最大限度的让你DIY网站，能力特别强。如下是技术组成图：  技术讲解    运行环境 用途     Ghost Nodejs 博客平台，可供主题">
+<meta name="twitter:image" content="https://cmlanche-1251406926.cos.ap-guangzhou.myqcloud.com/blog/o6rge.png">
 
 
 
@@ -123,13 +125,13 @@
 
 
 
-  <link rel="canonical" href="http://www.cmlanche.com/2017/12/03/图片压缩(tinypng)+七牛云存储客户端/"/>
+  <link rel="canonical" href="http://www.cmlanche.com/2019/02/24/hostingranking.cn技术架构/"/>
 
 
 
 
 
-  <title>图片压缩(tinypng)+七牛云存储客户端 | cmlanche</title>
+  <title>hostingranking.cn·基于ghost的轻量技术架构整理 | cmlanche</title>
   
 
 
@@ -266,7 +268,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.cmlanche.com/2017/12/03/图片压缩(tinypng)+七牛云存储客户端/">
+    <link itemprop="mainEntityOfPage" href="http://www.cmlanche.com/2019/02/24/hostingranking.cn技术架构/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="cmlanche">
@@ -283,7 +285,7 @@
 
         
         
-          <h2 class="post-title" itemprop="name headline">图片压缩(tinypng)+七牛云存储客户端</h2>
+          <h2 class="post-title" itemprop="name headline">hostingranking.cn·基于ghost的轻量技术架构整理</h2>
         
 
         <div class="post-meta">
@@ -295,8 +297,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-03T11:28:41+08:00">
-                2017-12-03
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-24T13:40:05+08:00">
+                2019-02-24
               </time>
             
 
@@ -313,7 +315,7 @@
 
           
           
-             <span id="/2017/12/03/图片压缩(tinypng)+七牛云存储客户端/" class="leancloud_visitors" data-flag-title="图片压缩(tinypng)+七牛云存储客户端">
+             <span id="/2019/02/24/hostingranking.cn技术架构/" class="leancloud_visitors" data-flag-title="hostingranking.cn·基于ghost的轻量技术架构整理">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -338,7 +340,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  523 字
+                  973 字
                 </span>
               
 
@@ -354,7 +356,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  2 分钟
+                  3 分钟
                 </span>
               
             </div>
@@ -375,20 +377,85 @@
       
 
       
-        <h3 id="想法来源"><a href="#想法来源" class="headerlink" title="想法来源"></a>想法来源</h3><p>个人写博客，很多情况下需要图片，而图片的话需要压缩，否则占用空间太大，使得网站反应慢，而且占流量，同时减少云存储大小，减少损失，对静态网站比如hexo或者hugo直接写markdown这种形式的博客，需要上传文件取得一个文件url，那么现有就没有一个很好的方式来自动处理这种需求了。</p>
-<p>###目前想做的功能</p>
-<ol>
-<li>压缩图片（支持png，gif，jpg）</li>
-<li>图片上传（使用七牛云）</li>
-<li>直接复制markdown文本到剪贴板（直接在客户端赋值粘贴到你用的编辑器即可）</li>
+        <blockquote>
+<p>本篇纯粹只讲hostingranking.cn网站的技术架构，也就是怎么做到的，达到什么效果。至于它是什么，为什么要做暂且不说，另篇会分享。</p>
+</blockquote>
+<h3 id="技术组成"><a href="#技术组成" class="headerlink" title="技术组成"></a>技术组成</h3><p>首先hostingranking.cn是基于ghost博客平台而构建的，ghost最强大的部分就是可以最大限度的让你DIY网站，能力特别强。如下是技术组成图：</p>
+<p><img src="https://cmlanche-1251406926.cos.ap-guangzhou.myqcloud.com/blog/o6rge.png" alt="image-20190224143748243"></p>
+<h3 id="技术讲解"><a href="#技术讲解" class="headerlink" title="技术讲解"></a>技术讲解</h3><table>
+<thead>
+<tr>
+<th></th>
+<th>运行环境</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Ghost</td>
+<td>Nodejs</td>
+<td>博客平台，可供主题创作的环境，博客管理，SEO等一系列可插拔的功能</td>
+</tr>
+<tr>
+<td>JQuery</td>
+<td>Javascript</td>
+<td>前端js交互</td>
+</tr>
+<tr>
+<td>handlebar</td>
+<td>-</td>
+<td>网页模板</td>
+</tr>
+<tr>
+<td>spring boot</td>
+<td>java</td>
+<td>提供后端服务，连接第三方服务</td>
+</tr>
+<tr>
+<td>typeform</td>
+<td></td>
+<td>第三方问卷调查服务</td>
+</tr>
+<tr>
+<td>mailchimp</td>
+<td></td>
+<td>第三方邮件服务</td>
+</tr>
+</tbody>
+</table>
+<h3 id="主要功能"><a href="#主要功能" class="headerlink" title="主要功能"></a>主要功能</h3><ol>
+<li>ghost主题制作，呈现网站基本内容</li>
+<li>个性化主机推荐</li>
+<li>博客</li>
 </ol>
-<p>###目前是否有这样方便的客户端呢？</p>
-<p><img src="http://opdi15302.bkt.clouddn.com/QQ20171203-112955@2x.png" alt=""></p>
-<p>从上图来看，社区插件有很多，但大多数都是针对编辑器或者博客论坛系统的，但毕竟无法针对所有的编辑器都提供支持，像使用typora等编辑器直接编写markdown的人来说，就没办法使用七牛云了，况且需要对图片进行压缩处理，不然对你使用七牛云来说可能会涉及到付费了，对你的网站来说有负载，加载也慢。</p>
-<p><strong>所以开发一款集合图片上传和图片压缩的跨平台客户端是有多重要，而对这种需求没有比用Javafx更有快速有效的了。</strong></p>
-<h3 id="图片压缩测试"><a href="#图片压缩测试" class="headerlink" title="图片压缩测试"></a>图片压缩测试</h3><p>使用<a href="https://tinypng.com/" target="_blank" rel="noopener">tinypng</a>来测试对png图片的压缩看看就知道效果了</p>
-<p><img src="http://opdi15302.bkt.clouddn.com/QQ20171203-113116@2x.png" alt=""></p>
-<h3 id="工欲善其事，必先利其器"><a href="#工欲善其事，必先利其器" class="headerlink" title="工欲善其事，必先利其器"></a>工欲善其事，必先利其器</h3><p>写博客，内容是关键，但是如果说复制图片粘贴图片都弄的那么麻烦，要手动打开各种网站去操作一系列才能完成一张图片的工作，那太繁琐了！<strong>工欲善其事，必先利其器</strong>，我的本职工作是做自动化测试的，见到这种情况必须自动化起来，所以我决定使用JavaFx来开发这样一款客户端。开源地址:<a href="https://github.com/cmlanche/javafx-qiniu-tinypng-client.git" target="_blank" rel="noopener">https://github.com/cmlanche/javafx-qiniu-tinypng-client.git</a></p>
+<h4 id="ghost主题制作"><a href="#ghost主题制作" class="headerlink" title="ghost主题制作"></a>ghost主题制作</h4><p>ghost主题制作非常简单，只要你会写js+html+css即可制作，另外最好要学会handlebar模板语言，会让你制作主题事半功倍，入门制作教程参考我另一篇文章：<a href="https://cmlanche.com/2018/08/26/%E5%88%B6%E4%BD%9Cghost%E4%B8%BB%E9%A2%98/" target="_blank" rel="noopener">https://cmlanche.com/2018/08/26/%E5%88%B6%E4%BD%9Cghost%E4%B8%BB%E9%A2%98/</a></p>
+<h4 id="个性化主机推荐"><a href="#个性化主机推荐" class="headerlink" title="个性化主机推荐"></a>个性化主机推荐</h4><p>#####基本流程如下</p>
+<ol>
+<li>采用typeform来制作表单</li>
+<li>开启typeform的webhook，意思就是当客户提交表单的时候，会往这个webhook url发送一个post请求，来告诉你有用户提交了，以及提交的数据。</li>
+<li>spring boot是我们的后端服务，专门用来制作webhook接口的，不要把webhook想的很神圣，没什么难的，webhook接口其实就是一个普通接口，只是它被用来处理webhook发送来的数据罢了。</li>
+<li>spring boot收到typeform提交的问卷信息后，去调用mailchimp的api，创建邮件，发送给客户。</li>
+</ol>
+<h5 id="活动图如下"><a href="#活动图如下" class="headerlink" title="活动图如下"></a>活动图如下</h5><p><img src="https://cmlanche-1251406926.cos.ap-guangzhou.myqcloud.com/blog/7yo6p.png" alt="image-20190224145254076"></p>
+<p>我最终通过spring Boot接收webhook传递过来的不同数据，生成不同的推荐结果。</p>
+<p>你可以在<a href="https://hostingranking.cn" target="_blank" rel="noopener">hostingranking.cn</a>的实现效果，看自己是否能收到邮件，收到的是什么。</p>
+<h3 id="typeform"><a href="#typeform" class="headerlink" title="typeform"></a>typeform</h3><p>强大的问卷调查产品，体验无与伦比，生成的文件简单简洁，完整的api支撑，对刚起步的新手产品免费支持，更重要的是，支持中文！在国内访问畅通无阻！下图是我hostingranking.cn产品涉及到的问卷设计：</p>
+<p><img src="https://cmlanche-1251406926.cos.ap-guangzhou.myqcloud.com/blog/g3dpx.png" alt="QQ20190224-145959@2x"></p>
+<h3 id="mailchimp"><a href="#mailchimp" class="headerlink" title="mailchimp"></a>mailchimp</h3><p>世界上最常用的邮箱市场营销工具，好处如下：</p>
+<ol>
+<li>完全的开放，完整的api支持，支持用zapper连接上百款常用产品</li>
+<li>中国访问速度还可以，用api调用无碍</li>
+<li>诚意满满的新手产品扶助计划，帮助新产品达到足够规模再收费！</li>
+</ol>
+<p>按照上面说的个性化功能，当你提交问卷之后，我的mailchimp后台会看到发送状态，以及打开和点击的状态，如下图：</p>
+<p><img src="https://cmlanche-1251406926.cos.ap-guangzhou.myqcloud.com/blog/cdi8l.png" alt="QQ20190224-150720@2x"></p>
+<blockquote>
+<p>一点吐槽：看到typeform和mailchimp，我想国外的东西做的真是开放，各种api都支持，反观国内，则各种保护，就比如知乎、博客园、segmentfault等都是不开放api的，这点让我觉得国内还不够开放。</p>
+</blockquote>
+<h3 id="博客"><a href="#博客" class="headerlink" title="博客"></a>博客</h3><p>博客功能是ghost内置的核心功能，目前我没有在hostingranking.cn中开放，因为博客页面和详情页面的功能还没做好，等做好了再贴图了。</p>
+<p>先用我的个人博客网站代替了：<a href="https://cmlanche.com" target="_blank" rel="noopener">https://cmlanche.com</a>  (托管在github pages上的)</p>
+<h3 id="附"><a href="#附" class="headerlink" title="附"></a>附</h3><p>hostingranking.cn网站托管在<a href="http://bit.ly/tryvultr" target="_blank" rel="noopener">Vultr</a>主机上，买的最低配的VPS，每个月5美金</p>
+<p>如果你要买它的主机并且你的主要客户在大陆的话，你一定要买日本的主机，不要买美国和新加坡的，因为日本的平均ping值是最低的，大约一百多，新加坡的主机会绕过日本再到中国，慢一些，而美国的大概两三百。</p>
 
       
     </div>
@@ -409,7 +476,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://www.cmlanche.com/2017/12/03/图片压缩(tinypng)+七牛云存储客户端/" title="图片压缩(tinypng)+七牛云存储客户端">http://www.cmlanche.com/2017/12/03/图片压缩(tinypng)+七牛云存储客户端/</a>
+    <a href="http://www.cmlanche.com/2019/02/24/hostingranking.cn技术架构/" title="hostingranking.cn·基于ghost的轻量技术架构整理">http://www.cmlanche.com/2019/02/24/hostingranking.cn技术架构/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>
@@ -424,13 +491,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/tinypng/" rel="tag"># tinypng</a>
+            <a href="/tags/hostingranking-cn/" rel="tag"># hostingranking.cn</a>
           
-            <a href="/tags/七牛云/" rel="tag"># 七牛云</a>
-          
-            <a href="/tags/七牛云客户端/" rel="tag"># 七牛云客户端</a>
-          
-            <a href="/tags/个人博客客户端/" rel="tag"># 个人博客客户端</a>
+            <a href="/tags/技术架构/" rel="tag"># 技术架构</a>
           
         </div>
       
@@ -443,8 +506,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/12/02/stackpane/" rel="next" title="JavaFx新手教程-布局-StackPane">
-                <i class="fa fa-chevron-left"></i> JavaFx新手教程-布局-StackPane
+              <a href="/2019/02/24/微创业/" rel="next" title="程序员的微创业">
+                <i class="fa fa-chevron-left"></i> 程序员的微创业
               </a>
             
           </div>
@@ -452,10 +515,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/12/09/JavaFx中gif图片显示内存泄漏/" rel="prev" title="JavaFx中gif图片显示内存泄漏">
-                JavaFx中gif图片显示内存泄漏 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -598,7 +657,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#想法来源"><span class="nav-number">1.</span> <span class="nav-text">想法来源</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#图片压缩测试"><span class="nav-number">2.</span> <span class="nav-text">图片压缩测试</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#工欲善其事，必先利其器"><span class="nav-number">3.</span> <span class="nav-text">工欲善其事，必先利其器</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#技术组成"><span class="nav-number">1.</span> <span class="nav-text">技术组成</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#技术讲解"><span class="nav-number">2.</span> <span class="nav-text">技术讲解</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#主要功能"><span class="nav-number">3.</span> <span class="nav-text">主要功能</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#ghost主题制作"><span class="nav-number">3.1.</span> <span class="nav-text">ghost主题制作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#个性化主机推荐"><span class="nav-number">3.2.</span> <span class="nav-text">个性化主机推荐</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#活动图如下"><span class="nav-number">3.2.1.</span> <span class="nav-text">活动图如下</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#typeform"><span class="nav-number">4.</span> <span class="nav-text">typeform</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mailchimp"><span class="nav-number">5.</span> <span class="nav-text">mailchimp</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#博客"><span class="nav-number">6.</span> <span class="nav-text">博客</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#附"><span class="nav-number">7.</span> <span class="nav-text">附</span></a></li></ol></div>
             
 
           </div>

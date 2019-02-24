@@ -1,0 +1,84 @@
+---
+title: hostingranking.cn·基于ghost的轻量技术架构整理
+tags: [hostingranking.cn, 技术架构]
+---
+
+> 本篇纯粹只讲hostingranking.cn网站的技术架构，也就是怎么做到的，达到什么效果。至于它是什么，为什么要做暂且不说，另篇会分享。
+
+### 技术组成
+
+首先hostingranking.cn是基于ghost博客平台而构建的，ghost最强大的部分就是可以最大限度的让你DIY网站，能力特别强。如下是技术组成图：
+
+![image-20190224143748243](https://cmlanche-1251406926.cos.ap-guangzhou.myqcloud.com/blog/o6rge.png)
+
+### 技术讲解
+
+|             | 运行环境   | 用途                                                         |
+| ----------- | ---------- | ------------------------------------------------------------ |
+| Ghost       | Nodejs     | 博客平台，可供主题创作的环境，博客管理，SEO等一系列可插拔的功能 |
+| JQuery      | Javascript | 前端js交互                                                   |
+| handlebar   | -          | 网页模板                                                     |
+| spring boot | java       | 提供后端服务，连接第三方服务                                 |
+| typeform    |            | 第三方问卷调查服务                                           |
+| mailchimp   |            | 第三方邮件服务                                               |
+
+### 主要功能
+
+1. ghost主题制作，呈现网站基本内容
+2. 个性化主机推荐
+3. 博客
+
+#### ghost主题制作
+
+ghost主题制作非常简单，只要你会写js+html+css即可制作，另外最好要学会handlebar模板语言，会让你制作主题事半功倍，入门制作教程参考我另一篇文章：https://cmlanche.com/2018/08/26/%E5%88%B6%E4%BD%9Cghost%E4%B8%BB%E9%A2%98/
+
+#### 个性化主机推荐
+
+#####基本流程如下
+
+1. 采用typeform来制作表单
+2. 开启typeform的webhook，意思就是当客户提交表单的时候，会往这个webhook url发送一个post请求，来告诉你有用户提交了，以及提交的数据。
+3. spring boot是我们的后端服务，专门用来制作webhook接口的，不要把webhook想的很神圣，没什么难的，webhook接口其实就是一个普通接口，只是它被用来处理webhook发送来的数据罢了。
+4. spring boot收到typeform提交的问卷信息后，去调用mailchimp的api，创建邮件，发送给客户。
+
+##### 活动图如下
+
+![image-20190224145254076](https://cmlanche-1251406926.cos.ap-guangzhou.myqcloud.com/blog/7yo6p.png)
+
+我最终通过spring Boot接收webhook传递过来的不同数据，生成不同的推荐结果。
+
+你可以在[hostingranking.cn](https://hostingranking.cn)的实现效果，看自己是否能收到邮件，收到的是什么。
+
+### typeform
+
+强大的问卷调查产品，体验无与伦比，生成的文件简单简洁，完整的api支撑，对刚起步的新手产品免费支持，更重要的是，支持中文！在国内访问畅通无阻！下图是我hostingranking.cn产品涉及到的问卷设计：
+
+![QQ20190224-145959@2x](https://cmlanche-1251406926.cos.ap-guangzhou.myqcloud.com/blog/g3dpx.png)
+
+### mailchimp
+
+世界上最常用的邮箱市场营销工具，好处如下：
+
+1. 完全的开放，完整的api支持，支持用zapper连接上百款常用产品
+2. 中国访问速度还可以，用api调用无碍
+3. 诚意满满的新手产品扶助计划，帮助新产品达到足够规模再收费！
+
+按照上面说的个性化功能，当你提交问卷之后，我的mailchimp后台会看到发送状态，以及打开和点击的状态，如下图：
+
+![QQ20190224-150720@2x](https://cmlanche-1251406926.cos.ap-guangzhou.myqcloud.com/blog/cdi8l.png)
+
+
+
+> 一点吐槽：看到typeform和mailchimp，我想国外的东西做的真是开放，各种api都支持，反观国内，则各种保护，就比如知乎、博客园、segmentfault等都是不开放api的，这点让我觉得国内还不够开放。
+
+### 博客
+
+博客功能是ghost内置的核心功能，目前我没有在hostingranking.cn中开放，因为博客页面和详情页面的功能还没做好，等做好了再贴图了。
+
+先用我的个人博客网站代替了：https://cmlanche.com  (托管在github pages上的)
+
+### 附
+
+hostingranking.cn网站托管在[Vultr](http://bit.ly/tryvultr)主机上，买的最低配的VPS，每个月5美金
+
+如果你要买它的主机并且你的主要客户在大陆的话，你一定要买日本的主机，不要买美国和新加坡的，因为日本的平均ping值是最低的，大约一百多，新加坡的主机会绕过日本再到中国，慢一些，而美国的大概两三百。
