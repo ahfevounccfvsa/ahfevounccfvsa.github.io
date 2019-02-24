@@ -371,14 +371,14 @@
       
 
       
-        <h3 id="以开发模式启动ghost"><a href="#以开发模式启动ghost" class="headerlink" title="以开发模式启动ghost"></a>以开发模式启动ghost</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cd yourghostpath</span><br><span class="line">ghost start --development</span><br><span class="line"><span class="meta">#</span><span class="bash"> 如果你已经启动了ghost，但不是开发模式，你可以用ghost stop来结束ghost</span></span><br></pre></td></tr></table></figure>
+        <h3 id="以开发模式启动ghost"><a href="#以开发模式启动ghost" class="headerlink" title="以开发模式启动ghost"></a>以开发模式启动ghost</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cd yourghostpath</span><br><span class="line">ghost start --development</span><br><span class="line"><span class="meta">#</span> 如果你已经启动了ghost，但不是开发模式，你可以用ghost stop来结束ghost</span><br></pre></td></tr></table></figure>
 <h3 id="建立主题目录"><a href="#建立主题目录" class="headerlink" title="建立主题目录"></a>建立主题目录</h3><p>首先主题的开发环境是nodejs，所以要我们要先用nodejs构建一个项目，比如我们的项目是example:</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cd yourghostpath/content/themes</span><br><span class="line">mkdir example</span><br><span class="line">cd example</span><br><span class="line">npm init</span><br></pre></td></tr></table></figure>
 <p>按照提示建立好基本的package.json，ghost主题最少的要求是有2个文件：index.hbs和post.hbs，这里hbs文件是<a href="https://themes.ghost.org/docs/handlebars" target="_blank" rel="noopener">handlerbars</a>文件，它是一个模板引擎，而ghost只支持用handlerbars，所以掌握handlerbars很重要，其实也不难，关键是要了解怎么传递值的。<br>目录和文件建立好了，主题就算完成了，虽然一句代码都没有，但他确实能够正常运转！</p>
 <h3 id="激活主题"><a href="#激活主题" class="headerlink" title="激活主题"></a>激活主题</h3><p>打开你的网站后台<code>http://localhost:2368/ghost</code>，在<code>Design</code>-<code>Themes</code>中可以看到你的主题example，然后点击<code>active</code>激活，此时会弹出一个警告框，不管它，主题已经可以正常使用了，只是它是个空的，打开<code>http://localhost:2368</code>验证一下</p>
 <p>###热加载</p>
 <p>它的目的是可以实时加载刷新页面，你需要安装<a href="https://docs.ghost.org/docs/install-local#section-developing-themes" target="_blank" rel="noopener">nodemon</a></p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 需要先停止ghost</span></span><br><span class="line">ghost stop</span><br><span class="line"><span class="meta">#</span><span class="bash"> 安装nodemon</span></span><br><span class="line">npm install -g nodemon@latest</span><br><span class="line"><span class="meta">#</span><span class="bash"> 切换到你的主题目录下</span></span><br><span class="line">cd yourthemedevpath</span><br><span class="line"><span class="meta">#</span><span class="bash"> 热加载</span></span><br><span class="line">nodemon index.js --watch ./ --ext hbs,js,css</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span> 需要先停止ghost</span><br><span class="line">ghost stop</span><br><span class="line"><span class="meta">#</span> 安装nodemon</span><br><span class="line">npm install -g nodemon@latest</span><br><span class="line"><span class="meta">#</span> 切换到你的主题目录下</span><br><span class="line">cd yourthemedevpath</span><br><span class="line"><span class="meta">#</span> 热加载</span><br><span class="line">nodemon index.js --watch ./ --ext hbs,js,css</span><br></pre></td></tr></table></figure>
 <p>这是制作主题的基本套路，完成这些后就需要编写主题的代码了</p>
 
       
@@ -515,7 +515,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">35</span>
+                  <span class="site-state-item-count">34</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

@@ -374,10 +374,10 @@
       
         <p>自动部署很有用，当你写完文章后，直接使用<code>hexo d</code>就可以自动更新你的网站了</p>
 <h3 id="部署到git"><a href="#部署到git" class="headerlink" title="部署到git"></a>部署到git</h3><p>首先你需要在你的blog下安装git deployer插件：<code>npm install hexo-deployer-git --save</code>，然后再把如下代码添加到你的_config.yml文件中</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">## git deploy</span></span></span><br><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  repo: https://github.com/cmlanche/cmlanche.github.io.git  # 你的远程仓库</span><br><span class="line">  branch: master # 你的远程残酷分支</span><br><span class="line">  message: "hello guys" # 每次提交的信息</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span>## git deploy</span><br><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  repo: https://github.com/cmlanche/cmlanche.github.io.git  # 你的远程仓库</span><br><span class="line">  branch: master # 你的远程残酷分支</span><br><span class="line">  message: "hello guys" # 每次提交的信息</span><br></pre></td></tr></table></figure>
 <p>需要注意的是，部署到git需要再本地安装你ssh key，也就是说允许本地进行读写远程git仓库，否则你会没权限的</p>
 <h3 id="部署到ftp服务器"><a href="#部署到ftp服务器" class="headerlink" title="部署到ftp服务器"></a>部署到ftp服务器</h3><p>你可能会用一台虚拟主机来部署你的hexo个人站点，那么fip怎么部署? 首先你需要下载安装ftp deployer插件：<code>npm install hexo-deployer-ftpsync --save</code>，然后把你下面的代码贴到你的_config.yml中，注意修改ftp的相关参数。</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">### ftp deploy</span></span></span><br><span class="line">deploy:</span><br><span class="line"> type: ftpsync</span><br><span class="line"> host: ftpserver # ftp服务器地址</span><br><span class="line"> user: ftpusername # ftp用户名</span><br><span class="line"> pass: xxxx # 你的ftp用户密码</span><br><span class="line"> remote: xxx # 你要上传到的地址，例如/wwwroot</span><br><span class="line"> port: 21 # ftp端口，不同的ftp可能会不一样</span><br><span class="line"> delete: true # 上传本地文件是否删除ftp中的所有文件</span><br><span class="line"> verbose: true # 是否打印调试信息</span><br><span class="line"> ignore_errors: false # 是否忽略错误</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span>### ftp deploy</span><br><span class="line">deploy:</span><br><span class="line"> type: ftpsync</span><br><span class="line"> host: ftpserver # ftp服务器地址</span><br><span class="line"> user: ftpusername # ftp用户名</span><br><span class="line"> pass: xxxx # 你的ftp用户密码</span><br><span class="line"> remote: xxx # 你要上传到的地址，例如/wwwroot</span><br><span class="line"> port: 21 # ftp端口，不同的ftp可能会不一样</span><br><span class="line"> delete: true # 上传本地文件是否删除ftp中的所有文件</span><br><span class="line"> verbose: true # 是否打印调试信息</span><br><span class="line"> ignore_errors: false # 是否忽略错误</span><br></pre></td></tr></table></figure>
 <h3 id="部署到远程主机，通常如VPS或者云服务器"><a href="#部署到远程主机，通常如VPS或者云服务器" class="headerlink" title="部署到远程主机，通常如VPS或者云服务器"></a>部署到远程主机，通常如VPS或者云服务器</h3><p>同样要下载hexo deployer: <code>npm install hexo-deployer-rsync --save</code>，然后代码奉上：</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  type: rsync</span><br><span class="line">  host: &lt;host&gt; # 主机地址</span><br><span class="line">  user: &lt;user&gt; # 用户名</span><br><span class="line">  root: &lt;root&gt; # 要上传到的目录</span><br><span class="line">  port: [port] # Default is 22</span><br><span class="line">  delete: [true|false] # Default is true</span><br><span class="line">  args: &lt;rsync args&gt;</span><br><span class="line">  verbose: [true|false] # Default is true</span><br><span class="line">  ignore_errors: [true|false] # Default is false</span><br></pre></td></tr></table></figure>
 <blockquote>
@@ -534,7 +534,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">35</span>
+                  <span class="site-state-item-count">34</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
