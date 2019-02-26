@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="cmlanche">
 <meta property="og:description" content="以开发模式启动ghostcd yourghostpathghost start --development# 如果你已经启动了ghost，但不是开发模式，你可以用ghost stop来结束ghost 建立主题目录首先主题的开发环境是nodejs，所以要我们要先用nodejs构建一个项目，比如我们的项目是example: cd yourghostpath/content/themesmkdir ex">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-02-24T00:53:33.000Z">
+<meta property="og:updated_time" content="2019-02-26T06:40:56.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="制作ghost主题">
 <meta name="twitter:description" content="以开发模式启动ghostcd yourghostpathghost start --development# 如果你已经启动了ghost，但不是开发模式，你可以用ghost stop来结束ghost 建立主题目录首先主题的开发环境是nodejs，所以要我们要先用nodejs构建一个项目，比如我们的项目是example: cd yourghostpath/content/themesmkdir ex">
@@ -376,6 +376,7 @@
 <h3 id="建立主题目录"><a href="#建立主题目录" class="headerlink" title="建立主题目录"></a>建立主题目录</h3><p>首先主题的开发环境是nodejs，所以要我们要先用nodejs构建一个项目，比如我们的项目是example:</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cd yourghostpath/content/themes</span><br><span class="line">mkdir example</span><br><span class="line">cd example</span><br><span class="line">npm init</span><br></pre></td></tr></table></figure>
 <p>按照提示建立好基本的package.json，ghost主题最少的要求是有2个文件：index.hbs和post.hbs，这里hbs文件是<a href="https://themes.ghost.org/docs/handlebars" target="_blank" rel="noopener">handlerbars</a>文件，它是一个模板引擎，而ghost只支持用handlerbars，所以掌握handlerbars很重要，其实也不难，关键是要了解怎么传递值的。<br>目录和文件建立好了，主题就算完成了，虽然一句代码都没有，但他确实能够正常运转！</p>
+<a id="more"></a>
 <h3 id="激活主题"><a href="#激活主题" class="headerlink" title="激活主题"></a>激活主题</h3><p>打开你的网站后台<code>http://localhost:2368/ghost</code>，在<code>Design</code>-<code>Themes</code>中可以看到你的主题example，然后点击<code>active</code>激活，此时会弹出一个警告框，不管它，主题已经可以正常使用了，只是它是个空的，打开<code>http://localhost:2368</code>验证一下</p>
 <p>###热加载</p>
 <p>它的目的是可以实时加载刷新页面，你需要安装<a href="https://docs.ghost.org/docs/install-local#section-developing-themes" target="_blank" rel="noopener">nodemon</a></p>
@@ -524,7 +525,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">38</span>
+                  <span class="site-state-item-count">39</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -537,7 +538,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">56</span>
+                  <span class="site-state-item-count">57</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

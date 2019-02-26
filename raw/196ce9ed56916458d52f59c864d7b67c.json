@@ -25,6 +25,8 @@ npm init
 按照提示建立好基本的package.json，ghost主题最少的要求是有2个文件：index.hbs和post.hbs，这里hbs文件是[handlerbars](https://themes.ghost.org/docs/handlebars)文件，它是一个模板引擎，而ghost只支持用handlerbars，所以掌握handlerbars很重要，其实也不难，关键是要了解怎么传递值的。
 目录和文件建立好了，主题就算完成了，虽然一句代码都没有，但他确实能够正常运转！
 
+<!--more-->
+
 ### 激活主题
 
 打开你的网站后台`http://localhost:2368/ghost`，在`Design`-`Themes`中可以看到你的主题example，然后点击`active`激活，此时会弹出一个警告框，不管它，主题已经可以正常使用了，只是它是个空的，打开`http://localhost:2368`验证一下
