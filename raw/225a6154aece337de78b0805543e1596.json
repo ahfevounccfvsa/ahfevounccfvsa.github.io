@@ -3,7 +3,7 @@ title: hostingranking.cn·基于ghost的轻量技术架构整理
 tags: [hostingranking.cn, 技术架构]
 ---
 
-> 本篇纯粹只讲hostingranking.cn网站的技术架构，也就是怎么做到的，达到什么效果。至于它是什么，为什么要做暂且不说，另篇会分享。
+> 本篇纯粹只讲[hostingranking.cn](https://hostingranking.cn)网站的技术架构，也就是怎么做到的，达到什么效果。至于它是什么，为什么要做暂且不说，另篇会分享。
 
 ### 技术组成
 
