@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="java,lambda,UnaryOperator,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="用法示例：最普遍的一个例子，执行一个线程new Thread(() -&amp;gt; System.out.print(&quot;hello world&quot;)).start(); -&amp;gt;我们发现它指向的是Runnable接口 @FunctionalInterfacepublic interface Runnable &amp;#123;    /**     * When an object implementing">
+<meta name="keywords" content="java,lambda,UnaryOperator">
+<meta property="og:type" content="article">
+<meta property="og:title" content="你真的了解java的lambda吗？- java lambda用法与源码分析">
+<meta property="og:url" content="http://www.cmlanche.com/2018/07/22/lambda用法与源码分析/index.html">
+<meta property="og:site_name" content="cmlanche">
+<meta property="og:description" content="用法示例：最普遍的一个例子，执行一个线程new Thread(() -&amp;gt; System.out.print(&quot;hello world&quot;)).start(); -&amp;gt;我们发现它指向的是Runnable接口 @FunctionalInterfacepublic interface Runnable &amp;#123;    /**     * When an object implementing">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://pc3aukg6f.bkt.clouddn.com/blog/ou8mh.png">
+<meta property="og:image" content="http://pc3aukg6f.bkt.clouddn.com/blog/1lait.png">
+<meta property="og:image" content="http://pc3aukg6f.bkt.clouddn.com/blog/ci8vo.png">
+<meta property="og:updated_time" content="2018-07-23T08:21:46.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="你真的了解java的lambda吗？- java lambda用法与源码分析">
+<meta name="twitter:description" content="用法示例：最普遍的一个例子，执行一个线程new Thread(() -&amp;gt; System.out.print(&quot;hello world&quot;)).start(); -&amp;gt;我们发现它指向的是Runnable接口 @FunctionalInterfacepublic interface Runnable &amp;#123;    /**     * When an object implementing">
+<meta name="twitter:image" content="http://pc3aukg6f.bkt.clouddn.com/blog/ou8mh.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.cmlanche.com/2018/07/22/lambda用法与源码分析/">
+
+
+
+
+
+  <title>你真的了解java的lambda吗？- java lambda用法与源码分析 | cmlanche</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?c59df7cbbe6f65012be25796d2bd37e3";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">cmlanche</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description">金鳞岂是池中物</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.cmlanche.com/2018/07/22/lambda用法与源码分析/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="cmlanche">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="https://avatars3.githubusercontent.com/u/5886757?v=4&s=400&u=c3fdc83b9817d98d87ed84c8e768855fd628c745">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cmlanche">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">你真的了解java的lambda吗？- java lambda用法与源码分析</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-22T09:44:12+08:00">
+                2018-07-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/07/22/lambda用法与源码分析/" class="leancloud_visitors" data-flag-title="你真的了解java的lambda吗？- java lambda用法与源码分析">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  2,784 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  13 分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="用法"><a href="#用法" class="headerlink" title="用法"></a>用法</h1><h3 id="示例：最普遍的一个例子，执行一个线程"><a href="#示例：最普遍的一个例子，执行一个线程" class="headerlink" title="示例：最普遍的一个例子，执行一个线程"></a>示例：最普遍的一个例子，执行一个线程</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">new</span> Thread(() -&gt; System.out.print(<span class="string">"hello world"</span>)).start();</span><br></pre></td></tr></table></figure>
+<p><code>-&gt;</code>我们发现它指向的是<code>Runnable</code>接口</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@FunctionalInterface</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Runnable</span> </span>&#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * When an object implementing interface &lt;code&gt;Runnable&lt;/code&gt; is used</span></span><br><span class="line"><span class="comment">     * to create a thread, starting the thread causes the object's</span></span><br><span class="line"><span class="comment">     * &lt;code&gt;run&lt;/code&gt; method to be called in that separately executing</span></span><br><span class="line"><span class="comment">     * thread.</span></span><br><span class="line"><span class="comment">     * &lt;p&gt;</span></span><br><span class="line"><span class="comment">     * The general contract of the method &lt;code&gt;run&lt;/code&gt; is that it may</span></span><br><span class="line"><span class="comment">     * take any action whatsoever.</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@see</span>     java.lang.Thread#run()</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h3><ol>
+<li><p><code>-&gt;</code>这个箭头是lambda表达式的关键操作符</p>
+</li>
+<li><p><code>-&gt;</code>把表达式分成两截，前面是函数参数，后面是函数体。</p>
+</li>
+<li><p>Thread的构造函数接收的是一个Runnable接口对象，而我们这里的用法相当于是把一个函数当做接口对象传递进去了，这点理解很关键，这正是函数式编程的含义所在。</p>
+</li>
+<li><p>我们注意到Runnable有个注解<code>@FunctionalInterface</code>，它是jdk8才引入，它的含义是函数接口。它是lambda表达式的协议注解，这个注解非常重要，后面做源码分析会专门分析它的官方注释，到时候一目了然。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/* @jls 4.3.2. The Class Object</span></span><br><span class="line"><span class="comment"> * @jls 9.8 Functional Interfaces</span></span><br><span class="line"><span class="comment"> * @jls 9.4.3 Interface Method Body</span></span><br><span class="line"><span class="comment"> * @since 1.8</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Documented</span></span><br><span class="line"><span class="meta">@Retention</span>(RetentionPolicy.RUNTIME)</span><br><span class="line"><span class="meta">@Target</span>(ElementType.TYPE)</span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> FunctionalInterface &#123;&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<a id="more"></a>
+<h3 id="由此引发的一些案例"><a href="#由此引发的一些案例" class="headerlink" title="由此引发的一些案例"></a>由此引发的一些案例</h3><h4 id="有参数有返回值的实例：集合排序"><a href="#有参数有返回值的实例：集合排序" class="headerlink" title="有参数有返回值的实例：集合排序"></a>有参数有返回值的实例：集合排序</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">List&lt;String&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">Collections.sort(list, (o1, o2) -&gt; &#123;</span><br><span class="line">    <span class="keyword">if</span>(o1.equals(o2)) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>我们知道Collections.sort方法的第二个参数接受的是一个<code>Comparator&lt;T&gt;</code>的对象，它的部分关键源码是这样的：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@FunctionalInterface</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Comparator</span>&lt;<span class="title">T</span>&gt; </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">compare</span><span class="params">(T o1, T o2)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如上已经去掉注释和部分其他方法。</p>
+<p>我们可以看到sort的第二个参数是Comparator的compare方法，参数类型是T，分别是o1和o2，返回值是一个int。</p>
+<h3 id="疑问"><a href="#疑问" class="headerlink" title="疑问"></a>疑问</h3><ol>
+<li><p>上面的示例我们看到接口都有个<code>@FunctionalInterface</code>的注解，但是我们在实际编程中并没有加这个注解也可以实现lambda表达式，例如：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Main</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="class"><span class="keyword">interface</span> <span class="title">ITest</span> </span>&#123;</span><br><span class="line">        <span class="function"><span class="keyword">int</span> <span class="title">test</span><span class="params">(String string)</span></span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Print</span><span class="params">(ITest test)</span> </span>&#123;</span><br><span class="line">        test.test(<span class="string">"hello world"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Print(string -&gt; &#123;</span><br><span class="line">            System.out.println(string);</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如上所示，确实不需要增加<code>@FunctionInterface</code>注解就可以实现</p>
+</li>
+<li><p>如果在1中的示例的ITest接口中增加另外一个接口方法，我们会发现不能再用lambda表达式。</p>
+</li>
+</ol>
+<p>我们带着这两个疑问来进入源码解析。</p>
+<h1 id="源码解析"><a href="#源码解析" class="headerlink" title="源码解析"></a>源码解析</h1><h3 id="必须了解注解-FunctionInterface"><a href="#必须了解注解-FunctionInterface" class="headerlink" title="必须了解注解 @FunctionInterface"></a>必须了解注解 <code>@FunctionInterface</code></h3><p>上源码：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> java.lang;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.lang.annotation.*;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * An informative annotation type used to indicate that an interface</span></span><br><span class="line"><span class="comment"> * type declaration is intended to be a &lt;i&gt;functional interface&lt;/i&gt; as</span></span><br><span class="line"><span class="comment"> * defined by the Java Language Specification.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * Conceptually, a functional interface has exactly one abstract</span></span><br><span class="line"><span class="comment"> * method.  Since &#123;<span class="doctag">@linkplain</span> java.lang.reflect.Method#isDefault()</span></span><br><span class="line"><span class="comment"> * default methods&#125; have an implementation, they are not abstract.  If</span></span><br><span class="line"><span class="comment"> * an interface declares an abstract method overriding one of the</span></span><br><span class="line"><span class="comment"> * public methods of &#123;<span class="doctag">@code</span> java.lang.Object&#125;, that also does</span></span><br><span class="line"><span class="comment"> * &lt;em&gt;not&lt;/em&gt; count toward the interface's abstract method count</span></span><br><span class="line"><span class="comment"> * since any implementation of the interface will have an</span></span><br><span class="line"><span class="comment"> * implementation from &#123;<span class="doctag">@code</span> java.lang.Object&#125; or elsewhere.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * &lt;p&gt;Note that instances of functional interfaces can be created with</span></span><br><span class="line"><span class="comment"> * lambda expressions, method references, or constructor references.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * &lt;p&gt;If a type is annotated with this annotation type, compilers are</span></span><br><span class="line"><span class="comment"> * required to generate an error message unless:</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * &lt;ul&gt;</span></span><br><span class="line"><span class="comment"> * &lt;li&gt; The type is an interface type and not an annotation type, enum, or class.</span></span><br><span class="line"><span class="comment"> * &lt;li&gt; The annotated type satisfies the requirements of a functional interface.</span></span><br><span class="line"><span class="comment"> * &lt;/ul&gt;</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * &lt;p&gt;However, the compiler will treat any interface meeting the</span></span><br><span class="line"><span class="comment"> * definition of a functional interface as a functional interface</span></span><br><span class="line"><span class="comment"> * regardless of whether or not a &#123;<span class="doctag">@code</span> FunctionalInterface&#125;</span></span><br><span class="line"><span class="comment"> * annotation is present on the interface declaration.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@jls</span> 4.3.2. The Class Object</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@jls</span> 9.8 Functional Interfaces</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@jls</span> 9.4.3 Interface Method Body</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@since</span> 1.8</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Documented</span></span><br><span class="line"><span class="meta">@Retention</span>(RetentionPolicy.RUNTIME)</span><br><span class="line"><span class="meta">@Target</span>(ElementType.TYPE)</span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> FunctionalInterface &#123;&#125;</span><br></pre></td></tr></table></figure>
+<p>我们说过这个注解用来规范lambda表达式的使用协议的，那么注释中都说了哪些呢？</p>
+<ol>
+<li><p><strong>一种给interface做注解的注解类型，被定义成java语言规范</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">* An informative annotation type used to indicate that an <span class="class"><span class="keyword">interface</span></span></span><br><span class="line"><span class="class">* <span class="title">type</span> <span class="title">declaration</span> <span class="title">is</span> <span class="title">intended</span> <span class="title">to</span> <span class="title">be</span> <span class="title">a</span> &lt;<span class="title">i</span>&gt;<span class="title">functional</span> <span class="title">interface</span>&lt;/<span class="title">i</span>&gt; <span class="title">as</span></span></span><br><span class="line"><span class="class">* <span class="title">defined</span> <span class="title">by</span> <span class="title">the</span> <span class="title">Java</span> <span class="title">Language</span> <span class="title">Specification</span>.</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>一个被它注解的接口只能有一个抽象方法</strong>，有两种例外。</p>
+<ol>
+<li>第一是接口允许有实现的方法，这种实现的方法是用default关键字来标记的（java反射中java.lang.reflect.Method#isDefault()方法用来判断是否是default方法），例如：</li>
+</ol>
+<p><img src="http://pc3aukg6f.bkt.clouddn.com/blog/ou8mh.png" alt="image-20180722102331347"></p>
+<p>​    当然这是jdk8才引入的特性，到此我们才知道，<strong>知识是一直在变化的，我们在学校中学到interface接口不允许有实现的方法是错误的，随着时间推移，一切规范都有可能发生变化</strong>。</p>
+<ol start="2">
+<li><p>如果声明的方法和java.lang.Object中的某个方法一样，它可以不当做未实现的方法，不违背这个原则：<strong>一个被它注解的接口只能有一个抽象方法</strong></p>
+<p>例如同样是Compartor接口中，它重新声明了equals方法：</p>
+<p><img src="http://pc3aukg6f.bkt.clouddn.com/blog/1lait.png" alt="image-20180722102904828"></p>
+</li>
+</ol>
+<p>这些是对如下注释的翻译和解释</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">* Conceptually, a functional <span class="class"><span class="keyword">interface</span> <span class="title">has</span> <span class="title">exactly</span> <span class="title">one</span> <span class="title">abstract</span></span></span><br><span class="line">* method.  Since &#123;@linkplain java.lang.reflect.Method#isDefault()</span><br><span class="line">* <span class="keyword">default</span> methods&#125; have an implementation, they are not <span class="keyword">abstract</span>.  If</span><br><span class="line">* an <span class="class"><span class="keyword">interface</span> <span class="title">declares</span> <span class="title">an</span> <span class="title">abstract</span> <span class="title">method</span> <span class="title">overriding</span> <span class="title">one</span> <span class="title">of</span> <span class="title">the</span></span></span><br><span class="line"><span class="class">* <span class="title">public</span> <span class="title">methods</span> <span class="title">of</span> </span>&#123;<span class="meta">@code</span> java.lang.Object&#125;, that also does</span><br><span class="line">* &lt;em&gt;not&lt;/em&gt; count toward the interface's abstract method count</span><br><span class="line">* since any implementation of the <span class="class"><span class="keyword">interface</span> <span class="title">will</span> <span class="title">have</span> <span class="title">an</span></span></span><br><span class="line"><span class="class">* <span class="title">implementation</span> <span class="title">from</span> </span>&#123;<span class="meta">@code</span> java.lang.Object&#125; or elsewhere.</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>如果一个类型被这个注解修饰，那么编译器会要求这个类型必须满足如下条件</strong></p>
+<ol>
+<li>这个类型必须是一个interface，而不是其他的注解类型、枚举enum或者类class</li>
+<li>这个类型必须满足function interface的所有要求，如你个包含两个抽象方法的接口增加这个注解，会有编译错误。</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">* &lt;p&gt;If a type is annotated with <span class="keyword">this</span> annotation type, compilers are</span><br><span class="line">* required to generate an error message unless:</span><br><span class="line">*</span><br><span class="line">* &lt;ul&gt;</span><br><span class="line">* &lt;li&gt; The type is an <span class="class"><span class="keyword">interface</span> <span class="title">type</span> <span class="title">and</span> <span class="title">not</span> <span class="title">an</span> <span class="title">annotation</span> <span class="title">type</span>, <span class="title">enum</span>, <span class="title">or</span> <span class="title">class</span>.</span></span><br><span class="line"><span class="class">* &lt;<span class="title">li</span>&gt; <span class="title">The</span> <span class="title">annotated</span> <span class="title">type</span> <span class="title">satisfies</span> <span class="title">the</span> <span class="title">requirements</span> <span class="title">of</span> <span class="title">a</span> <span class="title">functional</span> <span class="title">interface</span>.</span></span><br><span class="line"><span class="class">* &lt;/<span class="title">ul</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>编译器会自动把满足function interface要求的接口自动识别为function interface，所以你才不需要对上面示例中的<code>ITest</code>接口增加@FunctionInterface注解。</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">* &lt;p&gt;However, the compiler will treat any <span class="class"><span class="keyword">interface</span> <span class="title">meeting</span> <span class="title">the</span></span></span><br><span class="line"><span class="class">* <span class="title">definition</span> <span class="title">of</span> <span class="title">a</span> <span class="title">functional</span> <span class="title">interface</span> <span class="title">as</span> <span class="title">a</span> <span class="title">functional</span> <span class="title">interface</span></span></span><br><span class="line"><span class="class">* <span class="title">regardless</span> <span class="title">of</span> <span class="title">whether</span> <span class="title">or</span> <span class="title">not</span> <span class="title">a</span> </span>&#123;<span class="meta">@code</span> FunctionalInterface&#125;</span><br><span class="line">* annotation is present on the <span class="class"><span class="keyword">interface</span> <span class="title">declaration</span>.</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>通过了解function interface我们能够知道怎么才能正确的创建一个function interface来做lambda表达式了。接下来的是了解java是怎么把一个函数当做一个对象作为参数使用的。</p>
+<h3 id="穿越：对象变身函数"><a href="#穿越：对象变身函数" class="headerlink" title="穿越：对象变身函数"></a>穿越：对象变身函数</h3><p>让我们重新复盘一下上面最开始的实例：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">new</span> Thread(() -&gt; System.out.print(<span class="string">"hello world"</span>)).start();</span><br></pre></td></tr></table></figure>
+<p>我们知道在jdk8以前我们都是这样来执行的：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Runnable r = <span class="keyword">new</span> Runnable()&#123;</span><br><span class="line">	System.out.print(<span class="string">"hello world"</span>);</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">new</span> Thread(r).start();</span><br></pre></td></tr></table></figure>
+<p>我们知道两者是等价的，也就是说<code>r</code> 等价于<code>()-&gt;System.out.print(&quot;hello world&quot;)</code>，一个接口对象等于一个lambda表达式？那么lambda表达式肯定做了这些事情（未看任何资料，纯粹推理，有误再改正）：</p>
+<ol>
+<li>创建接口对象</li>
+<li>实现接口对象</li>
+<li>返回接口对象</li>
+</ol>
+<h3 id="关于UnaryOperator"><a href="#关于UnaryOperator" class="headerlink" title="关于UnaryOperator"></a>关于<code>UnaryOperator</code></h3><p>上篇文章（<a href="https://www.cmlanche.com/2018/07/21/%E8%81%8A%E4%B8%80%E8%81%8AJavaFx%E4%B8%AD%E7%9A%84TextFormater/">聊一聊JavaFx中的TextFormatter以及一元操作符UnaryOperator</a>）关于<code>UnaryOperator</code>草草收尾，在这里给大家重新梳理一下，关于它的使用场景以及它与lambda表达式的关系</p>
+<h5 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h5><p>要先理解它的作用，它是接受一个参数并返回与该类型同的值，来看一个List怎么用它的，java.util.List中的replaceAll就用它了：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">default</span> <span class="keyword">void</span> <span class="title">replaceAll</span><span class="params">(UnaryOperator&lt;E&gt; operator)</span> </span>&#123;</span><br><span class="line">    Objects.requireNonNull(operator);</span><br><span class="line">    <span class="keyword">final</span> ListIterator&lt;E&gt; li = <span class="keyword">this</span>.listIterator();</span><br><span class="line">    <span class="keyword">while</span> (li.hasNext()) &#123;</span><br><span class="line">        li.set(operator.apply(li.next()));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们可以看到这个方法的目的是把list中的值经过operator操作后重新返回一个新值，例如具体调用</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">List&lt;String&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">list.add(<span class="string">"abc"</span>);</span><br><span class="line">list.replaceAll(s -&gt; s + <span class="string">"efg"</span>);</span><br><span class="line"></span><br><span class="line">System.out.println(list);</span><br></pre></td></tr></table></figure>
+<p>其中lambda表达式<code>s-&gt;s+&quot;efg&quot;</code>就是这个operator对象，那么最终list中的值就变成了[“abcefg”]，由此我们可以知道它的作用就是<strong>对输入的值再加工，并返回同类型的值</strong>，怎么用就需要你自己扩展发挥了。</p>
+<h5 id="与lambda表达式的关系？"><a href="#与lambda表达式的关系？" class="headerlink" title="与lambda表达式的关系？"></a>与lambda表达式的关系？</h5><p>在我看来，它跟lambda表达式的关系并不大，只是它是jdk内置的一种标准操作，类似的二元操作符<code>BinaryOperator</code>它可以接受两个同类型参数，并返回同类型参数的值。</p>
+<h3 id="关于UnaryOperator，我们百尺竿头更进一步，深入到核心"><a href="#关于UnaryOperator，我们百尺竿头更进一步，深入到核心" class="headerlink" title="关于UnaryOperator，我们百尺竿头更进一步，深入到核心"></a>关于UnaryOperator，我们百尺竿头更进一步，深入到核心</h3><p>先贴出它的源码：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@FunctionalInterface</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">UnaryOperator</span>&lt;<span class="title">T</span>&gt; <span class="keyword">extends</span> <span class="title">Function</span>&lt;<span class="title">T</span>, <span class="title">T</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Returns a unary operator that always returns its input argument.</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> &lt;T&gt; the type of the input and output of the operator</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> a unary operator that always returns its input argument</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">static</span> &lt;T&gt; <span class="function">UnaryOperator&lt;T&gt; <span class="title">identity</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> t -&gt; t;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们看到这个function interface居然没有抽象方法，不，不是没有，我们继续看Function接口</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@FunctionalInterface</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Function</span>&lt;<span class="title">T</span>, <span class="title">R</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Applies this function to the given argument.</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> t the function argument</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> the function result</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function">R <span class="title">apply</span><span class="params">(T t)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Returns a composed function that first applies the &#123;<span class="doctag">@code</span> before&#125;</span></span><br><span class="line"><span class="comment">     * function to its input, and then applies this function to the result.</span></span><br><span class="line"><span class="comment">     * If evaluation of either function throws an exception, it is relayed to</span></span><br><span class="line"><span class="comment">     * the caller of the composed function.</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> &lt;V&gt; the type of input to the &#123;<span class="doctag">@code</span> before&#125; function, and to the</span></span><br><span class="line"><span class="comment">     *           composed function</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> before the function to apply before this function is applied</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> a composed function that first applies the &#123;<span class="doctag">@code</span> before&#125;</span></span><br><span class="line"><span class="comment">     * function and then applies this function</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@throws</span> NullPointerException if before is null</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@see</span> #andThen(Function)</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">default</span> &lt;V&gt; <span class="function">Function&lt;V, R&gt; <span class="title">compose</span><span class="params">(Function&lt;? <span class="keyword">super</span> V, ? extends T&gt; before)</span> </span>&#123;</span><br><span class="line">        Objects.requireNonNull(before);</span><br><span class="line">        <span class="keyword">return</span> (V v) -&gt; apply(before.apply(v));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Returns a composed function that first applies this function to</span></span><br><span class="line"><span class="comment">     * its input, and then applies the &#123;<span class="doctag">@code</span> after&#125; function to the result.</span></span><br><span class="line"><span class="comment">     * If evaluation of either function throws an exception, it is relayed to</span></span><br><span class="line"><span class="comment">     * the caller of the composed function.</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> &lt;V&gt; the type of output of the &#123;<span class="doctag">@code</span> after&#125; function, and of the</span></span><br><span class="line"><span class="comment">     *           composed function</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> after the function to apply after this function is applied</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> a composed function that first applies this function and then</span></span><br><span class="line"><span class="comment">     * applies the &#123;<span class="doctag">@code</span> after&#125; function</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@throws</span> NullPointerException if after is null</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@see</span> #compose(Function)</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">default</span> &lt;V&gt; <span class="function">Function&lt;T, V&gt; <span class="title">andThen</span><span class="params">(Function&lt;? <span class="keyword">super</span> R, ? extends V&gt; after)</span> </span>&#123;</span><br><span class="line">        Objects.requireNonNull(after);</span><br><span class="line">        <span class="keyword">return</span> (T t) -&gt; after.apply(apply(t));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Returns a function that always returns its input argument.</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> &lt;T&gt; the type of the input and output objects to the function</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> a function that always returns its input argument</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">static</span> &lt;T&gt; <span class="function">Function&lt;T, T&gt; <span class="title">identity</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> t -&gt; t;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>既然他们都被注解为<code>@FunctionInterface</code>了，那么他们肯定有一个唯一的抽象方法，那就是<code>apply</code></p>
+<p>我们知道<code>-&gt;</code>lambda表达式它是不需要关心函数名字的，所以不管它叫什么，<code>apply</code>也好，<code>apply1</code>也好都可以，但jdk肯定要叫一个更加合理的名字，那么我们知道<code>s -&gt; s + &quot;efg&quot;</code>中<code>-&gt;</code>调用的就是<code>apply</code>方法</p>
+<p>而且我们注意到这里有一个<code>identity()</code>的静态方法，它返回一个Function对象，它其实跟lambda表达式关系也不大，它的作用是返回当前function所要表达的lambda含义。相当于创建了一个自身对象。</p>
+<p>Function算是lambda的一种扩展应用，这个Function的的作用是<code>Represents a function that accepts one argument and produces a result.</code>意思是接受一个参数，并产生（返回）一个结果（类型可不同）。</p>
+<p>类似的还有很多Function，都在包java.util.Function中</p>
+<p><img src="http://pc3aukg6f.bkt.clouddn.com/blog/ci8vo.png" alt="image-20180722115019213"></p>
+<p>你也可以创建自己的Function，它是用来表达操作是怎样的。如传入的参数是什么，返回的是什么。</p>
+<p>其实你只要明白它<strong>抽象的是操作</strong>就可以了。</p>
+<p>到此就知道，原来UnaryOperator没啥神秘的，jdk把这些操作放在java.util.function中也正说明了它是一个工具类，是为了提取重复代码，让它可以重用，毕竟需要用到这样的操作的地方太多了，提取是有必要的。</p>
+<p>转载请注明来源：<a href="https://www.cmlanche.com">cmlanche.com</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    cmlanche
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://www.cmlanche.com/2018/07/22/lambda用法与源码分析/" title="你真的了解java的lambda吗？- java lambda用法与源码分析">http://www.cmlanche.com/2018/07/22/lambda用法与源码分析/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/java/" rel="tag"># java</a>
+          
+            <a href="/tags/lambda/" rel="tag"># lambda</a>
+          
+            <a href="/tags/UnaryOperator/" rel="tag"># UnaryOperator</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/07/21/聊一聊JavaFx中的TextFormater/" rel="next" title="聊一聊JavaFx中的TextFormatter以及一元操作符UnaryOperator">
+                <i class="fa fa-chevron-left"></i> 聊一聊JavaFx中的TextFormatter以及一元操作符UnaryOperator
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/08/13/android自动化研发日志---细数UIAutomator缺点---关于版本的吐槽/" rel="prev" title="android自动化研发日志 - 细数UIAutomator缺点 - 1.0和2.0的区别">
+                android自动化研发日志 - 细数UIAutomator缺点 - 1.0和2.0的区别 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="https://avatars3.githubusercontent.com/u/5886757?v=4&s=400&u=c3fdc83b9817d98d87ed84c8e768855fd628c745" alt="cmlanche">
+            
+              <p class="site-author-name" itemprop="name">cmlanche</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">40</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">59</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/cmlanche" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-globe"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://weibo.com/cmlanche" target="_blank" title="Weibo">
+                    
+                      <i class="fa fa-fw fa-globe"></i>Weibo</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#用法"><span class="nav-number">1.</span> <span class="nav-text">用法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#示例：最普遍的一个例子，执行一个线程"><span class="nav-number">1.0.1.</span> <span class="nav-text">示例：最普遍的一个例子，执行一个线程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分析"><span class="nav-number">1.0.2.</span> <span class="nav-text">分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#由此引发的一些案例"><span class="nav-number">1.0.3.</span> <span class="nav-text">由此引发的一些案例</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#有参数有返回值的实例：集合排序"><span class="nav-number">1.0.3.1.</span> <span class="nav-text">有参数有返回值的实例：集合排序</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#疑问"><span class="nav-number">1.0.4.</span> <span class="nav-text">疑问</span></a></li></ol></li></ol><li class="nav-item nav-level-1"><a class="nav-link" href="#源码解析"><span class="nav-number">2.</span> <span class="nav-text">源码解析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#必须了解注解-FunctionInterface"><span class="nav-number">2.0.1.</span> <span class="nav-text">必须了解注解 @FunctionInterface</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#穿越：对象变身函数"><span class="nav-number">2.0.2.</span> <span class="nav-text">穿越：对象变身函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关于UnaryOperator"><span class="nav-number">2.0.3.</span> <span class="nav-text">关于UnaryOperator</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#使用场景"><span class="nav-number">2.0.3.0.1.</span> <span class="nav-text">使用场景</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#与lambda表达式的关系？"><span class="nav-number">2.0.3.0.2.</span> <span class="nav-text">与lambda表达式的关系？</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关于UnaryOperator，我们百尺竿头更进一步，深入到核心"><span class="nav-number">2.0.4.</span> <span class="nav-text">关于UnaryOperator，我们百尺竿头更进一步，深入到核心</span></a></li></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">cmlanche</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("Vi44LQT7TQmENDPlLnbjbgmr-gzGzoHsz", "rB0cEcQ09hqDXQrXpOkWfyO6");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

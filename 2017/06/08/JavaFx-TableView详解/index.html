@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="javafx,javafx-tableview,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="TableView是个十分有用的控件，适应性和灵活性非常强，可以对它进行任意的修改，比如界面样式、功能。本文将从一步步提问的方式讲解TableView">
+<meta name="keywords" content="javafx,javafx-tableview">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JavaFx TableView疑难详解">
+<meta property="og:url" content="http://www.cmlanche.com/2017/06/08/JavaFx-TableView详解/index.html">
+<meta property="og:site_name" content="cmlanche">
+<meta property="og:description" content="TableView是个十分有用的控件，适应性和灵活性非常强，可以对它进行任意的修改，比如界面样式、功能。本文将从一步步提问的方式讲解TableView">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2017-12-02T09:26:57.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JavaFx TableView疑难详解">
+<meta name="twitter:description" content="TableView是个十分有用的控件，适应性和灵活性非常强，可以对它进行任意的修改，比如界面样式、功能。本文将从一步步提问的方式讲解TableView">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.cmlanche.com/2017/06/08/JavaFx-TableView详解/">
+
+
+
+
+
+  <title>JavaFx TableView疑难详解 | cmlanche</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?c59df7cbbe6f65012be25796d2bd37e3";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">cmlanche</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description">金鳞岂是池中物</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.cmlanche.com/2017/06/08/JavaFx-TableView详解/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="cmlanche">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="https://avatars3.githubusercontent.com/u/5886757?v=4&s=400&u=c3fdc83b9817d98d87ed84c8e768855fd628c745">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cmlanche">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">JavaFx TableView疑难详解</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-08T10:11:14+08:00">
+                2017-06-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/06/08/JavaFx-TableView详解/" class="leancloud_visitors" data-flag-title="JavaFx TableView疑难详解">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  1,813 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  9 分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>TableView是个十分有用的控件，适应性和灵活性非常强，可以对它进行任意的修改，比如界面样式、功能。本文将从一步步提问的方式讲解TableView</p>
+<a id="more"></a>
+<ol>
+<li><h3 id="创建已知列的TableView"><a href="#创建已知列的TableView" class="headerlink" title="创建已知列的TableView"></a>创建已知列的TableView</h3><p>已知列的表格的创建，需要把TableView的TableColumn关联到模型的属性，TableView是个模板类，其实是TableView<t>，这个T就是模型，例如下代码：</t></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// MyModel.java</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyModel</span></span>&#123;</span><br><span class="line">  <span class="keyword">private</span> String name;</span><br><span class="line">  <span class="keyword">private</span> String url;</span><br><span class="line">  <span class="comment">// getters, setters</span></span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// init your tableView</span></span><br><span class="line">TableColumn&lt;MyModel, String&gt; t1 = <span class="keyword">new</span> TableColumn();</span><br><span class="line"><span class="comment">// 关联MyModel中的name属性</span></span><br><span class="line">t1.setCellValueFactory(<span class="keyword">new</span> PropertyValueFactory&lt;&gt;(<span class="string">"name"</span>)); </span><br><span class="line">t1.setCellFactory(p-&gt;&#123;</span><br><span class="line">  <span class="comment">// 创建此列的Cell的时候的回调，允许让你自己去创建</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p><strong>特别要说明的是</strong>，<code>setCellValueFactory</code>和<code>setCellFactory</code>不是冲突的，我用的时候一直以为是冲突，就是只能用其中一个，另外一个就失效了，其实不是，setCellFactory它的意图是在创建这列的时候要做的事情，你可以改变TableCell的任何内容，包括UI和Value，而setCellValueFactory呢，它的重点是关联属性，从你传递给它的Model中通过对应属性的getter来获取值。在setCellFactory中的TableCell有个回调，叫<code>updateItem</code>，它可以获取到你设置到此Cell的值，这个值是跟setCellValueFactory所关联的属性有关。</p>
+</li>
+<li><h3 id="创建动态列的TableView"><a href="#创建动态列的TableView" class="headerlink" title="创建动态列的TableView"></a>创建动态列的TableView</h3><p>参考：<a href="https://community.oracle.com/thread/2474328" target="_blank" rel="noopener">https://community.oracle.com/thread/2474328</a></p>
+<p>因为列是不定的，模型是没有属性对应的，创建列的时候你根本不知道列是什么，看如下实现代码：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">column.setCellValueFactory(param -&gt; &#123;</span><br><span class="line">            ObservableList&lt;VarCell&gt; values = param.getValue();</span><br><span class="line">            <span class="keyword">if</span> (columnIndex &gt;= values.size()) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">new</span> SimpleObjectProperty&lt;&gt;(<span class="keyword">null</span>);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">new</span> SimpleObjectProperty&lt;&gt;(param.getValue().get(columnIndex));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br></pre></td></tr></table></figure>
+<p>创建动态列的tableview，它的模型是一个<code>ObservableList&lt;T&gt;</code>，你的<code>setCellValueFactory</code>不能使用<code>PropertyValueFactory</code>，而是如上代码所示，<strong>通过列的索引来获取此列的值</strong></p>
+</li>
+<li><h3 id="列拖动-如何捕获列拖动事件？"><a href="#列拖动-如何捕获列拖动事件？" class="headerlink" title="[列拖动] 如何捕获列拖动事件？"></a><strong>[列拖动]</strong> 如何捕获列拖动事件？</h3><p>列拖动是tablview一个默认的自带的效果，但是并没有专门的事件给你去监听它，而是监听列的变化，方法：给tableview的columns添加Listener,判断变动列的状态是否是replaced的状态，例如：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">tableView.getColumns().addListener(<span class="keyword">new</span> ListChangeListener&lt;TableColumn&lt;ObservableList&lt;VarCell&gt;, ?&gt;&gt;() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onChanged</span><span class="params">(Change&lt;? extends TableColumn&lt;ObservableList&lt;VarCell&gt;, ?&gt;&gt; change)</span> </span>&#123;</span><br><span class="line">                change.next();</span><br><span class="line">                <span class="keyword">if</span> (change.wasReplaced()) &#123;</span><br><span class="line">                    <span class="comment">// 表示当前拖动过了</span></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br></pre></td></tr></table></figure>
+</li>
+<li><h3 id="列拖动-如何防止第一列被拖动？"><a href="#列拖动-如何防止第一列被拖动？" class="headerlink" title="[列拖动] 如何防止第一列被拖动？"></a><strong>[列拖动]</strong> 如何防止第一列被拖动？</h3><p>在上一问的基础上，实现第一列不允许被拖动的功能。</p>
+<p>参考：<a href="https://stackoverflow.com/questions/30645606/javafx-restrict-column-rearrangement-on-drag-and-drop" target="_blank" rel="noopener">https://stackoverflow.com/questions/30645606/javafx-restrict-column-rearrangement-on-drag-and-drop</a></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">tableView.getColumns().addListener(<span class="keyword">new</span> ListChangeListener&lt;TableColumn&lt;ObservableList&lt;String&gt;, ?&gt;&gt;() &#123;</span><br><span class="line">            <span class="keyword">private</span> <span class="keyword">boolean</span> suspended;</span><br><span class="line"></span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onChanged</span><span class="params">(Change&lt;? extends TableColumn&lt;ObservableList&lt;String&gt;, ?&gt;&gt; change)</span> </span>&#123;</span><br><span class="line">                change.next();</span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span> (change.wasReplaced() &amp;&amp; !suspended) &#123;</span><br><span class="line">                    List&lt;TableColumn&lt;ObservableList&lt;String&gt;, ?&gt;&gt; oldList = <span class="keyword">new</span> ArrayList&lt;&gt;(change.getRemoved());</span><br><span class="line">                    List&lt;TableColumn&lt;ObservableList&lt;String&gt;, ?&gt;&gt; newList = <span class="keyword">new</span> ArrayList&lt;&gt;(tableView.getColumns());</span><br><span class="line"></span><br><span class="line">                    <span class="comment">// first column changed =&gt; revert to original list</span></span><br><span class="line">                    <span class="keyword">if</span> (oldList.get(<span class="number">0</span>) != newList.get(<span class="number">0</span>)) &#123;</span><br><span class="line">                        <span class="keyword">this</span>.suspended = <span class="keyword">true</span>;</span><br><span class="line">                        tableView.getColumns().setAll(oldList);</span><br><span class="line">                        <span class="keyword">this</span>.suspended = <span class="keyword">false</span>;</span><br><span class="line">                    &#125; </span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br></pre></td></tr></table></figure>
+<p>上面的代码中有三个关键的地方，是tableview原本提供的api，一个是<code>change.wasReplaced</code>表示当前的变动是否被替换了，第二个是<code>change.getRemoved</code>，表示获取要移除掉的列，进一步的意思就是原来的列，也就是此前的tablecolumns，第三个是<code>tableview.getColumns</code>这个是获取现在列，有了这些信息，就可以判断，<code>oldList.get(0)!=newList(0)</code>，表示如果新老列的第一列不相同，表示是第一列是变动的，但是我们不允许变动，因此，调用<code>tableview.getColumns().setAll(oldList)</code>用来恢复原来的列。这样就禁止拖动第一列了。</p>
+</li>
+<li><h3 id="列拖动-如何禁用列拖动效果？"><a href="#列拖动-如何禁用列拖动效果？" class="headerlink" title="[列拖动] 如何禁用列拖动效果？"></a><strong>[列拖动]</strong> 如何禁用列拖动效果？</h3><p>参考：<a href="https://stackoverflow.com/questions/22202782/how-to-prevent-tableview-from-doing-tablecolumn-re-order-in-javafx-8" target="_blank" rel="noopener">https://stackoverflow.com/questions/22202782/how-to-prevent-tableview-from-doing-tablecolumn-re-order-in-javafx-8</a></p>
+<p>给列设置一个属性：<code>column.impl_setReorderable(false);</code></p>
+<p><code>impl_setReorderable</code>前面带<strong>impl_</strong>前缀，表示它是一个将来可能会被删除的方法，但是为了解决目前无法解决的问题，暂时把impl的私有方法改为了public方法，参考我的博客中的如何<a href="http://cmlanche.com/2017/05/02/JavaFx%E8%87%AA%E5%AE%9A%E4%B9%89Tab%20Order/" target="_blank" rel="noopener">自定义Taborder</a>的文章，是一样的道理。</p>
+</li>
+<li><h3 id="行拖动-如何拖动行，进行换行？"><a href="#行拖动-如何拖动行，进行换行？" class="headerlink" title="[行拖动] 如何拖动行，进行换行？"></a><strong>[行拖动]</strong> 如何拖动行，进行换行？</h3><p>参考：<a href="https://stackoverflow.com/questions/28603224/sort-tableview-with-drag-and-drop-rows" target="_blank" rel="noopener">https://stackoverflow.com/questions/28603224/sort-tableview-with-drag-and-drop-rows</a></p>
+<p>已经测试过的代码：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">tableView.setRowFactory(tv -&gt; &#123;</span><br><span class="line">            TableRow&lt;ObservableList&lt;String&gt;&gt; row = <span class="keyword">new</span> TableRow&lt;&gt;();</span><br><span class="line"></span><br><span class="line">            row.setOnDragDetected(event -&gt; &#123;</span><br><span class="line">                log.info(<span class="string">"row drag detected"</span>);</span><br><span class="line">                <span class="keyword">if</span> (!row.isEmpty()) &#123;</span><br><span class="line">                    Integer index = row.getIndex();</span><br><span class="line">                    Dragboard db = row.startDragAndDrop(TransferMode.MOVE);</span><br><span class="line">                    db.setDragView(row.snapshot(<span class="keyword">null</span>, <span class="keyword">null</span>));</span><br><span class="line">                    ClipboardContent cc = <span class="keyword">new</span> ClipboardContent();</span><br><span class="line">                    cc.put(SERIALIZED_MIME_TYPE, index);</span><br><span class="line">                    db.setContent(cc);</span><br><span class="line">                    event.consume();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;);</span><br><span class="line"></span><br><span class="line">            row.setOnDragOver(event -&gt; &#123;</span><br><span class="line">                log.info(<span class="string">"row drag over"</span>);</span><br><span class="line">                Dragboard db = event.getDragboard();</span><br><span class="line">                <span class="keyword">if</span> (db.hasContent(SERIALIZED_MIME_TYPE)) &#123;</span><br><span class="line">                    <span class="keyword">if</span> (row.getIndex() != ((Integer) db.getContent(SERIALIZED_MIME_TYPE)).intValue()) &#123;</span><br><span class="line">                        event.acceptTransferModes(TransferMode.COPY_OR_MOVE);</span><br><span class="line">                        event.consume();</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;);</span><br><span class="line"></span><br><span class="line">            row.setOnDragDropped(event -&gt; &#123;</span><br><span class="line">                log.info(<span class="string">"row drag dropped"</span>);</span><br><span class="line">                Dragboard db = event.getDragboard();</span><br><span class="line">                <span class="keyword">if</span> (db.hasContent(SERIALIZED_MIME_TYPE)) &#123;</span><br><span class="line">                    <span class="keyword">int</span> draggedIndex = (Integer) db.getContent(SERIALIZED_MIME_TYPE);</span><br><span class="line">                    ObservableList&lt;String&gt; draggedPerson = tableView.getItems().remove(draggedIndex);</span><br><span class="line"></span><br><span class="line">                    <span class="keyword">int</span> dropIndex;</span><br><span class="line"></span><br><span class="line">                    <span class="keyword">if</span> (row.isEmpty()) &#123;</span><br><span class="line">                        dropIndex = tableView.getItems().size();</span><br><span class="line">                    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                        dropIndex = row.getIndex();</span><br><span class="line">                    &#125;</span><br><span class="line"></span><br><span class="line">                    tableView.getItems().add(dropIndex, draggedPerson);</span><br><span class="line"></span><br><span class="line">                    event.setDropCompleted(<span class="keyword">true</span>);</span><br><span class="line">                    tableView.getSelectionModel().select(dropIndex);</span><br><span class="line">                    event.consume();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">return</span> row;</span><br><span class="line">        &#125;);</span><br></pre></td></tr></table></figure>
+</li>
+<li><h3 id="修改TableView样式"><a href="#修改TableView样式" class="headerlink" title="修改TableView样式"></a>修改TableView样式</h3><p>使用css，参考如下我的测试代码</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-class">.table-view</span> &#123;</span><br><span class="line">    <span class="attribute">-fx-border-width</span>: <span class="number">1px</span>;</span><br><span class="line">    <span class="attribute">-fx-border-color</span>: <span class="number">#CACACA</span>;</span><br><span class="line">    <span class="attribute">-fx-background-color</span>: transparent;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.table-view</span><span class="selector-pseudo">:focused</span> &#123;</span><br><span class="line">    <span class="attribute">-fx-background-color</span>: transparent;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.table-view</span> <span class="selector-class">.table-cell</span> &#123;</span><br><span class="line">    <span class="attribute">-fx-font-size</span>: <span class="number">12px</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.table-view</span> <span class="selector-class">.filler</span> &#123;</span><br><span class="line">    <span class="attribute">-fx-background-color</span>: <span class="number">#BDE8FF</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.table-view</span> <span class="selector-class">.text</span> &#123;</span><br><span class="line">    <span class="attribute">-fx-text-fill</span>: red;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.table-view</span> <span class="selector-class">.column-header</span> &#123;</span><br><span class="line">    <span class="attribute">-fx-background-color</span>: <span class="number">#BDE8FF</span>;</span><br><span class="line">    <span class="attribute">-fx-pref-height</span>: <span class="number">37px</span>;</span><br><span class="line">    <span class="attribute">-fx-border-width</span>: <span class="number">1px</span>;</span><br><span class="line">    <span class="attribute">-fx-border-color</span>: <span class="number">#D9D9D9</span>;</span><br><span class="line">    <span class="attribute">-fx-border-insets</span>: -<span class="number">2px</span> -<span class="number">2px</span> <span class="number">0px</span> -<span class="number">2px</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.table-view</span> <span class="selector-class">.column-header-background</span> <span class="selector-class">.label</span> &#123;</span><br><span class="line">    <span class="attribute">-fx-text-fill</span>: <span class="number">#363739</span>;</span><br><span class="line">    <span class="attribute">-fx-font-weight</span>: normal;</span><br><span class="line">    <span class="attribute">-fx-font-size</span>: <span class="number">12px</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.table-row-cell</span> &#123;</span><br><span class="line">    <span class="comment">/*行高*/</span></span><br><span class="line">    <span class="attribute">-fx-cell-size</span>: <span class="number">35px</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.table-row-cell</span> <span class="selector-class">.cell</span> &#123;</span><br><span class="line">    <span class="attribute">-fx-alignment</span>: center;</span><br><span class="line">    <span class="attribute">-fx-text-fill</span>: <span class="number">#333333</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.table-view</span> <span class="selector-class">.table-cell</span><span class="selector-pseudo">:selected</span> &#123;</span><br><span class="line">    <span class="attribute">-fx-text-fill</span>: white;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.table-view</span> <span class="selector-class">.table-column</span> <span class="selector-class">.column-header</span> &#123;</span><br><span class="line">    <span class="attribute">-fx-background-color</span>: <span class="number">#363739</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.cell</span> &#123;</span><br><span class="line">    <span class="comment">/*-fx-border-width: 0px 1px 0 0;*/</span></span><br><span class="line">    <span class="comment">/*-fx-border-color: #CACACA;*/</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.table-view</span> <span class="selector-class">.scroll-bar</span> &#123;</span><br><span class="line">    <span class="attribute">-fx-background-color</span>: transparent;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.viewport</span> &#123;</span><br><span class="line">    <span class="attribute">-fx-background-color</span>: white;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><h3 id="如何自定义列头，比如自己设置一个可编辑的列头呢？"><a href="#如何自定义列头，比如自己设置一个可编辑的列头呢？" class="headerlink" title="如何自定义列头，比如自己设置一个可编辑的列头呢？"></a>如何自定义列头，比如自己设置一个可编辑的列头呢？</h3><p>答案是给你的TableColumn设置<code>setGraphic</code>，可编辑的列头的话，你让你的graphic中有编辑框，双击显示编辑框，按enter键确认编辑，如下是一个我的实现：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> com.itestin.ui.datamgt.table;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.itestin.ui.recordNreplay.logic.CommonLogic;</span><br><span class="line"><span class="keyword">import</span> javafx.beans.property.BooleanProperty;</span><br><span class="line"><span class="keyword">import</span> javafx.beans.property.SimpleBooleanProperty;</span><br><span class="line"><span class="keyword">import</span> javafx.beans.property.SimpleStringProperty;</span><br><span class="line"><span class="keyword">import</span> javafx.beans.property.StringProperty;</span><br><span class="line"><span class="keyword">import</span> javafx.geometry.Pos;</span><br><span class="line"><span class="keyword">import</span> javafx.scene.control.Label;</span><br><span class="line"><span class="keyword">import</span> javafx.scene.control.TableColumn;</span><br><span class="line"><span class="keyword">import</span> javafx.scene.control.TextField;</span><br><span class="line"><span class="keyword">import</span> javafx.scene.control.Tooltip;</span><br><span class="line"><span class="keyword">import</span> javafx.scene.input.KeyCode;</span><br><span class="line"><span class="keyword">import</span> javafx.scene.layout.StackPane;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Created by cmlanche on 2017/6/1.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">EditColumn</span> <span class="keyword">extends</span> <span class="title">StackPane</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> EditColumnCallback callback;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> Label label;</span><br><span class="line">    <span class="keyword">private</span> TextField textField;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> StringProperty title;</span><br><span class="line">    <span class="keyword">private</span> BooleanProperty editing;</span><br><span class="line">    <span class="keyword">private</span> BooleanProperty editable;</span><br><span class="line">    <span class="keyword">private</span> BooleanProperty textFieldFocus;</span><br><span class="line">    <span class="keyword">private</span> TableColumn tableColumn;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String oldTitle;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">EditColumn</span><span class="params">(TableColumn tableColumn)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>();</span><br><span class="line">        <span class="keyword">this</span>.tableColumn = tableColumn;</span><br><span class="line">        <span class="keyword">this</span>.init();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.setMaxWidth(<span class="number">120</span>);</span><br><span class="line">        <span class="keyword">this</span>.setAlignment(Pos.CENTER);</span><br><span class="line">        <span class="keyword">this</span>.setStyle(<span class="string">"-fx-background-color: #D9D9D9;"</span>);</span><br><span class="line">        label = <span class="keyword">new</span> Label();</span><br><span class="line">        label.setStyle(<span class="string">"-fx-font-size: 12px; -fx-text-fill: #333333;"</span>);</span><br><span class="line">        textField = <span class="keyword">new</span> TextField();</span><br><span class="line">        textField.getStyleClass().add(<span class="string">"tablefx-header-editor"</span>);</span><br><span class="line">        label.textProperty().bindBidirectional(titleProperty());</span><br><span class="line">        textField.textProperty().bindBidirectional(titleProperty());</span><br><span class="line">        label.setTooltip(<span class="keyword">new</span> Tooltip());</span><br><span class="line">        label.getTooltip().textProperty().bindBidirectional(label.textProperty());</span><br><span class="line">        <span class="keyword">this</span>.getChildren().addAll(label, textField);</span><br><span class="line">        editingProperty().addListener((observable, oldValue, newValue) -&gt; &#123;</span><br><span class="line">            <span class="keyword">if</span> (isEditable()) &#123;</span><br><span class="line">                <span class="keyword">if</span> (newValue) &#123;</span><br><span class="line">                    label.setVisible(<span class="keyword">false</span>);</span><br><span class="line">                    textField.setVisible(<span class="keyword">true</span>);</span><br><span class="line">                    textField.setFocusTraversable(<span class="keyword">true</span>);</span><br><span class="line">                    textField.requestFocus();</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    label.setVisible(<span class="keyword">true</span>);</span><br><span class="line">                    textField.setVisible(<span class="keyword">false</span>);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        textField.textProperty().addListener((observable, oldValue, newValue) -&gt; &#123;</span><br><span class="line">            textField.setStyle(<span class="string">"-fx-border-color: #25B3FA;"</span>);</span><br><span class="line">        &#125;);</span><br><span class="line">        <span class="keyword">this</span>.setStyle(<span class="string">"-fx-background-color: transparent;"</span>);</span><br><span class="line">        textField.setOnKeyPressed(event -&gt; &#123;</span><br><span class="line">            <span class="keyword">if</span> (isEditing()) &#123;</span><br><span class="line">                <span class="keyword">if</span> (event.getCode() == KeyCode.ENTER) &#123;</span><br><span class="line">                    event.consume(); <span class="comment">// 放置对tabview的其他列产生影响，不让消息透传</span></span><br><span class="line">                    oldTitle = textField.getText();</span><br><span class="line">                    setEditing(<span class="keyword">false</span>);</span><br><span class="line">                    <span class="comment">// 提交编辑</span></span><br><span class="line">                    <span class="keyword">if</span> (callback != <span class="keyword">null</span>) &#123;</span><br><span class="line">                        callback.editCommit(tableColumn, textField.getText());</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125; <span class="keyword">else</span> <span class="keyword">if</span> (event.getCode() == KeyCode.ESCAPE) &#123;</span><br><span class="line">                    setTitle(oldTitle);</span><br><span class="line">                    setEditing(<span class="keyword">false</span>);</span><br><span class="line">                    <span class="comment">// 取消编辑</span></span><br><span class="line">                    <span class="keyword">if</span> (callback != <span class="keyword">null</span>) &#123;</span><br><span class="line">                        callback.cancelEdit();</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125; <span class="keyword">else</span> <span class="keyword">if</span> (event.getCode() == KeyCode.TAB) &#123;</span><br><span class="line">                    setEditing(<span class="keyword">false</span>);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        textFieldFocusProperty().addListener((observable, oldValue, newValue) -&gt; &#123;</span><br><span class="line">            <span class="keyword">if</span> (newValue) &#123;</span><br><span class="line">                textField.setFocusTraversable(<span class="keyword">true</span>);</span><br><span class="line">                textField.requestFocus();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        setEditing(<span class="keyword">false</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getTitle</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> titleProperty().get();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> StringProperty <span class="title">titleProperty</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (title == <span class="keyword">null</span>) &#123;</span><br><span class="line">            title = <span class="keyword">new</span> SimpleStringProperty();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> title;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setTitle</span><span class="params">(String title)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.oldTitle = title;</span><br><span class="line">        <span class="keyword">this</span>.titleProperty().set(title);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isEditing</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> editingProperty().get();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> BooleanProperty <span class="title">editingProperty</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (editing == <span class="keyword">null</span>) &#123;</span><br><span class="line">            editing = <span class="keyword">new</span> SimpleBooleanProperty(<span class="keyword">true</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> editing;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setEditing</span><span class="params">(<span class="keyword">boolean</span> editing)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.editingProperty().set(editing);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setEditCallback</span><span class="params">(EditColumnCallback callback)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.callback = callback;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isEditable</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> editableProperty().get();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> BooleanProperty <span class="title">editableProperty</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (editable == <span class="keyword">null</span>) &#123;</span><br><span class="line">            editable = <span class="keyword">new</span> SimpleBooleanProperty(<span class="keyword">true</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> editable;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setEditable</span><span class="params">(<span class="keyword">boolean</span> editable)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.editableProperty().set(editable);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isTextFieldFocus</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> textFieldFocusProperty().get();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> BooleanProperty <span class="title">textFieldFocusProperty</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (textFieldFocus == <span class="keyword">null</span>) &#123;</span><br><span class="line">            textFieldFocus = <span class="keyword">new</span> SimpleBooleanProperty();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> textFieldFocus;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setTextFieldFocus</span><span class="params">(<span class="keyword">boolean</span> textFieldFocus)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.textFieldFocusProperty().set(textFieldFocus);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>​</p>
+</li>
+</ol>
+<h3 id="最后欢迎加入我的javafx探讨群：518914410"><a href="#最后欢迎加入我的javafx探讨群：518914410" class="headerlink" title="最后欢迎加入我的javafx探讨群：518914410"></a>最后欢迎加入我的javafx探讨群：<code>518914410</code></h3><p>本文版权原创 by <a href="cmlanche.com">cmlanche.com</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    cmlanche
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://www.cmlanche.com/2017/06/08/JavaFx-TableView详解/" title="JavaFx TableView疑难详解">http://www.cmlanche.com/2017/06/08/JavaFx-TableView详解/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/javafx/" rel="tag"># javafx</a>
+          
+            <a href="/tags/javafx-tableview/" rel="tag"># javafx-tableview</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/06/06/JavaFx新手入门布局介绍/" rel="next" title="JavaFx新手入门布局介绍">
+                <i class="fa fa-chevron-left"></i> JavaFx新手入门布局介绍
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/08/10/Jenkins自动集成小记(一)/" rel="prev" title="Jenkins自动集成小记">
+                Jenkins自动集成小记 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="https://avatars3.githubusercontent.com/u/5886757?v=4&s=400&u=c3fdc83b9817d98d87ed84c8e768855fd628c745" alt="cmlanche">
+            
+              <p class="site-author-name" itemprop="name">cmlanche</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">40</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">59</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/cmlanche" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-globe"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://weibo.com/cmlanche" target="_blank" title="Weibo">
+                    
+                      <i class="fa fa-fw fa-globe"></i>Weibo</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#创建已知列的TableView"><span class="nav-number">1.</span> <span class="nav-text">创建已知列的TableView</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建动态列的TableView"><span class="nav-number">2.</span> <span class="nav-text">创建动态列的TableView</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#列拖动-如何捕获列拖动事件？"><span class="nav-number">3.</span> <span class="nav-text">[列拖动] 如何捕获列拖动事件？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#列拖动-如何防止第一列被拖动？"><span class="nav-number">4.</span> <span class="nav-text">[列拖动] 如何防止第一列被拖动？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#列拖动-如何禁用列拖动效果？"><span class="nav-number">5.</span> <span class="nav-text">[列拖动] 如何禁用列拖动效果？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#行拖动-如何拖动行，进行换行？"><span class="nav-number">6.</span> <span class="nav-text">[行拖动] 如何拖动行，进行换行？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修改TableView样式"><span class="nav-number">7.</span> <span class="nav-text">修改TableView样式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如何自定义列头，比如自己设置一个可编辑的列头呢？"><span class="nav-number">8.</span> <span class="nav-text">如何自定义列头，比如自己设置一个可编辑的列头呢？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#最后欢迎加入我的javafx探讨群：518914410"><span class="nav-number">9.</span> <span class="nav-text">最后欢迎加入我的javafx探讨群：518914410</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">cmlanche</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("Vi44LQT7TQmENDPlLnbjbgmr-gzGzoHsz", "rB0cEcQ09hqDXQrXpOkWfyO6");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
