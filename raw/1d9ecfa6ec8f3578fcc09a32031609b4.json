@@ -16,6 +16,8 @@ title: 主机排行网重大更新，移动端自适应
 
 ![hostingranking-new-mobile](https://cmlanche-1251406926.cos.ap-guangzhou.myqcloud.com/blog/2zaim.gif)
 
+体验地址：[https://hostingranking.cn/](<https://hostingranking.cn/>)
+
 ### 本次修改的过程
 
 我此前也从没真正做过移动端适配的事情，只是初步了解是通过媒体查询来做的，即当浏览器界面满足一定大小时，就会触发该媒体查询器所包含的css。
