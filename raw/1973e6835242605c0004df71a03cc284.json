@@ -14,6 +14,8 @@ tags: appium,自定义Appium
 
 本身appium-android-driver是一个nodejs工程，它还套着一个bootstrap的maven工程，这个maven工程就是用来打包UIAutomator1的，会再bootstrap/bin的目录下构建生成一个叫AppiumBootstrap.jar的供外层的NodeJS工程使用。代码在`appium-android-driver/lib/bootstrap.js`的start函数中
 
+<!--more-->
+
 ```javascript
       const rootDir = path.resolve(__dirname, '..', '..');
       const startDetector = (s) => { return /Appium Socket Server Ready/.test(s); };
