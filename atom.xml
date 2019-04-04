@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.cmlanche.com/"/>
-  <updated>2019-04-02T10:52:18.000Z</updated>
+  <updated>2019-04-04T12:20:35.000Z</updated>
   <id>http://www.cmlanche.com/</id>
   
   <author>
@@ -15,6 +15,27 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>怎么证明你买的域名是你的？</title>
+    <link href="http://www.cmlanche.com/2019/04/04/%E6%80%8E%E4%B9%88%E8%AF%81%E6%98%8E%E4%BD%A0%E4%B9%B0%E7%9A%84%E5%9F%9F%E5%90%8D%E6%98%AF%E4%BD%A0%E7%9A%84/"/>
+    <id>http://www.cmlanche.com/2019/04/04/怎么证明你买的域名是你的/</id>
+    <published>2019-04-04T11:59:39.000Z</published>
+    <updated>2019-04-04T12:20:35.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>这是我的”独立开发者”微信群中网友问的，我之前还从来没想过这个问题，自认为买了就是我的。</p><p>但仔细一想，其实这件事没有那么简单，比如我在阿里云万网买了域名，我可以对这个域名做任何操作，然而这个操作是建立在阿里云这个平台上的，也就是说，阿里云也可以随时强制收回这个域名，可以强制更改这个域名的所有者，可以禁用转移等，也就是说，你买了的这个域名，真正的所有者是这个平台，是阿里云！</p><a id="more"></a><p>我特意在知乎和v2ex这两个平台发出这样的提问：</p><ol><li>知乎：<a href="https://www.zhihu.com/question/318726785" target="_blank" rel="noopener">https://www.zhihu.com/question/318726785</a></li><li>v2ex：<a href="https://www.v2ex.com/t/552018" target="_blank" rel="noopener">https://www.v2ex.com/t/552018</a></li></ol><p>大体上有个初步的认识：</p><ol><li>你所购买的域名确实是你的，你可以用whoise查询，查询结果中是你的联系人信息。</li><li>你买的域名，你可以获得一个转移码的东西，你可以用它来转移的你的域名到另外一个平台，比如从阿里云转到godaddy.com。</li><li>平台确实可以随意改动你的域名的任何信息，但是它只要改了，就会有污点，就会存在记录，你可以凭借记录到ICANN（国际域名管理组织）或者CNNIC（中国域名注册局，管理.cn和中文域名系统）申诉。</li><li>其实平台一般不会做这种蠢事，不然就失去了平台最根本的东西，这样也会给自己留下污点，对自己更不利。不过据说阿里干过，参见”<a href="https://www.williamlong.info/weibo/archives/763.html" target="_blank" rel="noopener">万网封停慧聪网域名事件</a>“。</li><li>总结下来就是，不要把自己的域名放在竞争对手那里，最好在国外域名服务产商购买，如godaddy，namesilo，namecheap等，因为别人跟你毫无瓜葛，没必要对你的域名干啥坏事。</li></ol>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;这是我的”独立开发者”微信群中网友问的，我之前还从来没想过这个问题，自认为买了就是我的。&lt;/p&gt;
+&lt;p&gt;但仔细一想，其实这件事没有那么简单，比如我在阿里云万网买了域名，我可以对这个域名做任何操作，然而这个操作是建立在阿里云这个平台上的，也就是说，阿里云也可以随时强制收回这个域名，可以强制更改这个域名的所有者，可以禁用转移等，也就是说，你买了的这个域名，真正的所有者是这个平台，是阿里云！&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="域名" scheme="http://www.cmlanche.com/tags/%E5%9F%9F%E5%90%8D/"/>
+    
+  </entry>
   
   <entry>
     <title>初步成功自定义Appium</title>
@@ -558,31 +579,6 @@
     
     
       <category term="idea" scheme="http://www.cmlanche.com/tags/idea/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>解决Android Robotium(Instrumentation)初始化时getActivity阻塞的问题</title>
-    <link href="http://www.cmlanche.com/2018/07/17/%E8%A7%A3%E5%86%B3Android-Robotium%E5%88%9D%E5%A7%8B%E5%8C%96%E6%97%B6getActivity%E4%B8%8D%E8%BF%94%E5%9B%9E%E7%9A%84%E9%97%AE%E9%A2%98/"/>
-    <id>http://www.cmlanche.com/2018/07/17/解决Android-Robotium初始化时getActivity不返回的问题/</id>
-    <published>2018-07-17T03:52:23.000Z</published>
-    <updated>2018-07-18T05:56:09.000Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="如果应用没有启动，阻塞了"><a href="#如果应用没有启动，阻塞了" class="headerlink" title="如果应用没有启动，阻塞了"></a>如果应用没有启动，阻塞了</h3><p>这种情况getActivity肯定会阻塞的，你需要调用startActivity启动起来：</p><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">getInstrumentation().getTargetContext().startActivity(intent);</span><br></pre></td></tr></table></figure><p>如果在Robotium中还是没启动，你就需要借助外力来启动它了，比如命令：</p><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">am start .... // 代码未写完整，意思就是你需要借助am的命令来启动应用</span><br></pre></td></tr></table></figure><a id="more"></a><h3 id="如果应用启动了，但还是阻塞了"><a href="#如果应用启动了，但还是阻塞了" class="headerlink" title="如果应用启动了，但还是阻塞了"></a>如果应用启动了，但还是阻塞了</h3><p>有两种方式可以尝试，第一种：</p><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">ActivityMonitor monitor = getInstrumentation().addMonitor(activity.getName(), <span class="keyword">null</span>, <span class="keyword">false</span>);</span><br><span class="line">Activity activity = getInstrumentation().waitForMonitorWithTimeout(monitor, <span class="number">10000</span>);</span><br></pre></td></tr></table></figure><p>这种方式的意思是，对测试的Activity追加一个Monitor来追踪它的状态，并等待返回一个Activity对象，超时时间为10s。但是这种方式未必总是有效，在极端情况下，还是会阻塞。此时你就需要用第二种方式尝试获取Activity了</p><p>第二种方式：<strong>Java反射</strong></p><p>通过观察第一种方式的实现源码，我们发现被测Activity都是存放在<code>Instrumentation =&gt; ActivityThread(mThread) =&gt; ArrayMap&lt;IBinder, ActivityClientRecord&gt;(mActivities) =&gt; Activity</code>的一个map中的，那么我们通过反射的方式剥离3层，可以拿到这个对象。</p><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Object mThread = ReflectHelper.getField(getInstrumentation(), Instrumentation.class.getName(), <span class="string">"mThread"</span>);</span><br><span class="line">Log.e(<span class="string">"tag"</span>, <span class="string">"inst mthread = "</span> + mThread);</span><br><span class="line"><span class="keyword">if</span> (mThread != <span class="keyword">null</span>) &#123;</span><br><span class="line">   Object mActivities = ReflectHelper.getField(mThread, <span class="keyword">null</span>, <span class="string">"mActivities"</span>);</span><br><span class="line">   Log.e(<span class="string">"tag"</span>, <span class="string">"inst mActivities = "</span> + mActivities);</span><br><span class="line">   <span class="keyword">if</span> (mActivities != <span class="keyword">null</span> &amp;&amp; mActivities <span class="keyword">instanceof</span> Map) &#123;</span><br><span class="line">       Map actMap = (Map) mActivities;</span><br><span class="line">       Set&lt;Map.Entry&gt; sets = actMap.entrySet();</span><br><span class="line">       Iterator&lt;Map.Entry&gt; iterable = sets.iterator();</span><br><span class="line">       <span class="keyword">while</span> (iterable.hasNext()) &#123;</span><br><span class="line">           Map.Entry entry = iterable.next();</span><br><span class="line">           Object actRecObj = entry.getValue();</span><br><span class="line">           Log.e(<span class="string">"tag"</span>, <span class="string">"ActivityClientRecord: "</span> + actRecObj);</span><br><span class="line">           Object actObj = ReflectHelper.getField(actRecObj, <span class="keyword">null</span>, <span class="string">"activity"</span>);</span><br><span class="line">           Log.e(<span class="string">"tag"</span>, <span class="string">"Activity: "</span> + actObj);</span><br><span class="line">           <span class="keyword">if</span> (actObj != <span class="keyword">null</span>) &#123;</span><br><span class="line">               <span class="keyword">return</span> (Activity) actObj;</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>上述的种种方式可以完全解决getActivity阻塞的问题！</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;h3 id=&quot;如果应用没有启动，阻塞了&quot;&gt;&lt;a href=&quot;#如果应用没有启动，阻塞了&quot; class=&quot;headerlink&quot; title=&quot;如果应用没有启动，阻塞了&quot;&gt;&lt;/a&gt;如果应用没有启动，阻塞了&lt;/h3&gt;&lt;p&gt;这种情况getActivity肯定会阻塞的，你需要调用startActivity启动起来：&lt;/p&gt;
-&lt;figure class=&quot;highlight java&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;getInstrumentation().getTargetContext().startActivity(intent);&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;p&gt;如果在Robotium中还是没启动，你就需要借助外力来启动它了，比如命令：&lt;/p&gt;
-&lt;figure class=&quot;highlight shell&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;am start .... // 代码未写完整，意思就是你需要借助am的命令来启动应用&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-    
-    </summary>
-    
-    
-      <category term="Robotium" scheme="http://www.cmlanche.com/tags/Robotium/"/>
-    
-      <category term="自动化研发" scheme="http://www.cmlanche.com/tags/%E8%87%AA%E5%8A%A8%E5%8C%96%E7%A0%94%E5%8F%91/"/>
     
   </entry>
   
