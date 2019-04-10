@@ -1,0 +1,95 @@
+---
+title: appium怎么本地执行、调试
+---
+
+### 本地执行
+
+通常的执行方式是：
+
+```shell
+# 下载npm库中的appium
+npm i -g appium 
+# 启动appium服务器
+appium 
+```
+
+但如果是本地appium代码怎么执行呢？请看如下shell脚本
+
+<!--more-->
+
+```shell
+# 克隆appium代码
+git clone https://github.com/appium/appium.git
+# 安装依赖
+npm install
+# 编译
+gulp transpile
+# 本地启动appium
+./build/lib/main.js
+```
+
+只查看AndroidDriver的日志怎么做？
+
+```shell
+./build/lib/main.js | grep AndroidDriver
+```
+
+### 本地调试
+
+1. 配置VS Code的调试器
+
+   按F5，打开调试器，选择node.js，会生成一个launch.json的配置文件，这个配置文件用来启动程序的:
+
+   ```json
+   {
+       // 使用 IntelliSense 了解相关属性。 
+       // 悬停以查看现有属性的描述。
+       // 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387
+       "version": "0.2.0",
+       "configurations": [
+           {
+               "type": "node",
+               "request": "launch",
+               "name": "Appium",
+               "program": "${workspaceFolder}/appium/build/lib/main.js"
+           }
+       ]
+   }
+   ```
+
+2. 配置好launch.json之后，启动调试，会出现如下工具栏：
+
+   ![image-20190409150446005](https://cmlanche-1251406926.cos.ap-guangzhou.myqcloud.com/blog/a56nt.png)
+
+   其含义分别是：继续执行、单步到下一步、跳转到里面、跳出、重启、停止。
+
+### 本地其他库的调试
+
+通过上面的配置，我们可以调试appium工程，但是本地其他工程无法调试，因为都是直接走的依赖库，此时我们只需要用link命令就可以完成本地库与实际依赖库的关联。
+
+```shell
+npm link ../appium-android-driver
+```
+
+输出:
+
+```shell
+chengmingdeMacBook-Pro:appium cmlanche$ npm link ../appium-android-driver
+
+> appium-android-driver-cmext@4.11.0-20190409a prepare /Users/cmlanche/sourcetree/appium/appium-android-driver
+> gulp prepublish
+
+[15:50:55] Using gulpfile ~/sourcetree/appium/appium-android-driver/gulpfile.js
+[15:50:55] Starting 'prepublish'...
+[15:50:55] Starting 'clean'...
+[15:50:55] Finished 'clean' after 71 ms
+[15:50:55] Starting 'transpile'...
+[15:50:59] Finished 'transpile' after 3.75 s
+[15:50:59] Finished 'prepublish' after 3.83 s
+npm notice created a lockfile as package-lock.json. You should commit this file.
+audited 29538 packages in 14.08s
+found 2 moderate severity vulnerabilities
+  run `npm audit fix` to fix them, or `npm audit` for details
+/usr/local/lib/node_modules/appium-android-driver-cmext -> /Users/cmlanche/sourcetree/appium/appium-android-driver
+/Users/cmlanche/sourcetree/appium/appium/node_modules/appium-android-driver-cmext -> /usr/local/lib/node_modules/appium-android-driver-cmext -> /Users/cmlanche/sourcetree/appium/appium-android-driver
+```

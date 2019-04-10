@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.cmlanche.com/"/>
-  <updated>2019-04-04T12:24:19.000Z</updated>
+  <updated>2019-04-10T01:13:36.000Z</updated>
   <id>http://www.cmlanche.com/</id>
   
   <author>
@@ -15,6 +15,26 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>appium怎么本地执行、调试</title>
+    <link href="http://www.cmlanche.com/2019/04/09/appium%E6%80%8E%E4%B9%88%E6%9C%AC%E5%9C%B0%E6%89%A7%E8%A1%8C%E3%80%81%E8%B0%83%E8%AF%95/"/>
+    <id>http://www.cmlanche.com/2019/04/09/appium怎么本地执行、调试/</id>
+    <published>2019-04-09T06:36:34.000Z</published>
+    <updated>2019-04-10T01:13:36.000Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="本地执行"><a href="#本地执行" class="headerlink" title="本地执行"></a>本地执行</h3><p>通常的执行方式是：</p><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span> 下载npm库中的appium</span><br><span class="line">npm i -g appium </span><br><span class="line"><span class="meta">#</span> 启动appium服务器</span><br><span class="line">appium</span><br></pre></td></tr></table></figure><p>但如果是本地appium代码怎么执行呢？请看如下shell脚本</p><a id="more"></a><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span> 克隆appium代码</span><br><span class="line">git clone https://github.com/appium/appium.git</span><br><span class="line"><span class="meta">#</span> 安装依赖</span><br><span class="line">npm install</span><br><span class="line"><span class="meta">#</span> 编译</span><br><span class="line">gulp transpile</span><br><span class="line"><span class="meta">#</span> 本地启动appium</span><br><span class="line">./build/lib/main.js</span><br></pre></td></tr></table></figure><p>只查看AndroidDriver的日志怎么做？</p><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">./build/lib/main.js | grep AndroidDriver</span><br></pre></td></tr></table></figure><h3 id="本地调试"><a href="#本地调试" class="headerlink" title="本地调试"></a>本地调试</h3><ol><li><p>配置VS Code的调试器</p><p>按F5，打开调试器，选择node.js，会生成一个launch.json的配置文件，这个配置文件用来启动程序的:</p><figure class="highlight"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    // 使用 IntelliSense 了解相关属性。 </span><br><span class="line">    // 悬停以查看现有属性的描述。</span><br><span class="line">    // 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387</span><br><span class="line">    "version": "0.2.0",</span><br><span class="line">    "configurations": [</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">"type"</span>: <span class="string">"node"</span>,</span><br><span class="line">            <span class="attr">"request"</span>: <span class="string">"launch"</span>,</span><br><span class="line">            <span class="attr">"name"</span>: <span class="string">"Appium"</span>,</span><br><span class="line">            <span class="attr">"program"</span>: <span class="string">"$&#123;workspaceFolder&#125;/appium/build/lib/main.js"</span></span><br><span class="line">        &#125;</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li><li><p>配置好launch.json之后，启动调试，会出现如下工具栏：</p><p><img src="https://cmlanche-1251406926.cos.ap-guangzhou.myqcloud.com/blog/a56nt.png" alt="image-20190409150446005"></p><p>其含义分别是：继续执行、单步到下一步、跳转到里面、跳出、重启、停止。</p></li></ol><h3 id="本地其他库的调试"><a href="#本地其他库的调试" class="headerlink" title="本地其他库的调试"></a>本地其他库的调试</h3><p>通过上面的配置，我们可以调试appium工程，但是本地其他工程无法调试，因为都是直接走的依赖库，此时我们只需要用link命令就可以完成本地库与实际依赖库的关联。</p><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">npm link ../appium-android-driver</span><br></pre></td></tr></table></figure><p>输出:</p><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">chengmingdeMacBook-Pro:appium cmlanche$ npm link ../appium-android-driver</span><br><span class="line"></span><br><span class="line"><span class="meta">&gt;</span> appium-android-driver-cmext@4.11.0-20190409a prepare /Users/cmlanche/sourcetree/appium/appium-android-driver</span><br><span class="line"><span class="meta">&gt;</span> gulp prepublish</span><br><span class="line"></span><br><span class="line">[15:50:55] Using gulpfile ~/sourcetree/appium/appium-android-driver/gulpfile.js</span><br><span class="line">[15:50:55] Starting 'prepublish'...</span><br><span class="line">[15:50:55] Starting 'clean'...</span><br><span class="line">[15:50:55] Finished 'clean' after 71 ms</span><br><span class="line">[15:50:55] Starting 'transpile'...</span><br><span class="line">[15:50:59] Finished 'transpile' after 3.75 s</span><br><span class="line">[15:50:59] Finished 'prepublish' after 3.83 s</span><br><span class="line">npm notice created a lockfile as package-lock.json. You should commit this file.</span><br><span class="line">audited 29538 packages in 14.08s</span><br><span class="line">found 2 moderate severity vulnerabilities</span><br><span class="line">  run `npm audit fix` to fix them, or `npm audit` for details</span><br><span class="line">/usr/local/lib/node_modules/appium-android-driver-cmext -&gt; /Users/cmlanche/sourcetree/appium/appium-android-driver</span><br><span class="line">/Users/cmlanche/sourcetree/appium/appium/node_modules/appium-android-driver-cmext -&gt; /usr/local/lib/node_modules/appium-android-driver-cmext -&gt; /Users/cmlanche/sourcetree/appium/appium-android-driver</span><br></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;本地执行&quot;&gt;&lt;a href=&quot;#本地执行&quot; class=&quot;headerlink&quot; title=&quot;本地执行&quot;&gt;&lt;/a&gt;本地执行&lt;/h3&gt;&lt;p&gt;通常的执行方式是：&lt;/p&gt;
+&lt;figure class=&quot;highlight shell&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;meta&quot;&gt;#&lt;/span&gt; 下载npm库中的appium&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;npm i -g appium &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;meta&quot;&gt;#&lt;/span&gt; 启动appium服务器&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;appium&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;但如果是本地appium代码怎么执行呢？请看如下shell脚本&lt;/p&gt;
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>怎么证明你买的域名是你的？</title>
@@ -557,30 +577,6 @@
       <category term="unaryoperator" scheme="http://www.cmlanche.com/tags/unaryoperator/"/>
     
       <category term="lambda表达式" scheme="http://www.cmlanche.com/tags/lambda%E8%A1%A8%E8%BE%BE%E5%BC%8F/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Unable to start monitor 4454, An other instance is problaly using the same port</title>
-    <link href="http://www.cmlanche.com/2018/07/18/Unable-to-start-monitor-4454,-An-other-instance-is-problaly-using-the-same-port/"/>
-    <id>http://www.cmlanche.com/2018/07/18/Unable-to-start-monitor-4454,-An-other-instance-is-problaly-using-the-same-port/</id>
-    <published>2018-07-18T07:00:26.000Z</published>
-    <updated>2018-07-18T07:12:58.000Z</updated>
-    
-    <content type="html"><![CDATA[<blockquote><p>最近两个月启动IDEA一直这个错误，终于今天忍不住了，找了下解决这个问题的方法</p></blockquote><p><img src="https://ws2.sinaimg.cn/large/006tNc79ly1fte0ysjmz2j30ow09gdgz.jpg" width="400px"></p><p>造成IDEA启动失败。</p><a id="more"></a><h3 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h3><p>禁用或者卸载Log4JPlugin插件，这个插件没什么卵用，14年之后就不再更新了。</p><h3 id="卸载方法"><a href="#卸载方法" class="headerlink" title="卸载方法"></a>卸载方法</h3><p>菜单Preferences-&gt;Plugins，然后搜索log4JPlugin就出来了，然后Uninstall卸载</p><p><img src="https://ws1.sinaimg.cn/large/006tNc79ly1fte17sd0c8j31iy0tmdmn.jpg" alt="image-20180718151011317"></p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;blockquote&gt;
-&lt;p&gt;最近两个月启动IDEA一直这个错误，终于今天忍不住了，找了下解决这个问题的方法&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;&lt;img src=&quot;https://ws2.sinaimg.cn/large/006tNc79ly1fte0ysjmz2j30ow09gdgz.jpg&quot; width=&quot;400px&quot;&gt;&lt;/p&gt;
-&lt;p&gt;造成IDEA启动失败。&lt;/p&gt;
-    
-    </summary>
-    
-    
-      <category term="idea" scheme="http://www.cmlanche.com/tags/idea/"/>
     
   </entry>
   
