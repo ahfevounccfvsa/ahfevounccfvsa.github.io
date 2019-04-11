@@ -7,6 +7,8 @@ tags: [appium]
 
 appium是基于nodejs来打包、发布的，也用它来管理各个driver，如下图所示，它的结构图如下：
 
+<!--more-->
+
 ![image-20190411154231747](https://cmlanche-1251406926.cos.ap-guangzhou.myqcloud.com/blog/4y4w5.png)
 
 从上图就可以看到：**android的自动化比iOS的要难多了！**

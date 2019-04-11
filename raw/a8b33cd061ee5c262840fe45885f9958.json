@@ -9,6 +9,8 @@ tags: [appium, uiautomator]
 
 很不幸，appium的代码中，是先安装Appium Setting APK和被测应用的，那怎么改呢？
 
+<!--more-->
+
 我们找到appium-android-driver工程，找打lib/driver.js，然后找到startAndroidSession方法，将如下代码提到这个方法的最前面：
 
 ```javascript

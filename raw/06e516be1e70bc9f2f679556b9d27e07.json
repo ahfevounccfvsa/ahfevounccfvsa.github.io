@@ -9,6 +9,8 @@ tags: [appium]
 
 因为UIAutomator2是一个apk形式的，本身可以认为是一个应用，是需要安装的，所以在启动UIAutomator2之前，就会碰到系统对话框的问题，此时，我们需要借助UIAutomator1来做这件事。
 
+<!--more-->
+
 ### 大体流程是：
 
 1. 启动UIAutomator1

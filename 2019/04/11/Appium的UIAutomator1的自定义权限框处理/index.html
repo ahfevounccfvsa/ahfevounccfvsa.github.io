@@ -90,7 +90,7 @@
 <meta property="og:description" content="欢迎关注我的Appium知乎专栏：自定义Appium之路 当Appium脚本中的uiautomationName设置为UiAutomator1时，会启动UIAutomator1的Driver来测试你的Appium脚本，在脚本之前之前，会有很多权限框弹出，此时就需要我们的UIAutomator1来自动处理这样的对话框，并且要在安装apk之前就启动UIAutomator1的服务。 很不幸，appium">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://cmlanche-1251406926.cos.ap-guangzhou.myqcloud.com/blog/5vr6h.png">
-<meta property="og:updated_time" content="2019-04-11T08:55:13.000Z">
+<meta property="og:updated_time" content="2019-04-11T10:25:51.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="给 Appium 内置系统对话框处理吧！appium-android-driver 篇">
 <meta name="twitter:description" content="欢迎关注我的Appium知乎专栏：自定义Appium之路 当Appium脚本中的uiautomationName设置为UiAutomator1时，会启动UIAutomator1的Driver来测试你的Appium脚本，在脚本之前之前，会有很多权限框弹出，此时就需要我们的UIAutomator1来自动处理这样的对话框，并且要在安装apk之前就启动UIAutomator1的服务。 很不幸，appium">
@@ -386,6 +386,7 @@
         <p>欢迎关注我的Appium知乎专栏：<a href="https://zhuanlan.zhihu.com/custom-appium" target="_blank" rel="noopener">自定义Appium之路</a></p>
 <p>当Appium脚本中的uiautomationName设置为UiAutomator1时，会启动UIAutomator1的Driver来测试你的Appium脚本，在脚本之前之前，会有很多权限框弹出，此时就需要我们的UIAutomator1来自动处理这样的对话框，并且要在安装apk之前就启动UIAutomator1的服务。</p>
 <p>很不幸，appium的代码中，是先安装Appium Setting APK和被测应用的，那怎么改呢？</p>
+<a id="more"></a>
 <p>我们找到appium-android-driver工程，找打lib/driver.js，然后找到startAndroidSession方法，将如下代码提到这个方法的最前面：</p>
 <figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// start UiAutomator （改动：优先启动UIAutomator1）</span></span><br><span class="line"><span class="keyword">this</span>.bootstrap = <span class="keyword">new</span> helpers.bootstrap(<span class="keyword">this</span>.adb, <span class="keyword">this</span>.bootstrapPort, <span class="keyword">this</span>.opts.websocket);</span><br><span class="line"><span class="keyword">await</span> <span class="keyword">this</span>.bootstrap.start(<span class="keyword">this</span>.opts.appPackage, <span class="keyword">this</span>.opts.disableAndroidWatchers, <span class="keyword">this</span>.opts.acceptSslCerts);</span><br><span class="line"><span class="comment">// handling unexpected shutdown</span></span><br><span class="line"><span class="keyword">this</span>.bootstrap.onUnexpectedShutdown.catch(<span class="keyword">async</span> (err) =&gt; &#123; <span class="comment">// eslint-disable-line promise/prefer-await-to-callbacks</span></span><br><span class="line">  <span class="keyword">if</span> (!<span class="keyword">this</span>.bootstrap.ignoreUnexpectedShutdown) &#123;</span><br><span class="line">    <span class="keyword">await</span> <span class="keyword">this</span>.startUnexpectedShutdown(err);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
 <p>如下图所示：</p>
@@ -527,7 +528,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">50</span>
+                  <span class="site-state-item-count">49</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -540,7 +541,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">65</span>
+                  <span class="site-state-item-count">64</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
