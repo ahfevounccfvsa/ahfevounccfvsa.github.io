@@ -2,6 +2,8 @@
 title: appium怎么本地执行、调试
 ---
 
+欢迎关注我的Appium知乎专栏：[自定义Appium之路](<https://zhuanlan.zhihu.com/custom-appium>)
+
 ### 本地执行
 
 通常的执行方式是：
@@ -65,6 +67,8 @@ gulp transpile
 
 ### 本地其他库的调试
 
+##### 方法1：npm link 创建软链
+
 通过上面的配置，我们可以调试appium工程，但是本地其他工程无法调试，因为都是直接走的依赖库，此时我们只需要用link命令就可以完成本地库与实际依赖库的关联。
 
 ```shell
@@ -93,3 +97,21 @@ found 2 moderate severity vulnerabilities
 /usr/local/lib/node_modules/appium-android-driver-cmext -> /Users/cmlanche/sourcetree/appium/appium-android-driver
 /Users/cmlanche/sourcetree/appium/appium/node_modules/appium-android-driver-cmext -> /usr/local/lib/node_modules/appium-android-driver-cmext -> /Users/cmlanche/sourcetree/appium/appium-android-driver
 ```
+
+##### 方法2：依赖本地仓库
+
+切换到appium工程目录下，安装我自定义的uiautomator2-driver
+
+```shell
+npm i appium-uiautomator2-driver-cmext@"file:../appium-uiautomator2-driver"
+```
+
+输出：
+
+```shell
+chengmingdeMacBook-Pro:appium cmlanche$ npm i appium-uiautomator2-driver-cmext@"file:../appium-uiautomator2-driver"
++ appium-uiautomator2-driver-cmext@1.33.0-20190410f
+removed 1 package and updated 1 package in 24.494s
+```
+
+当本地库修改后，运行`npm i`重新编译一下，就可以继续调试了。

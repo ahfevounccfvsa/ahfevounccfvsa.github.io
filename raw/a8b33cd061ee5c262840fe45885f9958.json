@@ -1,0 +1,82 @@
+---
+title: 给 Appium 内置系统对话框处理吧！appium-android-driver 篇
+tags: [appium, uiautomator]
+---
+
+欢迎关注我的Appium知乎专栏：[自定义Appium之路](<https://zhuanlan.zhihu.com/custom-appium>)
+
+当Appium脚本中的uiautomationName设置为UiAutomator1时，会启动UIAutomator1的Driver来测试你的Appium脚本，在脚本之前之前，会有很多权限框弹出，此时就需要我们的UIAutomator1来自动处理这样的对话框，并且要在安装apk之前就启动UIAutomator1的服务。
+
+很不幸，appium的代码中，是先安装Appium Setting APK和被测应用的，那怎么改呢？
+
+我们找到appium-android-driver工程，找打lib/driver.js，然后找到startAndroidSession方法，将如下代码提到这个方法的最前面：
+
+```javascript
+    // start UiAutomator （改动：优先启动UIAutomator1）
+    this.bootstrap = new helpers.bootstrap(this.adb, this.bootstrapPort, this.opts.websocket);
+    await this.bootstrap.start(this.opts.appPackage, this.opts.disableAndroidWatchers, this.opts.acceptSslCerts);
+    // handling unexpected shutdown
+    this.bootstrap.onUnexpectedShutdown.catch(async (err) => { // eslint-disable-line promise/prefer-await-to-callbacks
+      if (!this.bootstrap.ignoreUnexpectedShutdown) {
+        await this.startUnexpectedShutdown(err);
+      }
+    });
+```
+
+如下图所示：
+
+![image-20190411164422233](https://cmlanche-1251406926.cos.ap-guangzhou.myqcloud.com/blog/5vr6h.png)
+
+经过测试，这样不会影响UIAutomator1的正常启动，不会带来负面影响。
+
+既然都优先启动了，我们就要让UIAutomator1去监控手机界面了。
+
+不幸的是，Appium并没有给我们写类似的监听代码，我们得自己动手了，其实很简单，大体思路就是，dump控件树，检测界面控件，检测到权限框，就点"允许"、"是"之类的，这里就需要不断的枚举了。国内手机产商众多，android版本也多，这里就有大量的工作要做了。
+
+幸运的是，Appium给我们做好了监控的线程，只是空实现，基本啥都没干，代码在SocketServer.java的listenForever中：
+
+```java
+  public void listenForever(boolean disableAndroidWatchers, boolean acceptSSLCerts) throws SocketServerException {
+    Logger.debug("Appium Socket Server Ready");
+    UpdateStrings.loadStringsJson();
+    if (disableAndroidWatchers) {
+      Logger.debug("Skipped registering crash watchers.");
+    } else {
+      dismissCrashAlerts();
+      // 看这里，就是这个每隔100毫秒触发一次的check !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+      final TimerTask updateWatchers = new TimerTask() {
+        @Override
+        public void run() {
+          try {
+            watchers.check();
+          } catch (final Exception e) {
+            e.printStackTrace();
+          }
+        }
+      };
+      timer.scheduleAtFixedRate(updateWatchers, 100, 100);
+    }
+
+    if (acceptSSLCerts) {
+      Logger.debug("Accepting SSL certificate errors.");
+      acceptSSLCertificates();
+    }
+
+    try {
+      client = server.accept();
+      Logger.debug("Client connected");
+      in = new BufferedReader(new InputStreamReader(client.getInputStream(), "UTF-8"));
+      out = new BufferedWriter(new OutputStreamWriter(client.getOutputStream(), "UTF-8"));
+      while (keepListening) {
+        handleClientData();
+      }
+      in.close();
+      out.close();
+      client.close();
+      Logger.debug("Closed client connection");
+    } catch (final IOException e) {
+      throw new SocketServerException("Error when client was trying to connect");
+    }
+  }
+```
+

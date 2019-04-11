@@ -81,18 +81,18 @@
 
 
 
-<meta name="description" content="本地执行通常的执行方式是： # 下载npm库中的appiumnpm i -g appium # 启动appium服务器appium 但如果是本地appium代码怎么执行呢？请看如下shell脚本">
+<meta name="description" content="欢迎关注我的Appium知乎专栏：自定义Appium之路 本地执行通常的执行方式是： # 下载npm库中的appiumnpm i -g appium # 启动appium服务器appium 但如果是本地appium代码怎么执行呢？请看如下shell脚本">
 <meta property="og:type" content="article">
 <meta property="og:title" content="appium怎么本地执行、调试">
 <meta property="og:url" content="http://www.cmlanche.com/2019/04/09/appium怎么本地执行、调试/index.html">
 <meta property="og:site_name" content="cmlanche">
-<meta property="og:description" content="本地执行通常的执行方式是： # 下载npm库中的appiumnpm i -g appium # 启动appium服务器appium 但如果是本地appium代码怎么执行呢？请看如下shell脚本">
+<meta property="og:description" content="欢迎关注我的Appium知乎专栏：自定义Appium之路 本地执行通常的执行方式是： # 下载npm库中的appiumnpm i -g appium # 启动appium服务器appium 但如果是本地appium代码怎么执行呢？请看如下shell脚本">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://cmlanche-1251406926.cos.ap-guangzhou.myqcloud.com/blog/a56nt.png">
-<meta property="og:updated_time" content="2019-04-10T01:13:36.000Z">
+<meta property="og:updated_time" content="2019-04-11T07:24:46.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="appium怎么本地执行、调试">
-<meta name="twitter:description" content="本地执行通常的执行方式是： # 下载npm库中的appiumnpm i -g appium # 启动appium服务器appium 但如果是本地appium代码怎么执行呢？请看如下shell脚本">
+<meta name="twitter:description" content="欢迎关注我的Appium知乎专栏：自定义Appium之路 本地执行通常的执行方式是： # 下载npm库中的appiumnpm i -g appium # 启动appium服务器appium 但如果是本地appium代码怎么执行呢？请看如下shell脚本">
 <meta name="twitter:image" content="https://cmlanche-1251406926.cos.ap-guangzhou.myqcloud.com/blog/a56nt.png">
 
 
@@ -345,7 +345,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  489 字
+                  611 字
                 </span>
               
 
@@ -361,7 +361,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  2 分钟
+                  3 分钟
                 </span>
               
             </div>
@@ -382,7 +382,8 @@
       
 
       
-        <h3 id="本地执行"><a href="#本地执行" class="headerlink" title="本地执行"></a>本地执行</h3><p>通常的执行方式是：</p>
+        <p>欢迎关注我的Appium知乎专栏：<a href="https://zhuanlan.zhihu.com/custom-appium" target="_blank" rel="noopener">自定义Appium之路</a></p>
+<h3 id="本地执行"><a href="#本地执行" class="headerlink" title="本地执行"></a>本地执行</h3><p>通常的执行方式是：</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span> 下载npm库中的appium</span><br><span class="line">npm i -g appium </span><br><span class="line"><span class="meta">#</span> 启动appium服务器</span><br><span class="line">appium</span><br></pre></td></tr></table></figure>
 <p>但如果是本地appium代码怎么执行呢？请看如下shell脚本</p>
 <a id="more"></a>
@@ -399,10 +400,15 @@
 <p>其含义分别是：继续执行、单步到下一步、跳转到里面、跳出、重启、停止。</p>
 </li>
 </ol>
-<h3 id="本地其他库的调试"><a href="#本地其他库的调试" class="headerlink" title="本地其他库的调试"></a>本地其他库的调试</h3><p>通过上面的配置，我们可以调试appium工程，但是本地其他工程无法调试，因为都是直接走的依赖库，此时我们只需要用link命令就可以完成本地库与实际依赖库的关联。</p>
+<h3 id="本地其他库的调试"><a href="#本地其他库的调试" class="headerlink" title="本地其他库的调试"></a>本地其他库的调试</h3><h5 id="方法1：npm-link-创建软链"><a href="#方法1：npm-link-创建软链" class="headerlink" title="方法1：npm link 创建软链"></a>方法1：npm link 创建软链</h5><p>通过上面的配置，我们可以调试appium工程，但是本地其他工程无法调试，因为都是直接走的依赖库，此时我们只需要用link命令就可以完成本地库与实际依赖库的关联。</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">npm link ../appium-android-driver</span><br></pre></td></tr></table></figure>
 <p>输出:</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">chengmingdeMacBook-Pro:appium cmlanche$ npm link ../appium-android-driver</span><br><span class="line"></span><br><span class="line"><span class="meta">&gt;</span> appium-android-driver-cmext@4.11.0-20190409a prepare /Users/cmlanche/sourcetree/appium/appium-android-driver</span><br><span class="line"><span class="meta">&gt;</span> gulp prepublish</span><br><span class="line"></span><br><span class="line">[15:50:55] Using gulpfile ~/sourcetree/appium/appium-android-driver/gulpfile.js</span><br><span class="line">[15:50:55] Starting 'prepublish'...</span><br><span class="line">[15:50:55] Starting 'clean'...</span><br><span class="line">[15:50:55] Finished 'clean' after 71 ms</span><br><span class="line">[15:50:55] Starting 'transpile'...</span><br><span class="line">[15:50:59] Finished 'transpile' after 3.75 s</span><br><span class="line">[15:50:59] Finished 'prepublish' after 3.83 s</span><br><span class="line">npm notice created a lockfile as package-lock.json. You should commit this file.</span><br><span class="line">audited 29538 packages in 14.08s</span><br><span class="line">found 2 moderate severity vulnerabilities</span><br><span class="line">  run `npm audit fix` to fix them, or `npm audit` for details</span><br><span class="line">/usr/local/lib/node_modules/appium-android-driver-cmext -&gt; /Users/cmlanche/sourcetree/appium/appium-android-driver</span><br><span class="line">/Users/cmlanche/sourcetree/appium/appium/node_modules/appium-android-driver-cmext -&gt; /usr/local/lib/node_modules/appium-android-driver-cmext -&gt; /Users/cmlanche/sourcetree/appium/appium-android-driver</span><br></pre></td></tr></table></figure>
+<h5 id="方法2：依赖本地仓库"><a href="#方法2：依赖本地仓库" class="headerlink" title="方法2：依赖本地仓库"></a>方法2：依赖本地仓库</h5><p>切换到appium工程目录下，安装我自定义的uiautomator2-driver</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">npm i appium-uiautomator2-driver-cmext@"file:../appium-uiautomator2-driver"</span><br></pre></td></tr></table></figure>
+<p>输出：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">chengmingdeMacBook-Pro:appium cmlanche$ npm i appium-uiautomator2-driver-cmext@"file:../appium-uiautomator2-driver"</span><br><span class="line">+ appium-uiautomator2-driver-cmext@1.33.0-20190410f</span><br><span class="line">removed 1 package and updated 1 package in 24.494s</span><br></pre></td></tr></table></figure>
+<p>当本地库修改后，运行<code>npm i</code>重新编译一下，就可以继续调试了。</p>
 
       
     </div>
@@ -454,6 +460,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/04/11/Open心态/" rel="prev" title="独立开发者的开放心态：帮助他人，其实就是在帮你自己！">
+                独立开发者的开放心态：帮助他人，其实就是在帮你自己！ <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -532,7 +542,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">44</span>
+                  <span class="site-state-item-count">50</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -545,7 +555,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">61</span>
+                  <span class="site-state-item-count">65</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -601,7 +611,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#本地执行"><span class="nav-number">1.</span> <span class="nav-text">本地执行</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#本地调试"><span class="nav-number">2.</span> <span class="nav-text">本地调试</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#本地其他库的调试"><span class="nav-number">3.</span> <span class="nav-text">本地其他库的调试</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#本地执行"><span class="nav-number">1.</span> <span class="nav-text">本地执行</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#本地调试"><span class="nav-number">2.</span> <span class="nav-text">本地调试</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#本地其他库的调试"><span class="nav-number">3.</span> <span class="nav-text">本地其他库的调试</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#方法1：npm-link-创建软链"><span class="nav-number">3.0.1.</span> <span class="nav-text">方法1：npm link 创建软链</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#方法2：依赖本地仓库"><span class="nav-number">3.0.2.</span> <span class="nav-text">方法2：依赖本地仓库</span></a></li></ol></li></ol></div>
             
 
           </div>

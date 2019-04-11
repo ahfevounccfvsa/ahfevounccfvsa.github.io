@@ -268,6 +268,1117 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.cmlanche.com/2019/04/11/给Appium内置系统对话框自动处理---appium-uiautomator2-driver篇/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="cmlanche">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="https://avatars3.githubusercontent.com/u/5886757?v=4&s=400&u=c3fdc83b9817d98d87ed84c8e768855fd628c745">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cmlanche">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/04/11/给Appium内置系统对话框自动处理---appium-uiautomator2-driver篇/" itemprop="url">给Appium内置系统对话框自动处理 - appium-uiautomator2-driver篇</a></h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-11T17:02:20+08:00">
+                2019-04-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2019/04/11/给Appium内置系统对话框自动处理---appium-uiautomator2-driver篇/" class="leancloud_visitors" data-flag-title="给Appium内置系统对话框自动处理 - appium-uiautomator2-driver篇">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  593 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  3 分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>欢迎关注我的Appium知乎专栏：<a href="https://zhuanlan.zhihu.com/custom-appium" target="_blank" rel="noopener">自定义Appium之路</a></p>
+<p>当appium脚本的uiautomationName设置为UiAutomator2时，就会启动appium-uiautomator2-driver这个driver来执行你的脚本测试，而它的系统对话框的处理跟UIAutomator1的就不一样了，更加复杂一点。</p>
+<p>因为UIAutomator2是一个apk形式的，本身可以认为是一个应用，是需要安装的，所以在启动UIAutomator2之前，就会碰到系统对话框的问题，此时，我们需要借助UIAutomator1来做这件事。</p>
+<h3 id="大体流程是："><a href="#大体流程是：" class="headerlink" title="大体流程是："></a>大体流程是：</h3><ol>
+<li>启动UIAutomator1</li>
+<li>用UIAutomator1来处理权限框</li>
+<li>安装各种apk，包括UIAutomator2的apk</li>
+<li>杀死UIAutomator1服务</li>
+<li>启动UIAutomator2</li>
+<li>使用UIAutomator2来监控界面，处理系统对话框</li>
+</ol>
+<h3 id="怎么做呢？"><a href="#怎么做呢？" class="headerlink" title="怎么做呢？"></a>怎么做呢？</h3><p>首先我们需要修改appium-uiautomator2-driver，因为原本的执行流程根本没有UIAutomator1的事情，我们需要把UIAutomator1引用进来：(appium-uiautomator2-driver/lib/driver.js)</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; androidHelpers, androidCommands, SETTINGS_HELPER_PKG_ID, UiAutomator &#125; <span class="keyword">from</span> <span class="string">'appium-android-driver-cmext'</span>;</span><br></pre></td></tr></table></figure>
+<p>上面代码中的UiAutomator是我新加的，但是在appium-android-driver中并没有导出UiAutomator的，我们需要给它导出来：(在appium-uiautomator2-driver/index.js)</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> driver <span class="keyword">from</span> <span class="string">'./lib/driver'</span>;</span><br><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> androidHelperIndex <span class="keyword">from</span> <span class="string">'./lib/android-helpers'</span>;</span><br><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> commandIndex <span class="keyword">from</span> <span class="string">'./lib/commands/index'</span>;</span><br><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> webview <span class="keyword">from</span> <span class="string">'./lib/webview-helpers'</span>;</span><br><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> caps <span class="keyword">from</span> <span class="string">'./lib/desired-caps'</span>;</span><br><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> uia <span class="keyword">from</span> <span class="string">'./lib/uiautomator'</span>;   <span class="comment">// 这是新增</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> &#123; AndroidDriver &#125; = driver;</span><br><span class="line"><span class="keyword">const</span> &#123; UiAutomator &#125; = uia; <span class="comment">// 这是新增</span></span><br><span class="line"><span class="keyword">const</span> &#123; <span class="attr">helpers</span>: webviewHelpers, NATIVE_WIN, WEBVIEW_WIN, WEBVIEW_BASE,</span><br><span class="line">        CHROMIUM_WIN &#125; = webview;</span><br><span class="line"><span class="keyword">const</span> &#123; commonCapConstraints &#125; = caps;</span><br><span class="line"><span class="keyword">const</span> &#123; <span class="attr">commands</span>: androidCommands &#125; = commandIndex;</span><br><span class="line"><span class="keyword">const</span> &#123; <span class="attr">helpers</span>: androidHelpers, SETTINGS_HELPER_PKG_ID &#125; = androidHelperIndex;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> AndroidDriver;</span><br><span class="line"><span class="keyword">export</span> &#123;</span><br><span class="line">  androidHelpers, androidCommands, AndroidDriver, startServer,</span><br><span class="line">  commonCapConstraints, webviewHelpers, NATIVE_WIN, WEBVIEW_WIN,</span><br><span class="line">  WEBVIEW_BASE, CHROMIUM_WIN, SETTINGS_HELPER_PKG_ID, UiAutomator <span class="comment">// 这是新增</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>添加一个启动UIAutomator1服务的方法：(appium-uiautomator2-driver/lib/driver.js)</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">async</span> startUiAutomator1Service () &#123;</span><br><span class="line">  <span class="keyword">const</span> rootDir = path.resolve(__dirname, <span class="string">'..'</span>, <span class="string">'..'</span>, <span class="string">'..'</span>, <span class="string">'appium-android-driver'</span>);</span><br><span class="line">  <span class="keyword">const</span> startDetector = <span class="function">(<span class="params">s</span>) =&gt;</span> &#123; <span class="keyword">return</span> <span class="regexp">/Appium Socket Server Ready/</span>.test(s); &#125;;</span><br><span class="line">  <span class="keyword">const</span> bootstrapJar = path.resolve(rootDir, <span class="string">'bootstrap'</span>, <span class="string">'bin'</span>, <span class="string">'AppiumBootstrap.jar'</span>);</span><br><span class="line">  <span class="keyword">this</span>.uiAutomator = <span class="keyword">new</span> UiAutomator(<span class="keyword">this</span>.adb);</span><br><span class="line">  <span class="keyword">await</span> <span class="keyword">this</span>.uiAutomator.start(</span><br><span class="line">    bootstrapJar, <span class="string">'io.appium.android.bootstrap.Bootstrap'</span>,</span><br><span class="line">    startDetector);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>因为这个driver.js没有导入path，我们还要导入path：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> path <span class="keyword">from</span> <span class="string">'path'</span>;</span><br></pre></td></tr></table></figure>
+<p>然后我们找到<code>startUiAutomator2Session</code>方法，分别添加如下代码：</p>
+<ol>
+<li><p>启动UIAutomator1的代码：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 启动UIAutomator2之前，先启动UIAutomator1服务来处理系统框</span></span><br><span class="line"><span class="keyword">await</span> <span class="keyword">this</span>.startUiAutomator1Service();</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>kill UIAutomator1的代码：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 在启动UIAutomator2之前，要先杀死UIAutomator1服务，否则UIAutomator2无法启动</span></span><br><span class="line"><span class="comment">// 因为UIAutomator只允许同时存在一个</span></span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">this</span>.uiAutomator) &#123;</span><br><span class="line">	<span class="keyword">this</span>.uiAutomator.shutdown();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>位置如下图：</p>
+<p><img src="https://cmlanche-1251406926.cos.ap-guangzhou.myqcloud.com/blog/awqkh.png" alt="image-20190411171620414"></p>
+<p><img src="https://cmlanche-1251406926.cos.ap-guangzhou.myqcloud.com/blog/2am2t.png" alt="image-20190411171642533"></p>
+<p>自此，nodejs的事情就完成了，剩下的就是要改造appium-uiautomator2-server的代码，让它能够像UIAutomator1一样监听界面，自动处理。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.cmlanche.com/2019/04/11/系统对话框自动处理流程/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="cmlanche">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="https://avatars3.githubusercontent.com/u/5886757?v=4&s=400&u=c3fdc83b9817d98d87ed84c8e768855fd628c745">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cmlanche">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/04/11/系统对话框自动处理流程/" itemprop="url">系统对话框自动处理流程</a></h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-11T16:35:58+08:00">
+                2019-04-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2019/04/11/系统对话框自动处理流程/" class="leancloud_visitors" data-flag-title="系统对话框自动处理流程">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  0 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  1 分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.cmlanche.com/2019/04/11/自定义系统框处理-–-有哪些方法？/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="cmlanche">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="https://avatars3.githubusercontent.com/u/5886757?v=4&s=400&u=c3fdc83b9817d98d87ed84c8e768855fd628c745">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cmlanche">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/04/11/自定义系统框处理-–-有哪些方法？/" itemprop="url">自定义系统框处理 – 有哪些方法？</a></h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-11T16:20:22+08:00">
+                2019-04-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2019/04/11/自定义系统框处理-–-有哪些方法？/" class="leancloud_visitors" data-flag-title="自定义系统框处理 – 有哪些方法？">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  332 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  1 分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>系统框处理流程有哪些方法？</p>
+<h3 id="adb赋予权限"><a href="#adb赋予权限" class="headerlink" title="adb赋予权限"></a>adb赋予权限</h3><ol>
+<li>优点：用户无感知</li>
+<li>缺点：<ol>
+<li>只能解决小部分问题，无法对所有手机和系统版本兼容</li>
+<li>不仅仅是系统<strong>权限</strong>框，<strong>其他弹出的系统框</strong>也要处理，如系统<strong>更新</strong>对话框</li>
+</ol>
+</li>
+</ol>
+<h3 id="单独写appium脚本去处理"><a href="#单独写appium脚本去处理" class="headerlink" title="单独写appium脚本去处理"></a><del>单独写appium脚本去处理</del></h3><p>此方案无法做到，因为权限框处理在脚本之前</p>
+<h3 id="在PC端额外开启一个线程去做权限框处理"><a href="#在PC端额外开启一个线程去做权限框处理" class="headerlink" title="在PC端额外开启一个线程去做权限框处理"></a>在PC端额外开启一个线程去做权限框处理</h3><ol>
+<li>优点：无需改造Appium</li>
+<li>缺点：在pc端额外维护一个处理流程，并且需要不断的去请求dump控件树，再拉取到pc端解析<ol>
+<li>流程过于复杂，不稳定</li>
+<li>处理不及时</li>
+<li>控件树信息塞选可能有漏，无法从根本上解决</li>
+</ol>
+</li>
+</ol>
+<h3 id="自定义appium，添加监控代码，使appium自带这种功能"><a href="#自定义appium，添加监控代码，使appium自带这种功能" class="headerlink" title="自定义appium，添加监控代码，使appium自带这种功能"></a>自定义appium，添加监控代码，使appium自带这种功能</h3><ol>
+<li>优点：深度定制Appium，内置权限框处理<ol>
+<li>内置，有问题可以从根本上解决</li>
+<li>原生，处理速度及时，速度快</li>
+<li>系统框信息自定义配置，有新的无法解决的对话框，可以只修改配置即可**</li>
+</ol>
+</li>
+<li><strong>缺点：</strong><ol>
+<li>需要定制Appium，难度大</li>
+<li>Appium版本更新的话，需要拉取，会有代码上的冲突**</li>
+</ol>
+</li>
+</ol>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.cmlanche.com/2019/04/11/appium的技术架构/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="cmlanche">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="https://avatars3.githubusercontent.com/u/5886757?v=4&s=400&u=c3fdc83b9817d98d87ed84c8e768855fd628c745">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cmlanche">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/04/11/appium的技术架构/" itemprop="url">appium的技术架构</a></h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-11T15:29:27+08:00">
+                2019-04-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2019/04/11/appium的技术架构/" class="leancloud_visitors" data-flag-title="appium的技术架构">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  312 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  1 分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>欢迎关注我的Appium知乎专栏：<a href="https://zhuanlan.zhihu.com/custom-appium" target="_blank" rel="noopener">自定义Appium之路</a></p>
+<p>appium是基于nodejs来打包、发布的，也用它来管理各个driver，如下图所示，它的结构图如下：</p>
+<p><img src="https://cmlanche-1251406926.cos.ap-guangzhou.myqcloud.com/blog/4y4w5.png" alt="image-20190411154231747"></p>
+<p>从上图就可以看到：<strong>android的自动化比iOS的要难多了！</strong></p>
+<p>appium主程序，依赖各个driver程序，其中，安卓的自动化有3个driver，分别是：</p>
+<ol>
+<li>appium-android-driver - 用于驱动UIAutomator1</li>
+<li>appium-uiautomator2-driver - 用于驱动UIAutomator2</li>
+<li>appium-espresso-driver - 用于驱动Espresso</li>
+</ol>
+<p>列个表对比一下：</p>
+<table>
+<thead>
+<tr>
+<th>功能\Driver</th>
+<th>appium-android-driver</th>
+<th>appium-uiautomator2-driver</th>
+<th>appium-espresso-driver</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>用途</td>
+<td>驱动UIAutomator1</td>
+<td>驱动UIAutomator2</td>
+<td>驱动espresso</td>
+</tr>
+<tr>
+<td>automationName</td>
+<td>UiAutomator1</td>
+<td>UiAutomator2</td>
+<td>Espresso</td>
+</tr>
+<tr>
+<td>包形式</td>
+<td>AppiumBootstrap.jar</td>
+<td>appium-uiautomator2-server-v${version}.apk</td>
+<td>TODO待研究</td>
+</tr>
+<tr>
+<td>包依赖地址</td>
+<td>bootstrap/bin/</td>
+<td>appium-uiautomator2-server/apks/</td>
+<td>TODO</td>
+</tr>
+<tr>
+<td>优点</td>
+<td>jar包形式，免安装，一个命令直接启动，权限级别是shell级别</td>
+<td>官方推荐使用2，对高版本兼容性好</td>
+<td>控件识别能力强</td>
+</tr>
+<tr>
+<td>缺点</td>
+<td>对高版本兼容性差，容易无法识别控件</td>
+<td>apk形式，需要安装</td>
+<td>apk形式，需求安装，并且是侵入式的，可能带来风险</td>
+</tr>
+<tr>
+<td>Server模块</td>
+<td>在相同工程中，Bootstrap目录，maven工程，主要目标是在bin目录下输出AppiumBootstrap.jar</td>
+<td>不同工程，单独的另外一个Nodejs工程：appium-uiautomator2-server</td>
+<td>相同Nodejs工程，espress-server目录，gradle工程</td>
+</tr>
+</tbody>
+</table>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.cmlanche.com/2019/04/11/Appium的UIAutomator1的自定义权限框处理/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="cmlanche">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="https://avatars3.githubusercontent.com/u/5886757?v=4&s=400&u=c3fdc83b9817d98d87ed84c8e768855fd628c745">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cmlanche">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/04/11/Appium的UIAutomator1的自定义权限框处理/" itemprop="url">给 Appium 内置系统对话框处理吧！appium-android-driver 篇</a></h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-11T15:18:46+08:00">
+                2019-04-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2019/04/11/Appium的UIAutomator1的自定义权限框处理/" class="leancloud_visitors" data-flag-title="给 Appium 内置系统对话框处理吧！appium-android-driver 篇">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  524 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  2 分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>欢迎关注我的Appium知乎专栏：<a href="https://zhuanlan.zhihu.com/custom-appium" target="_blank" rel="noopener">自定义Appium之路</a></p>
+<p>当Appium脚本中的uiautomationName设置为UiAutomator1时，会启动UIAutomator1的Driver来测试你的Appium脚本，在脚本之前之前，会有很多权限框弹出，此时就需要我们的UIAutomator1来自动处理这样的对话框，并且要在安装apk之前就启动UIAutomator1的服务。</p>
+<p>很不幸，appium的代码中，是先安装Appium Setting APK和被测应用的，那怎么改呢？</p>
+<p>我们找到appium-android-driver工程，找打lib/driver.js，然后找到startAndroidSession方法，将如下代码提到这个方法的最前面：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// start UiAutomator （改动：优先启动UIAutomator1）</span></span><br><span class="line"><span class="keyword">this</span>.bootstrap = <span class="keyword">new</span> helpers.bootstrap(<span class="keyword">this</span>.adb, <span class="keyword">this</span>.bootstrapPort, <span class="keyword">this</span>.opts.websocket);</span><br><span class="line"><span class="keyword">await</span> <span class="keyword">this</span>.bootstrap.start(<span class="keyword">this</span>.opts.appPackage, <span class="keyword">this</span>.opts.disableAndroidWatchers, <span class="keyword">this</span>.opts.acceptSslCerts);</span><br><span class="line"><span class="comment">// handling unexpected shutdown</span></span><br><span class="line"><span class="keyword">this</span>.bootstrap.onUnexpectedShutdown.catch(<span class="keyword">async</span> (err) =&gt; &#123; <span class="comment">// eslint-disable-line promise/prefer-await-to-callbacks</span></span><br><span class="line">  <span class="keyword">if</span> (!<span class="keyword">this</span>.bootstrap.ignoreUnexpectedShutdown) &#123;</span><br><span class="line">    <span class="keyword">await</span> <span class="keyword">this</span>.startUnexpectedShutdown(err);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>如下图所示：</p>
+<p><img src="https://cmlanche-1251406926.cos.ap-guangzhou.myqcloud.com/blog/5vr6h.png" alt="image-20190411164422233"></p>
+<p>经过测试，这样不会影响UIAutomator1的正常启动，不会带来负面影响。</p>
+<p>既然都优先启动了，我们就要让UIAutomator1去监控手机界面了。</p>
+<p>不幸的是，Appium并没有给我们写类似的监听代码，我们得自己动手了，其实很简单，大体思路就是，dump控件树，检测界面控件，检测到权限框，就点”允许”、”是”之类的，这里就需要不断的枚举了。国内手机产商众多，android版本也多，这里就有大量的工作要做了。</p>
+<p>幸运的是，Appium给我们做好了监控的线程，只是空实现，基本啥都没干，代码在SocketServer.java的listenForever中：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">listenForever</span><span class="params">(<span class="keyword">boolean</span> disableAndroidWatchers, <span class="keyword">boolean</span> acceptSSLCerts)</span> <span class="keyword">throws</span> SocketServerException </span>&#123;</span><br><span class="line">  Logger.debug(<span class="string">"Appium Socket Server Ready"</span>);</span><br><span class="line">  UpdateStrings.loadStringsJson();</span><br><span class="line">  <span class="keyword">if</span> (disableAndroidWatchers) &#123;</span><br><span class="line">    Logger.debug(<span class="string">"Skipped registering crash watchers."</span>);</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    dismissCrashAlerts();</span><br><span class="line">    <span class="comment">// 看这里，就是这个每隔100毫秒触发一次的check !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!</span></span><br><span class="line">    <span class="keyword">final</span> TimerTask updateWatchers = <span class="keyword">new</span> TimerTask() &#123;</span><br><span class="line">      <span class="meta">@Override</span></span><br><span class="line">      <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">          watchers.check();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (<span class="keyword">final</span> Exception e) &#123;</span><br><span class="line">          e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">    timer.scheduleAtFixedRate(updateWatchers, <span class="number">100</span>, <span class="number">100</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (acceptSSLCerts) &#123;</span><br><span class="line">    Logger.debug(<span class="string">"Accepting SSL certificate errors."</span>);</span><br><span class="line">    acceptSSLCertificates();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    client = server.accept();</span><br><span class="line">    Logger.debug(<span class="string">"Client connected"</span>);</span><br><span class="line">    in = <span class="keyword">new</span> BufferedReader(<span class="keyword">new</span> InputStreamReader(client.getInputStream(), <span class="string">"UTF-8"</span>));</span><br><span class="line">    out = <span class="keyword">new</span> BufferedWriter(<span class="keyword">new</span> OutputStreamWriter(client.getOutputStream(), <span class="string">"UTF-8"</span>));</span><br><span class="line">    <span class="keyword">while</span> (keepListening) &#123;</span><br><span class="line">      handleClientData();</span><br><span class="line">    &#125;</span><br><span class="line">    in.close();</span><br><span class="line">    out.close();</span><br><span class="line">    client.close();</span><br><span class="line">    Logger.debug(<span class="string">"Closed client connection"</span>);</span><br><span class="line">  &#125; <span class="keyword">catch</span> (<span class="keyword">final</span> IOException e) &#123;</span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> SocketServerException(<span class="string">"Error when client was trying to connect"</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.cmlanche.com/2019/04/11/Open心态/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="cmlanche">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="https://avatars3.githubusercontent.com/u/5886757?v=4&s=400&u=c3fdc83b9817d98d87ed84c8e768855fd628c745">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cmlanche">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/04/11/Open心态/" itemprop="url">独立开发者的开放心态：帮助他人，其实就是在帮你自己！</a></h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-11T11:01:19+08:00">
+                2019-04-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2019/04/11/Open心态/" class="leancloud_visitors" data-flag-title="独立开发者的开放心态：帮助他人，其实就是在帮你自己！">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  52 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  1 分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <ol>
+<li>不要怕被抄袭，心态要开放，往往收获会更多</li>
+<li>理念：你身边的朋友都富有了，你才更有机会富有；帮助他人，其实就是帮你自己！</li>
+</ol>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://www.cmlanche.com/2019/04/09/appium怎么本地执行、调试/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -342,7 +1453,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  489 字
+                  611 字
                 </span>
               
 
@@ -358,7 +1469,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  2 分钟
+                  3 分钟
                 </span>
               
             </div>
@@ -380,7 +1491,8 @@
 
       
         
-          <h3 id="本地执行"><a href="#本地执行" class="headerlink" title="本地执行"></a>本地执行</h3><p>通常的执行方式是：</p>
+          <p>欢迎关注我的Appium知乎专栏：<a href="https://zhuanlan.zhihu.com/custom-appium" target="_blank" rel="noopener">自定义Appium之路</a></p>
+<h3 id="本地执行"><a href="#本地执行" class="headerlink" title="本地执行"></a>本地执行</h3><p>通常的执行方式是：</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span> 下载npm库中的appium</span><br><span class="line">npm i -g appium </span><br><span class="line"><span class="meta">#</span> 启动appium服务器</span><br><span class="line">appium</span><br></pre></td></tr></table></figure>
 <p>但如果是本地appium代码怎么执行呢？请看如下shell脚本</p>
           <!--noindex-->
@@ -933,1082 +2045,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.cmlanche.com/2019/03/29/我也来碎碎念/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="cmlanche">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="https://avatars3.githubusercontent.com/u/5886757?v=4&s=400&u=c3fdc83b9817d98d87ed84c8e768855fd628c745">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="cmlanche">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/03/29/我也来碎碎念/" itemprop="url">我也来碎碎念 - 主机排行网运营一个月小结</a></h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-29T11:00:19+08:00">
-                2019-03-29
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-             <span id="/2019/03/29/我也来碎碎念/" class="leancloud_visitors" data-flag-title="我也来碎碎念 - 主机排行网运营一个月小结">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计&#58;</span>
-                
-                <span title="字数统计">
-                  545 字
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
-                
-                <span title="阅读时长">
-                  2 分钟
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h3 id="我也来碎碎念-主机排行网运营一个月小结"><a href="#我也来碎碎念-主机排行网运营一个月小结" class="headerlink" title="我也来碎碎念 - 主机排行网运营一个月小结"></a>我也来碎碎念 - 主机排行网运营一个月小结</h3><blockquote>
-<p>学习<a href="https://toolinbox.net" target="_blank" rel="noopener">iPic作者Jason</a>每周一的碎碎念，我也来碎碎念了，只有我有新的想法灵感，我就会立马记录下来，不管内容有多少。</p>
-</blockquote>
-<p>今天要总结一下我的产品：主机排行网 <a href="https://hostingranking.cn" target="_blank" rel="noopener">HostingRanking.cn</a></p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/03/29/我也来碎碎念/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.cmlanche.com/2019/02/26/我的最佳写作方式/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="cmlanche">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="https://avatars3.githubusercontent.com/u/5886757?v=4&s=400&u=c3fdc83b9817d98d87ed84c8e768855fd628c745">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="cmlanche">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/02/26/我的最佳写作方式/" itemprop="url">我的最佳写作方式</a></h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-26T10:37:13+08:00">
-                2019-02-26
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-             <span id="/2019/02/26/我的最佳写作方式/" class="leancloud_visitors" data-flag-title="我的最佳写作方式">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计&#58;</span>
-                
-                <span title="字数统计">
-                  440 字
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
-                
-                <span title="阅读时长">
-                  2 分钟
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>最近喜欢上了写作，喜欢自己写的东西能被别人阅读，赞赏，也希望我写的东西能更有价值，体验也更好。</p>
-<p>今天我分享的是我的最佳写作方式。</p>
-<h1 id="我的最佳写作方式"><a href="#我的最佳写作方式" class="headerlink" title="我的最佳写作方式"></a>我的最佳写作方式</h1><p>工具汇总</p>
-<table>
-<thead>
-<tr>
-<th>markdown编辑器</th>
-<th>截图工具</th>
-<th>gif录制工具</th>
-<th>图床工具</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Typora</td>
-<td>QQ / wechat</td>
-<td>licecap</td>
-<td>iPic</td>
-</tr>
-</tbody>
-</table>
-<h3 id="markdown编辑器-·-Typora"><a href="#markdown编辑器-·-Typora" class="headerlink" title="markdown编辑器 · Typora"></a>markdown编辑器 · Typora</h3><p>完全免费的markdown编辑器，无与伦比的写作体验，让人爱不释手，具体的特性请移步官网：<a href="https://typora.io/" target="_blank" rel="noopener">https://typora.io/</a></p>
-<p>我最常用的快捷键是<kbd>Command</kbd>+<kbd>/</kbd>，可以切换源码模式和打字机模式。</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/02/26/我的最佳写作方式/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.cmlanche.com/2019/02/25/CSDN、博客园等6大技术博客平台的写作体验测评/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="cmlanche">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="https://avatars3.githubusercontent.com/u/5886757?v=4&s=400&u=c3fdc83b9817d98d87ed84c8e768855fd628c745">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="cmlanche">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/02/25/CSDN、博客园等6大技术博客平台的写作体验测评/" itemprop="url">CSDN、博客园等6大技术博客平台的写作体验测评</a></h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-25T15:38:38+08:00">
-                2019-02-25
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-             <span id="/2019/02/25/CSDN、博客园等6大技术博客平台的写作体验测评/" class="leancloud_visitors" data-flag-title="CSDN、博客园等6大技术博客平台的写作体验测评">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计&#58;</span>
-                
-                <span title="字数统计">
-                  1,141 字
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
-                
-                <span title="阅读时长">
-                  4 分钟
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h1 id="功能对比"><a href="#功能对比" class="headerlink" title="功能对比"></a>功能对比</h1><p><img src="https://cmlanche-1251406926.cos.ap-guangzhou.myqcloud.com/blog/kgs2s.png" alt="QQ20190312-201125@2x"></p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/02/25/CSDN、博客园等6大技术博客平台的写作体验测评/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.cmlanche.com/2019/02/25/HashMap和Hashtable的区别(转)/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="cmlanche">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="https://avatars3.githubusercontent.com/u/5886757?v=4&s=400&u=c3fdc83b9817d98d87ed84c8e768855fd628c745">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="cmlanche">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/02/25/HashMap和Hashtable的区别(转)/" itemprop="url">面试题·HashMap和Hashtable的区别(转载再整理)</a></h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-25T11:26:49+08:00">
-                2019-02-25
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-             <span id="/2019/02/25/HashMap和Hashtable的区别(转)/" class="leancloud_visitors" data-flag-title="面试题·HashMap和Hashtable的区别(转载再整理)">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计&#58;</span>
-                
-                <span title="字数统计">
-                  902 字
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
-                
-                <span title="阅读时长">
-                  3 分钟
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <blockquote>
-<p>原文链接： <a href="http://javarevisited.blogspot.hk/2010/10/difference-between-hashmap-and.html" target="_blank" rel="noopener">Javarevisited</a> 翻译： <a href="http://www.importnew.com/" target="_blank" rel="noopener">ImportNew.com </a>- <a href="http://www.importnew.com/author/tangxiaojuan" target="_blank" rel="noopener">唐小娟</a><br>译文链接： <a href="http://www.importnew.com/7010.html" target="_blank" rel="noopener">http://www.importnew.com/7010.html</a></p>
-</blockquote>
-<p>HashMap和Hashtable的比较是Java面试中的常见问题，用来考验程序员是否能够正确使用集合类以及是否可以随机应变使用多种思路解决问题。HashMap的工作原理、ArrayList与Vector的比较以及这个问题是有关Java 集合框架的最经典的问题。Hashtable是个过时的集合类，存在于Java API中很久了。在Java 4中被重写了，实现了Map接口，所以自此以后也成了Java集合框架中的一部分。Hashtable和HashMap在Java面试中相当容易被问到，甚至成为了集合框架面试题中最常被考的问题，所以在参加任何Java面试之前，都不要忘了准备这一题。</p>
-<p>这篇文章中，我们不仅将会看到HashMap和Hashtable的区别，还将看到它们之间的相似之处。</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/02/25/HashMap和Hashtable的区别(转)/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.cmlanche.com/2019/02/24/hostingranking.cn技术架构/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="cmlanche">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="https://avatars3.githubusercontent.com/u/5886757?v=4&s=400&u=c3fdc83b9817d98d87ed84c8e768855fd628c745">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="cmlanche">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/02/24/hostingranking.cn技术架构/" itemprop="url">hostingranking.cn·基于ghost的轻量技术架构整理</a></h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-24T13:40:05+08:00">
-                2019-02-24
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-             <span id="/2019/02/24/hostingranking.cn技术架构/" class="leancloud_visitors" data-flag-title="hostingranking.cn·基于ghost的轻量技术架构整理">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计&#58;</span>
-                
-                <span title="字数统计">
-                  927 字
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
-                
-                <span title="阅读时长">
-                  3 分钟
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <blockquote>
-<p>本篇纯粹只讲<a href="https://hostingranking.cn" target="_blank" rel="noopener">hostingranking.cn</a>网站的技术架构，也就是怎么做到的，达到什么效果。至于它是什么，为什么要做暂且不说，另篇会分享。</p>
-</blockquote>
-<h3 id="技术组成"><a href="#技术组成" class="headerlink" title="技术组成"></a>技术组成</h3><p>首先hostingranking.cn是基于ghost博客平台而构建的，ghost最强大的部分就是可以最大限度的让你DIY网站，能力特别强。如下是技术组成图：</p>
-<p><img src="https://cmlanche-1251406926.cos.ap-guangzhou.myqcloud.com/blog/o6rge.png" alt="image-20190224143748243"></p>
-<h3 id="技术讲解"><a href="#技术讲解" class="headerlink" title="技术讲解"></a>技术讲解</h3><table>
-<thead>
-<tr>
-<th></th>
-<th>运行环境</th>
-<th>用途</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Ghost</td>
-<td>Nodejs</td>
-<td>博客平台，可供主题创作的环境，博客管理，SEO等一系列可插拔的功能</td>
-</tr>
-<tr>
-<td>JQuery</td>
-<td>Javascript</td>
-<td>前端js交互</td>
-</tr>
-<tr>
-<td>handlebar</td>
-<td>-</td>
-<td>网页模板</td>
-</tr>
-<tr>
-<td>spring boot</td>
-<td>java</td>
-<td>提供后端服务，连接第三方服务</td>
-</tr>
-<tr>
-<td>typeform</td>
-<td></td>
-<td>第三方问卷调查服务</td>
-</tr>
-<tr>
-<td>mailchimp</td>
-<td></td>
-<td>第三方邮件服务</td>
-</tr>
-</tbody>
-</table>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/02/24/hostingranking.cn技术架构/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.cmlanche.com/2019/02/24/微创业/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="cmlanche">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="https://avatars3.githubusercontent.com/u/5886757?v=4&s=400&u=c3fdc83b9817d98d87ed84c8e768855fd628c745">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="cmlanche">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/02/24/微创业/" itemprop="url">程序员的微创业</a></h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-24T09:00:10+08:00">
-                2019-02-24
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-             <span id="/2019/02/24/微创业/" class="leancloud_visitors" data-flag-title="程序员的微创业">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计&#58;</span>
-                
-                <span title="字数统计">
-                  1,041 字
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
-                
-                <span title="阅读时长">
-                  4 分钟
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p><img src="https://cmlanche-1251406926.cos.ap-guangzhou.myqcloud.com/blog/zgc28.jpg" alt="v2-6cea99c48c9aa053b6bd6bbcd70f3631_hd"></p>
-<p>不知道有没有觉得程序员是吃青春饭的；</p>
-<p>有没有发现很多公司的招聘需求上写着35岁以上不要；</p>
-<p>有没有发现一转眼都已奔三，却依旧一事无成，无房无车；</p>
-<h3 id="怎么办？"><a href="#怎么办？" class="headerlink" title="怎么办？"></a>怎么办？</h3><p>我想过创业，我也创业过，15年的时候和同学一块做人脸识别，种种原因最后没成功，此前两年的积蓄也清零，创业？人家都说是九死一生，我说就是，在你没有足够人脉钱脉的时候你去创业，无异于以卵击石。</p>
-<p>程序员是吃请青春饭的，因为这个行业加班最严重，年轻人不断涌上，没时间谈恋爱，谈了恋爱的不敢结婚，结婚的不敢生孩子，生孩子了也不能自己养，要爸妈带，中国现在社会就是这样，年轻人压力巨大，上有老下有小，奔三的我感觉鸭梨山大。</p>
-<p>既然不能创业那就好好工作，把工作的事情做好，我也觉得，但是2018年底都知道大裁员，公司也未必是可靠的，如果你没有足够好的技能和其他的收入傍身，最后哭的怎么不会是你？</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/02/24/微创业/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2061,7 +2097,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">44</span>
+                  <span class="site-state-item-count">50</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -2074,7 +2110,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">61</span>
+                  <span class="site-state-item-count">65</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

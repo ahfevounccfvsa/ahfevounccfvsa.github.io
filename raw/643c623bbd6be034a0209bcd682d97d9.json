@@ -1,0 +1,31 @@
+---
+title: appium的技术架构
+tags: [appium]
+---
+
+欢迎关注我的Appium知乎专栏：[自定义Appium之路](<https://zhuanlan.zhihu.com/custom-appium>)
+
+appium是基于nodejs来打包、发布的，也用它来管理各个driver，如下图所示，它的结构图如下：
+
+![image-20190411154231747](https://cmlanche-1251406926.cos.ap-guangzhou.myqcloud.com/blog/4y4w5.png)
+
+从上图就可以看到：**android的自动化比iOS的要难多了！**
+
+appium主程序，依赖各个driver程序，其中，安卓的自动化有3个driver，分别是：
+
+1. appium-android-driver - 用于驱动UIAutomator1
+2. appium-uiautomator2-driver - 用于驱动UIAutomator2
+3. appium-espresso-driver - 用于驱动Espresso
+
+列个表对比一下：
+
+| 功能\Driver    | appium-android-driver                                        | appium-uiautomator2-driver                                   | appium-espresso-driver                          |
+| -------------- | ------------------------------------------------------------ | ------------------------------------------------------------ | ----------------------------------------------- |
+| 用途           | 驱动UIAutomator1                                             | 驱动UIAutomator2                                             | 驱动espresso                                    |
+| automationName | UiAutomator1                                                 | UiAutomator2                                                 | Espresso                                        |
+| 包形式         | AppiumBootstrap.jar                                          | appium-uiautomator2-server-v${version}.apk                   | TODO待研究                                      |
+| 包依赖地址     | bootstrap/bin/                                               | appium-uiautomator2-server/apks/                             | TODO                                            |
+| 优点           | jar包形式，免安装，一个命令直接启动，权限级别是shell级别     | 官方推荐使用2，对高版本兼容性好                              | 控件识别能力强                                  |
+| 缺点           | 对高版本兼容性差，容易无法识别控件                           | apk形式，需要安装                                            | apk形式，需求安装，并且是侵入式的，可能带来风险 |
+| Server模块     | 在相同工程中，Bootstrap目录，maven工程，主要目标是在bin目录下输出AppiumBootstrap.jar | 不同工程，单独的另外一个Nodejs工程：appium-uiautomator2-server | 相同Nodejs工程，espress-server目录，gradle工程  |
+
