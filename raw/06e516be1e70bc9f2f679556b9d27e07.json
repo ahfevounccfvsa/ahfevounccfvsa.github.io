@@ -103,3 +103,13 @@ import path from 'path';
 ![image-20190411171642533](https://cmlanche-1251406926.cos.ap-guangzhou.myqcloud.com/blog/2am2t.png)
 
 自此，nodejs的事情就完成了，剩下的就是要改造appium-uiautomator2-server的代码，让它能够像UIAutomator1一样监听界面，自动处理。
+
+### 演示
+
+过程：
+
+1. 本地启动appium
+2. 执行appium脚本测试
+3. logcat展示监控过程
+
+![appium-auto](https://cmlanche-1251406926.cos.ap-guangzhou.myqcloud.com/blog/ey7js.gif)

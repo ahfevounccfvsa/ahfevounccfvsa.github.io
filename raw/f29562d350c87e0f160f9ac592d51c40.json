@@ -1,0 +1,136 @@
+---
+title: gradle构建appium-uiautomator2-server出现gradle版本不匹配
+tags: [appium, uiautomator2, appium-uiautomator2-server]
+---
+
+在克隆代码：[appium-uiautomator2-server](https://github.com/appium/appium-uiautomator2-server)后，按照说明文档README.md中所说，进行构建
+
+```shell
+gradle clean assembleE2ETestDebug assembleE2ETestDebugAndroidTest
+```
+
+出现错误：
+
+```shell
+FAILURE: Build failed with an exception.
+
+* Where:
+Build file '/Users/cmlanche/sourcetree/appium/appium-uiautomator2-server/app/build.gradle' line: 14
+
+* What went wrong:
+A problem occurred evaluating project ':app'.
+> Failed to apply plugin [id 'com.android.application']
+   > Minimum supported Gradle version is 4.10.1. Current version is 4.1. If using the gradle wrapper, try editing the distributionUrl in /Users/cmlanche/sourcetree/appium/appium-uiautomator2-server/gradle/wrapper/gradle-wrapper.properties to gradle-4.10.1-all.zip
+
+* Try:
+Run with --stacktrace option to get the stack trace. Run with --info or --debug option to get more log output.
+
+* Get more help at https://help.gradle.org
+
+BUILD FAILED in 1s
+```
+
+错误中说，当前工程最低要求的gradle版本是4.10.1，而当前的版本是4.1。
+
+当时我并不知道，或者说已经忘记gradle是怎么安装的，索性做了两件事：
+
+1. 使用`gradle -v`查询当前的版本号，确实显示的是4.1
+2. 使用brew upgrade gradle升级我的gradle，果不其然，我的gradle确实是用brew来管理的(各个系统不一样哈，我的是mac，不仅仅是可能操作系统的差异，也有可能是使用gradle也有差异，比如你可以用本地gradle来编译)
+
+```shell
+chengmingdeMacBook-Pro:appium-uiautomator2-server cmlanche$ brew upgrade gradle
+Updating Homebrew...
+==> Auto-updated Homebrew!
+Updated 2 taps (dart-lang/dart and homebrew/core).
+==> New Formulae
+aliyun-cli         breezy             embree             frpc               frps               lazygit            ospray             volt               zabbix-cli
+==> Updated Formulae
+go ✔                               direnv                             grafana                            mariadb                            simple-scan
+hugo ✔                             dita-ot                            gromacs                            maxwell                            smimesign
+swagger-codegen ✔                  django-completion                  groonga                            mesa                               snapcraft
+wget ✔                             dnscrypt-proxy                     gsoap                              meson                              snort
+ace                                docfx                              gssdp                              metabase                           sourcekitten
+algernon                           docker                             gtk+3                              micronaut                          sshguard
+ansible                            docker-completion                  gupnp                              mmseqs2                            ssllabs-scan
+anyenv                             docker-compose-completion          gupnp-av                           mps-youtube                        step
+apache-arrow                       docker-credential-helper-ecr       gupnp-tools                        nginx                              streamlink
+apache-arrow-glib                  doctl                              hadolint                           nsd                                stunnel
+apache-flink                       doitlive                           haproxy                            opam                               svgo
+apache-spark                       dynare                             hatari                             open-mpi                           swiftformat
+apr                                easyengine                         helmfile                           openjpeg                           syncthing
+asciidoctor                        embulk                             ispc                               openttd                            taskell
+asdf                               erlang                             istioctl                           pacapt                             tbb
+atlassian-cli                      ethereum                           jemalloc                           paket                              telegraf
+atomist-cli                        exploitdb                          jenkins                            pandoc                             terraform_landscape
+aws-okta                           faas-cli                           jenkins-lts                        pegtl                              tgui
+aws-sdk-cpp                        ffmpeg                             jfrog-cli-go                       php                                tippecanoe
+awscli                             file-roller                        jmeter                             php-code-sniffer                   tmux
+azure-cli                          fn                                 juju                               php@7.1                            topgrade
+binaryen                           fonttools                          kafkacat                           php@7.2                            ttfautohint
+bitrise                            freetds                            kitchen-sync                       phpunit                            typescript
+cake                               futhark                            krakend                            planck                             unbound
+carthage                           fx                                 kube-aws                           pmd                                ungit
+certbot                            gdcm                               kubecfg                            postgis                            v8
+cfssl                              get_iplayer                        ledger                             pre-commit                         vala
+cgal                               gitbucket                          libcroco                           prometheus                         vert.x
+checkstyle                         gitlab-runner                      libdazzle                          prototool                          vim
+citus                              gjs                                libnotify                          pulumi                             vte3
+cmark                              glib-networking                    libphonenumber                     putty                              wine
+collector-sidecar                  gmic                               librealsense                       pyenv                              wireguard-go
+composer                           gmsh                               libsoup                            rakudo-star                        wireguard-tools
+conan                              gnu-getopt                         libvirt                            riff                               xmake
+confluent-oss                      gnumeric                           libxlsxwriter                      rke                                yle-dl
+conjure-up                         gnunet                             links                              rtv                                youtube-dl
+cpprestsdk                         gnutls                             lmod                               ruby-build                         zabbix
+crowdin                            gobject-introspection              logtalk                            ruby@2.4                           zig
+cryfs                              gocr                               lolcat                             sbcl                               zim
+dcos-cli                           godep                              lumo                               sdl
+dhall                              gomplate                           lxc                                serverless
+dhall-json                         goreleaser                         mackup                             ship
+==> Deleted Formulae
+pdftoedn                                                                                ruby@2.3
+
+==> Upgrading 1 outdated package:
+gradle 4.1 -> 5.3.1
+==> Upgrading gradle 
+==> Downloading https://services.gradle.org/distributions/gradle-5.3.1-all.zip
+==> Downloading from https://downloads.gradle.org/distributions/gradle-5.3.1-all.zip
+######################################################################## 100.0%
+🍺  /usr/local/Cellar/gradle/5.3.1: 13,686 files, 236.8MB, built in 1 minute
+Removing: /usr/local/Cellar/gradle/4.1... (169 files, 71.7MB)
+```
+
+升级完后，就可以正常使用`gradle`命令来打包了:
+
+```shell
+chengmingdeMacBook-Pro:appium-uiautomator2-server cmlanche$ gradle clean
+
+Welcome to Gradle 5.3.1!
+
+Here are the highlights of this release:
+ - Feature variants AKA "optional dependencies"
+ - Type-safe accessors in Kotlin precompiled script plugins
+ - Gradle Module Metadata 1.0
+
+For more details see https://docs.gradle.org/5.3.1/release-notes.html
+
+Starting a Gradle Daemon (subsequent builds will be faster)
+
+> Configure project :app
+NDK is missing a "platforms" directory.
+If you are using NDK, verify the ndk.dir is set to a valid NDK directory.  It is currently set to /Users/cmlanche/Library/Android/sdk/ndk-bundle.
+If you are not using NDK, unset the NDK variable from ANDROID_NDK_HOME or local.properties to remove this warning.
+
+WARNING: Configuration 'compile' is obsolete and has been replaced with 'implementation' and 'api'.
+It will be removed at the end of 2018. For more information see: http://d.android.com/r/tools/update-dependency-configurations.html
+
+Deprecated Gradle features were used in this build, making it incompatible with Gradle 6.0.
+Use '--warning-mode all' to show the individual deprecation warnings.
+See https://docs.gradle.org/5.3.1/userguide/command_line_interface.html#sec:command_line_warnings
+
+BUILD SUCCESSFUL in 1m 3s
+2 actionable tasks: 2 executed
+```
+
+其实，并不是gradle这个版本不能用，而是对`appium-uiautomator2-server`这个工程不能拿用，因为gradle版本和谷歌的`com.android.tools.build:gradle`插件是有个对应关系的，这个server工程中使用的是3.3.2,其最小的gradle就是4.10.1，对应关系链接: [https://developer.android.google.cn/studio/releases/gradle-plugin.html#updating-gradle](<https://developer.android.google.cn/studio/releases/gradle-plugin.html#updating-gradle>)
+
