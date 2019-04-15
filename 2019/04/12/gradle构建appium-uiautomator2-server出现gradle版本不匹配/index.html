@@ -81,18 +81,18 @@
 
 
 
-<meta name="description" content="在克隆代码：appium-uiautomator2-server后，按照说明文档README.md中所说，进行构建 gradle clean assembleE2ETestDebug assembleE2ETestDebugAndroidTest 出现错误： FAILURE: Build failed with an exception.* Where:Build file &apos;/Users/cml">
+<meta name="description" content="在克隆代码：appium-uiautomator2-server后，按照说明文档README.md中所说，进行构建 gradle clean assembleE2ETestDebug assembleE2ETestDebugAndroidTest">
 <meta name="keywords" content="appium,uiautomator2,appium-uiautomator2-server">
 <meta property="og:type" content="article">
 <meta property="og:title" content="gradle构建appium-uiautomator2-server出现gradle版本不匹配">
 <meta property="og:url" content="http://www.cmlanche.com/2019/04/12/gradle构建appium-uiautomator2-server出现gradle版本不匹配/index.html">
 <meta property="og:site_name" content="cmlanche">
-<meta property="og:description" content="在克隆代码：appium-uiautomator2-server后，按照说明文档README.md中所说，进行构建 gradle clean assembleE2ETestDebug assembleE2ETestDebugAndroidTest 出现错误： FAILURE: Build failed with an exception.* Where:Build file &apos;/Users/cml">
+<meta property="og:description" content="在克隆代码：appium-uiautomator2-server后，按照说明文档README.md中所说，进行构建 gradle clean assembleE2ETestDebug assembleE2ETestDebugAndroidTest">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-04-12T04:45:25.000Z">
+<meta property="og:updated_time" content="2019-04-15T06:06:02.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="gradle构建appium-uiautomator2-server出现gradle版本不匹配">
-<meta name="twitter:description" content="在克隆代码：appium-uiautomator2-server后，按照说明文档README.md中所说，进行构建 gradle clean assembleE2ETestDebug assembleE2ETestDebugAndroidTest 出现错误： FAILURE: Build failed with an exception.* Where:Build file &apos;/Users/cml">
+<meta name="twitter:description" content="在克隆代码：appium-uiautomator2-server后，按照说明文档README.md中所说，进行构建 gradle clean assembleE2ETestDebug assembleE2ETestDebugAndroidTest">
 
 
 
@@ -383,6 +383,7 @@
       
         <p>在克隆代码：<a href="https://github.com/appium/appium-uiautomator2-server" target="_blank" rel="noopener">appium-uiautomator2-server</a>后，按照说明文档README.md中所说，进行构建</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">gradle clean assembleE2ETestDebug assembleE2ETestDebugAndroidTest</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
 <p>出现错误：</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">FAILURE: Build failed with an exception.</span><br><span class="line"></span><br><span class="line">* Where:</span><br><span class="line">Build file '/Users/cmlanche/sourcetree/appium/appium-uiautomator2-server/app/build.gradle' line: 14</span><br><span class="line"></span><br><span class="line">* What went wrong:</span><br><span class="line">A problem occurred evaluating project ':app'.</span><br><span class="line"><span class="meta">&gt;</span> Failed to apply plugin [id 'com.android.application']</span><br><span class="line"><span class="meta">   &gt;</span> Minimum supported Gradle version is 4.10.1. Current version is 4.1. If using the gradle wrapper, try editing the distributionUrl in /Users/cmlanche/sourcetree/appium/appium-uiautomator2-server/gradle/wrapper/gradle-wrapper.properties to gradle-4.10.1-all.zip</span><br><span class="line"></span><br><span class="line">* Try:</span><br><span class="line">Run with --stacktrace option to get the stack trace. Run with --info or --debug option to get more log output.</span><br><span class="line"></span><br><span class="line">* Get more help at https://help.gradle.org</span><br><span class="line"></span><br><span class="line">BUILD FAILED in 1s</span><br></pre></td></tr></table></figure>
 <p>错误中说，当前工程最低要求的gradle版本是4.10.1，而当前的版本是4.1。</p>

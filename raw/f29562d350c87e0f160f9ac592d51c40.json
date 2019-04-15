@@ -9,6 +9,8 @@ tags: [appium, uiautomator2, appium-uiautomator2-server]
 gradle clean assembleE2ETestDebug assembleE2ETestDebugAndroidTest
 ```
 
+<!--more-->
+
 出现错误：
 
 ```shell
