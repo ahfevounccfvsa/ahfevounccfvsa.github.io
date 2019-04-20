@@ -268,6 +268,365 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.cmlanche.com/2017/12/02/stackpane/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="cmlanche">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="https://avatars3.githubusercontent.com/u/5886757?v=4&s=400&u=c3fdc83b9817d98d87ed84c8e768855fd628c745">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cmlanche">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/12/02/stackpane/" itemprop="url">JavaFx新手教程-布局-StackPane</a></h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-02T22:10:37+08:00">
+                2017-12-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/12/02/stackpane/" class="leancloud_visitors" data-flag-title="JavaFx新手教程-布局-StackPane">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  441 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  2 分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h5 id="cmlanche-您叫什么名字？"><a href="#cmlanche-您叫什么名字？" class="headerlink" title="cmlanche: 您叫什么名字？"></a>cmlanche: 您叫什么名字？</h5><blockquote>
+<p>StackPane</p>
+</blockquote>
+<h5 id="cmlanche-您好，StackPane君，可以问下您在JavaFX家族中是什么地位？"><a href="#cmlanche-您好，StackPane君，可以问下您在JavaFX家族中是什么地位？" class="headerlink" title="cmlanche: 您好，StackPane君，可以问下您在JavaFX家族中是什么地位？"></a>cmlanche: 您好，StackPane君，可以问下您在JavaFX家族中是什么地位？</h5><blockquote>
+<p><code>stackpane君:</code> 我可重要了，我是在JavaFx中所有布局中使用常用的，是大哥的角色，我经常<code>罩</code>这那帮小弟</p>
+</blockquote>
+<h5 id="cmlanche-你说的小弟是指谁？"><a href="#cmlanche-你说的小弟是指谁？" class="headerlink" title="cmlanche: 你说的小弟是指谁？"></a>cmlanche: 你说的小弟是指谁？</h5><blockquote>
+<p><code>stackpane君:</code>我小弟可多了，比如著名的vbox和hbox这对孪生兄弟，还有超级明星BorderPane，还有一些不怎么出名但是也经常使用的GridPane，TiledPane，AnchorPane等等</p>
+</blockquote>
+<h5 id="cmlanche-您有什么特点吗？有那么重要吗？"><a href="#cmlanche-您有什么特点吗？有那么重要吗？" class="headerlink" title="cmlanche: 您有什么特点吗？有那么重要吗？"></a>cmlanche: 您有什么特点吗？有那么重要吗？</h5><blockquote>
+<p><code>stackpane君:</code> 你知道多重宇宙吧？我就像那样，</p>
+<ol>
+<li><p>在我的空间里，可以让我的孩子们共同拥有我的全部空间。对了，</p>
+</li>
+<li><p>默认情况下我让我的孩子们都是居中的，当然你可以调整它，在我的孩子上面增加一个属性StackPane.aligment，比如下面的代码使用了<code>StackPane.alignment=&quot;TOP_LEFT&quot;</code>，这样button1就在左上角的位置了！</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">&gt;    &lt;StackPane xmlns=<span class="string">"http://javafx.com/javafx"</span></span><br><span class="line">&gt;               xmlns:fx=<span class="string">"http://javafx.com/fxml"</span></span><br><span class="line">&gt;               fx:controller=<span class="string">"com.cmlanche.javafx.layouts.stackpane.StackPaneTest"</span></span><br><span class="line">&gt;               prefHeight=<span class="string">"400.0"</span> prefWidth=<span class="string">"600.0"</span> style=<span class="string">"-fx-background-color: grey;"</span>&gt;</span><br><span class="line">&gt;</span><br><span class="line">&gt;        &lt;Button fx:id=<span class="string">"button1"</span> text=<span class="string">"button1"</span> prefWidth=<span class="string">"100"</span> prefHeight=<span class="string">"200"</span> StackPane.alignment=<span class="string">"TOP_LEFT"</span>&gt;</span><br><span class="line">&gt;        &lt;/Button&gt;</span><br><span class="line">&gt;</span><br><span class="line">&gt;        &lt;Button fx:id=<span class="string">"button2"</span> text=<span class="string">"button2"</span> prefWidth=<span class="string">"200"</span> prefHeight=<span class="string">"100"</span>&gt;</span><br><span class="line">&gt;        &lt;/Button&gt;</span><br><span class="line">&gt;    &lt;/StackPane&gt;</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+</blockquote>
+<blockquote>
+<ol start="3">
+<li><p>而且我的空间大小是充满我的父空间的。看如下图的灰色区域，都是我的空间</p>
+<p><img src="http://opdi15302.bkt.clouddn.com/stackpane1.png" alt></p>
+</li>
+</ol>
+</blockquote>
+<h5 id="cmlanche-那您有哪些应用场景吗？"><a href="#cmlanche-那您有哪些应用场景吗？" class="headerlink" title="cmlanche: 那您有哪些应用场景吗？"></a>cmlanche: 那您有哪些应用场景吗？</h5><blockquote>
+<p><code>stackpane君:</code>比如说某一个区域需要共享，会被多个视图所共用，我就发挥作用啦。而且我可以轻易可以把元素居中，我总是铺满父布局的。</p>
+</blockquote>
+<h5 id="cmlanche-有demo源码演示吗？"><a href="#cmlanche-有demo源码演示吗？" class="headerlink" title="cmlanche: 有demo源码演示吗？"></a>cmlanche: 有demo源码演示吗？</h5><blockquote>
+<p><code>stackpane君:</code>我的爸爸给我做了个演示例子，是开源的哦，欢迎star，<a href="https://github.com/cmlanche/javafx-newer-starter.git" target="_blank" rel="noopener">github</a>，我自己的例子在<a href="https://github.com/cmlanche/javafx-newer-starter/tree/master/layouts/src/com/cmlanche/javafx/layouts/stackpane" target="_blank" rel="noopener">这里</a></p>
+</blockquote>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.cmlanche.com/2017/12/02/ruxue/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="cmlanche">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="https://avatars3.githubusercontent.com/u/5886757?v=4&s=400&u=c3fdc83b9817d98d87ed84c8e768855fd628c745">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cmlanche">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/12/02/ruxue/" itemprop="url">梁文道·一千零一夜·儒学</a></h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-02T18:07:31+08:00">
+                2017-12-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/12/02/ruxue/" class="leancloud_visitors" data-flag-title="梁文道·一千零一夜·儒学">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  788 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  3 分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>儒家的个人始终和我们习惯的西方个人主义是不一样的观念，更加不是西方的自由主义的那套东西，<strong>儒家的个人始终是一个在社会之中的人，儒家的每一个人，每一个个体都是社会中的人，他必然是一个家庭的成员，他是一个社区邻里中的一分子，他是一个国家的一员，更是世界公民群体中的一员，更是大自然万物中的一员，每一个个人，都跟身边所有这些东西是密切联系起来的，他不是一个独立的绝对的，以己为本的一个个体</strong>。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/12/02/ruxue/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://www.cmlanche.com/2017/08/25/JavaFx概要脑图/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1694,360 +2053,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.cmlanche.com/2017/05/06/hexo使用总结/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="cmlanche">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="https://avatars3.githubusercontent.com/u/5886757?v=4&s=400&u=c3fdc83b9817d98d87ed84c8e768855fd628c745">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="cmlanche">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/05/06/hexo使用总结/" itemprop="url">Hexo使用经验总结</a></h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-06T16:28:04+08:00">
-                2017-05-06
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-             <span id="/2017/05/06/hexo使用总结/" class="leancloud_visitors" data-flag-title="Hexo使用经验总结">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计&#58;</span>
-                
-                <span title="字数统计">
-                  123 字
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
-                
-                <span title="阅读时长">
-                  1 分钟
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>首页的文章列表显示文章摘要，而不是整段文章：<a href="https://ohmyarch.github.io/2014/12/24/Hexo%E4%B8%BB%E9%A1%B5%E6%98%BE%E7%A4%BA%E6%91%98%E8%A6%81/" target="_blank" rel="noopener">Hexo主页显示摘要</a></p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/05/06/hexo使用总结/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.cmlanche.com/2017/05/02/JavaFx自定义Tab Order/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="cmlanche">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="https://avatars3.githubusercontent.com/u/5886757?v=4&s=400&u=c3fdc83b9817d98d87ed84c8e768855fd628c745">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="cmlanche">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/05/02/JavaFx自定义Tab Order/" itemprop="url">JavaFx自定义Tab-Order</a></h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-02T18:12:46+08:00">
-                2017-05-02
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/javafx/" itemprop="url" rel="index">
-                    <span itemprop="name">javafx</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-             <span id="/2017/05/02/JavaFx自定义Tab Order/" class="leancloud_visitors" data-flag-title="JavaFx自定义Tab-Order">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计&#58;</span>
-                
-                <span title="字数统计">
-                  486 字
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
-                
-                <span title="阅读时长">
-                  3 分钟
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>Tab-order是什么？在界面上当你按tab键触发焦点转移的功能，这就是tab order。但是Javafx有个缺陷就是不方便自己设置tab-order的顺序。</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/05/02/JavaFx自定义Tab Order/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2100,7 +2105,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">51</span>
+                  <span class="site-state-item-count">53</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -2122,7 +2127,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">67</span>
+                  <span class="site-state-item-count">69</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

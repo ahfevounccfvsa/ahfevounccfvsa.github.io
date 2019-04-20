@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.cmlanche.com/"/>
-  <updated>2019-04-15T06:15:39.000Z</updated>
+  <updated>2019-04-20T02:42:18.000Z</updated>
   <id>http://www.cmlanche.com/</id>
   
   <author>
@@ -15,6 +15,55 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>开源项目filepond的独立自由之路：城市套路深</title>
+    <link href="http://www.cmlanche.com/2019/04/20/%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AEfilepond%E7%9A%84%E7%8B%AC%E7%AB%8B%E8%87%AA%E7%94%B1%E4%B9%8B%E8%B7%AF%EF%BC%9A%E5%9F%8E%E5%B8%82%E5%A5%97%E8%B7%AF%E6%B7%B1/"/>
+    <id>http://www.cmlanche.com/2019/04/20/开源项目filepond的独立自由之路：城市套路深/</id>
+    <published>2019-04-20T01:19:41.000Z</published>
+    <updated>2019-04-20T02:42:18.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>最近一直在做一个有关独立开发者友链联盟的插件项目，在做到上传头像时，满网络找最好的头像上传、剪裁插件，最后终于找到了<a href="https://github.com/pqina/filepond" target="_blank" rel="noopener">filepond</a>，满心欢喜的认为，这么好的东西居然是开源项目，简直牛的不要不要的。</p><p>这个filepond到底怎么好呢？给大家看俩图，或许能了解，她如此美丽简洁，真漂亮！</p><p><img src="https://cmlanche-1251406926.cos.ap-guangzhou.myqcloud.com/blog/yeua9.gif" alt="filepond1"></p><p><img src="https://cmlanche-1251406926.cos.ap-guangzhou.myqcloud.com/blog/nuf1l.gif" alt="filepond2"></p><p>看到效果，是不是很激动？是不是特别想要？</p><p>想必肯定是了，我也是啊。</p><p>立马，我就开始准备继承她了。。。</p><p>集成中，才发现，filepond是一个设计也精美的插件，它由主filepond工程和几个不同功能的插件组成，你可以根据实际需求来添加插件，默认主工程可以直接使用，但只有基本的上传功能。插件如下：</p><ul><li><a href="https://github.com/pqina/filepond-plugin-file-encode" target="_blank" rel="noopener">File encode</a></li><li><a href="https://github.com/pqina/filepond-plugin-file-rename" target="_blank" rel="noopener">File rename</a></li><li><a href="https://github.com/pqina/filepond-plugin-file-validate-size" target="_blank" rel="noopener">File size validation</a></li><li><a href="https://github.com/pqina/filepond-plugin-file-validate-type" target="_blank" rel="noopener">File type validation</a></li><li><a href="https://github.com/pqina/filepond-plugin-file-metadata" target="_blank" rel="noopener">File metadata</a></li><li><a href="https://github.com/pqina/filepond-plugin-file-poster" target="_blank" rel="noopener">File poster</a></li><li><a href="https://github.com/pqina/filepond-plugin-image-edit" target="_blank" rel="noopener">Image editor</a></li><li><a href="https://github.com/pqina/filepond-plugin-image-validate-size" target="_blank" rel="noopener">Image size validation</a></li><li><a href="https://github.com/pqina/filepond-plugin-image-preview" target="_blank" rel="noopener">Image preview</a></li><li><a href="https://github.com/pqina/filepond-plugin-image-crop" target="_blank" rel="noopener">Image crop</a></li><li><a href="https://github.com/pqina/filepond-plugin-image-resize" target="_blank" rel="noopener">Image resize</a></li><li><a href="https://github.com/pqina/filepond-plugin-image-transform" target="_blank" rel="noopener">Image transform</a></li><li><a href="https://github.com/pqina/filepond-plugin-image-exif-orientation" target="_blank" rel="noopener">Image EXIF orientation</a></li></ul><p>并且作者pqina还适配了不同的前端框架：</p><ul><li><a href="https://github.com/pqina/react-filepond" target="_blank" rel="noopener">React</a></li><li><a href="https://github.com/pqina/vue-filepond" target="_blank" rel="noopener">Vue</a></li><li><a href="https://github.com/pqina/jquery-filepond" target="_blank" rel="noopener">jQuery</a></li><li><a href="https://github.com/pqina/ngx-filepond" target="_blank" rel="noopener">Angular</a></li><li><a href="https://github.com/johnnyasantoss/angularjs-filepond" target="_blank" rel="noopener">Angular 1</a></li><li><a href="https://github.com/alexdiliberto/ember-filepond" target="_blank" rel="noopener">Ember</a></li></ul><p>真的可以说是用心良苦啊！不得不佩服。</p><p>说这么多，只是说它有多牛逼，还没说到独立开发者上来，这个也是我集成filepond的图片编辑功能之后才了解到的，也就是上面中第二章图展示的功能。</p><p><img src="/Users/cmlanche/Desktop/ca6rm.png" alt="image-20190420094415203"></p><p>我擦，我好不容易把7个插件的js、css引入进来，结果还有个一Doka的东西！！这是什么鬼啊？？？</p><p>刚开始还以为是另外一个项目没引入，赶紧去filepond的README中找。。。最后找到这样几句话：</p><p><img src="/Users/cmlanche/Desktop/sx2cg.png" alt="image-20190420094620708"></p><p>打开Doka一看，原来TM是个收费项目啊，最牛逼最亮点的东西居然收费，我TM。。。。。服了，后来一转想，人家东西做的这么好，独立开发如此不容易，收个费怎么了，想到这，我就特想买了。</p><p>不过，人家价格方案比较贵，最低一年要79美金，而且不适用于saas，所以它这个项目，一开始就把目标人群定位在了企业级的用户上，很明确。</p><p><img src="/Users/cmlanche/Desktop/3wpga.png" alt="image-20190420095123231"></p><p>我是买不起你了，要是以后独立开发者友链联盟这个项目能做起来，做大了，我肯定买！</p><p>自此，我是深感套路深啊，但就算套路深，我却很喜欢这种感觉，毕竟人家很挣钱。</p><p>继续了解下背后的作者pqina吧，个人网站是：<a href="https://pqina.nl/" target="_blank" rel="noopener">pqina.nl</a>，个人网站上没有写任何有关自己的事情，基本都是自己的几个关键的独立产品，FilePond、Doka、Flip和Soon，但是公布的推特，当发现你很崇拜一个人的时候，你就特别想了解他的一切，那就fq去推特看看吧。</p><p>推特上显示他来自荷兰(Netherlands)，主要给WordPress、jQuery、React、Angular设计高质量的Web插件，并在推特上发布有趣的web相关的新闻。</p><p><strong>信息就这点，现在来复盘一下filepond的盈利模式。</strong></p><ol><li>创建开源项目filepond，开源绝大部分基础功能</li><li>在更高层次的图片编辑功能上做限制，开发出Doke.js的付费项目</li><li>filepond负责引流，filepond提供了很好的插件模式，虽然你也可能开发出类似的插件，但终究门槛太高，基本上如果你要图片编辑功能，那你是必须购买Doka.js的</li></ol><p>但，就是因为pgina把这块的功能做的足够好，并且市面上并没有比他更好的，所以才有这么大的自信做收费，还不便宜。</p><p><strong>对我们独立开发者的反思：</strong></p><ol><li>有时候我们并不需要做太多产品，做一款产品做到极致那抵得过”千军万马”</li><li>开源基础功能，高纬度功能收费，定价合理，这种盈利模式，独立开发者可以考虑一下</li><li>好的有价值的产品，能够做到自我传播，就像filepond一样，让我使劲夸它，要是一个烂东西，看都懒得看。所以独立开发者做的东西，一定要有很高的价值才行，一定不要敷衍你的用户！</li></ol><p>还有一点要分享就是关于谷歌搜索引擎，它的目标是让你找到对你最有价值的东西，只要你的东西做的够好，总会把这种价值带给用户，就像我找filepond，所以谷歌SEO不仅仅是字面的意思，还是背后一个价值的意思。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;最近一直在做一个有关独立开发者友链联盟的插件项目，在做到上传头像时，满网络找最好的头像上传、剪裁插件，最后终于找到了&lt;a href=&quot;https://github.com/pqina/filepond&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;file
+      
+    
+    </summary>
+    
+    
+      <category term="独立开发者" scheme="http://www.cmlanche.com/tags/%E7%8B%AC%E7%AB%8B%E5%BC%80%E5%8F%91%E8%80%85/"/>
+    
+      <category term="filepond" scheme="http://www.cmlanche.com/tags/filepond/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>centos7开放端口命令</title>
+    <link href="http://www.cmlanche.com/2019/04/19/centos7%E5%BC%80%E6%94%BE%E7%AB%AF%E5%8F%A3%E5%91%BD%E4%BB%A4/"/>
+    <id>http://www.cmlanche.com/2019/04/19/centos7开放端口命令/</id>
+    <published>2019-04-19T09:22:36.000Z</published>
+    <updated>2019-04-19T09:22:36.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>亲测有效！</p><h3 id="centos查询端口是不是开放的"><a href="#centos查询端口是不是开放的" class="headerlink" title="centos查询端口是不是开放的"></a>centos查询端口是不是开放的</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">firewall-cmd --permanent --query-port=8080/tcp</span><br></pre></td></tr></table></figure><h3 id="添加对外开放端口"><a href="#添加对外开放端口" class="headerlink" title="添加对外开放端口"></a>添加对外开放端口</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">firewall-cmd --permanent --add-port=8080/tcp</span><br></pre></td></tr></table></figure><h3 id="重启防火墙"><a href="#重启防火墙" class="headerlink" title="重启防火墙"></a>重启防火墙</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">firewall-cmd --reload</span><br></pre></td></tr></table></figure><p>作者：彩票虫虫<br>来源：CSDN<br>原文：<a href="https://blog.csdn.net/xingyue425/article/details/53911479" target="_blank" rel="noopener">https://blog.csdn.net/xingyue425/article/details/53911479</a><br>版权声明：本文为博主原创文章，转载请附上博文链接！</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;亲测有效！&lt;/p&gt;
+&lt;h3 id=&quot;centos查询端口是不是开放的&quot;&gt;&lt;a href=&quot;#centos查询端口是不是开放的&quot; class=&quot;headerlink&quot; title=&quot;centos查询端口是不是开放的&quot;&gt;&lt;/a&gt;centos查询端口是不是开放的&lt;/h3&gt;&lt;fig
+      
+    
+    </summary>
+    
+    
+      <category term="centos7" scheme="http://www.cmlanche.com/tags/centos7/"/>
+    
+  </entry>
   
   <entry>
     <title>健康才是福，工作和生活的心态要平衡</title>
@@ -526,53 +575,6 @@
     
     
       <category term="nodejs" scheme="http://www.cmlanche.com/tags/nodejs/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>开闭原则</title>
-    <link href="http://www.cmlanche.com/2018/12/10/%E5%BC%80%E9%97%AD%E5%8E%9F%E5%88%99/"/>
-    <id>http://www.cmlanche.com/2018/12/10/开闭原则/</id>
-    <published>2018-12-10T03:00:57.000Z</published>
-    <updated>2019-02-26T06:40:05.000Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="再谈开闭原则"><a href="#再谈开闭原则" class="headerlink" title="再谈开闭原则"></a>再谈开闭原则</h1><p>最开始了解设计模式之开闭原则是在6年前，那个时候我还是在校大学生，我是读《设计模式之禅》了解到它的。开闭原则是说，对扩展开发，对修改关闭，当时我看书的时候还不太了解它的含义，只知道这是设计模式最重要的原则，其他5大原则（如最小接口原则、迪米特原则、里式替换原则等）都是为了更好的实现开闭原则而总结出来的一套方法论，而书中说的23大设计模式都是基于这些模式的实践。</p><p>今天我又一次感受到了开闭原则的牛逼，我感受到，它不仅仅可以用在实际的代码编写上，对整个系统的架构都有指导借鉴意义。</p><a id="more"></a><p>我目前负责的是我司自动化测试的执行流程，今天有个需求是要给各个手机agent server添加一个doctor的诊断命令。目前的架构是这样的，有3个手机agent server，分别是Robotium、UIAutomator和iOS的XCUTest，执行端这边负责建立socket短连接与这3个agent server进行通信，目前在我写的一个AgentManger来协调管理他们，这部分已经完美运行一年半了，改动很小，需求是现在要添加一个新命令doctor，然而我发现这三个agent server都通过socket连接，但他们的通信内容的协议居然完全不一样，Robotium agent server这边是以“OKEY%s”来格式化返回值，单不看整个的通信架构是否合理，就这个返回的字符串我就很想吐槽，哪有这样的？！通常都是用统一格式的JSON来表达返回结果的，不管是几个agent server，都可以用一套处理模式来处理，甚至分出一个独立的工程模块来做这件事情，而UIAutomator Agent server它的返回值的结构则是{‘success’: true, ‘msg’: ‘xxxxx’}的一个json结构，这个表示也很糟糕，虽然是json的，但是只有true和false两种状态，如果你说你把它改一下不就行了吗，但是你要知道，以往的工程已经积累了几十个接口了，如果去改它以前的通信结构，那么会改动特别大，整个程序要进行回归测试才可以重新上线，所以从一开始就设计出统一的通信协议是多么重要，而如果是在统一的模块中处理的话，那就更容易了，只要在这个模块中更改协议就好了，做少量测试就可以知道你的改动是否覆盖所有的接口，这样可以大大减少后面的工作量！</p><p>再联系到我们的开闭原则，原则说，要对修改关闭，对扩展开放，上面的那个垃圾通信协议结构，你要对它进行修改是无比的困难，而添加新的接口，又会让这样的垃圾结构继续存在，当某一天你发现这样的通信结构无法满足要求时，你会发现你必须得修改，也就是要重构了。所以从一开始设计出一套能够更容易扩展，无需修改的结构是多么重要！</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;再谈开闭原则&quot;&gt;&lt;a href=&quot;#再谈开闭原则&quot; class=&quot;headerlink&quot; title=&quot;再谈开闭原则&quot;&gt;&lt;/a&gt;再谈开闭原则&lt;/h1&gt;&lt;p&gt;最开始了解设计模式之开闭原则是在6年前，那个时候我还是在校大学生，我是读《设计模式之禅》了解到它的。开闭原则是说，对扩展开发，对修改关闭，当时我看书的时候还不太了解它的含义，只知道这是设计模式最重要的原则，其他5大原则（如最小接口原则、迪米特原则、里式替换原则等）都是为了更好的实现开闭原则而总结出来的一套方法论，而书中说的23大设计模式都是基于这些模式的实践。&lt;/p&gt;
-&lt;p&gt;今天我又一次感受到了开闭原则的牛逼，我感受到，它不仅仅可以用在实际的代码编写上，对整个系统的架构都有指导借鉴意义。&lt;/p&gt;
-    
-    </summary>
-    
-    
-      <category term="开闭原则" scheme="http://www.cmlanche.com/tags/%E5%BC%80%E9%97%AD%E5%8E%9F%E5%88%99/"/>
-    
-      <category term="设计模式" scheme="http://www.cmlanche.com/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>面基</title>
-    <link href="http://www.cmlanche.com/2018/08/26/%E9%9D%A2%E5%9F%BA%E9%9D%92%E6%98%A5%E6%97%A0%E7%BD%AA/"/>
-    <id>http://www.cmlanche.com/2018/08/26/面基青春无罪/</id>
-    <published>2018-08-26T10:41:07.000Z</published>
-    <updated>2019-02-24T00:56:59.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>“青春无罪”是我QQ群（518914410）的一个网友，是我第一个线下交流的网友，是北工大仪器测量专业方向的博士生，为人非常爽朗，乐于助人。今天跟他见面非常开心，跟他学习了很多，主要有两点要说的：</p><p>第一就是不要着急，做好当下需要做的事情，一步一个脚印，一个大的目标的达成不是一下子就能达成的，需要慢慢积累；</p><p>第二个就是对怎么做好一个产品刷新了我的认识，以前我太过于盲目，自己的需求并不是大众的需求，做好一个产品是要找准大众的一个需求才行，更不能没想清楚就开始写代码实现，一个产品的实际需求可能需要结合产品的实际情况来分析，马斯洛金字塔需求最底下是生理需求，比如吃喝拉撒睡，中间是安全需求，最顶层是自我价值的实现与超越，你的产品需要根据实际场景来具体分析，不能你想是什么就是什么。</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;“青春无罪”是我QQ群（518914410）的一个网友，是我第一个线下交流的网友，是北工大仪器测量专业方向的博士生，为人非常爽朗，乐于助人。今天跟他见面非常开心，跟他学习了很多，主要有两点要说的：&lt;/p&gt;
-&lt;p&gt;第一就是不要着急，做好当下需要做的事情，一步一个脚印，一个大的
-      
-    
-    </summary>
-    
-    
-      <category term="面基" scheme="http://www.cmlanche.com/tags/%E9%9D%A2%E5%9F%BA/"/>
     
   </entry>
   
