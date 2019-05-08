@@ -1,0 +1,954 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="appium,appiumcrawler,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="cmlanche" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="思绪最近完成了自定义Appium的需求，让Appium内置了自动识别权限框并点击的能力，参考我的知乎专栏：自定义Appium之路 但遇到另外一个问题，就是testerhome思寒开发的AppiumCrawler并不支持Appium最新版，也就是当前的1.12版本，只支持到1.8版本，让人很是捉急。 本来是想基于1.8重新自定义一个appium，但是发现这个appium实在太老了，下载下来编译都有各">
+<meta name="keywords" content="appium,appiumcrawler">
+<meta property="og:type" content="article">
+<meta property="og:title" content="改造思寒的AppCrawler，使其支持Appium最新版本">
+<meta property="og:url" content="http://www.cmlanche.com/2019/05/08/改造思寒的AppiumCrawler，使其支持Appium最新版本/index.html">
+<meta property="og:site_name" content="cmlanche">
+<meta property="og:description" content="思绪最近完成了自定义Appium的需求，让Appium内置了自动识别权限框并点击的能力，参考我的知乎专栏：自定义Appium之路 但遇到另外一个问题，就是testerhome思寒开发的AppiumCrawler并不支持Appium最新版，也就是当前的1.12版本，只支持到1.8版本，让人很是捉急。 本来是想基于1.8重新自定义一个appium，但是发现这个appium实在太老了，下载下来编译都有各">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-05-08T04:55:11.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="改造思寒的AppCrawler，使其支持Appium最新版本">
+<meta name="twitter:description" content="思绪最近完成了自定义Appium的需求，让Appium内置了自动识别权限框并点击的能力，参考我的知乎专栏：自定义Appium之路 但遇到另外一个问题，就是testerhome思寒开发的AppiumCrawler并不支持Appium最新版，也就是当前的1.12版本，只支持到1.8版本，让人很是捉急。 本来是想基于1.8重新自定义一个appium，但是发现这个appium实在太老了，下载下来编译都有各">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.cmlanche.com/2019/05/08/改造思寒的AppiumCrawler，使其支持Appium最新版本/">
+
+
+
+
+
+  <title>改造思寒的AppCrawler，使其支持Appium最新版本 | cmlanche</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?c59df7cbbe6f65012be25796d2bd37e3";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <script>
+       (adsbygoogle = window.adsbygoogle || []).push({
+            google_ad_client: "ca-pub-5391734339505781",
+            enable_page_level_ads: true
+       });
+  </script>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">cmlanche</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description">金鳞岂是池中物</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.cmlanche.com/2019/05/08/改造思寒的AppiumCrawler，使其支持Appium最新版本/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="cmlanche">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="https://avatars3.githubusercontent.com/u/5886757?v=4&s=400&u=c3fdc83b9817d98d87ed84c8e768855fd628c745">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cmlanche">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">改造思寒的AppCrawler，使其支持Appium最新版本</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-08T11:19:06+08:00">
+                2019-05-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2019/05/08/改造思寒的AppiumCrawler，使其支持Appium最新版本/" class="leancloud_visitors" data-flag-title="改造思寒的AppCrawler，使其支持Appium最新版本">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  2,788 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  16 分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="思绪"><a href="#思绪" class="headerlink" title="思绪"></a>思绪</h3><p>最近完成了自定义Appium的需求，让Appium内置了自动识别权限框并点击的能力，参考我的知乎专栏：<a href="https://zhuanlan.zhihu.com/custom-appium" target="_blank" rel="noopener">自定义Appium之路</a></p>
+<p>但遇到另外一个问题，就是testerhome思寒开发的AppiumCrawler并不支持Appium最新版，也就是当前的1.12版本，只支持到1.8版本，让人很是捉急。</p>
+<p>本来是想基于1.8重新自定义一个appium，但是发现这个appium实在太老了，下载下来编译都有各种问题，况且后续还要自定义appium-android-driver，appium-uiautomator2-driver和appium-uiaumator2-server，工作量至少得3天，太费时间。</p>
+<p>索性，我来替思寒把AppCrawler来升级一下，让它支持最新appium。</p>
+<p>刚开始觉得挺难的，毕竟我对scala只略知一二，编译打包方面还要学，但事后发现，这个工程做的确实不错，升级改造过程比预计的要简单很多，这里要给思寒大佬一个赞👍！</p>
+<a id="more"></a>
+<h3 id="改造"><a href="#改造" class="headerlink" title="改造"></a>改造</h3><h4 id="先看看出了什么问题？"><a href="#先看看出了什么问题？" class="headerlink" title="先看看出了什么问题？"></a>先看看出了什么问题？</h4><p>我开启最新的appium：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">appium</span><br></pre></td></tr></table></figure>
+<p>执行appcrawler测试：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">java -jar appcrawler-2.1.3.jar -a ApiDemos-debug.apk</span><br></pre></td></tr></table></figure>
+<p>执行过程中在appium和appcrawler两端都报错：</p>
+<figure class="highlight verilog"><table><tr><td class="code"><pre><span class="line">[HTTP] &lt;-- GET /wd/hub/session/efdf97d8-cf46-<span class="number">4</span>ffb-b2d4-<span class="number">7</span>d8feb931cee/window/rect <span class="number">200</span> <span class="number">7</span> ms - <span class="number">50</span></span><br><span class="line">[HTTP] </span><br><span class="line">[HTTP] --&gt; POST /wd/hub/session/efdf97d8-cf46-<span class="number">4</span>ffb-b2d4-<span class="number">7</span>d8feb931cee/execute/sync</span><br><span class="line">[HTTP] &#123;<span class="string">"script"</span>:<span class="string">"var source = document.documentElement.outerHTML; \nif (!source) &#123; source = new XMLSerializer().serializeToString(document); &#125;\nreturn source;"</span>,<span class="string">"args"</span>:[]&#125;</span><br><span class="line">[debug] [W3C (efdf97d8)] Calling AppiumDriver<span class="variable">.execute</span>() <span class="keyword">with</span> args: [<span class="string">"var source = document.documentElement.outerHTML; \nif (!source) &#123; source = new XMLSerializer().serializeToString(document); &#125;\nreturn source;"</span>,[],<span class="string">"efdf97d8-cf46-4ffb-b2d4-7d8feb931cee"</span>]</span><br><span class="line">[debug] [W3C (efdf97d8)] Encountered internal error running command: NotImplementedError: Method is <span class="keyword">not</span> implemented</span><br><span class="line">[debug] [W3C (efdf97d8)]     at AndroidDriver<span class="variable">.extensions</span><span class="variable">.execute</span> (/usr/<span class="keyword">local</span>/lib/node_modules/appium/node_modules/appium-android-driver/lib/commands/execute<span class="variable">.js</span>:<span class="number">12</span>:<span class="number">9</span>)</span><br><span class="line">[debug] [W3C (efdf97d8)]     at curCommandCancellable<span class="variable">._bluebird</span><span class="variable">.default</span><span class="variable">.resolve</span><span class="variable">.then</span> (/usr/<span class="keyword">local</span>/lib/node_modules/appium/node_modules/appium-base-driver/lib/basedriver/driver<span class="variable">.js</span>:<span class="number">291</span>:<span class="number">18</span>)</span><br><span class="line">[debug] [W3C (efdf97d8)]     at tryCatcher (/usr/<span class="keyword">local</span>/lib/node_modules/appium/node_modules/appium-base-driver/node_modules/bluebird/js/main/util<span class="variable">.js</span>:<span class="number">26</span>:<span class="number">23</span>)</span><br><span class="line">[debug] [W3C (efdf97d8)]     at Promise<span class="variable">._settlePromiseFromHandler</span> (/usr/<span class="keyword">local</span>/lib/node_modules/appium/node_modules/appium-base-driver/node_modules/bluebird/js/main/promise<span class="variable">.js</span>:<span class="number">510</span>:<span class="number">31</span>)</span><br><span class="line">[debug] [W3C (efdf97d8)]     at Promise<span class="variable">._settlePromiseAt</span> (/usr/<span class="keyword">local</span>/lib/node_modules/appium/node_modules/appium-base-driver/node_modules/bluebird/js/main/promise<span class="variable">.js</span>:<span class="number">584</span>:<span class="number">18</span>)</span><br><span class="line">[debug] [W3C (efdf97d8)]     at Promise<span class="variable">._settlePromiseAtPostResolution</span> (/usr/<span class="keyword">local</span>/lib/node_modules/appium/node_modules/appium-base-driver/node_modules/bluebird/js/main/promise<span class="variable">.js</span>:<span class="number">248</span>:<span class="number">10</span>)</span><br><span class="line">[debug] [W3C (efdf97d8)]     at Async<span class="variable">._drainQueue</span> (/usr/<span class="keyword">local</span>/lib/node_modules/appium/node_modules/appium-base-driver/node_modules/bluebird/js/main/async<span class="variable">.js</span>:<span class="number">128</span>:<span class="number">12</span>)</span><br><span class="line">[debug] [W3C (efdf97d8)]     at Async<span class="variable">._drainQueues</span> (/usr/<span class="keyword">local</span>/lib/node_modules/appium/node_modules/appium-base-driver/node_modules/bluebird/js/main/async<span class="variable">.js</span>:<span class="number">133</span>:<span class="number">10</span>)</span><br><span class="line">[debug] [W3C (efdf97d8)]     at Immediate<span class="variable">.Async</span><span class="variable">.drainQueues</span> (/usr/<span class="keyword">local</span>/lib/node_modules/appium/node_modules/appium-base-driver/node_modules/bluebird/js/main/async<span class="variable">.js</span>:<span class="number">15</span>:<span class="number">14</span>)</span><br><span class="line">[debug] [W3C (efdf97d8)]     at runCallback (timers<span class="variable">.js</span>:<span class="number">705</span>:<span class="number">18</span>)</span><br><span class="line">[debug] [W3C (efdf97d8)]     at tryOnImmediate (timers<span class="variable">.js</span>:<span class="number">676</span>:<span class="number">5</span>)</span><br><span class="line">[debug] [W3C (efdf97d8)]     at processImmediate (timers<span class="variable">.js</span>:<span class="number">658</span>:<span class="number">5</span>)</span><br><span class="line">[HTTP] &lt;-- POST /wd/hub/session/efdf97d8-cf46-<span class="number">4</span>ffb-b2d4-<span class="number">7</span>d8feb931cee/execute/sync <span class="number">405</span> <span class="number">11</span> ms - <span class="number">1600</span></span><br><span class="line">[HTTP] </span><br><span class="line">[HTTP] --&gt; POST /wd/hub/session/efdf97d8-cf46-<span class="number">4</span>ffb-b2d4-<span class="number">7</span>d8feb931cee/execute/sync</span><br><span class="line">[HTTP] &#123;<span class="string">"script"</span>:<span class="string">"var source = document.documentElement.outerHTML; \nif (!source) &#123; source = new XMLSerializer().serializeToString(document); &#125;\nreturn source;"</span>,<span class="string">"args"</span>:[]&#125;</span><br><span class="line">[debug] [W3C (efdf97d8)] Calling AppiumDriver<span class="variable">.execute</span>() <span class="keyword">with</span> args: [<span class="string">"var source = document.documentElement.outerHTML; \nif (!source) &#123; source = new XMLSerializer().serializeToString(document); &#125;\nreturn source;"</span>,[],<span class="string">"efdf97d8-cf46-4ffb-b2d4-7d8feb931cee"</span>]</span><br><span class="line">[debug] [W3C (efdf97d8)] Encountered internal error running command: NotImplementedError: Method is <span class="keyword">not</span> implemented</span><br><span class="line">[debug] [W3C (efdf97d8)]     at AndroidDriver<span class="variable">.extensions</span><span class="variable">.execute</span> (/usr/<span class="keyword">local</span>/lib/node_modules/appium/node_modules/appium-android-driver/lib/commands/execute<span class="variable">.js</span>:<span class="number">12</span>:<span class="number">9</span>)</span><br><span class="line">[debug] [W3C (efdf97d8)]     at curCommandCancellable<span class="variable">._bluebird</span><span class="variable">.default</span><span class="variable">.resolve</span><span class="variable">.then</span> (/usr/<span class="keyword">local</span>/lib/node_modules/appium/node_modules/appium-base-driver/lib/basedriver/driver<span class="variable">.js</span>:<span class="number">291</span>:<span class="number">18</span>)</span><br><span class="line">[debug] [W3C (efdf97d8)]     at tryCatcher (/usr/<span class="keyword">local</span>/lib/node_modules/appium/node_modules/appium-base-driver/node_modules/bluebird/js/main/util<span class="variable">.js</span>:<span class="number">26</span>:<span class="number">23</span>)</span><br><span class="line">[debug] [W3C (efdf97d8)]     at Promise<span class="variable">._settlePromiseFromHandler</span> (/usr/<span class="keyword">local</span>/lib/node_modules/appium/node_modules/appium-base-driver/node_modules/bluebird/js/main/promise<span class="variable">.js</span>:<span class="number">510</span>:<span class="number">31</span>)</span><br><span class="line">[debug] [W3C (efdf97d8)]     at Promise<span class="variable">._settlePromiseAt</span> (/usr/<span class="keyword">local</span>/lib/node_modules/appium/node_modules/appium-base-driver/node_modules/bluebird/js/main/promise<span class="variable">.js</span>:<span class="number">584</span>:<span class="number">18</span>)</span><br><span class="line">[debug] [W3C (efdf97d8)]     at Promise<span class="variable">._settlePromiseAtPostResolution</span> (/usr/<span class="keyword">local</span>/lib/node_modules/appium/node_modules/appium-base-driver/node_modules/bluebird/js/main/promise<span class="variable">.js</span>:<span class="number">248</span>:<span class="number">10</span>)</span><br><span class="line">[debug] [W3C (efdf97d8)]     at Async<span class="variable">._drainQueue</span> (/usr/<span class="keyword">local</span>/lib/node_modules/appium/node_modules/appium-base-driver/node_modules/bluebird/js/main/async<span class="variable">.js</span>:<span class="number">128</span>:<span class="number">12</span>)</span><br><span class="line">[debug] [W3C (efdf97d8)]     at Async<span class="variable">._drainQueues</span> (/usr/<span class="keyword">local</span>/lib/node_modules/appium/node_modules/appium-base-driver/node_modules/bluebird/js/main/async<span class="variable">.js</span>:<span class="number">133</span>:<span class="number">10</span>)</span><br><span class="line">[debug] [W3C (efdf97d8)]     at Immediate<span class="variable">.Async</span><span class="variable">.drainQueues</span> (/usr/<span class="keyword">local</span>/lib/node_modules/appium/node_modules/appium-base-driver/node_modules/bluebird/js/main/async<span class="variable">.js</span>:<span class="number">15</span>:<span class="number">14</span>)</span><br><span class="line">[debug] [W3C (efdf97d8)]     at runCallback (timers<span class="variable">.js</span>:<span class="number">705</span>:<span class="number">18</span>)</span><br><span class="line">[debug] [W3C (efdf97d8)]     at tryOnImmediate (timers<span class="variable">.js</span>:<span class="number">676</span>:<span class="number">5</span>)</span><br><span class="line">[debug] [W3C (efdf97d8)]     at processImmediate (timers<span class="variable">.js</span>:<span class="number">658</span>:<span class="number">5</span>)</span><br><span class="line">[HTTP] &lt;-- POST /wd/hub/session/efdf97d8-cf46-<span class="number">4</span>ffb-b2d4-<span class="number">7</span>d8feb931cee/execute/sync <span class="number">405</span> <span class="number">4</span> ms - <span class="number">1600</span></span><br><span class="line">[HTTP] </span><br><span class="line">[HTTP] --&gt; POST /wd/hub/session/efdf97d8-cf46-<span class="number">4</span>ffb-b2d4-<span class="number">7</span>d8feb931cee/execute/sync</span><br><span class="line">[HTTP] &#123;<span class="string">"script"</span>:<span class="string">"var source = document.documentElement.outerHTML; \nif (!source) &#123; source = new XMLSerializer().serializeToString(document); &#125;\nreturn source;"</span>,<span class="string">"args"</span>:[]&#125;</span><br><span class="line">[debug] [W3C (efdf97d8)] Calling AppiumDriver<span class="variable">.execute</span>() <span class="keyword">with</span> args: [<span class="string">"var source = document.documentElement.outerHTML; \nif (!source) &#123; source = new XMLSerializer().serializeToString(document); &#125;\nreturn source;"</span>,[],<span class="string">"efdf97d8-cf46-4ffb-b2d4-7d8feb931cee"</span>]</span><br><span class="line">[debug] [W3C (efdf97d8)] Encountered internal error running command: NotImplementedError: Method is <span class="keyword">not</span> implemented</span><br><span class="line">[debug] [W3C (efdf97d8)]     at AndroidDriver<span class="variable">.extensions</span><span class="variable">.execute</span> (/usr/<span class="keyword">local</span>/lib/node_modules/appium/node_modules/appium-android-driver/lib/commands/execute<span class="variable">.js</span>:<span class="number">12</span>:<span class="number">9</span>)</span><br><span class="line">[debug] [W3C (efdf97d8)]     at curCommandCancellable<span class="variable">._bluebird</span><span class="variable">.default</span><span class="variable">.resolve</span><span class="variable">.then</span> (/usr/<span class="keyword">local</span>/lib/node_modules/appium/node_modules/appium-base-driver/lib/basedriver/driver<span class="variable">.js</span>:<span class="number">291</span>:<span class="number">18</span>)</span><br><span class="line">[debug] [W3C (efdf97d8)]     at tryCatcher (/usr/<span class="keyword">local</span>/lib/node_modules/appium/node_modules/appium-base-driver/node_modules/bluebird/js/main/util<span class="variable">.js</span>:<span class="number">26</span>:<span class="number">23</span>)</span><br><span class="line">[debug] [W3C (efdf97d8)]     at Promise<span class="variable">._settlePromiseFromHandler</span> (/usr/<span class="keyword">local</span>/lib/node_modules/appium/node_modules/appium-base-driver/node_modules/bluebird/js/main/promise<span class="variable">.js</span>:<span class="number">510</span>:<span class="number">31</span>)</span><br><span class="line">[debug] [W3C (efdf97d8)]     at Promise<span class="variable">._settlePromiseAt</span> (/usr/<span class="keyword">local</span>/lib/node_modules/appium/node_modules/appium-base-driver/node_modules/bluebird/js/main/promise<span class="variable">.js</span>:<span class="number">584</span>:<span class="number">18</span>)</span><br><span class="line">[debug] [W3C (efdf97d8)]     at Promise<span class="variable">._settlePromiseAtPostResolution</span> (/usr/<span class="keyword">local</span>/lib/node_modules/appium/node_modules/appium-base-driver/node_modules/bluebird/js/main/promise<span class="variable">.js</span>:<span class="number">248</span>:<span class="number">10</span>)</span><br><span class="line">[debug] [W3C (efdf97d8)]     at Async<span class="variable">._drainQueue</span> (/usr/<span class="keyword">local</span>/lib/node_modules/appium/node_modules/appium-base-driver/node_modules/bluebird/js/main/async<span class="variable">.js</span>:<span class="number">128</span>:<span class="number">12</span>)</span><br><span class="line">[debug] [W3C (efdf97d8)]     at Async<span class="variable">._drainQueues</span> (/usr/<span class="keyword">local</span>/lib/node_modules/appium/node_modules/appium-base-driver/node_modules/bluebird/js/main/async<span class="variable">.js</span>:<span class="number">133</span>:<span class="number">10</span>)</span><br><span class="line">[debug] [W3C (efdf97d8)]     at Immediate<span class="variable">.Async</span><span class="variable">.drainQueues</span> (/usr/<span class="keyword">local</span>/lib/node_modules/appium/node_modules/appium-base-driver/node_modules/bluebird/js/main/async<span class="variable">.js</span>:<span class="number">15</span>:<span class="number">14</span>)</span><br><span class="line">[debug] [W3C (efdf97d8)]     at runCallback (timers<span class="variable">.js</span>:<span class="number">705</span>:<span class="number">18</span>)</span><br><span class="line">[debug] [W3C (efdf97d8)]     at tryOnImmediate (timers<span class="variable">.js</span>:<span class="number">676</span>:<span class="number">5</span>)</span><br><span class="line">[debug] [W3C (efdf97d8)]     at processImmediate (timers<span class="variable">.js</span>:<span class="number">658</span>:<span class="number">5</span>)</span><br><span class="line">[HTTP] &lt;-- POST /wd/hub/session/efdf97d8-cf46-<span class="number">4</span>ffb-b2d4-<span class="number">7</span>d8feb931cee/execute/sync <span class="number">405</span> <span class="number">9</span> ms - <span class="number">1600</span></span><br><span class="line">[HTTP]</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="number">2019</span>-<span class="number">05</span>-<span class="number">08</span> <span class="number">11</span>:<span class="number">34</span>:<span class="number">01</span> WARN [AppiumClient.$anonfun$getPageSource$<span class="number">1.340</span>] get page source error</span><br><span class="line"><span class="number">2019</span>-<span class="number">05</span>-<span class="number">08</span> <span class="number">11</span>:<span class="number">34</span>:<span class="number">01</span> WARN [Crawler.refreshPage.562] page source get fail, go back</span><br><span class="line"><span class="number">2019</span>-<span class="number">05</span>-<span class="number">08</span> <span class="number">11</span>:<span class="number">34</span>:<span class="number">01</span> INFO [Crawler.setElementAction.660] set action to back</span><br><span class="line"><span class="number">2019</span>-<span class="number">05</span>-<span class="number">08</span> <span class="number">11</span>:<span class="number">34</span>:<span class="number">01</span> INFO [Crawler.runStartupScript.236] first refresh</span><br><span class="line"><span class="number">2019</span>-<span class="number">05</span>-<span class="number">08</span> <span class="number">11</span>:<span class="number">34</span>:<span class="number">01</span> INFO [Crawler.doElementAction.976] current element = _startupActions-Start-<span class="number">0</span></span><br><span class="line"><span class="number">2019</span>-<span class="number">05</span>-<span class="number">08</span> <span class="number">11</span>:<span class="number">34</span>:<span class="number">01</span> INFO [Crawler.doElementAction.977] current index = <span class="number">0</span></span><br><span class="line"><span class="number">2019</span>-<span class="number">05</span>-<span class="number">08</span> <span class="number">11</span>:<span class="number">34</span>:<span class="number">01</span> INFO [Crawler.doElementAction.978] current action = </span><br><span class="line"><span class="number">2019</span>-<span class="number">05</span>-<span class="number">08</span> <span class="number">11</span>:<span class="number">34</span>:<span class="number">01</span> INFO [Crawler.doElementAction.979] current url = </span><br><span class="line"><span class="number">2019</span>-<span class="number">05</span>-<span class="number">08</span> <span class="number">11</span>:<span class="number">34</span>:<span class="number">01</span> INFO [Crawler.doElementAction.980] current xpath = startupActions-Start-<span class="number">0</span></span><br><span class="line"><span class="number">2019</span>-<span class="number">05</span>-<span class="number">08</span> <span class="number">11</span>:<span class="number">34</span>:<span class="number">01</span> INFO [Crawler.doElementAction.981] current tag path = _startupActions-Start-<span class="number">0</span></span><br><span class="line"><span class="number">2019</span>-<span class="number">05</span>-<span class="number">08</span> <span class="number">11</span>:<span class="number">34</span>:<span class="number">01</span> INFO [Crawler.doElementAction.982] current file name = _</span><br><span class="line"><span class="number">2019</span>-<span class="number">05</span>-<span class="number">08</span> <span class="number">11</span>:<span class="number">34</span>:<span class="number">01</span> INFO [Crawler.doElementAction.983] current uri = 	startupActions-Start-<span class="number">0</span>			startupActions</span><br><span class="line">Exception in thread <span class="string">"main"</span> java.util.NoSuchElementException: last of empty ListBuffer</span><br><span class="line">	at scala.collection.mutable.ListBuffer.last(ListBuffer.scala:<span class="number">401</span>)</span><br><span class="line">	at com.testerhome.appcrawler.DataRecord.last(DataRecord.scala:<span class="number">40</span>)</span><br><span class="line">	at com.testerhome.appcrawler.Crawler.doElementAction(Crawler.scala:<span class="number">985</span>)</span><br><span class="line">	at com.testerhome.appcrawler.Crawler.runStartupScript(Crawler.scala:<span class="number">238</span>)</span><br><span class="line">	at com.testerhome.appcrawler.Crawler.start(Crawler.scala:<span class="number">152</span>)</span><br><span class="line">	at com.testerhome.appcrawler.AppCrawler$.startCrawl(AppCrawler.scala:<span class="number">344</span>)</span><br><span class="line">	at com.testerhome.appcrawler.AppCrawler$.parseParams(AppCrawler.scala:<span class="number">312</span>)</span><br><span class="line">	at com.testerhome.appcrawler.AppCrawler$.main(AppCrawler.scala:<span class="number">92</span>)</span><br><span class="line">	at com.testerhome.appcrawler.AppCrawler.main(AppCrawler.scala)</span><br></pre></td></tr></table></figure>
+<h4 id="分析原因"><a href="#分析原因" class="headerlink" title="分析原因"></a>分析原因</h4><p>我们看到Appcrawler中报了个<code>get page source error</code>，我们追查appcrawler的代码发现是在这里报错的：</p>
+<figure class="highlight scala"><table><tr><td class="code"><pre><span class="line"><span class="keyword">override</span> <span class="function"><span class="keyword">def</span> <span class="title">getPageSource</span></span>(): <span class="type">String</span> = &#123;</span><br><span class="line">    currentPageSource=<span class="literal">null</span></span><br><span class="line">    currentPageDom=<span class="literal">null</span></span><br><span class="line">    log.info(<span class="string">"start to get page source from appium"</span>)</span><br><span class="line">    <span class="comment">//获取页面结构, 最多重试3次</span></span><br><span class="line">    <span class="number">1</span> to <span class="number">3</span> foreach (i =&gt; &#123;</span><br><span class="line">      asyncTask(<span class="number">20</span>)(driver.getPageSource) <span class="keyword">match</span> &#123;</span><br><span class="line">        <span class="keyword">case</span> <span class="type">Some</span>(v) =&gt; &#123;</span><br><span class="line">          log.trace(<span class="string">"get page source success"</span>)</span><br><span class="line">          <span class="comment">//todo: wda返回的不是标准的xml</span></span><br><span class="line">          <span class="keyword">val</span> xmlStr=v <span class="keyword">match</span> &#123;</span><br><span class="line">            <span class="keyword">case</span> json <span class="keyword">if</span> json.trim.charAt(<span class="number">0</span>)=='&#123;' =&gt; &#123;</span><br><span class="line">              log.info(<span class="string">"json format maybe from wda"</span>)</span><br><span class="line">              <span class="type">DataObject</span>.fromJson[<span class="type">Map</span>[<span class="type">String</span>, <span class="type">String</span>]](v).getOrElse(<span class="string">"value"</span>, <span class="string">""</span>)</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">case</span> xml <span class="keyword">if</span> xml.trim.charAt(<span class="number">0</span>)=='&lt;' =&gt;&#123;</span><br><span class="line">              log.info(<span class="string">"xml format "</span>)</span><br><span class="line">              xml</span><br><span class="line">            &#125;</span><br><span class="line">          &#125;</span><br><span class="line">          <span class="type">Try</span>(<span class="type">XPathUtil</span>.toDocument(xmlStr)) <span class="keyword">match</span> &#123;</span><br><span class="line">            <span class="keyword">case</span> <span class="type">Success</span>(v) =&gt; &#123;</span><br><span class="line">              currentPageDom = v</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">case</span> <span class="type">Failure</span>(e) =&gt; &#123;</span><br><span class="line">              log.warn(<span class="string">"convert to xml fail"</span>)</span><br><span class="line">              log.warn(xmlStr)</span><br><span class="line">              currentPageDom=<span class="literal">null</span></span><br><span class="line">            &#125;</span><br><span class="line">          &#125;</span><br><span class="line"></span><br><span class="line">          currentPageSource = <span class="type">XPathUtil</span>.toPrettyXML(xmlStr)</span><br><span class="line">          <span class="keyword">return</span> currentPageSource</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">case</span> <span class="type">None</span> =&gt; &#123;</span><br><span class="line">          log.warn(<span class="string">"get page source error"</span>)</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">    currentPageSource</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<p>我们看appium的源码，发现在appcrawler给我们的appium传递了一段js代码来获取控件树</p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">&#123;<span class="attr">"script"</span>:<span class="string">"var source = document.documentElement.outerHTML; \nif (!source) &#123; source = new XMLSerializer().serializeToString(document); &#125;\nreturn source;"</span>,<span class="attr">"args"</span>:[]&#125;</span><br></pre></td></tr></table></figure>
+<p>然而，我们的appium代码对get page source这个功能接口做了限制，源码在<code>appium-android-driver</code>中的lib/execute.js中：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">extensions.execute = <span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">execute</span> (<span class="params">script, args</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (script.match(<span class="regexp">/^mobile:/</span>)) &#123;</span><br><span class="line">    script = script.replace(<span class="regexp">/^mobile:/</span>, <span class="string">''</span>).trim();</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">await</span> <span class="keyword">this</span>.executeMobile(script, _.isArray(args) ? args[<span class="number">0</span>] : args);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">throw</span> <span class="keyword">new</span> errors.NotImplementedError();</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>我们可以看到，这里抛出异常了，说明可能是接口变动了，那么我这里有个大胆猜想，appcrawler所使用的java-client过老。</p>
+<h4 id="解决问题"><a href="#解决问题" class="headerlink" title="解决问题"></a>解决问题</h4><p>ok，立马开始行动，替换上最新的java-client，也就是7.0，同时我们使用最新的appcrawler2.4.0</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.github.appium<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>java-client<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">version</span>&gt;</span>v7.0.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>同时添加对应的仓库：</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">repository</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">id</span>&gt;</span>jitpack.io<span class="tag">&lt;/<span class="name">id</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">url</span>&gt;</span>https://jitpack.io<span class="tag">&lt;/<span class="name">url</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">repository</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>打包</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">mvn assembly:assembly</span><br></pre></td></tr></table></figure>
+<p>打包完成，会再target目录下生成一个完整依赖的jar包：<code>appcrawler-2.4.0-jar-with-dependencies.jar</code></p>
+<p>重新执行，你会发现美妙的事情发生，最新appium完美支持！</p>
+<h4 id="提出质疑"><a href="#提出质疑" class="headerlink" title="提出质疑"></a>提出质疑</h4><p>上面的完美支持，是不是因为我更新了最新版本2.4.0，而不是使用的最开始的2.1.3版本呢？</p>
+<p>有可能！！！</p>
+<p>撤销修改，直接打包2.4.0，执行测试看是否正常。</p>
+<p>结果就是：最开始的get page source问题没了，但出现另外一个问题：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="number">2019</span>-<span class="number">05</span>-<span class="number">08</span> <span class="number">11</span>:<span class="number">55</span>:<span class="number">46</span> INFO [AppiumClient.30.initLog] already exist</span><br><span class="line">Exception in thread <span class="string">"main"</span> scala.MatchError: [app, appium, deviceName, dontStopAppOnReset, fullReset, noReset] (of <span class="class"><span class="keyword">class</span> <span class="title">java</span>.<span class="title">util</span>.<span class="title">Collections</span>$<span class="title">UnmodifiableSet</span>)</span></span><br><span class="line">        at com.testerhome.appcrawler.driver.AppiumClient.appium(AppiumClient.scala:94)</span><br><span class="line">        at com.testerhome.appcrawler.driver.AppiumClient.&lt;init&gt;(AppiumClient.scala:<span class="number">40</span>)</span><br><span class="line">        at com.testerhome.appcrawler.Crawler.setupAppium(Crawler.scala:<span class="number">277</span>)</span><br><span class="line">        at com.testerhome.appcrawler.Crawler.restart(Crawler.scala:<span class="number">221</span>)</span><br><span class="line">        at com.testerhome.appcrawler.Crawler.crawl(Crawler.scala:<span class="number">201</span>)</span><br><span class="line">        at com.testerhome.appcrawler.Crawler.start(Crawler.scala:<span class="number">170</span>)</span><br><span class="line">        at com.testerhome.appcrawler.AppCrawler$.startCrawl(AppCrawler.scala:<span class="number">323</span>)</span><br><span class="line">        at com.testerhome.appcrawler.AppCrawler$.parseParams(AppCrawler.scala:<span class="number">291</span>)</span><br><span class="line">        at com.testerhome.appcrawler.AppCrawler$.main(AppCrawler.scala:<span class="number">91</span>)</span><br><span class="line">        at com.testerhome.appcrawler.AppCrawler.main(AppCrawler.scala)</span><br><span class="line">chengmingdeMacBook-Pro:AppCrawler cmlanche$</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[debug] [W3C (dd159942)] Encountered internal error running command: NoSuchDriverError: A session is either terminated or not started</span><br><span class="line">[debug] [W3C (dd159942)]     at asyncHandler (/usr/local/lib/node_modules/appium/node_modules/appium-base-driver/lib/protocol/protocol.js:298:15)</span><br><span class="line">[debug] [W3C (dd159942)]     at asyncHandler (/usr/local/lib/node_modules/appium/node_modules/appium-base-driver/lib/protocol/protocol.js:489:15)</span><br><span class="line">[debug] [W3C (dd159942)]     at Layer.handle [as handle_request] (/usr/local/lib/node_modules/appium/node_modules/express/lib/router/layer.js:95:5)</span><br><span class="line">[debug] [W3C (dd159942)]     at next (/usr/local/lib/node_modules/appium/node_modules/express/lib/router/route.js:137:13)</span><br><span class="line">[debug] [W3C (dd159942)]     at Route.dispatch (/usr/local/lib/node_modules/appium/node_modules/express/lib/router/route.js:112:3)</span><br><span class="line">[debug] [W3C (dd159942)]     at Layer.handle [as handle_request] (/usr/local/lib/node_modules/appium/node_modules/express/lib/router/layer.js:95:5)</span><br><span class="line">[debug] [W3C (dd159942)]     at /usr/local/lib/node_modules/appium/node_modules/express/lib/router/index.js:281:22</span><br><span class="line">[debug] [W3C (dd159942)]     at param (/usr/local/lib/node_modules/appium/node_modules/express/lib/router/index.js:354:14)</span><br><span class="line">[debug] [W3C (dd159942)]     at param (/usr/local/lib/node_modules/appium/node_modules/express/lib/router/index.js:365:14)</span><br><span class="line">[debug] [W3C (dd159942)]     at Function.process_params (/usr/local/lib/node_modules/appium/node_modules/express/lib/router/index.js:410:3)</span><br><span class="line">[debug] [W3C (dd159942)]     at next (/usr/local/lib/node_modules/appium/node_modules/express/lib/router/index.js:275:10)</span><br><span class="line">[debug] [W3C (dd159942)]     at logger (/usr/local/lib/node_modules/appium/node_modules/morgan/index.js:144:5)</span><br><span class="line">[debug] [W3C (dd159942)]     at Layer.handle [as handle_request] (/usr/local/lib/node_modules/appium/node_modules/express/lib/router/layer.js:95:5)</span><br><span class="line">[debug] [W3C (dd159942)]     at trim_prefix (/usr/local/lib/node_modules/appium/node_modules/express/lib/router/index.js:317:13)</span><br><span class="line">[debug] [W3C (dd159942)]     at /usr/local/lib/node_modules/appium/node_modules/express/lib/router/index.js:284:7</span><br><span class="line">[debug] [W3C (dd159942)]     at Function.process_params (/usr/local/lib/node_modules/appium/node_modules/express/lib/router/index.js:335:12)</span><br><span class="line">[debug] [W3C (dd159942)]     at next (/usr/local/lib/node_modules/appium/node_modules/express/lib/router/index.js:275:10)</span><br><span class="line">[debug] [W3C (dd159942)]     at jsonParser (/usr/local/lib/node_modules/appium/node_modules/body-parser/lib/types/json.js:110:7)</span><br><span class="line">[debug] [W3C (dd159942)]     at Layer.handle [as handle_request] (/usr/local/lib/node_modules/appium/node_modules/express/lib/router/layer.js:95:5)</span><br><span class="line">[debug] [W3C (dd159942)]     at trim_prefix (/usr/local/lib/node_modules/appium/node_modules/express/lib/router/index.js:317:13)</span><br><span class="line">[debug] [W3C (dd159942)]     at /usr/local/lib/node_modules/appium/node_modules/express/lib/router/index.js:284:7</span><br><span class="line">[debug] [W3C (dd159942)]     at Function.process_params (/usr/local/lib/node_modules/appium/node_modules/express/lib/router/index.js:335:12)</span><br><span class="line">[debug] [W3C (dd159942)]     at next (/usr/local/lib/node_modules/appium/node_modules/express/lib/router/index.js:275:10)</span><br><span class="line">[debug] [W3C (dd159942)]     at Layer.handle [as handle_request] (/usr/local/lib/node_modules/appium/node_modules/express/lib/router/layer.js:91:12)</span><br><span class="line">[debug] [W3C (dd159942)]     at trim_prefix (/usr/local/lib/node_modules/appium/node_modules/express/lib/router/index.js:317:13)</span><br><span class="line">[debug] [W3C (dd159942)]     at /usr/local/lib/node_modules/appium/node_modules/express/lib/router/index.js:284:7</span><br><span class="line">[debug] [W3C (dd159942)]     at Function.process_params (/usr/local/lib/node_modules/appium/node_modules/express/lib/router/index.js:335:12)</span><br><span class="line">[debug] [W3C (dd159942)]     at next (/usr/local/lib/node_modules/appium/node_modules/express/lib/router/index.js:275:10)</span><br><span class="line">[HTTP] &lt;-- GET /wd/hub/session/dd159942-ed6d-411c-8dcc-b43d7fc26284/source 404 5 ms - 3173</span><br></pre></td></tr></table></figure>
+<p>还是错的！</p>
+<p>那就用我的最新java-client 7.0吧，重新执行一次完整的测试，发现没有任何问题！</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    cmlanche
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://www.cmlanche.com/2019/05/08/改造思寒的AppiumCrawler，使其支持Appium最新版本/" title="改造思寒的AppCrawler，使其支持Appium最新版本">http://www.cmlanche.com/2019/05/08/改造思寒的AppiumCrawler，使其支持Appium最新版本/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/appium/" rel="tag"># appium</a>
+          
+            <a href="/tags/appiumcrawler/" rel="tag"># appiumcrawler</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/04/20/开源项目filepond的独立自由之路：城市套路深/" rel="next" title="开源项目filepond的独立自由之路：城市套路深">
+                <i class="fa fa-chevron-left"></i> 开源项目filepond的独立自由之路：城市套路深
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="https://avatars3.githubusercontent.com/u/5886757?v=4&s=400&u=c3fdc83b9817d98d87ed84c8e768855fd628c745" alt="cmlanche">
+            
+              <p class="site-author-name" itemprop="name">cmlanche</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">54</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">70</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/cmlanche" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-globe"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://weibo.com/cmlanche" target="_blank" title="Weibo">
+                    
+                      <i class="fa fa-fw fa-globe"></i>Weibo</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#思绪"><span class="nav-number">1.</span> <span class="nav-text">思绪</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#改造"><span class="nav-number">2.</span> <span class="nav-text">改造</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#先看看出了什么问题？"><span class="nav-number">2.1.</span> <span class="nav-text">先看看出了什么问题？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#分析原因"><span class="nav-number">2.2.</span> <span class="nav-text">分析原因</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#解决问题"><span class="nav-number">2.3.</span> <span class="nav-text">解决问题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#提出质疑"><span class="nav-number">2.4.</span> <span class="nav-text">提出质疑</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">cmlanche</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("Vi44LQT7TQmENDPlLnbjbgmr-gzGzoHsz", "rB0cEcQ09hqDXQrXpOkWfyO6");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
