@@ -268,6 +268,198 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.cmlanche.com/2018/07/21/聊一聊JavaFx中的TextFormater/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="cmlanche">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="https://avatars3.githubusercontent.com/u/5886757?v=4&s=400&u=c3fdc83b9817d98d87ed84c8e768855fd628c745">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cmlanche">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/07/21/聊一聊JavaFx中的TextFormater/" itemprop="url">聊一聊JavaFx中的TextFormatter以及一元操作符UnaryOperator</a></h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-21T15:49:27+08:00">
+                2018-07-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/javafx/" itemprop="url" rel="index">
+                    <span itemprop="name">javafx</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/07/21/聊一聊JavaFx中的TextFormater/" class="leancloud_visitors" data-flag-title="聊一聊JavaFx中的TextFormatter以及一元操作符UnaryOperator">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  1,435 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  6 分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h3 id="直击主题：它在JavaFx中可以实现什么效果"><a href="#直击主题：它在JavaFx中可以实现什么效果" class="headerlink" title="直击主题：它在JavaFx中可以实现什么效果"></a>直击主题：它在JavaFx中可以实现什么效果</h3><p>它可以格式化输入文本的内容，可以允许输入哪种值，可以规定光标的位置，例如可以实现一个输入框只允许输入数字，</p>
+<p>例如<code>textfield</code>表示输入框对象，那么设置格式化内容的话就应该像这样子：<code>textfield.setTextformatter(new TextFormatter&lt;String&gt;(IntegerFilter))</code>, 而其中<code>IntegerFilter</code>就是只允许输入数字的过滤器，它的代码是怎样的呢？</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Created by cmlanche on 2017/7/10.</span></span><br><span class="line"><span class="comment"> * 整数过滤器</span></span><br><span class="line"><span class="comment"> * 应用：比如使一个输入框只能输入数字</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">IntegerFilter</span> <span class="keyword">implements</span> <span class="title">UnaryOperator</span>&lt;<span class="title">TextFormatter</span>.<span class="title">Change</span>&gt; </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">static</span> Pattern DIGIT_PATTERN = Pattern.compile(<span class="string">"\\d*"</span>);</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> TextFormatter.<span class="function">Change <span class="title">apply</span><span class="params">(TextFormatter.Change change)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> DIGIT_PATTERN.matcher(change.getText()).matches() ? change : <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>DIGIT_PATTERN大家都能看出来它是正则表达式，是匹配文本是否是整数的表达式。</p>
+<p>apply方法中的实现的意思是，只要符合整数就返回change，否则返回null</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/07/21/聊一聊JavaFx中的TextFormater/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://www.cmlanche.com/2018/07/18/Unable-to-start-monitor-4454,-An-other-instance-is-problaly-using-the-same-port/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1792,207 +1984,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.cmlanche.com/2017/12/09/JavaFx中gif图片显示内存泄漏/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="cmlanche">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="https://avatars3.githubusercontent.com/u/5886757?v=4&s=400&u=c3fdc83b9817d98d87ed84c8e768855fd628c745">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="cmlanche">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/12/09/JavaFx中gif图片显示内存泄漏/" itemprop="url">JavaFx中gif图片显示内存泄漏</a></h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-09T18:44:40+08:00">
-                2017-12-09
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/javafx/" itemprop="url" rel="index">
-                    <span itemprop="name">javafx</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-             <span id="/2017/12/09/JavaFx中gif图片显示内存泄漏/" class="leancloud_visitors" data-flag-title="JavaFx中gif图片显示内存泄漏">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计&#58;</span>
-                
-                <span title="字数统计">
-                  301 字
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
-                
-                <span title="阅读时长">
-                  1 分钟
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>在javafx中显示gif是很方便的，直接把gif文件放到Image对象中即可，比如下代码：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">FileInputStream fis = <span class="keyword">new</span> FileInputStream(<span class="keyword">new</span> File(yourgiffile));</span><br><span class="line">imageview.setImage(<span class="keyword">new</span> Image(fis))</span><br><span class="line">fis.close();</span><br></pre></td></tr></table></figure>
-<p>显示方便，不表示能用啊！！！</p>
-<p>我加载一个369kb的gif文件，每次显示都会增加100M左右的内存！！！，加载一个2.8M的gif，每次都会增加300M以上的内存！！！</p>
-<p>Oh my god!!!</p>
-<p>简直无法忍受，各种谷歌发现以前有提过这个bug：</p>
-<p><a href="https://bugs.openjdk.java.net/browse/JDK-8119730" target="_blank" rel="noopener">https://bugs.openjdk.java.net/browse/JDK-8119730</a></p>
-<p><a href="https://bugs.openjdk.java.net/browse/JDK-8117172" target="_blank" rel="noopener">https://bugs.openjdk.java.net/browse/JDK-8117172</a></p>
-<blockquote>
-<p><a href="https://bugs.openjdk.java.net/secure/ViewProfile.jspa?name=cschudtjfx" target="_blank" rel="noopener">Christian Schudt (Inactive)</a> added a comment - 2013-08-29 05:36</p>
-<p>I also tested with my sample code from <a href="https://bugs.openjdk.java.net/browse/JDK-8119730" target="_blank" rel="noopener"><del>RT-28782</del></a>:<br>With JavaFX 2.2: OutOfMemoryError after a few iterations.<br>With JavaFX 8: No error. Memory stays low after 1000+ iterations.</p>
-<p><a href="https://bugs.openjdk.java.net/browse/JDK-8117172?focusedCommentId=13764469&amp;page=com.atlassian.jira.plugin.system.issuetabpanels:comment-tabpanel#comment-13764469" target="_blank" rel="noopener">Permalink</a></p>
-<p><a href="https://bugs.openjdk.java.net/secure/ViewProfile.jspa?name=akirov" target="_blank" rel="noopener"><img src="https://bugs.openjdk.java.net/secure/useravatar?size=xsmall&amp;avatarId=10122" alt="akirov">Alexander Kirov (Inactive)</a> added a comment - 2013-08-29 05:58</p>
-<p>ok, close as verified on b104</p>
-</blockquote>
-<p>按照上面的说法，说是已经解决了，可是真解决了吗？</p>
-<p>不过有一点可疑的地方就是，我的gif文件尺寸都比较大，369kb的文件尺寸是1500 × 448，2.8M的文件的尺寸是2184 × 1300，查看内存占用发现堆大小涨的非常大，而使用的堆非常小，或许是因为尺寸过大，一次性申请了过大的内存导致的。</p>
-<p><img src="http://opdi15302.bkt.clouddn.com/QQ20171209-185927@2x.png" alt></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2045,7 +2036,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">54</span>
+                  <span class="site-state-item-count">55</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -2056,7 +2047,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>

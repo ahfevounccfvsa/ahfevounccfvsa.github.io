@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.cmlanche.com/"/>
-  <updated>2019-05-08T05:01:35.000Z</updated>
+  <updated>2019-05-13T04:37:19.000Z</updated>
   <id>http://www.cmlanche.com/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>如何修改git已提交记录的邮箱？</title>
+    <link href="http://www.cmlanche.com/2019/05/13/%E5%A6%82%E4%BD%95%E4%BF%AE%E6%94%B9git%E5%B7%B2%E6%8F%90%E4%BA%A4%E8%AE%B0%E5%BD%95%E7%9A%84%E9%82%AE%E7%AE%B1%EF%BC%9F/"/>
+    <id>http://www.cmlanche.com/2019/05/13/如何修改git已提交记录的邮箱？/</id>
+    <published>2019-05-13T03:26:12.000Z</published>
+    <updated>2019-05-13T04:37:19.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>有时候，公司提交的代码必须使用公司邮箱，而你误操作，直接把自己个人邮箱提交上去了，此时你就会遇到这样的需求：如何修改git已提交的邮箱？</p><p>而这个需求对于新手来说，往往要花费半天的时间才能理解修改过程，简直太傻比了，所以我这里做一个详细的文档来帮助自己和你搞清楚这个流程。尤其要理解变基，它不是一个命令执行就完成了，而是一连串命令的组合。</p><a id="more"></a><h3 id="步骤1：变基"><a href="#步骤1：变基" class="headerlink" title="步骤1：变基"></a>步骤1：变基</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git rebase -i</span><br></pre></td></tr></table></figure><p>执行后，会打开最近一条的提交记录，当然上面的命令可以指定某一条记录，命令是：</p><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git rebase -i &quot;your commit id&quot;</span><br></pre></td></tr></table></figure><p>对于sourcetree用户来说，commit id是SHA-1，可以右键某条提交记录，选择菜单”复制SHA-1到剪贴板”，如下图：</p><p><img src="https://cmlanche-1251406926.cos.ap-guangzhou.myqcloud.com/blog/mfl1f.png" alt="image-20190513113342522"></p><p>变基rebase命令执行完成后，会打印<strong>类似</strong>如下内容：</p><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">pick bd81df5 更新API</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> Rebase abcb9d0..bd81df5 onto abcb9d0 (1 command)</span><br><span class="line"><span class="meta">#</span></span><br><span class="line"><span class="meta">#</span> Commands:</span><br><span class="line"><span class="meta">#</span> p, pick = use commit</span><br><span class="line"><span class="meta">#</span> r, reword = use commit, but edit the commit message</span><br><span class="line"><span class="meta">#</span> e, edit = use commit, but stop for amending</span><br><span class="line"><span class="meta">#</span> s, squash = use commit, but meld into previous commit</span><br><span class="line"><span class="meta">#</span> f, fixup = like "squash", but discard this commit's log message</span><br><span class="line"><span class="meta">#</span> x, exec = run command (the rest of the line) using shell</span><br><span class="line"><span class="meta">#</span> d, drop = remove commit</span><br><span class="line"><span class="meta">#</span></span><br><span class="line"><span class="meta">#</span> These lines can be re-ordered; they are executed from top to bottom.</span><br><span class="line"><span class="meta">#</span></span><br><span class="line"><span class="meta">#</span> If you remove a line here THAT COMMIT WILL BE LOST.</span><br><span class="line"><span class="meta">#</span></span><br><span class="line"><span class="meta">#</span> However, if you remove everything, the rebase will be aborted.</span><br><span class="line"><span class="meta">#</span></span><br><span class="line"><span class="meta">#</span> Note that empty commits are commented out</span><br></pre></td></tr></table></figure><p>新手往往会一脸懵逼，不止所错，此时是在rebase的过程中，你需要把pick改为edit，如下：</p><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">edit bd81df5 更新API</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> Rebase abcb9d0..bd81df5 onto abcb9d0 (1 command)</span><br><span class="line"><span class="meta">#</span></span><br><span class="line"><span class="meta">#</span> Commands:</span><br><span class="line"><span class="meta">#</span> p, pick = use commit</span><br><span class="line"><span class="meta">#</span> r, reword = use commit, but edit the commit message</span><br><span class="line"><span class="meta">#</span> e, edit = use commit, but stop for amending</span><br><span class="line"><span class="meta">#</span> s, squash = use commit, but meld into previous commit</span><br><span class="line"><span class="meta">#</span> f, fixup = like "squash", but discard this commit's log message</span><br><span class="line"><span class="meta">#</span> x, exec = run command (the rest of the line) using shell</span><br><span class="line"><span class="meta">#</span> d, drop = remove commit</span><br><span class="line"><span class="meta">#</span></span><br><span class="line"><span class="meta">#</span> These lines can be re-ordered; they are executed from top to bottom.</span><br><span class="line"><span class="meta">#</span></span><br><span class="line"><span class="meta">#</span> If you remove a line here THAT COMMIT WILL BE LOST.</span><br><span class="line"><span class="meta">#</span></span><br><span class="line"><span class="meta">#</span> However, if you remove everything, the rebase will be aborted.</span><br><span class="line"><span class="meta">#</span></span><br><span class="line"><span class="meta">#</span> Note that empty commits are commented out</span><br></pre></td></tr></table></figure><p>更改完成后，保存并退出vi编辑器：<code>:wq</code></p><p>然后会打印这样的消息：</p><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">chengmingdeMacBook-Pro:server cmlanche$ git rebase -i "abcb9d0d1e99cdad25d8d08119e494436b000e59"</span><br><span class="line">Stopped at bd81df5...  更新API</span><br><span class="line">You can amend the commit now, with</span><br><span class="line"></span><br><span class="line">  git commit --amend </span><br><span class="line"></span><br><span class="line">Once you are satisfied with your changes, run</span><br><span class="line"></span><br><span class="line">  git rebase --continue</span><br><span class="line">chengmingdeMacBook-Pro:server cmlanche$</span><br></pre></td></tr></table></figure><p>给大家先科普一下这个<code>amend</code>英文单词，是修改的意思，对我来说好陌生，为啥不用change或者fix之类的。</p><p><img src="https://cmlanche-1251406926.cos.ap-guangzhou.myqcloud.com/blog/qgjur.png" alt="image-20190513114137949"></p><p>上面的信息说了，如果你要amend，也就是要修改这个提交的话，那么用</p><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git commit --amend</span><br></pre></td></tr></table></figure><p>如果你对这次修改满意的话，就用如下命令结束此次变基</p><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git rebase --continue</span><br></pre></td></tr></table></figure><h3 id="重置账户邮箱信息"><a href="#重置账户邮箱信息" class="headerlink" title="重置账户邮箱信息"></a>重置账户邮箱信息</h3><p>我们当然要修改啦，那么执行如下命令，重置提交的账户信息：</p><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git commit --amend --author="cmlanche &lt;1204833748@qq.com&gt;" --no-edit</span><br></pre></td></tr></table></figure><p>同事，要注意你的sourcetree，出现了新情况！</p><p><img src="https://cmlanche-1251406926.cos.ap-guangzhou.myqcloud.com/blog/8w5dw.png" alt="image-20190513114851415"></p><p>我们可以看到一个新的提交，并且，邮箱账号都经过了修改，如果你去掉<code>--no-edit</code>还可以修改commit message，也就是图中的”更新API”，举栗子吧，我可以继续用amend修改此次变基</p><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git commit --amend --author="cmlanche &lt;1204833748@qq.com&gt;"</span><br></pre></td></tr></table></figure><p><img src="https://cmlanche-1251406926.cos.ap-guangzhou.myqcloud.com/blog/5500p.png" alt="image-20190513115132114"></p><p>保存退出vi编辑器，看sourcetree咋样了：</p><p><img src="https://cmlanche-1251406926.cos.ap-guangzhou.myqcloud.com/blog/e0x3u.png" alt="image-20190513115216969"></p><p>真的很完美，接下来就是合并了，退出变基。</p><h3 id="退出变基"><a href="#退出变基" class="headerlink" title="退出变基"></a>退出变基</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git rebase --continue</span><br></pre></td></tr></table></figure><p>在控制台中打印如上命令退出变基，我们看到退出变基也就是使用最新的修改了，就一条分支了。</p><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">chengmingdeMacBook-Pro:server cmlanche$ git rebase --continue</span><br><span class="line">Successfully rebased and updated refs/heads/bulma.</span><br></pre></td></tr></table></figure><p><img src="https://cmlanche-1251406926.cos.ap-guangzhou.myqcloud.com/blog/4e46r.png" alt="image-20190513115442779"></p><h3 id="最后总结一下"><a href="#最后总结一下" class="headerlink" title="最后总结一下"></a>最后总结一下</h3><p>变基真的很有用，他不是一条命令搞定的，是一个过程，就像变成中打开了一个输入流，最后用完你得关闭输入流一样。</p><p>通过变基你可以轻松实现提交信息的任意重新修改！</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;有时候，公司提交的代码必须使用公司邮箱，而你误操作，直接把自己个人邮箱提交上去了，此时你就会遇到这样的需求：如何修改git已提交的邮箱？&lt;/p&gt;
+&lt;p&gt;而这个需求对于新手来说，往往要花费半天的时间才能理解修改过程，简直太傻比了，所以我这里做一个详细的文档来帮助自己和你搞清楚这个流程。尤其要理解变基，它不是一个命令执行就完成了，而是一连串命令的组合。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="日常技术" scheme="http://www.cmlanche.com/categories/%E6%97%A5%E5%B8%B8%E6%8A%80%E6%9C%AF/"/>
+    
+    
+      <category term="git" scheme="http://www.cmlanche.com/tags/git/"/>
+    
+  </entry>
   
   <entry>
     <title>改造思寒的AppCrawler，使其支持Appium最新版本</title>
@@ -550,36 +573,6 @@
       <category term="hostingranking.cn" scheme="http://www.cmlanche.com/tags/hostingranking-cn/"/>
     
       <category term="技术架构" scheme="http://www.cmlanche.com/tags/%E6%8A%80%E6%9C%AF%E6%9E%B6%E6%9E%84/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>程序员的微创业</title>
-    <link href="http://www.cmlanche.com/2019/02/24/%E5%BE%AE%E5%88%9B%E4%B8%9A/"/>
-    <id>http://www.cmlanche.com/2019/02/24/微创业/</id>
-    <published>2019-02-24T01:00:10.000Z</published>
-    <updated>2019-04-15T06:16:04.000Z</updated>
-    
-    <content type="html"><![CDATA[<p><img src="https://cmlanche-1251406926.cos.ap-guangzhou.myqcloud.com/blog/zgc28.jpg" alt="v2-6cea99c48c9aa053b6bd6bbcd70f3631_hd"></p><p>不知道有没有觉得程序员是吃青春饭的；</p><p>有没有发现很多公司的招聘需求上写着35岁以上不要；</p><p>有没有发现一转眼都已奔三，却依旧一事无成，无房无车；</p><h3 id="怎么办？"><a href="#怎么办？" class="headerlink" title="怎么办？"></a>怎么办？</h3><p>我想过创业，我也创业过，15年的时候和同学一块做人脸识别，种种原因最后没成功，此前两年的积蓄也清零，创业？人家都说是九死一生，我说就是，在你没有足够人脉钱脉的时候你去创业，无异于以卵击石。</p><p>程序员是吃请青春饭的，因为这个行业加班最严重，年轻人不断涌上，没时间谈恋爱，谈了恋爱的不敢结婚，结婚的不敢生孩子，生孩子了也不能自己养，要爸妈带，中国现在社会就是这样，年轻人压力巨大，上有老下有小，奔三的我感觉鸭梨山大。</p><p>既然不能创业那就好好工作，把工作的事情做好，我也觉得，但是2018年底都知道大裁员，公司也未必是可靠的，如果你没有足够好的技能和其他的收入傍身，最后哭的怎么不会是你？</p><a id="more"></a><h3 id="地心引力"><a href="#地心引力" class="headerlink" title="地心引力"></a>地心引力</h3><p>这个社会是一张网紧紧的黏住你，让你无法动弹，无法很好的去世界各地自己想去的地方，无法任性而为还本真的自我，要想摆脱这种地心引力，你要实现的目标就是要实现财务自由，这样你将不再受到工作、家庭的制约。</p><h3 id="财务自由"><a href="#财务自由" class="headerlink" title="财务自由"></a>财务自由</h3><p>近十几年，不同的人，实现财务自由的方式不尽然相同。</p><p>有些人天生就财务自由，爸妈给的，就像王思聪，可能你姓王，但是你爸不是王健林；</p><p>有些人搭上了不错的“班车”，比如滴滴，美团，小米，公司给予了丰厚股票奖励，也实现了财务自由，很可惜我并没有搭上。</p><p>有些人运气比较好，赶上14年股市普涨，又能及时悬崖勒马，狠狠赚了一匹，但我觉得这只是让你一下子突然获得了一箩筐的“鱼”，你没有鱼竿，等你的鱼都吃完的时候，你还是没法学会更好的生存。</p><p>同样的还有炒比特币的，赌场要是赚了，不要高兴太早，及早收心。</p><p>而绝大多数人，是没有这个福气和运气的，很多都同我一样，默默无闻。</p><p>我想实现财务自由，那怎么办呢？</p><h3 id="让我们微创业吧"><a href="#让我们微创业吧" class="headerlink" title="让我们微创业吧"></a>让我们微创业吧</h3><p>先让我们牢记第一条使命，就是把工作上老板交代的活干好</p><p>然后是<strong>有余力</strong>，就<strong>微创业</strong>吧</p><p>微创业，目标是在不影响工作的情况下，额外的创收。</p><h3 id="都有哪些做法？"><a href="#都有哪些做法？" class="headerlink" title="都有哪些做法？"></a>都有哪些做法？</h3><p>第一就是接外包，这种方式来钱明显，但是很多外包都是想要最少的钱，让别人干最多的活，十分的累，还不如工作赚的多，而且十分影响你现在的工作，我极力反对用这个方式创收。</p><p>第二就是要在工作之外把自己变成独立的开发者，依靠我们自身的技术优势，来做点小而美的产品，例如iPic的作者Jason（产品经理出生，为了做独立开发者，自学ios相关的技术，<a href="https://toolinbox.net/" target="_blank" rel="noopener">https://toolinbox.net/</a>），还有码力全开工作室<a href="http://maliquankai.com/" target="_blank" rel="noopener">http://maliquankai.com/</a>的Larry，虽然我们中绝大多数人没办法像他们一样做全职的独立开发者，但是我们在工作中好好打磨一款产品，等它的收入达到一定时，你就可以全职来彻底搞它了。</p><h3 id="关键：坚持"><a href="#关键：坚持" class="headerlink" title="关键：坚持"></a>关键：坚持</h3><p>选好点子，然后就是要长期坚持，如果你放弃了，这一切都完了！</p><h3 id="附"><a href="#附" class="headerlink" title="附"></a>附</h3><ol><li>我一直在努力的网站：主机排行网 <a href="https://hostingranking.cn/" target="_blank" rel="noopener">https://hostingranking.cn/</a></li><li>后续我会慢慢分享独立开发者心得和干货</li><li>加我好友，拉你进独立开发者群</li></ol><p><img src="https://cmlanche-1251406926.cos.ap-guangzhou.myqcloud.com/blog/kz0mn.png" alt="image-20190227154108985"></p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;&lt;img src=&quot;https://cmlanche-1251406926.cos.ap-guangzhou.myqcloud.com/blog/zgc28.jpg&quot; alt=&quot;v2-6cea99c48c9aa053b6bd6bbcd70f3631_hd&quot;&gt;&lt;/p&gt;
-&lt;p&gt;不知道有没有觉得程序员是吃青春饭的；&lt;/p&gt;
-&lt;p&gt;有没有发现很多公司的招聘需求上写着35岁以上不要；&lt;/p&gt;
-&lt;p&gt;有没有发现一转眼都已奔三，却依旧一事无成，无房无车；&lt;/p&gt;
-&lt;h3 id=&quot;怎么办？&quot;&gt;&lt;a href=&quot;#怎么办？&quot; class=&quot;headerlink&quot; title=&quot;怎么办？&quot;&gt;&lt;/a&gt;怎么办？&lt;/h3&gt;&lt;p&gt;我想过创业，我也创业过，15年的时候和同学一块做人脸识别，种种原因最后没成功，此前两年的积蓄也清零，创业？人家都说是九死一生，我说就是，在你没有足够人脉钱脉的时候你去创业，无异于以卵击石。&lt;/p&gt;
-&lt;p&gt;程序员是吃请青春饭的，因为这个行业加班最严重，年轻人不断涌上，没时间谈恋爱，谈了恋爱的不敢结婚，结婚的不敢生孩子，生孩子了也不能自己养，要爸妈带，中国现在社会就是这样，年轻人压力巨大，上有老下有小，奔三的我感觉鸭梨山大。&lt;/p&gt;
-&lt;p&gt;既然不能创业那就好好工作，把工作的事情做好，我也觉得，但是2018年底都知道大裁员，公司也未必是可靠的，如果你没有足够好的技能和其他的收入傍身，最后哭的怎么不会是你？&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="独立开发者" scheme="http://www.cmlanche.com/categories/%E7%8B%AC%E7%AB%8B%E5%BC%80%E5%8F%91%E8%80%85/"/>
-    
-    
-      <category term="程序员" scheme="http://www.cmlanche.com/tags/%E7%A8%8B%E5%BA%8F%E5%91%98/"/>
-    
-      <category term="微创业" scheme="http://www.cmlanche.com/tags/%E5%BE%AE%E5%88%9B%E4%B8%9A/"/>
     
   </entry>
   

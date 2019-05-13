@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="腾讯云,建站主机,">
+  <meta name="keywords" content="git,">
 
 
 
@@ -81,21 +81,25 @@
 
 
 
-<meta name="description" content="十星主机 - 腾讯云建站主机 体验过无数个主机产商的虚拟主机服务，今天我把最佳虚拟主机产商颁给腾讯云，因为它给我太多惊喜。  惊喜1：配置极高腾讯云建站主机只配置了三款，基础版、专业版、旗舰版，而且网页空间最低都是40G起步，CPU独享，内存独享，不限流量，比阿里云独享的配置都高。  惊喜2：自动开启SSL数字证书，并且是免费的，浏览器https绿色标识在购买建站主机后，会有一个默认的临时域名，你">
-<meta name="keywords" content="腾讯云,建站主机">
+<meta name="description" content="有时候，公司提交的代码必须使用公司邮箱，而你误操作，直接把自己个人邮箱提交上去了，此时你就会遇到这样的需求：如何修改git已提交的邮箱？ 而这个需求对于新手来说，往往要花费半天的时间才能理解修改过程，简直太傻比了，所以我这里做一个详细的文档来帮助自己和你搞清楚这个流程。尤其要理解变基，它不是一个命令执行就完成了，而是一连串命令的组合。">
+<meta name="keywords" content="git">
 <meta property="og:type" content="article">
-<meta property="og:title" content="腾讯云建站主机的一次奇妙之旅">
-<meta property="og:url" content="http://www.cmlanche.com/2018/06/21/腾讯云建站主机的一次奇妙之旅/index.html">
+<meta property="og:title" content="如何修改git已提交记录的邮箱？">
+<meta property="og:url" content="http://www.cmlanche.com/2019/05/13/如何修改git已提交记录的邮箱？/index.html">
 <meta property="og:site_name" content="cmlanche">
-<meta property="og:description" content="十星主机 - 腾讯云建站主机 体验过无数个主机产商的虚拟主机服务，今天我把最佳虚拟主机产商颁给腾讯云，因为它给我太多惊喜。  惊喜1：配置极高腾讯云建站主机只配置了三款，基础版、专业版、旗舰版，而且网页空间最低都是40G起步，CPU独享，内存独享，不限流量，比阿里云独享的配置都高。  惊喜2：自动开启SSL数字证书，并且是免费的，浏览器https绿色标识在购买建站主机后，会有一个默认的临时域名，你">
+<meta property="og:description" content="有时候，公司提交的代码必须使用公司邮箱，而你误操作，直接把自己个人邮箱提交上去了，此时你就会遇到这样的需求：如何修改git已提交的邮箱？ 而这个需求对于新手来说，往往要花费半天的时间才能理解修改过程，简直太傻比了，所以我这里做一个详细的文档来帮助自己和你搞清楚这个流程。尤其要理解变基，它不是一个命令执行就完成了，而是一连串命令的组合。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://www.hostreport.cn/wp-content/uploads/2018/06/t-config.png">
-<meta property="og:image" content="http://www.hostreport.cn/wp-content/uploads/2018/06/tencent-%E8%AF%81%E4%B9%A6%E8%87%AA%E5%8A%A8%E7%AD%BE%E5%8F%91-1024x361.png">
-<meta property="og:updated_time" content="2018-07-17T05:19:01.000Z">
+<meta property="og:image" content="https://cmlanche-1251406926.cos.ap-guangzhou.myqcloud.com/blog/mfl1f.png">
+<meta property="og:image" content="https://cmlanche-1251406926.cos.ap-guangzhou.myqcloud.com/blog/qgjur.png">
+<meta property="og:image" content="https://cmlanche-1251406926.cos.ap-guangzhou.myqcloud.com/blog/8w5dw.png">
+<meta property="og:image" content="https://cmlanche-1251406926.cos.ap-guangzhou.myqcloud.com/blog/5500p.png">
+<meta property="og:image" content="https://cmlanche-1251406926.cos.ap-guangzhou.myqcloud.com/blog/e0x3u.png">
+<meta property="og:image" content="https://cmlanche-1251406926.cos.ap-guangzhou.myqcloud.com/blog/4e46r.png">
+<meta property="og:updated_time" content="2019-05-13T04:37:19.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="腾讯云建站主机的一次奇妙之旅">
-<meta name="twitter:description" content="十星主机 - 腾讯云建站主机 体验过无数个主机产商的虚拟主机服务，今天我把最佳虚拟主机产商颁给腾讯云，因为它给我太多惊喜。  惊喜1：配置极高腾讯云建站主机只配置了三款，基础版、专业版、旗舰版，而且网页空间最低都是40G起步，CPU独享，内存独享，不限流量，比阿里云独享的配置都高。  惊喜2：自动开启SSL数字证书，并且是免费的，浏览器https绿色标识在购买建站主机后，会有一个默认的临时域名，你">
-<meta name="twitter:image" content="http://www.hostreport.cn/wp-content/uploads/2018/06/t-config.png">
+<meta name="twitter:title" content="如何修改git已提交记录的邮箱？">
+<meta name="twitter:description" content="有时候，公司提交的代码必须使用公司邮箱，而你误操作，直接把自己个人邮箱提交上去了，此时你就会遇到这样的需求：如何修改git已提交的邮箱？ 而这个需求对于新手来说，往往要花费半天的时间才能理解修改过程，简直太傻比了，所以我这里做一个详细的文档来帮助自己和你搞清楚这个流程。尤其要理解变基，它不是一个命令执行就完成了，而是一连串命令的组合。">
+<meta name="twitter:image" content="https://cmlanche-1251406926.cos.ap-guangzhou.myqcloud.com/blog/mfl1f.png">
 
 
 
@@ -125,13 +129,13 @@
 
 
 
-  <link rel="canonical" href="http://www.cmlanche.com/2018/06/21/腾讯云建站主机的一次奇妙之旅/">
+  <link rel="canonical" href="http://www.cmlanche.com/2019/05/13/如何修改git已提交记录的邮箱？/">
 
 
 
 
 
-  <title>腾讯云建站主机的一次奇妙之旅 | cmlanche</title>
+  <title>如何修改git已提交记录的邮箱？ | cmlanche</title>
   
 
 
@@ -275,7 +279,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.cmlanche.com/2018/06/21/腾讯云建站主机的一次奇妙之旅/">
+    <link itemprop="mainEntityOfPage" href="http://www.cmlanche.com/2019/05/13/如何修改git已提交记录的邮箱？/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="cmlanche">
@@ -292,7 +296,7 @@
 
         
         
-          <h2 class="post-title" itemprop="name headline">腾讯云建站主机的一次奇妙之旅</h2>
+          <h2 class="post-title" itemprop="name headline">如何修改git已提交记录的邮箱？</h2>
         
 
         <div class="post-meta">
@@ -304,8 +308,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-21T22:07:07+08:00">
-                2018-06-21
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-13T11:26:12+08:00">
+                2019-05-13
               </time>
             
 
@@ -315,6 +319,28 @@
           </span>
 
           
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/日常技术/" itemprop="url" rel="index">
+                    <span itemprop="name">日常技术</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
 
           
             
@@ -322,7 +348,7 @@
 
           
           
-             <span id="/2018/06/21/腾讯云建站主机的一次奇妙之旅/" class="leancloud_visitors" data-flag-title="腾讯云建站主机的一次奇妙之旅">
+             <span id="/2019/05/13/如何修改git已提交记录的邮箱？/" class="leancloud_visitors" data-flag-title="如何修改git已提交记录的邮箱？">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -347,7 +373,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  610 字
+                  960 字
                 </span>
               
 
@@ -363,7 +389,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  2 分钟
+                  4 分钟
                 </span>
               
             </div>
@@ -384,26 +410,43 @@
       
 
       
-        <h1 id="十星主机-腾讯云建站主机"><a href="#十星主机-腾讯云建站主机" class="headerlink" title="十星主机 - 腾讯云建站主机"></a>十星主机 - 腾讯云建站主机</h1><blockquote>
-<p>体验过无数个主机产商的虚拟主机服务，今天我把最佳虚拟主机产商颁给腾讯云，因为它给我太多惊喜。</p>
-</blockquote>
-<h3 id="惊喜1：配置极高"><a href="#惊喜1：配置极高" class="headerlink" title="惊喜1：配置极高"></a>惊喜1：配置极高</h3><p>腾讯云建站主机只配置了三款，基础版、专业版、旗舰版，而且网页空间最低都是40G起步，CPU独享，内存独享，不限流量，比阿里云独享的配置都高。</p>
-<p><img src="http://www.hostreport.cn/wp-content/uploads/2018/06/t-config.png" alt></p>
-<h3 id="惊喜2：自动开启SSL数字证书，并且是免费的，浏览器https绿色标识"><a href="#惊喜2：自动开启SSL数字证书，并且是免费的，浏览器https绿色标识" class="headerlink" title="惊喜2：自动开启SSL数字证书，并且是免费的，浏览器https绿色标识"></a>惊喜2：自动开启SSL数字证书，并且是免费的，浏览器https绿色标识</h3><p>在购买建站主机后，会有一个默认的临时域名，你会发现证书就已经签发好了，例如我购买签发的临时域名是<a href="http://247915467.mylightsite.com" target="_blank" rel="noopener">247915467.mylightsite.com</a>,打开后会发现自动变成https，非常棒。当你绑定域名（注意必须是在腾讯购买的域名，如果不是可以把域名转移到腾讯云来）后会自动给这个域名签发证书，自动开启https访问，例如我绑定的域名是<a href="http://elementor.net.cn" target="_blank" rel="noopener">elementor.net.cn</a>。</p>
-<p><img src="http://www.hostreport.cn/wp-content/uploads/2018/06/tencent-%E8%AF%81%E4%B9%A6%E8%87%AA%E5%8A%A8%E7%AD%BE%E5%8F%91-1024x361.png" alt></p>
-<h3 id="惊喜3：Wordpress建站主机自动安装Wordpress"><a href="#惊喜3：Wordpress建站主机自动安装Wordpress" class="headerlink" title="惊喜3：Wordpress建站主机自动安装Wordpress"></a>惊喜3：Wordpress建站主机自动安装Wordpress</h3><p>当你购买wordpress建站主机，wordpress你会发现已经安装好了，已经可以访问了。</p>
-<h3 id="惊喜4：香港主机免备案"><a href="#惊喜4：香港主机免备案" class="headerlink" title="惊喜4：香港主机免备案"></a>惊喜4：香港主机免备案</h3><p>这个其实也不算什么惊喜，因为所有的相关主机都是免备案的，但是我原先以为腾讯的主机如果是在中国大陆开展业务都是要备案的，香港主机是不需要的。</p>
-<h3 id="惊喜5：价格低"><a href="#惊喜5：价格低" class="headerlink" title="惊喜5：价格低"></a>惊喜5：价格低</h3><p>基础班单年售价5折，只要294元，买两年4折，只要470元。而且初次购买建站主机可以领取一个购买域名送30元代金券礼包，相当于再优惠30元，这太优惠了。相比已经很便宜的阿里云独享香港主机经济版（单年售价298元，两年538元），还要优惠，并且配置更好（主要是数据空间要更好很多，腾讯云是40G，阿里云是5G）。Elementor中文网就买了两年的，这样优惠更多。</p>
-<p>腾讯主机Review：<a href="http://www.hostreport.cn/tencent-cloud-full-review/" target="_blank" rel="noopener">Hostreport.cn</a></p>
-<p>腾讯云年终钜惠：<a href="http://www.hostreport.cn/qcloud/ykzs" target="_blank" rel="noopener">cloud.tencent.com</a></p>
-<h3 id="关于我"><a href="#关于我" class="headerlink" title="关于我"></a>关于我</h3><ol>
-<li>一个不想命运低头的黑衣剑士</li>
-<li>个人博客：<a href="http://www.cmlanche.com">cmlanche.com</a></li>
-<li>我的产品：<a href="http://www.hostreport.cn" target="_blank" rel="noopener">主机深度评测网</a></li>
-<li>CSDN个人主页：<a href="https://blog.csdn.net/u011476664" target="_blank" rel="noopener">cmlanche</a></li>
-<li>SegmentFault个人主页：<a href="https://segmentfault.com/u/cmlanche_5b29dd8ac9fb7" target="_blank" rel="noopener">cmlanche</a></li>
-<li>博客园个人主页：<a href="http://www.cnblogs.com/cmgrass/" target="_blank" rel="noopener">cmlanche</a></li>
-</ol>
+        <p>有时候，公司提交的代码必须使用公司邮箱，而你误操作，直接把自己个人邮箱提交上去了，此时你就会遇到这样的需求：如何修改git已提交的邮箱？</p>
+<p>而这个需求对于新手来说，往往要花费半天的时间才能理解修改过程，简直太傻比了，所以我这里做一个详细的文档来帮助自己和你搞清楚这个流程。尤其要理解变基，它不是一个命令执行就完成了，而是一连串命令的组合。</p>
+<a id="more"></a>
+<h3 id="步骤1：变基"><a href="#步骤1：变基" class="headerlink" title="步骤1：变基"></a>步骤1：变基</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git rebase -i</span><br></pre></td></tr></table></figure>
+<p>执行后，会打开最近一条的提交记录，当然上面的命令可以指定某一条记录，命令是：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git rebase -i &quot;your commit id&quot;</span><br></pre></td></tr></table></figure>
+<p>对于sourcetree用户来说，commit id是SHA-1，可以右键某条提交记录，选择菜单”复制SHA-1到剪贴板”，如下图：</p>
+<p><img src="https://cmlanche-1251406926.cos.ap-guangzhou.myqcloud.com/blog/mfl1f.png" alt="image-20190513113342522"></p>
+<p>变基rebase命令执行完成后，会打印<strong>类似</strong>如下内容：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">pick bd81df5 更新API</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> Rebase abcb9d0..bd81df5 onto abcb9d0 (1 command)</span><br><span class="line"><span class="meta">#</span></span><br><span class="line"><span class="meta">#</span> Commands:</span><br><span class="line"><span class="meta">#</span> p, pick = use commit</span><br><span class="line"><span class="meta">#</span> r, reword = use commit, but edit the commit message</span><br><span class="line"><span class="meta">#</span> e, edit = use commit, but stop for amending</span><br><span class="line"><span class="meta">#</span> s, squash = use commit, but meld into previous commit</span><br><span class="line"><span class="meta">#</span> f, fixup = like "squash", but discard this commit's log message</span><br><span class="line"><span class="meta">#</span> x, exec = run command (the rest of the line) using shell</span><br><span class="line"><span class="meta">#</span> d, drop = remove commit</span><br><span class="line"><span class="meta">#</span></span><br><span class="line"><span class="meta">#</span> These lines can be re-ordered; they are executed from top to bottom.</span><br><span class="line"><span class="meta">#</span></span><br><span class="line"><span class="meta">#</span> If you remove a line here THAT COMMIT WILL BE LOST.</span><br><span class="line"><span class="meta">#</span></span><br><span class="line"><span class="meta">#</span> However, if you remove everything, the rebase will be aborted.</span><br><span class="line"><span class="meta">#</span></span><br><span class="line"><span class="meta">#</span> Note that empty commits are commented out</span><br></pre></td></tr></table></figure>
+<p>新手往往会一脸懵逼，不止所错，此时是在rebase的过程中，你需要把pick改为edit，如下：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">edit bd81df5 更新API</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> Rebase abcb9d0..bd81df5 onto abcb9d0 (1 command)</span><br><span class="line"><span class="meta">#</span></span><br><span class="line"><span class="meta">#</span> Commands:</span><br><span class="line"><span class="meta">#</span> p, pick = use commit</span><br><span class="line"><span class="meta">#</span> r, reword = use commit, but edit the commit message</span><br><span class="line"><span class="meta">#</span> e, edit = use commit, but stop for amending</span><br><span class="line"><span class="meta">#</span> s, squash = use commit, but meld into previous commit</span><br><span class="line"><span class="meta">#</span> f, fixup = like "squash", but discard this commit's log message</span><br><span class="line"><span class="meta">#</span> x, exec = run command (the rest of the line) using shell</span><br><span class="line"><span class="meta">#</span> d, drop = remove commit</span><br><span class="line"><span class="meta">#</span></span><br><span class="line"><span class="meta">#</span> These lines can be re-ordered; they are executed from top to bottom.</span><br><span class="line"><span class="meta">#</span></span><br><span class="line"><span class="meta">#</span> If you remove a line here THAT COMMIT WILL BE LOST.</span><br><span class="line"><span class="meta">#</span></span><br><span class="line"><span class="meta">#</span> However, if you remove everything, the rebase will be aborted.</span><br><span class="line"><span class="meta">#</span></span><br><span class="line"><span class="meta">#</span> Note that empty commits are commented out</span><br></pre></td></tr></table></figure>
+<p>更改完成后，保存并退出vi编辑器：<code>:wq</code></p>
+<p>然后会打印这样的消息：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">chengmingdeMacBook-Pro:server cmlanche$ git rebase -i "abcb9d0d1e99cdad25d8d08119e494436b000e59"</span><br><span class="line">Stopped at bd81df5...  更新API</span><br><span class="line">You can amend the commit now, with</span><br><span class="line"></span><br><span class="line">  git commit --amend </span><br><span class="line"></span><br><span class="line">Once you are satisfied with your changes, run</span><br><span class="line"></span><br><span class="line">  git rebase --continue</span><br><span class="line">chengmingdeMacBook-Pro:server cmlanche$</span><br></pre></td></tr></table></figure>
+<p>给大家先科普一下这个<code>amend</code>英文单词，是修改的意思，对我来说好陌生，为啥不用change或者fix之类的。</p>
+<p><img src="https://cmlanche-1251406926.cos.ap-guangzhou.myqcloud.com/blog/qgjur.png" alt="image-20190513114137949"></p>
+<p>上面的信息说了，如果你要amend，也就是要修改这个提交的话，那么用</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git commit --amend</span><br></pre></td></tr></table></figure>
+<p>如果你对这次修改满意的话，就用如下命令结束此次变基</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git rebase --continue</span><br></pre></td></tr></table></figure>
+<h3 id="重置账户邮箱信息"><a href="#重置账户邮箱信息" class="headerlink" title="重置账户邮箱信息"></a>重置账户邮箱信息</h3><p>我们当然要修改啦，那么执行如下命令，重置提交的账户信息：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git commit --amend --author="cmlanche &lt;1204833748@qq.com&gt;" --no-edit</span><br></pre></td></tr></table></figure>
+<p>同事，要注意你的sourcetree，出现了新情况！</p>
+<p><img src="https://cmlanche-1251406926.cos.ap-guangzhou.myqcloud.com/blog/8w5dw.png" alt="image-20190513114851415"></p>
+<p>我们可以看到一个新的提交，并且，邮箱账号都经过了修改，如果你去掉<code>--no-edit</code>还可以修改commit message，也就是图中的”更新API”，举栗子吧，我可以继续用amend修改此次变基</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git commit --amend --author="cmlanche &lt;1204833748@qq.com&gt;"</span><br></pre></td></tr></table></figure>
+<p><img src="https://cmlanche-1251406926.cos.ap-guangzhou.myqcloud.com/blog/5500p.png" alt="image-20190513115132114"></p>
+<p>保存退出vi编辑器，看sourcetree咋样了：</p>
+<p><img src="https://cmlanche-1251406926.cos.ap-guangzhou.myqcloud.com/blog/e0x3u.png" alt="image-20190513115216969"></p>
+<p>真的很完美，接下来就是合并了，退出变基。</p>
+<h3 id="退出变基"><a href="#退出变基" class="headerlink" title="退出变基"></a>退出变基</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git rebase --continue</span><br></pre></td></tr></table></figure>
+<p>在控制台中打印如上命令退出变基，我们看到退出变基也就是使用最新的修改了，就一条分支了。</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">chengmingdeMacBook-Pro:server cmlanche$ git rebase --continue</span><br><span class="line">Successfully rebased and updated refs/heads/bulma.</span><br></pre></td></tr></table></figure>
+<p><img src="https://cmlanche-1251406926.cos.ap-guangzhou.myqcloud.com/blog/4e46r.png" alt="image-20190513115442779"></p>
+<h3 id="最后总结一下"><a href="#最后总结一下" class="headerlink" title="最后总结一下"></a>最后总结一下</h3><p>变基真的很有用，他不是一条命令搞定的，是一个过程，就像变成中打开了一个输入流，最后用完你得关闭输入流一样。</p>
+<p>通过变基你可以轻松实现提交信息的任意重新修改！</p>
 
       
     </div>
@@ -424,7 +467,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://www.cmlanche.com/2018/06/21/腾讯云建站主机的一次奇妙之旅/" title="腾讯云建站主机的一次奇妙之旅">http://www.cmlanche.com/2018/06/21/腾讯云建站主机的一次奇妙之旅/</a>
+    <a href="http://www.cmlanche.com/2019/05/13/如何修改git已提交记录的邮箱？/" title="如何修改git已提交记录的邮箱？">http://www.cmlanche.com/2019/05/13/如何修改git已提交记录的邮箱？/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>
@@ -439,9 +482,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/腾讯云/" rel="tag"># 腾讯云</a>
-          
-            <a href="/tags/建站主机/" rel="tag"># 建站主机</a>
+            <a href="/tags/git/" rel="tag"># git</a>
           
         </div>
       
@@ -454,8 +495,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/06/20/hexo-deployers/" rel="next" title="hexo自动部署到git、ftp（虚拟主机等）、云服务器的方式">
-                <i class="fa fa-chevron-left"></i> hexo自动部署到git、ftp（虚拟主机等）、云服务器的方式
+              <a href="/2019/05/08/改造思寒的AppiumCrawler，使其支持Appium最新版本/" rel="next" title="改造思寒的AppCrawler，使其支持Appium最新版本">
+                <i class="fa fa-chevron-left"></i> 改造思寒的AppCrawler，使其支持Appium最新版本
               </a>
             
           </div>
@@ -463,10 +504,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/07/11/从零制作一个滚动markdown大纲的前端网页/" rel="prev" title="Bloogle开发日记 | 制作一个滚动大纲的前端网页">
-                Bloogle开发日记 | 制作一个滚动大纲的前端网页 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -623,7 +660,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#十星主机-腾讯云建站主机"><span class="nav-number">1.</span> <span class="nav-text">十星主机 - 腾讯云建站主机</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#惊喜1：配置极高"><span class="nav-number">1.0.1.</span> <span class="nav-text">惊喜1：配置极高</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#惊喜2：自动开启SSL数字证书，并且是免费的，浏览器https绿色标识"><span class="nav-number">1.0.2.</span> <span class="nav-text">惊喜2：自动开启SSL数字证书，并且是免费的，浏览器https绿色标识</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#惊喜3：Wordpress建站主机自动安装Wordpress"><span class="nav-number">1.0.3.</span> <span class="nav-text">惊喜3：Wordpress建站主机自动安装Wordpress</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#惊喜4：香港主机免备案"><span class="nav-number">1.0.4.</span> <span class="nav-text">惊喜4：香港主机免备案</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#惊喜5：价格低"><span class="nav-number">1.0.5.</span> <span class="nav-text">惊喜5：价格低</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关于我"><span class="nav-number">1.0.6.</span> <span class="nav-text">关于我</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#步骤1：变基"><span class="nav-number">1.</span> <span class="nav-text">步骤1：变基</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#重置账户邮箱信息"><span class="nav-number">2.</span> <span class="nav-text">重置账户邮箱信息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#退出变基"><span class="nav-number">3.</span> <span class="nav-text">退出变基</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#最后总结一下"><span class="nav-number">4.</span> <span class="nav-text">最后总结一下</span></a></li></ol></div>
             
 
           </div>
