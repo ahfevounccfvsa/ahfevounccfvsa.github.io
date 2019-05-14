@@ -81,18 +81,18 @@
 
 
 
-<meta name="description" content="最近开发的友链联盟项目即将”竣工”，准备拿到公有云Ubuntu是测试下，想要达到的理想状态有如下几点：  端口保持9090，发布spring boot的jar包，后台运行 nginx部署，强制https访问应用 使用acme.sh来生成、安装ssl证书 开启防火墙，打开80、443端口，关闭9090端口(避免直接访问9090打开应用)  目前已经完成上面的要求，可以尝试访问http://sitef">
+<meta name="description" content="最近开发的友链联盟项目即将”竣工”，准备拿到公有云Ubuntu是测试下，想要达到的理想状态有如下几点：  端口保持9090，发布spring boot的jar包，后台运行 nginx部署，强制https访问应用 使用acme.sh来生成、安装ssl证书 开启防火墙，打开80、443端口，关闭9090端口(避免直接访问9090打开应用)">
 <meta name="keywords" content="springboot,https,ssl,ubuntu">
 <meta property="og:type" content="article">
 <meta property="og:title" content="springboot项目部署到ubuntu18.04的过程，http跳转https，使用acme.sh安装证书">
 <meta property="og:url" content="http://www.cmlanche.com/2019/05/14/springboot-ubuntu-https/index.html">
 <meta property="og:site_name" content="cmlanche">
-<meta property="og:description" content="最近开发的友链联盟项目即将”竣工”，准备拿到公有云Ubuntu是测试下，想要达到的理想状态有如下几点：  端口保持9090，发布spring boot的jar包，后台运行 nginx部署，强制https访问应用 使用acme.sh来生成、安装ssl证书 开启防火墙，打开80、443端口，关闭9090端口(避免直接访问9090打开应用)  目前已经完成上面的要求，可以尝试访问http://sitef">
+<meta property="og:description" content="最近开发的友链联盟项目即将”竣工”，准备拿到公有云Ubuntu是测试下，想要达到的理想状态有如下几点：  端口保持9090，发布spring boot的jar包，后台运行 nginx部署，强制https访问应用 使用acme.sh来生成、安装ssl证书 开启防火墙，打开80、443端口，关闭9090端口(避免直接访问9090打开应用)">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-05-14T11:35:37.000Z">
+<meta property="og:updated_time" content="2019-05-14T11:49:32.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="springboot项目部署到ubuntu18.04的过程，http跳转https，使用acme.sh安装证书">
-<meta name="twitter:description" content="最近开发的友链联盟项目即将”竣工”，准备拿到公有云Ubuntu是测试下，想要达到的理想状态有如下几点：  端口保持9090，发布spring boot的jar包，后台运行 nginx部署，强制https访问应用 使用acme.sh来生成、安装ssl证书 开启防火墙，打开80、443端口，关闭9090端口(避免直接访问9090打开应用)  目前已经完成上面的要求，可以尝试访问http://sitef">
+<meta name="twitter:description" content="最近开发的友链联盟项目即将”竣工”，准备拿到公有云Ubuntu是测试下，想要达到的理想状态有如下几点：  端口保持9090，发布spring boot的jar包，后台运行 nginx部署，强制https访问应用 使用acme.sh来生成、安装ssl证书 开启防火墙，打开80、443端口，关闭9090端口(避免直接访问9090打开应用)">
 
 
 
@@ -410,6 +410,7 @@
 <li>使用<a href="https://github.com/Neilpang/acme.sh" target="_blank" rel="noopener">acme.sh</a>来生成、安装ssl证书</li>
 <li>开启防火墙，打开80、443端口，关闭9090端口(避免直接访问9090打开应用)</li>
 </ol>
+<a id="more"></a>
 <p>目前已经完成上面的要求，可以尝试访问<a href="http://sitefriendlinks.com" target="_blank" rel="noopener">http://sitefriendlinks.com</a>、<a href="http://sitefriendlinks.com:9090" target="_blank" rel="noopener">http://sitefriendlinks.com:9090</a>，前者会强制跳转到<a href="https://sitefriendlinks.com" target="_blank" rel="noopener">https://sitefriendlinks.com</a>，后者无法打开。</p>
 <h3 id="环境安装"><a href="#环境安装" class="headerlink" title="环境安装"></a>环境安装</h3><ol>
 <li><p>nginx</p>
