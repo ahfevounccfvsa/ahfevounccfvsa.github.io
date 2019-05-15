@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.cmlanche.com/"/>
-  <updated>2019-05-14T11:49:32.000Z</updated>
+  <updated>2019-05-15T13:33:49.000Z</updated>
   <id>http://www.cmlanche.com/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>购买阿里云遇到Permission denied的问题</title>
+    <link href="http://www.cmlanche.com/2019/05/15/%E8%B4%AD%E4%B9%B0%E9%98%BF%E9%87%8C%E4%BA%91%E9%81%87%E5%88%B0Permission-denied%E7%9A%84%E9%97%AE%E9%A2%98/"/>
+    <id>http://www.cmlanche.com/2019/05/15/购买阿里云遇到Permission-denied的问题/</id>
+    <published>2019-05-15T13:24:11.000Z</published>
+    <updated>2019-05-15T13:33:49.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>最近我的新项目友链联盟<a href="https://youlianplus.com" target="_blank" rel="noopener">youlianplus.com</a>项目即将完成，准备拿到阿里云试试，在阿里云华北3购买了一台迷你服务器，1核1g40g硬盘，打算测试一下。</p><p>买了之后，准备用ssh登录进去，结果出现了个<code>permission denied</code>权限被拒绝的问题，详情如下：</p><a id="more"></a><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">chengmingdeMacBook-Pro:blog cmlanche$ ssh root@47.92.24.241</span><br><span class="line">The authenticity of host '47.92.24.241 (47.92.24.241)' can't be established.</span><br><span class="line">ECDSA key fingerprint is SHA256:PYBgUIuFIYcBUCzUGG0qLJDGH2At/dQ+zk+Q9tyX7+E.</span><br><span class="line">Are you sure you want to continue connecting (yes/no)? yes</span><br><span class="line">Warning: Permanently added '47.92.24.241' (ECDSA) to the list of known hosts.</span><br><span class="line">Permission denied (publickey).</span><br><span class="line">chengmingdeMacBook-Pro:blog cmlanche$ ssh root@47.92.24.241</span><br><span class="line">Permission denied (publickey).</span><br><span class="line">chengmingdeMacBook-Pro:blog cmlanche$ ssh root@47.92.24.241</span><br><span class="line">Permission denied (publickey).</span><br></pre></td></tr></table></figure><p>意思是说，无法用publickey来登录服务器，那问题肯定出在服务器那边的配置上了，百度找了个解决办法，有效！<a href="https://blog.csdn.net/wtopps/article/details/79449920" target="_blank" rel="noopener">https://blog.csdn.net/wtopps/article/details/79449920</a></p><p>幸好阿里云控制台界面有一个远程连接的控制，通过这个入口进去，可以直接登录。</p><p><img src="https://cmlanche-1251406926.cos.ap-guangzhou.myqcloud.com/blog/1n9wu.png" alt="image-20190515213018736"></p><p>进去后，注意要保存好连接码，这个码只会出现一次！就保存在你电脑中就好了。</p><p>关键步骤：</p><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">vi /etc/ssh/sshd_config</span><br></pre></td></tr></table></figure><p>修改PasswordAuthentication的值为yes，注意把签名的#去掉</p><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">PasswordAuthentication yes</span><br></pre></td></tr></table></figure><p>上文连接说要重启httpd服务，其实没啥作用，咱们来硬的，直接重启服务器就好了！</p><p><img src="https://cmlanche-1251406926.cos.ap-guangzhou.myqcloud.com/blog/pbyme.png" alt="image-20190515213333642"></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;最近我的新项目友链联盟&lt;a href=&quot;https://youlianplus.com&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;youlianplus.com&lt;/a&gt;项目即将完成，准备拿到阿里云试试，在阿里云华北3购买了一台迷你服务器，1核1g40g硬盘，打算测试一下。&lt;/p&gt;
+&lt;p&gt;买了之后，准备用ssh登录进去，结果出现了个&lt;code&gt;permission denied&lt;/code&gt;权限被拒绝的问题，详情如下：&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="阿里云" scheme="http://www.cmlanche.com/categories/%E9%98%BF%E9%87%8C%E4%BA%91/"/>
+    
+    
+      <category term="阿里云" scheme="http://www.cmlanche.com/tags/%E9%98%BF%E9%87%8C%E4%BA%91/"/>
+    
+  </entry>
   
   <entry>
     <title>springboot项目部署到ubuntu18.04的过程，http跳转https，使用acme.sh安装证书</title>
@@ -512,34 +535,6 @@
       <category term="csdn" scheme="http://www.cmlanche.com/tags/csdn/"/>
     
       <category term="博客园" scheme="http://www.cmlanche.com/tags/%E5%8D%9A%E5%AE%A2%E5%9B%AD/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>面试题·HashMap和Hashtable的区别(转载再整理)</title>
-    <link href="http://www.cmlanche.com/2019/02/25/HashMap%E5%92%8CHashtable%E7%9A%84%E5%8C%BA%E5%88%AB(%E8%BD%AC)/"/>
-    <id>http://www.cmlanche.com/2019/02/25/HashMap和Hashtable的区别(转)/</id>
-    <published>2019-02-25T03:26:49.000Z</published>
-    <updated>2019-02-26T06:41:11.000Z</updated>
-    
-    <content type="html"><![CDATA[<blockquote><p>原文链接： <a href="http://javarevisited.blogspot.hk/2010/10/difference-between-hashmap-and.html" target="_blank" rel="noopener">Javarevisited</a> 翻译： <a href="http://www.importnew.com/" target="_blank" rel="noopener">ImportNew.com </a>- <a href="http://www.importnew.com/author/tangxiaojuan" target="_blank" rel="noopener">唐小娟</a><br>译文链接： <a href="http://www.importnew.com/7010.html" target="_blank" rel="noopener">http://www.importnew.com/7010.html</a></p></blockquote><p>HashMap和Hashtable的比较是Java面试中的常见问题，用来考验程序员是否能够正确使用集合类以及是否可以随机应变使用多种思路解决问题。HashMap的工作原理、ArrayList与Vector的比较以及这个问题是有关Java 集合框架的最经典的问题。Hashtable是个过时的集合类，存在于Java API中很久了。在Java 4中被重写了，实现了Map接口，所以自此以后也成了Java集合框架中的一部分。Hashtable和HashMap在Java面试中相当容易被问到，甚至成为了集合框架面试题中最常被考的问题，所以在参加任何Java面试之前，都不要忘了准备这一题。</p><p>这篇文章中，我们不仅将会看到HashMap和Hashtable的区别，还将看到它们之间的相似之处。</p><a id="more"></a><h3 id="HashMap和Hashtable的区别"><a href="#HashMap和Hashtable的区别" class="headerlink" title="HashMap和Hashtable的区别"></a>HashMap和Hashtable的区别</h3><p>HashMap和Hashtable都实现了Map接口，但决定用哪一个之前先要弄清楚它们之间的分别。主要的区别有：线程安全性，同步(synchronization)，以及速度。</p><ol><li>HashMap几乎可以等价于Hashtable，除了HashMap是非synchronized的，并可以接受null(HashMap可以接受为null的键值(key)和值(value)，而Hashtable则不行)。</li><li>HashMap是非synchronized，而Hashtable是synchronized，这意味着Hashtable是线程安全的，多个线程可以共享一个Hashtable；而如果没有正确的同步的话，多个线程是不能共享HashMap的。Java 5提供了ConcurrentHashMap，它是HashTable的替代，比HashTable的扩展性更好。</li><li>另一个区别是HashMap的迭代器(Iterator)是fail-fast迭代器，而Hashtable的enumerator迭代器不是fail-fast的。所以当有其它线程改变了HashMap的结构（增加或者移除元素），将会抛出ConcurrentModificationException，但迭代器本身的remove()方法移除元素则不会抛出ConcurrentModificationException异常。但这并不是一个一定发生的行为，要看JVM。这条同样也是Enumeration和Iterator的区别。</li><li>由于Hashtable是线程安全的也是synchronized，所以在单线程环境下它比HashMap要慢。如果你不需要同步，只需要单一线程，那么使用HashMap性能要好过Hashtable。</li><li>HashMap不能保证随着时间的推移Map中的元素次序是不变的。</li></ol><h3 id="要注意的一些重要术语："><a href="#要注意的一些重要术语：" class="headerlink" title="要注意的一些重要术语："></a>要注意的一些重要术语：</h3><ol><li><p>sychronized意味着在一次仅有一个线程能够更改Hashtable。就是说任何线程要更新Hashtable时要首先获得同步锁，其它线程要等到同步锁被释放之后才能再次获得同步锁更新Hashtable。</p></li><li><p>Fail-safe和iterator迭代器相关。如果某个集合对象创建了Iterator或者ListIterator，然后其它的线程试图“结构上”更改集合对象，将会抛出ConcurrentModificationException异常。但其它线程可以通过set()方法更改集合对象是允许的，因为这并没有从“结构上”更改集合。但是假如已经从结构上进行了更改，再调用set()方法，将会抛出IllegalArgumentException异常。</p></li><li><p>结构上的更改指的是删除或者插入一个元素，这样会影响到map的结构。</p></li></ol><h3 id="我们能否让HashMap同步？"><a href="#我们能否让HashMap同步？" class="headerlink" title="我们能否让HashMap同步？"></a>我们能否让HashMap同步？</h3><p>HashMap可以通过下面的语句进行同步：<br>Map m = Collections.synchronizeMap(hashMap);</p><h3 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h3><p>Hashtable和HashMap有几个主要的不同：线程安全以及速度。仅在你需要完全的线程安全的时候使用Hashtable，Hashtable是java 4时代的过时产物，ConcurrentHashMap是它的替代品。而如果你使用Java 5或以上的话，请使用ConcurrentHashMap吧。</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;blockquote&gt;
-&lt;p&gt;原文链接： &lt;a href=&quot;http://javarevisited.blogspot.hk/2010/10/difference-between-hashmap-and.html&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Javarevisited&lt;/a&gt; 翻译： &lt;a href=&quot;http://www.importnew.com/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;ImportNew.com &lt;/a&gt;- &lt;a href=&quot;http://www.importnew.com/author/tangxiaojuan&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;唐小娟&lt;/a&gt;&lt;br&gt;译文链接： &lt;a href=&quot;http://www.importnew.com/7010.html&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;http://www.importnew.com/7010.html&lt;/a&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;HashMap和Hashtable的比较是Java面试中的常见问题，用来考验程序员是否能够正确使用集合类以及是否可以随机应变使用多种思路解决问题。HashMap的工作原理、ArrayList与Vector的比较以及这个问题是有关Java 集合框架的最经典的问题。Hashtable是个过时的集合类，存在于Java API中很久了。在Java 4中被重写了，实现了Map接口，所以自此以后也成了Java集合框架中的一部分。Hashtable和HashMap在Java面试中相当容易被问到，甚至成为了集合框架面试题中最常被考的问题，所以在参加任何Java面试之前，都不要忘了准备这一题。&lt;/p&gt;
-&lt;p&gt;这篇文章中，我们不仅将会看到HashMap和Hashtable的区别，还将看到它们之间的相似之处。&lt;/p&gt;
-    
-    </summary>
-    
-    
-      <category term="hashmap" scheme="http://www.cmlanche.com/tags/hashmap/"/>
-    
-      <category term="hashtable" scheme="http://www.cmlanche.com/tags/hashtable/"/>
-    
-      <category term="面试题" scheme="http://www.cmlanche.com/tags/%E9%9D%A2%E8%AF%95%E9%A2%98/"/>
     
   </entry>
   
