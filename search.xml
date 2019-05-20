@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[独立开发者的觉悟]]></title>
+    <url>%2F2019%2F05%2F20%2F%E7%8B%AC%E7%AB%8B%E5%BC%80%E5%8F%91%E8%80%85%E5%BF%85%E9%A1%BB%E8%A6%81%E6%9C%89%E4%BB%98%E5%87%BA%E6%88%90%E5%80%8D%E5%8A%AA%E5%8A%9B%E6%89%8D%E8%83%BD%E6%88%90%E5%8A%9F%E7%9A%84%E8%A7%89%E6%82%9F%2F</url>
+    <content type="text"><![CDATA[经常会做梦，我能躺着挣钱吗？ 作为一穷二白的白丁来讲，这只能做梦了。 做任何一个产品，都需要花心血去维护运营的。 不管这个产品是需要怎样的劳动，是轻工具型，还是重内容型，都需要长时间的专注努力，才可能达到你想要的成功。 如果你发现你的产品更新迭代速度很慢，每次更新都要耗费很大的精力，那么请改进迭代流程，用技术手段提高更新效率。 如果你发现你的产品的访客如流水般，来也快去也快，那就请把产品做得更好，增强用户粘性，让用户一看到你的产品，就欢喜的不得了。小水管一般的流量，用竹篮子如何能装得下？请记住，这样的产品再好的推广也无济于事！ 当然这是目前我出现的问题，所以我才得以轻松说出口，我也会努力做到这两条。 独立开发者应该要有觉悟，不管产品简单还是复杂，它就像你的孩子，必须得用心呵护和照料，必须的付出成倍的努力才能茁壮成长！]]></content>
+      <categories>
+        <category>独立开发者</category>
+      </categories>
+      <tags>
+        <tag>独立开发者</tag>
+        <tag>觉悟</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[购买阿里云遇到Permission denied的问题]]></title>
     <url>%2F2019%2F05%2F15%2F%E8%B4%AD%E4%B9%B0%E9%98%BF%E9%87%8C%E4%BA%91%E9%81%87%E5%88%B0Permission-denied%E7%9A%84%E9%97%AE%E9%A2%98%2F</url>
     <content type="text"><![CDATA[最近我的新项目友链联盟youlianplus.com项目即将完成，准备拿到阿里云试试，在阿里云华北3购买了一台迷你服务器，1核1g40g硬盘，打算测试一下。 买了之后，准备用ssh登录进去，结果出现了个permission denied权限被拒绝的问题，详情如下： chengmingdeMacBook-Pro:blog cmlanche$ ssh root@47.92.24.241The authenticity of host '47.92.24.241 (47.92.24.241)' can't be established.ECDSA key fingerprint is SHA256:PYBgUIuFIYcBUCzUGG0qLJDGH2At/dQ+zk+Q9tyX7+E.Are you sure you want to continue connecting (yes/no)? yesWarning: Permanently added '47.92.24.241' (ECDSA) to the list of known hosts.Permission denied (publickey).chengmingdeMacBook-Pro:blog cmlanche$ ssh root@47.92.24.241Permission denied (publickey).chengmingdeMacBook-Pro:blog cmlanche$ ssh root@47.92.24.241Permission denied (publickey). 意思是说，无法用publickey来登录服务器，那问题肯定出在服务器那边的配置上了，百度找了个解决办法，有效！https://blog.csdn.net/wtopps/article/details/79449920 幸好阿里云控制台界面有一个远程连接的控制，通过这个入口进去，可以直接登录。 进去后，注意要保存好连接码，这个码只会出现一次！就保存在你电脑中就好了。 关键步骤： vi /etc/ssh/sshd_config 修改PasswordAuthentication的值为yes，注意把签名的#去掉 PasswordAuthentication yes 上文连接说要重启httpd服务，其实没啥作用，咱们来硬的，直接重启服务器就好了！]]></content>
