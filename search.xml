@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title></title>
+    <url>%2F2019%2F06%2F20%2F%E5%9B%9E%E7%AD%94%E9%97%AE%E9%A2%98%E5%9B%9B%E9%83%A8%E6%9B%B2%2F</url>
+    <content type="text"><![CDATA[它是什么 影响和意义 怎么解决的 有什么心得]]></content>
+  </entry>
+  <entry>
     <title><![CDATA[部分手机adb install快速返回成功导致appium测试失败的解决办法]]></title>
     <url>%2F2019%2F06%2F19%2F%E9%83%A8%E5%88%86%E6%89%8B%E6%9C%BAadb-install%E5%BF%AB%E9%80%9F%E8%BF%94%E5%9B%9E%E6%88%90%E5%8A%9F%E5%AF%BC%E8%87%B4appium%E6%B5%8B%E8%AF%95%E5%A4%B1%E8%B4%A5%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95%2F</url>
     <content type="text"><![CDATA[我们可以在命令行中执行adb install安装某个应用，会发现快速返回Success了，而实际应用正在安装中，这种情况下，appium会误以为被测应用已经安装上了，然后去启动这个app，结果发现app不存在（appium重重试一次，仍然失败），这种情况下，appium测试100%会失败。 事故手机：OPPO R9sk 测试的Appium版本：1.12.1 解决方案找到安装app的地方，安装完后，检测app是否真正安装成功了，如果没成功，则等待，直到超时或者成功安装。 实施办法针对UIAutomator1，我们需要更改appium-android-driver，我们找到lib/driver.js的initAUT方法，在代码await helpers.installApk(this.adb, this.opts);后加上这个检测过程： await helpers.installApk(this.adb, this.opts);log.info('安装应用后，检查被测应用是否存在');await this.waitPackagePresent(60000); waitPackagePresent就是这个检测过程的方法，代码如下： /** * 一定时间内等待某包出现 */ async waitPackagePresent (timeout) &#123; log.info(`waitPackagePresent: $&#123;timeout&#125;`); let start = new Date().getTime(); while (new Date().getTime() - start &lt; timeout) &#123; const appState = await this.adb.getApplicationInstallState(this.opts.app, this.opts.appPackage); log.info(`app state is $&#123;appState&#125; 1`); switch (appState) &#123; case 'notInstalled': log.info(`检测到$&#123;this.opts.appPackage&#125;尚未安装上，等待1s，继续检测`); await sleep(1000); break; default: log.info('被测应用已安装上'); return true; &#125; &#125; log.errorAndThrow(`Could not find package $&#123;this.opts.appPackage&#125; on the device in $&#123;timeout&#125;`); &#125; 而针对UIAutomator2的话，同样我们找到UIAutomator2的nodejs驱动工程：appium-uiautomator2-driver，然后找到lib/driver.js，同样也是在initAUT方法中： if (this.opts.app) &#123; if (!this.opts.noSign &amp;&amp; !await this.adb.checkApkCert(this.opts.app, this.opts.appPackage)) &#123; await helpers.signApp(this.adb, this.opts.app); &#125; await helpers.installApk(this.adb, this.opts); await this.waitPackagePresent(60000); // 这是新增&#125; waitPackagePresent方法同上。]]></content>
