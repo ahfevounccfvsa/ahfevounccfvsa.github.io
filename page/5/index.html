@@ -308,6 +308,185 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.cmlanche.com/2018/07/22/lambda用法与源码分析/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="cmlanche">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="https://avatars3.githubusercontent.com/u/5886757?v=4&s=400&u=c3fdc83b9817d98d87ed84c8e768855fd628c745">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cmlanche">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/07/22/lambda用法与源码分析/" itemprop="url">你真的了解java的lambda吗？- java lambda用法与源码分析</a></h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-22T09:44:12+08:00">
+                2018-07-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/07/22/lambda用法与源码分析/" class="leancloud_visitors" data-flag-title="你真的了解java的lambda吗？- java lambda用法与源码分析">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  2,784 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  13 分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h1 id="用法"><a href="#用法" class="headerlink" title="用法"></a>用法</h1><h3 id="示例：最普遍的一个例子，执行一个线程"><a href="#示例：最普遍的一个例子，执行一个线程" class="headerlink" title="示例：最普遍的一个例子，执行一个线程"></a>示例：最普遍的一个例子，执行一个线程</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">new</span> Thread(() -&gt; System.out.print(<span class="string">"hello world"</span>)).start();</span><br></pre></td></tr></table></figure>
+<p><code>-&gt;</code>我们发现它指向的是<code>Runnable</code>接口</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@FunctionalInterface</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Runnable</span> </span>&#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * When an object implementing interface &lt;code&gt;Runnable&lt;/code&gt; is used</span></span><br><span class="line"><span class="comment">     * to create a thread, starting the thread causes the object's</span></span><br><span class="line"><span class="comment">     * &lt;code&gt;run&lt;/code&gt; method to be called in that separately executing</span></span><br><span class="line"><span class="comment">     * thread.</span></span><br><span class="line"><span class="comment">     * &lt;p&gt;</span></span><br><span class="line"><span class="comment">     * The general contract of the method &lt;code&gt;run&lt;/code&gt; is that it may</span></span><br><span class="line"><span class="comment">     * take any action whatsoever.</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@see</span>     java.lang.Thread#run()</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h3><ol>
+<li><p><code>-&gt;</code>这个箭头是lambda表达式的关键操作符</p>
+</li>
+<li><p><code>-&gt;</code>把表达式分成两截，前面是函数参数，后面是函数体。</p>
+</li>
+<li><p>Thread的构造函数接收的是一个Runnable接口对象，而我们这里的用法相当于是把一个函数当做接口对象传递进去了，这点理解很关键，这正是函数式编程的含义所在。</p>
+</li>
+<li><p>我们注意到Runnable有个注解<code>@FunctionalInterface</code>，它是jdk8才引入，它的含义是函数接口。它是lambda表达式的协议注解，这个注解非常重要，后面做源码分析会专门分析它的官方注释，到时候一目了然。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/* @jls 4.3.2. The Class Object</span></span><br><span class="line"><span class="comment"> * @jls 9.8 Functional Interfaces</span></span><br><span class="line"><span class="comment"> * @jls 9.4.3 Interface Method Body</span></span><br><span class="line"><span class="comment"> * @since 1.8</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Documented</span></span><br><span class="line"><span class="meta">@Retention</span>(RetentionPolicy.RUNTIME)</span><br><span class="line"><span class="meta">@Target</span>(ElementType.TYPE)</span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> FunctionalInterface &#123;&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/07/22/lambda用法与源码分析/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://www.cmlanche.com/2018/07/21/聊一聊JavaFx中的TextFormater/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1855,175 +2034,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.cmlanche.com/2017/12/26/使用java-api在windows上打开本地html文件无法传递query参数/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="cmlanche">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="https://avatars3.githubusercontent.com/u/5886757?v=4&s=400&u=c3fdc83b9817d98d87ed84c8e768855fd628c745">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="cmlanche">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/12/26/使用java-api在windows上打开本地html文件无法传递query参数/" itemprop="url">使用java-api在windows上打开本地html文件无法传递query参数</a></h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-26T16:41:42+08:00">
-                2017-12-26
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-             <span id="/2017/12/26/使用java-api在windows上打开本地html文件无法传递query参数/" class="leancloud_visitors" data-flag-title="使用java-api在windows上打开本地html文件无法传递query参数">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计&#58;</span>
-                
-                <span title="字数统计">
-                  218 字
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
-                
-                <span title="阅读时长">
-                  1 分钟
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>使用java api，比如：</p>
-<p>awt api:</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Desktop.getDesktop().browse(URI.create(<span class="string">"file:///c:\\test.html?q=abc"</span>));</span><br></pre></td></tr></table></figure>
-<p>javafx api:</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">getHostServices().showDocument(<span class="string">"file:///c:\\test.html?q=abc"</span>)</span><br></pre></td></tr></table></figure>
-<p>打开的浏览器会发现query参数<code>q=abc</code>无法传递到浏览器，只能单纯的打开<code>test.html</code>，但是mac上经过测试上述两种方式都是可以正常打开的并传递参数的。</p>
-<p>值得一提的是，如果uri不是<code>file:///</code>的文件协议的话，是可以传递参数的，比如url变成<code>http://www.baidu.com?q=abc</code>，是能把q参数传递给浏览器。</p>
-<h3 id="怎么解决呢"><a href="#怎么解决呢" class="headerlink" title="怎么解决呢?"></a>怎么解决呢?</h3><p>你可以让你的本地html文件再关联一个js文件，然后打开的时候你把要传递的参数写到文件中，当第一次打开html文件时会从js读取参数，然后重新加载，这样就可以解决啦，只是会加载两次而已。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2076,7 +2086,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">65</span>
+                  <span class="site-state-item-count">66</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -2098,7 +2108,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">82</span>
+                  <span class="site-state-item-count">83</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

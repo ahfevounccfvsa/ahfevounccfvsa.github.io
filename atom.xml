@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.cmlanche.com/"/>
-  <updated>2019-07-09T03:11:29.000Z</updated>
+  <updated>2019-07-12T09:45:55.000Z</updated>
   <id>http://www.cmlanche.com/</id>
   
   <author>
@@ -15,6 +15,28 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>记录一次网络拥塞导致线程池处于等待状态</title>
+    <link href="http://www.cmlanche.com/2019/07/12/%E8%AE%B0%E5%BD%95%E4%B8%80%E6%AC%A1%E7%BD%91%E7%BB%9C%E6%8B%A5%E5%A1%9E%E5%AF%BC%E8%87%B4%E7%BA%BF%E7%A8%8B%E6%B1%A0%E5%A4%84%E4%BA%8E%E7%AD%89%E5%BE%85%E7%8A%B6%E6%80%81/"/>
+    <id>http://www.cmlanche.com/2019/07/12/记录一次网络拥塞导致线程池处于等待状态/</id>
+    <published>2019-07-12T09:37:44.000Z</published>
+    <updated>2019-07-12T09:45:55.000Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h3><p>一次批量执行任务（12个），最后任务执行成功会批量上传图片，导致线程池都处于等待状态。</p><p><img src="https://cmlanche-1251406926.cos.ap-guangzhou.myqcloud.com/blog/hdkut.jpg?x-oss-process=style/logomark" alt="19481562921545_.pic_hd"></p><p>首先这个线程池是通过<code>newSingleThreadExecutor</code>来创建的，并且在执行过程中，不会有新的任务进来，当时的情况是在线程执行过程中卡主，实际发生在上传图片，类似的线程池多大12个，每个线程上传的图片可能多大上百张。</p><a id="more"></a><h3 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h3><p>分析上面jstack打印的日志（打印方法是<code>jstack pid</code>），有个<code>waiting on condition</code>，它的含义，我搜了下，是这样的</p><p><img src="https://cmlanche-1251406926.cos.ap-guangzhou.myqcloud.com/blog/oh7zg.jpg?x-oss-process=style/logomark" alt="19541562924017_.pic_hd"></p><p>由此可以猜测，可能是大并发上传图片导致网络拥塞</p><h3 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h3><p>做一个固定线程大小的线程池，比如3个，专门用于并发上传图片，避免网络拥塞。</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;场景&quot;&gt;&lt;a href=&quot;#场景&quot; class=&quot;headerlink&quot; title=&quot;场景&quot;&gt;&lt;/a&gt;场景&lt;/h3&gt;&lt;p&gt;一次批量执行任务（12个），最后任务执行成功会批量上传图片，导致线程池都处于等待状态。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://cmlanche-1251406926.cos.ap-guangzhou.myqcloud.com/blog/hdkut.jpg?x-oss-process=style/logomark&quot; alt=&quot;19481562921545_.pic_hd&quot;&gt;&lt;/p&gt;
+&lt;p&gt;首先这个线程池是通过&lt;code&gt;newSingleThreadExecutor&lt;/code&gt;来创建的，并且在执行过程中，不会有新的任务进来，当时的情况是在线程执行过程中卡主，实际发生在上传图片，类似的线程池多大12个，每个线程上传的图片可能多大上百张。&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="java性能优化" scheme="http://www.cmlanche.com/tags/java%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/"/>
+    
+  </entry>
   
   <entry>
     <title>问答四部曲</title>
@@ -503,32 +525,6 @@
     
     
       <category term="appium" scheme="http://www.cmlanche.com/tags/appium/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>给 Appium 内置系统对话框处理吧！appium-android-driver 篇</title>
-    <link href="http://www.cmlanche.com/2019/04/11/Appium%E7%9A%84UIAutomator1%E7%9A%84%E8%87%AA%E5%AE%9A%E4%B9%89%E6%9D%83%E9%99%90%E6%A1%86%E5%A4%84%E7%90%86/"/>
-    <id>http://www.cmlanche.com/2019/04/11/Appium的UIAutomator1的自定义权限框处理/</id>
-    <published>2019-04-11T07:18:46.000Z</published>
-    <updated>2019-04-15T06:15:18.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>欢迎关注我的Appium知乎专栏：<a href="https://zhuanlan.zhihu.com/custom-appium" target="_blank" rel="noopener">自定义Appium之路</a></p><p>当Appium脚本中的uiautomationName设置为UiAutomator1时，会启动UIAutomator1的Driver来测试你的Appium脚本，在脚本之前之前，会有很多权限框弹出，此时就需要我们的UIAutomator1来自动处理这样的对话框，并且要在安装apk之前就启动UIAutomator1的服务。</p><p>很不幸，appium的代码中，是先安装Appium Setting APK和被测应用的，那怎么改呢？</p><a id="more"></a><p>我们找到appium-android-driver工程，找打lib/driver.js，然后找到startAndroidSession方法，将如下代码提到这个方法的最前面：</p><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// start UiAutomator （改动：优先启动UIAutomator1）</span></span><br><span class="line"><span class="keyword">this</span>.bootstrap = <span class="keyword">new</span> helpers.bootstrap(<span class="keyword">this</span>.adb, <span class="keyword">this</span>.bootstrapPort, <span class="keyword">this</span>.opts.websocket);</span><br><span class="line"><span class="keyword">await</span> <span class="keyword">this</span>.bootstrap.start(<span class="keyword">this</span>.opts.appPackage, <span class="keyword">this</span>.opts.disableAndroidWatchers, <span class="keyword">this</span>.opts.acceptSslCerts);</span><br><span class="line"><span class="comment">// handling unexpected shutdown</span></span><br><span class="line"><span class="keyword">this</span>.bootstrap.onUnexpectedShutdown.catch(<span class="keyword">async</span> (err) =&gt; &#123; <span class="comment">// eslint-disable-line promise/prefer-await-to-callbacks</span></span><br><span class="line">  <span class="keyword">if</span> (!<span class="keyword">this</span>.bootstrap.ignoreUnexpectedShutdown) &#123;</span><br><span class="line">    <span class="keyword">await</span> <span class="keyword">this</span>.startUnexpectedShutdown(err);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure><p>如下图所示：</p><p><img src="https://cmlanche-1251406926.cos.ap-guangzhou.myqcloud.com/blog/5vr6h.png" alt="image-20190411164422233"></p><p>经过测试，这样不会影响UIAutomator1的正常启动，不会带来负面影响。</p><p>既然都优先启动了，我们就要让UIAutomator1去监控手机界面了。</p><p>不幸的是，Appium并没有给我们写类似的监听代码，我们得自己动手了，其实很简单，大体思路就是，dump控件树，检测界面控件，检测到权限框，就点”允许”、”是”之类的，这里就需要不断的枚举了。国内手机产商众多，android版本也多，这里就有大量的工作要做了。</p><p>幸运的是，Appium给我们做好了监控的线程，只是空实现，基本啥都没干，代码在SocketServer.java的listenForever中：</p><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">listenForever</span><span class="params">(<span class="keyword">boolean</span> disableAndroidWatchers, <span class="keyword">boolean</span> acceptSSLCerts)</span> <span class="keyword">throws</span> SocketServerException </span>&#123;</span><br><span class="line">  Logger.debug(<span class="string">"Appium Socket Server Ready"</span>);</span><br><span class="line">  UpdateStrings.loadStringsJson();</span><br><span class="line">  <span class="keyword">if</span> (disableAndroidWatchers) &#123;</span><br><span class="line">    Logger.debug(<span class="string">"Skipped registering crash watchers."</span>);</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    dismissCrashAlerts();</span><br><span class="line">    <span class="comment">// 看这里，就是这个每隔100毫秒触发一次的check !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!</span></span><br><span class="line">    <span class="keyword">final</span> TimerTask updateWatchers = <span class="keyword">new</span> TimerTask() &#123;</span><br><span class="line">      <span class="meta">@Override</span></span><br><span class="line">      <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">          watchers.check();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (<span class="keyword">final</span> Exception e) &#123;</span><br><span class="line">          e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">    timer.scheduleAtFixedRate(updateWatchers, <span class="number">100</span>, <span class="number">100</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (acceptSSLCerts) &#123;</span><br><span class="line">    Logger.debug(<span class="string">"Accepting SSL certificate errors."</span>);</span><br><span class="line">    acceptSSLCertificates();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    client = server.accept();</span><br><span class="line">    Logger.debug(<span class="string">"Client connected"</span>);</span><br><span class="line">    in = <span class="keyword">new</span> BufferedReader(<span class="keyword">new</span> InputStreamReader(client.getInputStream(), <span class="string">"UTF-8"</span>));</span><br><span class="line">    out = <span class="keyword">new</span> BufferedWriter(<span class="keyword">new</span> OutputStreamWriter(client.getOutputStream(), <span class="string">"UTF-8"</span>));</span><br><span class="line">    <span class="keyword">while</span> (keepListening) &#123;</span><br><span class="line">      handleClientData();</span><br><span class="line">    &#125;</span><br><span class="line">    in.close();</span><br><span class="line">    out.close();</span><br><span class="line">    client.close();</span><br><span class="line">    Logger.debug(<span class="string">"Closed client connection"</span>);</span><br><span class="line">  &#125; <span class="keyword">catch</span> (<span class="keyword">final</span> IOException e) &#123;</span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> SocketServerException(<span class="string">"Error when client was trying to connect"</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;欢迎关注我的Appium知乎专栏：&lt;a href=&quot;https://zhuanlan.zhihu.com/custom-appium&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;自定义Appium之路&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;当Appium脚本中的uiautomationName设置为UiAutomator1时，会启动UIAutomator1的Driver来测试你的Appium脚本，在脚本之前之前，会有很多权限框弹出，此时就需要我们的UIAutomator1来自动处理这样的对话框，并且要在安装apk之前就启动UIAutomator1的服务。&lt;/p&gt;
-&lt;p&gt;很不幸，appium的代码中，是先安装Appium Setting APK和被测应用的，那怎么改呢？&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="Appium" scheme="http://www.cmlanche.com/categories/Appium/"/>
-    
-    
-      <category term="appium" scheme="http://www.cmlanche.com/tags/appium/"/>
-    
-      <category term="uiautomator" scheme="http://www.cmlanche.com/tags/uiautomator/"/>
     
   </entry>
   

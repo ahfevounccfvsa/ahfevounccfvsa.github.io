@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[记录一次网络拥塞导致线程池处于等待状态]]></title>
+    <url>%2F2019%2F07%2F12%2F%E8%AE%B0%E5%BD%95%E4%B8%80%E6%AC%A1%E7%BD%91%E7%BB%9C%E6%8B%A5%E5%A1%9E%E5%AF%BC%E8%87%B4%E7%BA%BF%E7%A8%8B%E6%B1%A0%E5%A4%84%E4%BA%8E%E7%AD%89%E5%BE%85%E7%8A%B6%E6%80%81%2F</url>
+    <content type="text"><![CDATA[场景一次批量执行任务（12个），最后任务执行成功会批量上传图片，导致线程池都处于等待状态。 首先这个线程池是通过newSingleThreadExecutor来创建的，并且在执行过程中，不会有新的任务进来，当时的情况是在线程执行过程中卡主，实际发生在上传图片，类似的线程池多大12个，每个线程上传的图片可能多大上百张。 分析分析上面jstack打印的日志（打印方法是jstack pid），有个waiting on condition，它的含义，我搜了下，是这样的 由此可以猜测，可能是大并发上传图片导致网络拥塞 解决方法做一个固定线程大小的线程池，比如3个，专门用于并发上传图片，避免网络拥塞。]]></content>
+      <tags>
+        <tag>java性能优化</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[问答四部曲]]></title>
     <url>%2F2019%2F06%2F20%2F%E5%9B%9E%E7%AD%94%E9%97%AE%E9%A2%98%E5%9B%9B%E9%83%A8%E6%9B%B2%2F</url>
     <content type="text"><![CDATA[它是什么 影响和意义 怎么解决的 有什么心得]]></content>
