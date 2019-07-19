@@ -81,20 +81,20 @@
 
 
 
-<meta name="description" content="ThreadPool相关如类图ThreaPoolExecutor继承了AbstractExecutorServiceAbstractExecutorService 实现了ExecutorService接口 ##重要参数    1.AtomicInteger ctl = new AtomicInteger(ctlOf(RUNNING, 0)); 线程状态    2.COUNT_BITS =  Int">
+<meta name="description" content="ThreadPool相关如类图ThreaPoolExecutor继承了AbstractExecutorServiceAbstractExecutorService 实现了ExecutorService接口">
 <meta name="keywords" content="threadpool">
 <meta property="og:type" content="article">
 <meta property="og:title" content="ThreadPool相关整理">
 <meta property="og:url" content="http://www.cmlanche.com/2019/07/19/ThreadPool相关整理/index.html">
 <meta property="og:site_name" content="cmlanche">
-<meta property="og:description" content="ThreadPool相关如类图ThreaPoolExecutor继承了AbstractExecutorServiceAbstractExecutorService 实现了ExecutorService接口 ##重要参数    1.AtomicInteger ctl = new AtomicInteger(ctlOf(RUNNING, 0)); 线程状态    2.COUNT_BITS =  Int">
+<meta property="og:description" content="ThreadPool相关如类图ThreaPoolExecutor继承了AbstractExecutorServiceAbstractExecutorService 实现了ExecutorService接口">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://cmlanche-1251406926.cos.ap-guangzhou.myqcloud.com/blog/tnu2q.png?x-oss-process=style/logomark">
 <meta property="og:image" content="https://cmlanche-1251406926.cos.ap-guangzhou.myqcloud.com/blog/eu65e.png?x-oss-process=style/logomark">
-<meta property="og:updated_time" content="2019-07-19T02:08:02.000Z">
+<meta property="og:updated_time" content="2019-07-19T02:27:28.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ThreadPool相关整理">
-<meta name="twitter:description" content="ThreadPool相关如类图ThreaPoolExecutor继承了AbstractExecutorServiceAbstractExecutorService 实现了ExecutorService接口 ##重要参数    1.AtomicInteger ctl = new AtomicInteger(ctlOf(RUNNING, 0)); 线程状态    2.COUNT_BITS =  Int">
+<meta name="twitter:description" content="ThreadPool相关如类图ThreaPoolExecutor继承了AbstractExecutorServiceAbstractExecutorService 实现了ExecutorService接口">
 <meta name="twitter:image" content="https://cmlanche-1251406926.cos.ap-guangzhou.myqcloud.com/blog/tnu2q.png?x-oss-process=style/logomark">
 
 
@@ -444,6 +444,7 @@
 
       
         <h1 id="ThreadPool相关"><a href="#ThreadPool相关" class="headerlink" title="ThreadPool相关"></a>ThreadPool相关</h1><p>如类图<br><img src="https://cmlanche-1251406926.cos.ap-guangzhou.myqcloud.com/blog/tnu2q.png?x-oss-process=style/logomark" alt="image-20190719095600612"><br>ThreaPoolExecutor继承了AbstractExecutorService<br>AbstractExecutorService 实现了ExecutorService接口</p>
+<a id="more"></a>
 <p>##重要参数<br>    1.AtomicInteger ctl = new AtomicInteger(ctlOf(RUNNING, 0)); 线程状态<br>    2.COUNT_BITS =  Integer.SIZE - 3 线程个数掩码位数<br>    3.CAPACITY =(1 &lt;&lt; COUNT_BITS) - 1;线程最大个数<br>    4.workQueue 工作队列<br>    5.ReentrantLock<br>    6.Condition termination 持有锁的某个节点<br>    7.HashSet<worker> workers 任务集合<br>    8.RejectedExecutionHandler handler 拒绝策略<br>    9.long keepAliveTime 空闲线程的存活时间<br>    10.corePoolSize 核心线程数<br>    11.volatile maximumPoolSize 最大线程数</worker></p>
 <p>​    </p>
 <p>##状态变化<br>    running -&gt;shown 显式的调用showdown方法，或者隐式的调用finalize（这里会执行showdown）<br>    running -&gt;stop 显式的调用shutdownNow方法。<br>    showdown-&gt;stop 显式调用 shutdownNow方法<br>    shutdown-&gt;tidying 线程池和任务队列都为空的情况<br>    stop-&gt;tidying   当线程池都为空的时候<br>    tidying-&gt;terminated   当 terminated() 钩子方法执行完成时候。</p>

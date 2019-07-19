@@ -81,19 +81,19 @@
 
 
 
-<meta name="description" content="HashMap相关首先先查看类图，此hashMap为jdk1.8Hahsmap继承了AbstractMap实现了Map接口 1. 重要参数1.负载因子 DEFAULT_LOAD_FACTOR = 0.75  如果初始化的时候不指定负载因子的值得话默认值就是0.75 2.默认初始化长度 DEFAULT_INITIAL_CAPACITY = 1&amp;lt;&amp;lt;4 //16个长度 这里必须是2的次幂 为">
+<meta name="description" content="HashMap相关首先先查看类图，此hashMap为jdk1.8Hahsmap继承了AbstractMap实现了Map接口">
 <meta name="keywords" content="hashmap">
 <meta property="og:type" content="article">
 <meta property="og:title" content="HashMap相关整理">
 <meta property="og:url" content="http://www.cmlanche.com/2019/07/19/HashMap相关整理/index.html">
 <meta property="og:site_name" content="cmlanche">
-<meta property="og:description" content="HashMap相关首先先查看类图，此hashMap为jdk1.8Hahsmap继承了AbstractMap实现了Map接口 1. 重要参数1.负载因子 DEFAULT_LOAD_FACTOR = 0.75  如果初始化的时候不指定负载因子的值得话默认值就是0.75 2.默认初始化长度 DEFAULT_INITIAL_CAPACITY = 1&amp;lt;&amp;lt;4 //16个长度 这里必须是2的次幂 为">
+<meta property="og:description" content="HashMap相关首先先查看类图，此hashMap为jdk1.8Hahsmap继承了AbstractMap实现了Map接口">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://cmlanche-1251406926.cos.ap-guangzhou.myqcloud.com/blog/2fxhd.png?x-oss-process=style/logomark">
-<meta property="og:updated_time" content="2019-07-19T02:08:07.000Z">
+<meta property="og:updated_time" content="2019-07-19T02:27:34.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="HashMap相关整理">
-<meta name="twitter:description" content="HashMap相关首先先查看类图，此hashMap为jdk1.8Hahsmap继承了AbstractMap实现了Map接口 1. 重要参数1.负载因子 DEFAULT_LOAD_FACTOR = 0.75  如果初始化的时候不指定负载因子的值得话默认值就是0.75 2.默认初始化长度 DEFAULT_INITIAL_CAPACITY = 1&amp;lt;&amp;lt;4 //16个长度 这里必须是2的次幂 为">
+<meta name="twitter:description" content="HashMap相关首先先查看类图，此hashMap为jdk1.8Hahsmap继承了AbstractMap实现了Map接口">
 <meta name="twitter:image" content="https://cmlanche-1251406926.cos.ap-guangzhou.myqcloud.com/blog/2fxhd.png?x-oss-process=style/logomark">
 
 
@@ -443,6 +443,7 @@
 
       
         <h1 id="HashMap相关"><a href="#HashMap相关" class="headerlink" title="HashMap相关"></a>HashMap相关</h1><p>首先先查看类图，此hashMap为jdk1.8<br><img src="https://cmlanche-1251406926.cos.ap-guangzhou.myqcloud.com/blog/2fxhd.png?x-oss-process=style/logomark" alt="image-20190719095818991"><br>Hahsmap继承了AbstractMap实现了Map接口</p>
+<a id="more"></a>
 <h2 id="1-重要参数"><a href="#1-重要参数" class="headerlink" title="1. 重要参数"></a>1. 重要参数</h2><pre><code>1.负载因子 DEFAULT_LOAD_FACTOR = 0.75  如果初始化的时候不指定负载因子的值得话默认值就是0.75
 2.默认初始化长度 DEFAULT_INITIAL_CAPACITY = 1&lt;&lt;4 //16个长度 这里必须是2的次幂 为什么必须是2的次幂下文解释,所以默认的hashMap到了12个长度就会进行一次扩容（16*0.75）
 3.链表转红黑树的阈值 TREEIFY_THRESHOLD = 8,如果hash桶的链表长度大于等于8并且总长度大于等于64的话才会转红黑树
