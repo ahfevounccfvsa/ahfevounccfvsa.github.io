@@ -308,6 +308,832 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.cmlanche.com/2019/07/19/HashTable相关整理/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="cmlanche">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="https://avatars3.githubusercontent.com/u/5886757?v=4&s=400&u=c3fdc83b9817d98d87ed84c8e768855fd628c745">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cmlanche">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/07/19/HashTable相关整理/" itemprop="url">HashTable相关整理</a></h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-19T09:58:48+08:00">
+                2019-07-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/小胖出品/" itemprop="url" rel="index">
+                    <span itemprop="name">小胖出品</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2019/07/19/HashTable相关整理/" class="leancloud_visitors" data-flag-title="HashTable相关整理">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  1,282 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  6 分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="HashTable相关"><a href="#HashTable相关" class="headerlink" title="HashTable相关"></a>HashTable相关</h1><p> hashTable类图，此hashTable来自于jdk1.8<br> // 缺图再补<br> 继承抽象类Dictionary,实现序列化接口，实现map接口，实现copy接口.有好多方法都不用了额</p>
+<h2 id="1-重要参数"><a href="#1-重要参数" class="headerlink" title="1.重要参数"></a>1.重要参数</h2><pre><code>1.Entry&lt;?,?&gt;[] table 存放数据的桶
+2.阈值 threshold 同hashMap
+3.负载因子 loadFactor 默认0.75
+4.初始化默认长度 11 hashTable选择了一个质数，这里就很秀，这里因是因为除（近似）质数求余的分散效果好，具体请看这里https://link.zhihu.com/?target=http%3A//stackoverflow.com/questions/9413966/why-initialcapacity-of-hashtable-is-11-while-the-default-initial-capacity-in-has
+5.MAX_ARRAY_SIZE 最大值，也就是最大长度，Integer.MAX_VALUE - 8
+</code></pre><h2 id="2-构造函数"><a href="#2-构造函数" class="headerlink" title="2.构造函数"></a>2.构造函数</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">//默认构造器，可以看到长度是11，负载因子是0.75</span><br><span class="line"> public Hashtable() &#123;</span><br><span class="line">        this(11, 0.75f);</span><br><span class="line">    &#125;</span><br><span class="line">//这里有2个参数，1是长度，2是负载因子</span><br><span class="line">    public Hashtable(int initialCapacity, float loadFactor) &#123;</span><br><span class="line">    //如果长度小于0，直接出异常</span><br><span class="line">        if (initialCapacity &lt; 0)</span><br><span class="line">            throw new IllegalArgumentException(&quot;Illegal Capacity: &quot;+initialCapacity);</span><br><span class="line">        //如果负载因子小于0，或者不合法直接丢出异常</span><br><span class="line">        if (loadFactor &lt;= 0 || Float.isNaN(loadFactor))</span><br><span class="line">            throw new IllegalArgumentException(&quot;Illegal Load: &quot;+loadFactor);</span><br><span class="line">        //如果长度=0那么就给一个1长度</span><br><span class="line">        if (initialCapacity==0)</span><br><span class="line">            initialCapacity = 1;</span><br><span class="line">        //负载因子=0.75</span><br><span class="line">        this.loadFactor = loadFactor;</span><br><span class="line">        //初始化initialCapacity个长度的二维数组</span><br><span class="line">        table = new Entry&lt;?,?&gt;[initialCapacity];</span><br><span class="line">        //阈值 取一个最小值</span><br><span class="line">        threshold = (int)Math.min(initialCapacity * loadFactor, MAX_ARRAY_SIZE + 1);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h2 id="3-内部类解析"><a href="#3-内部类解析" class="headerlink" title="3.内部类解析"></a>3.内部类解析</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">//hahs table内部类，实现了 map.entry</span><br><span class="line">private static class Entry&lt;K,V&gt; implements Map.Entry&lt;K,V&gt; &#123;</span><br><span class="line">        //hash值</span><br><span class="line">        final int hash;</span><br><span class="line">        // key</span><br><span class="line">        final K key;</span><br><span class="line">        // vlaue</span><br><span class="line">        V value;</span><br><span class="line">        //下一个节点</span><br><span class="line">        Entry&lt;K,V&gt; next;</span><br><span class="line"></span><br><span class="line">        protected Entry(int hash, K key, V value, Entry&lt;K,V&gt; next) &#123;</span><br><span class="line">            this.hash = hash;</span><br><span class="line">            this.key =  key;</span><br><span class="line">            this.value = value;</span><br><span class="line">            this.next = next;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        @SuppressWarnings(&quot;unchecked&quot;)</span><br><span class="line">        protected Object clone() &#123;</span><br><span class="line">            return new Entry&lt;&gt;(hash, key, value,</span><br><span class="line">                                  (next==null ? null : (Entry&lt;K,V&gt;) next.clone()));</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        // Map.Entry Ops</span><br><span class="line"></span><br><span class="line">        public K getKey() &#123;</span><br><span class="line">            return key;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        public V getValue() &#123;</span><br><span class="line">            return value;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        public V setValue(V value) &#123;</span><br><span class="line">            if (value == null)</span><br><span class="line">                throw new NullPointerException();</span><br><span class="line"></span><br><span class="line">            V oldValue = this.value;</span><br><span class="line">            this.value = value;</span><br><span class="line">            return oldValue;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        //只有key和value一样的时候才会返回true</span><br><span class="line">        public boolean equals(Object o) &#123;</span><br><span class="line">            if (!(o instanceof Map.Entry))</span><br><span class="line">                return false;</span><br><span class="line">            Map.Entry&lt;?,?&gt; e = (Map.Entry&lt;?,?&gt;)o;</span><br><span class="line"></span><br><span class="line">            return (key==null ? e.getKey()==null : key.equals(e.getKey())) &amp;&amp;</span><br><span class="line">               (value==null ? e.getValue()==null : value.equals(e.getValue()));</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        //hashCode hash 异或了value生成的值</span><br><span class="line">        public int hashCode() &#123;</span><br><span class="line">            return hash ^ Objects.hashCode(value);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        public String toString() &#123;</span><br><span class="line">            return key.toString()+&quot;=&quot;+value.toString();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h2 id="4-put流程解析"><a href="#4-put流程解析" class="headerlink" title="4.put流程解析"></a>4.put流程解析</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">//划重点，以后再有人问为什么hashtable的key为什么不能是null，</span><br><span class="line">//可以看到，这个方法添加了synchronized 做为表示，</span><br><span class="line">//在多线程的情况下，只有一个线程才能抢到锁，所以这里是线程安全的</span><br><span class="line">public synchronized V put(K key, V value) &#123;</span><br><span class="line">        // 这里直接过滤掉了 key为null的情况，key必须有值</span><br><span class="line">        if (value == null) &#123;</span><br><span class="line">            throw new NullPointerException();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        //确保key不在table里</span><br><span class="line">        Entry&lt;?,?&gt; tab[] = table;</span><br><span class="line">        int hash = key.hashCode();</span><br><span class="line">        //计算数组下标，hash&amp;Integer.Max 然后取余 桶长度</span><br><span class="line">        int index = (hash &amp; 0x7FFFFFFF) % tab.length;</span><br><span class="line">        @SuppressWarnings(&quot;unchecked&quot;)</span><br><span class="line">        //根据索引查询桶的位置</span><br><span class="line">        Entry&lt;K,V&gt; entry = (Entry&lt;K,V&gt;)tab[index];</span><br><span class="line">        //如果出现hash冲突，那么久循环当前桶的下一个节点</span><br><span class="line">        for(; entry != null ; entry = entry.next) &#123;</span><br><span class="line">            //如果hash相同  key值也相同，那么久替换value，</span><br><span class="line">            if ((entry.hash == hash) &amp;&amp; entry.key.equals(key)) &#123;</span><br><span class="line">                V old = entry.value;</span><br><span class="line">                entry.value = value;</span><br><span class="line">                return old;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        //添加到enrty中</span><br><span class="line">        addEntry(hash, key, value, index);</span><br><span class="line">        return null;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">//添加到桶中 4个参数，hash值， key值， value值，下标索引</span><br><span class="line">private void addEntry(int hash, K key, V value, int index) &#123;</span><br><span class="line">        //计数器++ 这里的这个值是安全的，因为只有一个线程去访问</span><br><span class="line">        modCount++;</span><br><span class="line">        Entry&lt;?,?&gt; tab[] = table;</span><br><span class="line">        //如果超过阈值，那么久扩容</span><br><span class="line">        if (count &gt;= threshold) &#123;</span><br><span class="line">            //扩容</span><br><span class="line">            rehash();</span><br><span class="line">            tab = table;</span><br><span class="line">            hash = key.hashCode();</span><br><span class="line">            //这里的又做了一次hash &amp; Integer.max 取余 表的长度</span><br><span class="line">            index = (hash &amp; 0x7FFFFFFF) % tab.length;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        //创建一个新的值，这里先扩容，然后在放的值</span><br><span class="line">        @SuppressWarnings(&quot;unchecked&quot;)</span><br><span class="line">        Entry&lt;K,V&gt; e = (Entry&lt;K,V&gt;) tab[index];</span><br><span class="line">        tab[index] = new Entry&lt;&gt;(hash, key, value, e);</span><br><span class="line">        //计数 ++</span><br><span class="line">        count++;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">//扩容</span><br><span class="line"> protected void rehash() &#123;</span><br><span class="line">        //先获取旧的桶的长度</span><br><span class="line">        int oldCapacity = table.length;</span><br><span class="line">        Entry&lt;?,?&gt;[] oldMap = table;</span><br><span class="line"></span><br><span class="line">        //计算新的长度，一倍的长度+1</span><br><span class="line">        int newCapacity = (oldCapacity &lt;&lt; 1) + 1;</span><br><span class="line">        //如果新长度减最大长度大于0</span><br><span class="line">        if (newCapacity - MAX_ARRAY_SIZE &gt; 0) &#123;</span><br><span class="line">        //如果旧的长度等于最大长度</span><br><span class="line">            if (oldCapacity == MAX_ARRAY_SIZE)</span><br><span class="line">            //直接返回</span><br><span class="line">                return;</span><br><span class="line">            //新长度=最大长度</span><br><span class="line">            newCapacity = MAX_ARRAY_SIZE;</span><br><span class="line">        &#125;</span><br><span class="line">        Entry&lt;?,?&gt;[] newMap = new Entry&lt;?,?&gt;[newCapacity];</span><br><span class="line">        modCount++;</span><br><span class="line">        //计算阈值 新的值</span><br><span class="line">        threshold = (int)Math.min(newCapacity * loadFactor, MAX_ARRAY_SIZE + 1);</span><br><span class="line">        table = newMap;</span><br><span class="line">        //循环存放</span><br><span class="line">        for (int i = oldCapacity ; i-- &gt; 0 ;) &#123;</span><br><span class="line">            //根据i获取桶，</span><br><span class="line">            for (Entry&lt;K,V&gt; old = (Entry&lt;K,V&gt;)oldMap[i] ; old != null ; ) &#123;</span><br><span class="line">                Entry&lt;K,V&gt; e = old;</span><br><span class="line">                old = old.next;</span><br><span class="line">                //计算新的索引下标</span><br><span class="line">                int index = (e.hash &amp; 0x7FFFFFFF) % newCapacity;</span><br><span class="line">                e.next = (Entry&lt;K,V&gt;)newMap[index];</span><br><span class="line">                newMap[index] = e;</span><br><span class="line">            &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>##5.get流程解析</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">//这里的get非常的简单奥，没有hashmap的那么复杂，</span><br><span class="line">  public synchronized V get(Object key) &#123;</span><br><span class="line">        Entry&lt;?,?&gt; tab[] = table;</span><br><span class="line">        int hash = key.hashCode();</span><br><span class="line">        //计算下标索引，</span><br><span class="line">        int index = (hash &amp; 0x7FFFFFFF) % tab.length;</span><br><span class="line">        //根据index来循环，如果有hash冲突的化</span><br><span class="line">        for (Entry&lt;?,?&gt; e = tab[index] ; e != null ; e = e.next) &#123;</span><br><span class="line">            //hash相同，key也相同，就返回value</span><br><span class="line">            if ((e.hash == hash) &amp;&amp; e.key.equals(key)) &#123;</span><br><span class="line">                return (V)e.value;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        //返回空</span><br><span class="line">        return null;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>##6.问题总结<br>1.初始化是质数的问题<a href="https://www.zhihu.com/question/29587252" target="_blank" rel="noopener">https://www.zhihu.com/question/29587252</a><br>2.多线程安全的问题,hashtable的的put,get方法都是线程安全的，使用了synchronized来修饰，这样在多线程的情况下，只有一个线程去读去写，这里感觉get可以修改成无锁的方式<br>3.使用场景，设计到线程安全的问题（1.5之前使用的多一些）</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.cmlanche.com/2019/07/19/HashMap相关整理/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="cmlanche">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="https://avatars3.githubusercontent.com/u/5886757?v=4&s=400&u=c3fdc83b9817d98d87ed84c8e768855fd628c745">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cmlanche">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/07/19/HashMap相关整理/" itemprop="url">HashMap相关整理</a></h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-19T09:57:47+08:00">
+                2019-07-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/小胖出品/" itemprop="url" rel="index">
+                    <span itemprop="name">小胖出品</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2019/07/19/HashMap相关整理/" class="leancloud_visitors" data-flag-title="HashMap相关整理">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  2,941 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  13 分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="HashMap相关"><a href="#HashMap相关" class="headerlink" title="HashMap相关"></a>HashMap相关</h1><p>首先先查看类图，此hashMap为jdk1.8<br><img src="https://cmlanche-1251406926.cos.ap-guangzhou.myqcloud.com/blog/2fxhd.png?x-oss-process=style/logomark" alt="image-20190719095818991"><br>Hahsmap继承了AbstractMap实现了Map接口</p>
+<h2 id="1-重要参数"><a href="#1-重要参数" class="headerlink" title="1. 重要参数"></a>1. 重要参数</h2><pre><code>1.负载因子 DEFAULT_LOAD_FACTOR = 0.75  如果初始化的时候不指定负载因子的值得话默认值就是0.75
+2.默认初始化长度 DEFAULT_INITIAL_CAPACITY = 1&lt;&lt;4 //16个长度 这里必须是2的次幂 为什么必须是2的次幂下文解释,所以默认的hashMap到了12个长度就会进行一次扩容（16*0.75）
+3.链表转红黑树的阈值 TREEIFY_THRESHOLD = 8,如果hash桶的链表长度大于等于8并且总长度大于等于64的话才会转红黑树
+4. 红黑树转链表的阈值 UNTREEIFY_THRESHOLD = 6 
+5. 链表转红黑树的第二个条件MIN_TREEIFY_CAPACITY = 64,如果这个链表的总长度小于64的话，那么还会进行扩容
+6. Node类，是hashMap里的内部类，实现了Map.Enrty的接口,主要有 getKey，getValue等方法。
+7. 真正的负载有因子 loadFactor 如果初始化的适合不给值，默认就是DEFAULT_LOAD_FACTOR
+8. 最大长度，MAXIMUM_CAPACITY  1 &lt;&lt; 30(1073741824) 其实这个是对传入的值做的控制，最大值还是Integer.Max
+</code></pre><h2 id="2-内部类Node解析"><a href="#2-内部类Node解析" class="headerlink" title="2.内部类Node解析"></a>2.内部类Node解析</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Node 实现了Map.Entry&lt;K,V&gt;,其本质还是一个键值对的类，它重写了</span><br><span class="line">hashCode,equals方法</span><br><span class="line">static class Node&lt;K,V&gt; implements Map.Entry&lt;K,V&gt; &#123; </span><br><span class="line">    //hash 值                  </span><br><span class="line">    final int hash;   </span><br><span class="line">    //key                                               </span><br><span class="line">    final K key;   </span><br><span class="line">    //value                                                  </span><br><span class="line">    V value;      </span><br><span class="line">    //下一个节点                                                   </span><br><span class="line">    Node&lt;K,V&gt; next;                                                  </span><br><span class="line">    //构造器                                                      </span><br><span class="line">    Node(int hash, K key, V value, Node&lt;K,V&gt; next) &#123;                 </span><br><span class="line">        this.hash = hash;                                            </span><br><span class="line">        this.key = key;                                              </span><br><span class="line">        this.value = value;                                          </span><br><span class="line">        this.next = next;                                            </span><br><span class="line">    &#125;                                                                </span><br><span class="line">                                                                     </span><br><span class="line">    public final K getKey()        &#123; return key; &#125;                   </span><br><span class="line">    public final V getValue()      &#123; return value; &#125;                 </span><br><span class="line">    public final String toString() &#123; return key + &quot;=&quot; + value; &#125;     </span><br><span class="line">    //这里重写了hashCode值，坐了一次扰动                                                         </span><br><span class="line">    public final int hashCode() &#123;                                    </span><br><span class="line">        return Objects.hashCode(key) ^ Objects.hashCode(value);      </span><br><span class="line">    &#125;                                                                </span><br><span class="line">                                                                     </span><br><span class="line">    public final V setValue(V newValue) &#123;                            </span><br><span class="line">        V oldValue = value;                                          </span><br><span class="line">        value = newValue;                                            </span><br><span class="line">        return oldValue;                                             </span><br><span class="line">    &#125;                                                                </span><br><span class="line">    //这里要判断2个Entry是否相等，key和value必须相等才会返回ture                                                 </span><br><span class="line">    public final boolean equals(Object o) &#123;                          </span><br><span class="line">        if (o == this)                                               </span><br><span class="line">            return true;                                             </span><br><span class="line">        if (o instanceof Map.Entry) &#123;                                </span><br><span class="line">            Map.Entry&lt;?,?&gt; e = (Map.Entry&lt;?,?&gt;)o;                    </span><br><span class="line">            if (Objects.equals(key, e.getKey()) &amp;&amp;                   </span><br><span class="line">                Objects.equals(value, e.getValue()))                 </span><br><span class="line">                return true;                                         </span><br><span class="line">        &#125;                                                            </span><br><span class="line">        return false;                                                </span><br><span class="line">    &#125;                                                                </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="3-红黑树的实现"><a href="#3-红黑树的实现" class="headerlink" title="3.红黑树的实现"></a>3.红黑树的实现</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"> static final class TreeNode&lt;K,V&gt; extends LinkedHashMap.Entry&lt;K,V&gt; &#123;   </span><br><span class="line">    // 父节点</span><br><span class="line">     TreeNode&lt;K,V&gt; parent;        </span><br><span class="line">     //左子树</span><br><span class="line">     TreeNode&lt;K,V&gt; left;  </span><br><span class="line">     //右子树                                             </span><br><span class="line">     TreeNode&lt;K,V&gt; right;    </span><br><span class="line">     //辅助节点                                          </span><br><span class="line">     TreeNode&lt;K,V&gt; prev;  </span><br><span class="line">     //是不是红节点</span><br><span class="line">     boolean red;                                                      </span><br><span class="line">     TreeNode(int hash, K key, V val, Node&lt;K,V&gt; next) &#123;                </span><br><span class="line">         super(hash, key, val, next);                                  </span><br><span class="line">     &#125;                                                                 </span><br><span class="line">                                                                       </span><br><span class="line">    //查询根节点                                                           </span><br><span class="line">     final TreeNode&lt;K,V&gt; root() &#123;                                      </span><br><span class="line">         for (TreeNode&lt;K,V&gt; r = this, p;;) &#123;                           </span><br><span class="line">             if ((p = r.parent) == null)                               </span><br><span class="line">                 return r;                                             </span><br><span class="line">             r = p;                                                    </span><br><span class="line">         &#125;                                                             </span><br><span class="line">     &#125;     </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>红黑树的5个特点:<br>    1.每个子节点到root节点上黑节点数相同<br>    2.每个结点要么是红的，要么是黑的。<br>    3.根节点是黑色的<br>    4.每个叶节点（就是空点）是黑色的<br>    5.如果一个节点是红色的，那么他的两个子节点都是黑的</p>
+<h2 id="4-构造方法"><a href="#4-构造方法" class="headerlink" title="4.构造方法"></a>4.构造方法</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">//默认的构造方法，负载因子=0.75</span><br><span class="line"> public HashMap() &#123;                        </span><br><span class="line">     this.loadFactor = DEFAULT_LOAD_FACTOR;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">//2个参数，initialCapacity 初始化长度，loadFactor 负载因子</span><br><span class="line"> public HashMap(int initialCapacity, float loadFactor) &#123;                     </span><br><span class="line">     //如果长度为0 跑出异常</span><br><span class="line">     if (initialCapacity &lt; 0)                                                </span><br><span class="line">         throw new IllegalArgumentException(&quot;Illegal initial capacity: &quot; +   </span><br><span class="line">                                            initialCapacity);    </span><br><span class="line">      //如果传入的长度大于上变规定的最大长度 那初始化的最大长度就等于1&gt;&gt;30</span><br><span class="line">     if (initialCapacity &gt; MAXIMUM_CAPACITY)                                 </span><br><span class="line">         initialCapacity = MAXIMUM_CAPACITY;    </span><br><span class="line">         //如果传入的负载因子小于0 或者不是个数字就跑出异常                             </span><br><span class="line">     if (loadFactor &lt;= 0 || Float.isNaN(loadFactor))                         </span><br><span class="line">         throw new IllegalArgumentException(&quot;Illegal load factor: &quot; +        </span><br><span class="line">                                            loadFactor);                </span><br><span class="line">    //设置 加载因子                                        </span><br><span class="line">     this.loadFactor = loadFactor;          </span><br><span class="line">     //设置 扩容阈值,这里不是真正的扩容至,返回给定目标容量的两个大小的幂,这个后边会自己计算的                 </span><br><span class="line">     this.threshold = tableSizeFor(initialCapacity);                         </span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">//只是指定长度的初始化方法，由此可见负载因子还是默认的0.75</span><br><span class="line">public HashMap(int initialCapacity) &#123;          </span><br><span class="line">    this(initialCapacity, DEFAULT_LOAD_FACTOR);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">//传入构造出来的HashMap包含传入Map的映射关系，加载因子是默认的值</span><br><span class="line">public HashMap(Map&lt;? extends K, ? extends V&gt; m) &#123;    </span><br><span class="line">    this.loadFactor = DEFAULT_LOAD_FACTOR;  </span><br><span class="line">    //将传入的子Map中的全部元素逐个添加到HashMap中         </span><br><span class="line">    putMapEntries(m, false);                         </span><br><span class="line">&#125;</span><br><span class="line">final void putMapEntries(Map&lt;? extends K, ? extends V&gt;m, boolean evict) &#123;   </span><br><span class="line">        //</span><br><span class="line">     int s = m.size();                                                        </span><br><span class="line">     if (s &gt; 0) &#123;       </span><br><span class="line">        //如果table是null                                                      </span><br><span class="line">         if (table == null) &#123; </span><br><span class="line">            //这里计算预长度                       </span><br><span class="line">             float ft = ((float)s / loadFactor) + 1.0F;                       </span><br><span class="line">             int t = ((ft &lt; (float)MAXIMUM_CAPACITY) ?                        </span><br><span class="line">                      (int)ft : MAXIMUM_CAPACITY);                     </span><br><span class="line">             if (t &gt; threshold)                                               </span><br><span class="line">                 threshold = tableSizeFor(t);                                 </span><br><span class="line">         &#125;    </span><br><span class="line">         //table不是null，s大于阈值                                                                </span><br><span class="line">         else if (s &gt; threshold)    </span><br><span class="line">            //扩容                                          </span><br><span class="line">             resize();   </span><br><span class="line">             //循环放入                                                     </span><br><span class="line">         for (Map.Entry&lt;? extends K, ? extends V&gt; e : m.entrySet()) &#123;         </span><br><span class="line">             K key = e.getKey();                                              </span><br><span class="line">             V value = e.getValue();                                          </span><br><span class="line">             putVal(hash(key), key, value, false, evict);                     </span><br><span class="line">         &#125;                                                                    </span><br><span class="line">     &#125;                                                                        </span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<p>##5 hash值得生成<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">//这里做了2次扰动，异或一次，h&gt;&gt;16 位移一次，其主要目的让hash值分布均匀，减少冲突 ,</span><br><span class="line">//1. 取hashCode值： h = key.hashCode()  </span><br><span class="line">//2.高位参与低位的运算：h ^ (h &gt;&gt;&gt; 16)  </span><br><span class="line">static final int hash(Object key) &#123;                                   </span><br><span class="line">    int h;                                                            </span><br><span class="line">    return (key == null) ? 0 : (h = key.hashCode()) ^(h &gt;&gt;&gt; 16);     </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="6-put流程"><a href="#6-put流程" class="headerlink" title="6.put流程"></a>6.put流程</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">//put 调用了 putVal，hash(key) ，如上hash的生成，先生成了hahs值，然后传入key,value,</span><br><span class="line"> public V put(K key, V value) &#123;                                        </span><br><span class="line">     return putVal(hash(key), key, value, false, true);                </span><br><span class="line"> &#125;         </span><br><span class="line"> //hash: 生成的hash值</span><br><span class="line"> //key, value 是传入的</span><br><span class="line"> //onlyIfAbsent: 如果ture，则不要更改现有值， 由此可见，这里会修改现有的值</span><br><span class="line">//evict 如果是fasle 那么就是创建模式</span><br><span class="line"> final V putVal(int hash, K key, V value, boolean onlyIfAbsent, boolean evict) &#123;        </span><br><span class="line">                                                      </span><br><span class="line">    Node&lt;K,V&gt;[] tab; Node&lt;K,V&gt; p; int n, i;      </span><br><span class="line">    //如果table是空， 并且tab的长度为0,那就进行扩容                                        </span><br><span class="line">    if ((tab = table) == null || (n = tab.length) == 0)                                  </span><br><span class="line">        n = (tab = resize()).length;    </span><br><span class="line">    //这里判断有没有hash冲突，如果不存在，那么久直接创建一个新的节点，否者就是存在hash冲突，先判断                                                 </span><br><span class="line">    if ((p = tab[i = (n - 1) &amp; hash]) == null)                                           </span><br><span class="line">        tab[i] = newNode(hash, key, value, null);                                        </span><br><span class="line">    else &#123;                                                                               </span><br><span class="line">        Node&lt;K,V&gt; e; K k;        </span><br><span class="line">        //判断 table[i]的元素的key是否与 需插入的key一样，若相同则 直接用新value 覆盖 旧value                                                        </span><br><span class="line">        if (p.hash == hash &amp;&amp;                                                            </span><br><span class="line">            ((k = p.key) == key || (key != null &amp;&amp; key.equals(k))))                      </span><br><span class="line">            e = p;</span><br><span class="line">            // 优先判断P 是不是红黑树                                                                 </span><br><span class="line">        else if (p instanceof TreeNode)   </span><br><span class="line">            //如果p是实现了红黑树，那么直接put数节点                                               </span><br><span class="line">            e = ((TreeNode&lt;K,V&gt;)p).putTreeVal(this, tab, hash, key, value);   </span><br><span class="line">            //不是红黑树，那么循环链表           </span><br><span class="line">        else &#123;                                                                           </span><br><span class="line">            for (int binCount = 0; ; ++binCount) &#123; </span><br><span class="line">                    //p的下一个节点是不是null，如果是null,直接插入，判断长度是不是大于7                                     </span><br><span class="line">                if ((e = p.next) == null) &#123;    </span><br><span class="line">                        //这里的插入是在链表的尾部插入，解决了1.7头部插入多线程的情况下 形成环形循环的问题                                  </span><br><span class="line">                    p.next = newNode(hash, key, value, null);                            </span><br><span class="line">                    if (binCount &gt;= TREEIFY_THRESHOLD - 1)                     </span><br><span class="line">                         //转红黑树，</span><br><span class="line">                        treeifyBin(tab, hash);                                           </span><br><span class="line">                    break;                                                               </span><br><span class="line">                &#125;                                                        </span><br><span class="line">                if (e.hash == hash &amp;&amp;                                                    </span><br><span class="line">                    ((k = e.key) == key || (key != null &amp;&amp; key.equals(k))))              </span><br><span class="line">                    break;      </span><br><span class="line">                //更新p指向下一个节点，继续遍历                                                         </span><br><span class="line">                p = e;                                                                   </span><br><span class="line">            &#125;                                                                            </span><br><span class="line">        &#125;     </span><br><span class="line">        //如果e不是空，说明存在这个映射                                                                          </span><br><span class="line">        if (e != null) &#123; </span><br><span class="line">            //替换新的vlaue                                 </span><br><span class="line">            V oldValue = e.value;                                                        </span><br><span class="line">            if (!onlyIfAbsent || oldValue == null)                                       </span><br><span class="line">                e.value = value;  </span><br><span class="line">            //替换旧值时会调用的方法（默认实现为空）                                                       </span><br><span class="line">            afterNodeAccess(e);                                                          </span><br><span class="line">            return oldValue;                                                             </span><br><span class="line">        &#125;                                                                                </span><br><span class="line">    &#125;           </span><br><span class="line">    //计算长度                                                                         </span><br><span class="line">    ++modCount;    </span><br><span class="line">    //判断是否需要扩容 这里的扩容有问题，应该提到头部，判断完初始化的扩容后，就判断是不是需要扩容，要不容易形成的扩完容以后这个map就没人使用                                                             </span><br><span class="line">    if (++size &gt; threshold)                                                              </span><br><span class="line">        resize();    </span><br><span class="line">    //这里的的默认也为空                                                                    </span><br><span class="line">    afterNodeInsertion(evict);                                                           </span><br><span class="line">    return null;                                                                         </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> //存放树节点</span><br><span class="line"> //歪日，我不是特别明白红黑树的这个东西，先记录</span><br><span class="line">  final TreeNode&lt;K,V&gt; putTreeVal(HashMap&lt;K,V&gt; map, Node&lt;K,V&gt;[] tab,          </span><br><span class="line">                                 int h, K k, V v) &#123;                          </span><br><span class="line">      Class&lt;?&gt; kc = null;                                                    </span><br><span class="line">      boolean searched = false;                                              </span><br><span class="line">      TreeNode&lt;K,V&gt; root = (parent != null) ? root() : this;</span><br><span class="line">      //循环树节点                 </span><br><span class="line">      for (TreeNode&lt;K,V&gt; p = root;;) &#123;                                       </span><br><span class="line">          int dir, ph; K pk;                                                 </span><br><span class="line">          if ((ph = p.hash) &gt; h)                                             </span><br><span class="line">              dir = -1;                                                      </span><br><span class="line">          else if (ph &lt; h)                                                   </span><br><span class="line">              dir = 1;                                                       </span><br><span class="line">          else if ((pk = p.key) == k || (k != null &amp;&amp; k.equals(pk)))         </span><br><span class="line">              return p;                                                      </span><br><span class="line">          else if ((kc == null &amp;&amp;                                            </span><br><span class="line">                    (kc = comparableClassFor(k)) == null) ||                 </span><br><span class="line">                   (dir = compareComparables(kc, k, pk)) == 0) &#123;             </span><br><span class="line">              if (!searched) &#123;                                               </span><br><span class="line">                  TreeNode&lt;K,V&gt; q, ch;                                       </span><br><span class="line">                  searched = true;                                           </span><br><span class="line">                  if (((ch = p.left) != null &amp;&amp;                              </span><br><span class="line">                       (q = ch.find(h, k, kc)) != null) ||                   </span><br><span class="line">                      ((ch = p.right) != null &amp;&amp;                             </span><br><span class="line">                       (q = ch.find(h, k, kc)) != null))                     </span><br><span class="line">                      return q;                                              </span><br><span class="line">              &#125;                                                              </span><br><span class="line">              dir = tieBreakOrder(k, pk);                                    </span><br><span class="line">          &#125;                                                                  </span><br><span class="line">                                                                             </span><br><span class="line">          TreeNode&lt;K,V&gt; xp = p;                                              </span><br><span class="line">          if ((p = (dir &lt;= 0) ? p.left : p.right) == null) &#123;                 </span><br><span class="line">              Node&lt;K,V&gt; xpn = xp.next;                                       </span><br><span class="line">              TreeNode&lt;K,V&gt; x = map.newTreeNode(h, k, v, xpn);               </span><br><span class="line">              if (dir &lt;= 0)                                                  </span><br><span class="line">                  xp.left = x;                                               </span><br><span class="line">              else                                                           </span><br><span class="line">                  xp.right = x;                                              </span><br><span class="line">              xp.next = x;                                                   </span><br><span class="line">              x.parent = x.prev = xp;                                        </span><br><span class="line">              if (xpn != null)                                               </span><br><span class="line">                  ((TreeNode&lt;K,V&gt;)xpn).prev = x;                             </span><br><span class="line">              moveRootToFront(tab, balanceInsertion(root, x));               </span><br><span class="line">              return null;                                                   </span><br><span class="line">          &#125;                                                                  </span><br><span class="line">      &#125;                                                                      </span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<h2 id="7-扩容"><a href="#7-扩容" class="headerlink" title="7.扩容"></a>7.扩容</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">//扩容</span><br><span class="line">//这里有2种情况，1.初始化哈希表 2.当前数组容量过小，需扩容</span><br><span class="line">final Node&lt;K,V&gt;[] resize() &#123;   </span><br><span class="line">    // 把当前table 赋值给oldTba                                                                                           </span><br><span class="line">    Node&lt;K,V&gt;[] oldTab = table;                                                                                           </span><br><span class="line">    int oldCap = (oldTab == null) ? 0 : oldTab.length;                                                                    </span><br><span class="line">    int oldThr = threshold;                                                                                               </span><br><span class="line">    int newCap, newThr = 0; </span><br><span class="line">    //如果扩容前的长度大于0                                                                                              </span><br><span class="line">    if (oldCap &gt; 0) &#123;         </span><br><span class="line">            //这里针对情况2 判断这个值是不是大于最大值                                                                                            </span><br><span class="line">        if (oldCap &gt;= MAXIMUM_CAPACITY) &#123;    </span><br><span class="line">            //如果是最大值，那么久把Interger的值赋值过去                                                                             </span><br><span class="line">            threshold = Integer.MAX_VALUE;                                                                                </span><br><span class="line">            return oldTab;                                                                                                </span><br><span class="line">        &#125;                 </span><br><span class="line">        //这里针对情况2 若无超过最大值，就扩充为原来的2倍                                                                                                </span><br><span class="line">        else if ((newCap = oldCap &lt;&lt; 1) &lt; MAXIMUM_CAPACITY &amp;&amp;                                                             </span><br><span class="line">                 oldCap &gt;= DEFAULT_INITIAL_CAPACITY)                                                                      </span><br><span class="line">            newThr = oldThr &lt;&lt; 1;                                                                    </span><br><span class="line">    &#125;     </span><br><span class="line">   // 针对情况1：初始化哈希表采用初始化指定值或者默认值的方式                                                                                                            </span><br><span class="line">    else if (oldThr &gt; 0)</span><br><span class="line">        newCap = oldThr;                                                                                                  </span><br><span class="line">    else &#123;                                               </span><br><span class="line">        newCap = DEFAULT_INITIAL_CAPACITY;                                                                                </span><br><span class="line">        newThr = (int)(DEFAULT_LOAD_FACTOR * DEFAULT_INITIAL_CAPACITY);                                                   </span><br><span class="line">    &#125;     </span><br><span class="line">  //这里重新计算新的桶的长度的上限                                                                                                                </span><br><span class="line">    if (newThr == 0) &#123;                                                                                                    </span><br><span class="line">        float ft = (float)newCap * loadFactor;                                                                            </span><br><span class="line">        newThr = (newCap &lt; MAXIMUM_CAPACITY &amp;&amp; ft &lt; (float)MAXIMUM_CAPACITY ? (int)ft : Integer.MAX_VALUE);                                                                           </span><br><span class="line">    &#125;                                                                                                                     </span><br><span class="line">    threshold = newThr;              </span><br><span class="line">                                                                                         </span><br><span class="line">    @SuppressWarnings(&#123;&quot;rawtypes&quot;,&quot;unchecked&quot;&#125;)                                                                           </span><br><span class="line">    Node&lt;K,V&gt;[] newTab = (Node&lt;K,V&gt;[])new Node[newCap];                                                                   </span><br><span class="line">    table = newTab;                 </span><br><span class="line">    //如果扩容前的值不是null                                                                                      </span><br><span class="line">    if (oldTab != null) &#123;      </span><br><span class="line">        //循环放入新的桶中                                                                                           </span><br><span class="line">        for (int j = 0; j &lt; oldCap; ++j) &#123;                                                                                </span><br><span class="line">            Node&lt;K,V&gt; e;       </span><br><span class="line">            //把 索引为j的节点赋值给e                                                                                           </span><br><span class="line">            if ((e = oldTab[j]) != null) &#123;                                                                                </span><br><span class="line">                oldTab[j] = null;     </span><br><span class="line">                //如果e的下一个节点为空                                                                                  </span><br><span class="line">                if (e.next == null) </span><br><span class="line">                    //直接创建新的节点， e.hash&amp;新的长度-1                                                                                      </span><br><span class="line">                    newTab[e.hash &amp; (newCap - 1)] = e;</span><br><span class="line">                    //这里还是优先判断了是不是树结构                                                                    </span><br><span class="line">                else if (e instanceof TreeNode)                                                                           </span><br><span class="line">                    ((TreeNode&lt;K,V&gt;)e).split(this, newTab, j, oldCap);              </span><br><span class="line">                //链表优化逻辑                                          </span><br><span class="line">                else &#123;                                                                    </span><br><span class="line">                    Node&lt;K,V&gt; loHead = null, loTail = null;                                                               </span><br><span class="line">                    Node&lt;K,V&gt; hiHead = null, hiTail = null;                                                               </span><br><span class="line">                    Node&lt;K,V&gt; next;                                                                                       </span><br><span class="line">                    do &#123;                                                                                           </span><br><span class="line">                        next = e.next;   </span><br><span class="line">                        //原来的索引                                                       </span><br><span class="line">                        if ((e.hash &amp; oldCap) == 0) &#123;                                                                     </span><br><span class="line">                            if (loTail == null)                                                                           </span><br><span class="line">                                loHead = e;                                                                               </span><br><span class="line">                            else                                                                                          </span><br><span class="line">                                loTail.next = e;                                                                          </span><br><span class="line">                            loTail = e;                                                                                   </span><br><span class="line">                        &#125;   </span><br><span class="line">                          // 原索引 + oldCap                                                                                              </span><br><span class="line">                        else &#123;                                                                                            </span><br><span class="line">                            if (hiTail == null)                                                                           </span><br><span class="line">                                hiHead = e;                                                                               </span><br><span class="line">                            else                                                                                          </span><br><span class="line">                                hiTail.next = e;                                                                          </span><br><span class="line">                            hiTail = e;                                                                                   </span><br><span class="line">                        &#125;                                                                                                 </span><br><span class="line">                    &#125; while ((e = next) != null);   </span><br><span class="line">                    // 原索引放到bucket里                                                                      </span><br><span class="line">                    if (loTail != null) &#123;                                                                                 </span><br><span class="line">                        loTail.next = null;                                                                               </span><br><span class="line">                        newTab[j] = loHead;                                                                               </span><br><span class="line">                    &#125;      </span><br><span class="line">                    // 原索引+oldCap放到bucket里                                                                                              </span><br><span class="line">                    if (hiTail != null) &#123;                                                                                 </span><br><span class="line">                        hiTail.next = null;                                                                               </span><br><span class="line">                        newTab[j + oldCap] = hiHead;                                                                      </span><br><span class="line">                    &#125;                                                                                                     </span><br><span class="line">                &#125;                                                                                                         </span><br><span class="line">            &#125;                                                                                                             </span><br><span class="line">        &#125;                                                                                                                 </span><br><span class="line">    &#125;                                                                                                                     </span><br><span class="line">    return newTab;                                                                                                        </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="8-get"><a href="#8-get" class="headerlink" title="8.get"></a>8.get</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">//get key</span><br><span class="line"> public V get(Object key) &#123;                                           </span><br><span class="line">     Node&lt;K,V&gt; e;                                                     </span><br><span class="line">     return (e = getNode(hash(key), key)) == null ? null : e.value;   </span><br><span class="line"> &#125;         </span><br><span class="line"> </span><br><span class="line">  final Node&lt;K,V&gt; getNode(int hash, Object key) &#123;                              </span><br><span class="line">     Node&lt;K,V&gt;[] tab; Node&lt;K,V&gt; first, e; int n; K k;    </span><br><span class="line">     //计算存放在数组table中的位置          </span><br><span class="line">     if ((tab = table) != null &amp;&amp; (n = tab.length) &gt; 0 &amp;&amp;                     </span><br><span class="line">         (first = tab[(n - 1) &amp; hash]) != null) &#123;  </span><br><span class="line">         //依次在数组、红黑树、链表中查找（通过equals（）判断） </span><br><span class="line">         //1.先在数组中找，若存在，则直接返回                          </span><br><span class="line">         if (first.hash == hash &amp;&amp; ((k = first.key) == key || (key != null &amp;&amp; key.equals(k))))      </span><br><span class="line">             return first; </span><br><span class="line">                                                           </span><br><span class="line">         if ((e = first.next) != null) &#123; </span><br><span class="line">            //2.如果数组里没有获取树节点 直接从树里边拿                                     </span><br><span class="line">             if (first instanceof TreeNode)                                   </span><br><span class="line">                 return ((TreeNode&lt;K,V&gt;)first).getTreeNode(hash, key);        </span><br><span class="line">            //3.在连表里循环查找</span><br><span class="line">             do &#123;                                                             </span><br><span class="line">                 if (e.hash == hash &amp;&amp;                                        </span><br><span class="line">                     ((k = e.key) == key || (key != null &amp;&amp; key.equals(k))))  </span><br><span class="line">                     return e;                                                </span><br><span class="line">             &#125; while ((e = e.next) != null);                                  </span><br><span class="line">         &#125;                                                                    </span><br><span class="line">     &#125;                                                                        </span><br><span class="line">     return null;                                                             </span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<h2 id="9-hashMap的总结以及存在的问题"><a href="#9-hashMap的总结以及存在的问题" class="headerlink" title="9 hashMap的总结以及存在的问题"></a>9 hashMap的总结以及存在的问题</h2><h3 id="1-为什么hashMap的长度为2的次幂"><a href="#1-为什么hashMap的长度为2的次幂" class="headerlink" title="1.为什么hashMap的长度为2的次幂"></a>1.为什么hashMap的长度为2的次幂</h3><p>一句话来说HashMap的长度为2的幂次方的原因是为了减少Hash碰撞，尽量使Hash算法的结果均匀分布。<br>因为2的次幂的Length - 1的值的二进制所有的位均为1，这种情况下，Index的结果等于hashCode的最后几位，所以输入的hashCode本身符合均匀分布，Hash算法的结果就是均匀的。</p>
+<h3 id="2-为什么不用hash码作为数组的下标"><a href="#2-为什么不用hash码作为数组的下标" class="headerlink" title="2.为什么不用hash码作为数组的下标"></a>2.为什么不用hash码作为数组的下标</h3><p> 1.可能长度不够,也就是说算出来的hash可能不在数组的大小范围内，导致无法存储<br> 2.hashMap可能用不到这么大的空间</p>
+<h3 id="3-为什么生成hash值要做2次扰动操作（一次位移，一次异或）"><a href="#3-为什么生成hash值要做2次扰动操作（一次位移，一次异或）" class="headerlink" title="3.为什么生成hash值要做2次扰动操作（一次位移，一次异或）"></a>3.为什么生成hash值要做2次扰动操作（一次位移，一次异或）</h3><p>一句话来说就是为了减少hash的冲突，使其hash值均匀分布</p>
+<h3 id="4-为什么计算数组下标的时候还要做一次扰动"><a href="#4-为什么计算数组下标的时候还要做一次扰动" class="headerlink" title="4.为什么计算数组下标的时候还要做一次扰动"></a>4.为什么计算数组下标的时候还要做一次扰动</h3><p> 加大哈希码低位的随机性，使得分布更均匀，从而提高对应数组存储下标位置的随机性 &amp; 均匀性，最终减少Hash冲突说就是为了减少hash的冲突，使其hash值均匀分布 </p>
+<h3 id="5-多线程下的问题"><a href="#5-多线程下的问题" class="headerlink" title="5. 多线程下的问题"></a>5. 多线程下的问题</h3><p>1.8的修改了1.7头部插入的方式，所以不会出现环形链表的形式</p>
+<p>​                                                                     </p>
+<p>​    </p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.cmlanche.com/2019/07/19/ThreadPool相关整理/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="cmlanche">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="https://avatars3.githubusercontent.com/u/5886757?v=4&s=400&u=c3fdc83b9817d98d87ed84c8e768855fd628c745">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cmlanche">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/07/19/ThreadPool相关整理/" itemprop="url">ThreadPool相关整理</a></h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-19T09:57:25+08:00">
+                2019-07-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/小胖出品/" itemprop="url" rel="index">
+                    <span itemprop="name">小胖出品</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2019/07/19/ThreadPool相关整理/" class="leancloud_visitors" data-flag-title="ThreadPool相关整理">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  1,952 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  9 分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="ThreadPool相关"><a href="#ThreadPool相关" class="headerlink" title="ThreadPool相关"></a>ThreadPool相关</h1><p>如类图<br><img src="https://cmlanche-1251406926.cos.ap-guangzhou.myqcloud.com/blog/tnu2q.png?x-oss-process=style/logomark" alt="image-20190719095600612"><br>ThreaPoolExecutor继承了AbstractExecutorService<br>AbstractExecutorService 实现了ExecutorService接口</p>
+<p>##重要参数<br>    1.AtomicInteger ctl = new AtomicInteger(ctlOf(RUNNING, 0)); 线程状态<br>    2.COUNT_BITS =  Integer.SIZE - 3 线程个数掩码位数<br>    3.CAPACITY =(1 &lt;&lt; COUNT_BITS) - 1;线程最大个数<br>    4.workQueue 工作队列<br>    5.ReentrantLock<br>    6.Condition termination 持有锁的某个节点<br>    7.HashSet<worker> workers 任务集合<br>    8.RejectedExecutionHandler handler 拒绝策略<br>    9.long keepAliveTime 空闲线程的存活时间<br>    10.corePoolSize 核心线程数<br>    11.volatile maximumPoolSize 最大线程数</worker></p>
+<p>​    </p>
+<p>##状态变化<br>    running -&gt;shown 显式的调用showdown方法，或者隐式的调用finalize（这里会执行showdown）<br>    running -&gt;stop 显式的调用shutdownNow方法。<br>    showdown-&gt;stop 显式调用 shutdownNow方法<br>    shutdown-&gt;tidying 线程池和任务队列都为空的情况<br>    stop-&gt;tidying   当线程池都为空的时候<br>    tidying-&gt;terminated   当 terminated() 钩子方法执行完成时候。</p>
+<p>##方法解析</p>
+<h4 id="execute-方法"><a href="#execute-方法" class="headerlink" title="execute 方法"></a>execute 方法</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">execute</span><span class="params">(Runnable command)</span> </span>&#123;</span><br><span class="line">       <span class="comment">//如果是null直接抛出异常</span></span><br><span class="line">       <span class="keyword">if</span> (command == <span class="keyword">null</span>)</span><br><span class="line">           <span class="keyword">throw</span> <span class="keyword">new</span> NullPointerException();</span><br><span class="line">       <span class="comment">//获取状态然后计算线程数。是不是小于核心线程数</span></span><br><span class="line">       <span class="keyword">int</span> c = ctl.get();</span><br><span class="line">       <span class="keyword">if</span> (workerCountOf(c) &lt; corePoolSize) &#123;</span><br><span class="line">           <span class="comment">//直接添加。这里执行addWorker方法 传入了command,和true 。添加成功后直接返回</span></span><br><span class="line">           <span class="keyword">if</span> (addWorker(command, <span class="keyword">true</span>))</span><br><span class="line">               <span class="keyword">return</span>;</span><br><span class="line">           c = ctl.get();</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="comment">//检查是不是运行并且队列放入成功</span></span><br><span class="line">       <span class="keyword">if</span> (isRunning(c) &amp;&amp; workQueue.offer(command)) &#123;</span><br><span class="line">           <span class="comment">//再次获取线程的状态</span></span><br><span class="line">           <span class="keyword">int</span> recheck = ctl.get();</span><br><span class="line">           <span class="comment">//如果不是运行状态那就删除任务</span></span><br><span class="line">           <span class="keyword">if</span> (! isRunning(recheck) &amp;&amp; remove(command))</span><br><span class="line">               <span class="comment">//执行拒绝策略</span></span><br><span class="line">               reject(command);</span><br><span class="line">           <span class="comment">//如果当前线程池线程空，则添加一个线程</span></span><br><span class="line">           <span class="keyword">else</span> <span class="keyword">if</span> (workerCountOf(recheck) == <span class="number">0</span>)</span><br><span class="line">               <span class="comment">//这里就直接返回fasel了，为了保证core线程数</span></span><br><span class="line">               addWorker(<span class="keyword">null</span>, <span class="keyword">false</span>);</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="comment">//如果队列满了，新增线程，如果失败执行拒绝策略</span></span><br><span class="line">       <span class="keyword">else</span> <span class="keyword">if</span> (!addWorker(command, <span class="keyword">false</span>))</span><br><span class="line">           reject(command);</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<h5 id="reject"><a href="#reject" class="headerlink" title="reject"></a>reject</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//拒绝策略 默认的是 AbortPolicy 当线程中线程都在跑，并且队列满了的话，直接丢弃任务并抛出</span></span><br><span class="line"><span class="function"><span class="keyword">final</span> <span class="keyword">void</span> <span class="title">reject</span><span class="params">(Runnable command)</span> </span>&#123;</span><br><span class="line">        handler.rejectedExecution(command, <span class="keyword">this</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="addWorker方法"><a href="#addWorker方法" class="headerlink" title="addWorker方法"></a>addWorker方法</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="number">1</span>.firstTask 第一个任务</span><br><span class="line"><span class="number">2</span>.core是否核心线程执行</span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">boolean</span> <span class="title">addWorker</span><span class="params">(Runnable firstTask, <span class="keyword">boolean</span> core)</span> </span>&#123;</span><br><span class="line">        retry:</span><br><span class="line">        <span class="keyword">for</span> (;;) &#123;</span><br><span class="line">            <span class="keyword">int</span> c = ctl.get();</span><br><span class="line">            <span class="keyword">int</span> rs = runStateOf(c);</span><br><span class="line">            <span class="comment">//检查这个队列是不是为null</span></span><br><span class="line">            <span class="comment">//1 线程池运行状态是停止,或者是中断状态 会返回false</span></span><br><span class="line">            <span class="comment">//2 第一个任务是null ，3，检查队列是不是null</span></span><br><span class="line">            <span class="keyword">if</span> (rs &gt;= SHUTDOWN &amp;&amp;</span><br><span class="line">                ! (rs == SHUTDOWN &amp;&amp;</span><br><span class="line">                   firstTask == <span class="keyword">null</span> &amp;&amp;</span><br><span class="line">                   ! workQueue.isEmpty()))</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">            <span class="keyword">for</span> (;;) &#123;</span><br><span class="line">                <span class="comment">//获取工作线程个数</span></span><br><span class="line">                <span class="keyword">int</span> wc = workerCountOf(c);</span><br><span class="line">                <span class="comment">//工作线程是否大于最大线程数，或者大于核心线程数，返回false</span></span><br><span class="line">                <span class="keyword">if</span> (wc &gt;= CAPACITY ||</span><br><span class="line">                    wc &gt;= (core ? corePoolSize :maximumPoolSize))</span><br><span class="line">                    <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">                <span class="comment">//cas 设置设置工作线程数</span></span><br><span class="line">                <span class="keyword">if</span> (compareAndIncrementWorkerCount(c))</span><br><span class="line">                    <span class="keyword">break</span> retry;</span><br><span class="line">                <span class="comment">//获取运行状态，然后终止当前循环</span></span><br><span class="line">                c = ctl.get();</span><br><span class="line">                <span class="keyword">if</span> (runStateOf(c) != rs)</span><br><span class="line">                    <span class="keyword">continue</span> retry;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//到这里说明cas设置工作线程数成功</span></span><br><span class="line">        <span class="comment">//workerStarted 是否启动。workerAdded 是否添加成功</span></span><br><span class="line">        <span class="keyword">boolean</span> workerStarted = <span class="keyword">false</span>;</span><br><span class="line">        <span class="keyword">boolean</span> workerAdded = <span class="keyword">false</span>;</span><br><span class="line">        Worker w = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">//新建一个工作任务</span></span><br><span class="line">            w = <span class="keyword">new</span> Worker(firstTask);</span><br><span class="line">            <span class="keyword">final</span> Thread t = w.thread;</span><br><span class="line">            <span class="keyword">if</span> (t != <span class="keyword">null</span>) &#123;</span><br><span class="line">                <span class="comment">//加锁，因为可能有多个线程来执行addWorker</span></span><br><span class="line">                <span class="keyword">final</span> ReentrantLock mainLock = <span class="keyword">this</span>.mainLock;</span><br><span class="line">                mainLock.lock();</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    <span class="comment">//获取线程池运行状态</span></span><br><span class="line">                    <span class="keyword">int</span> rs = runStateOf(ctl.get());</span><br><span class="line">                    <span class="comment">//检查线程池运行状态是否停止，或者任务是null</span></span><br><span class="line">                    <span class="keyword">if</span> (rs &lt; SHUTDOWN ||</span><br><span class="line">                        (rs == SHUTDOWN &amp;&amp; firstTask == <span class="keyword">null</span>)) &#123;                <span class="comment">//如果t是存活的 那么久抛出异常</span></span><br><span class="line">                        <span class="keyword">if</span> (t.isAlive())                             <span class="keyword">throw</span> <span class="keyword">new</span> IllegalThreadStateException();</span><br><span class="line">                        <span class="comment">//set集合添加工作任务</span></span><br><span class="line">                        workers.add(w);</span><br><span class="line">                        <span class="comment">//获取集合的的长度</span></span><br><span class="line">                        <span class="keyword">int</span> s = workers.size();</span><br><span class="line">                        <span class="comment">//集合长度大于最大的长度</span></span><br><span class="line">                        <span class="keyword">if</span> (s &gt; largestPoolSize)</span><br><span class="line">                            largestPoolSize = s;</span><br><span class="line">                        <span class="comment">//这里添加成功</span></span><br><span class="line">                        workerAdded = <span class="keyword">true</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">                    <span class="comment">//释放锁</span></span><br><span class="line">                    mainLock.unlock();</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="comment">//添加成功后启动</span></span><br><span class="line">                <span class="keyword">if</span> (workerAdded) &#123;</span><br><span class="line">                    t.start();</span><br><span class="line">                    <span class="comment">//启动成功</span></span><br><span class="line">                    workerStarted = <span class="keyword">true</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            <span class="comment">//如果任务是null,或者状态是停止，那么久走添加失败</span></span><br><span class="line">            <span class="keyword">if</span> (! workerStarted)</span><br><span class="line">                <span class="comment">//任务添加失败</span></span><br><span class="line">                addWorkerFailed(w);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> workerStarted;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h4 id="addWorkerFailed-方法"><a href="#addWorkerFailed-方法" class="headerlink" title="addWorkerFailed 方法"></a>addWorkerFailed 方法</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//任务添加失败 ，参数 工作任务</span></span><br><span class="line"> <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">addWorkerFailed</span><span class="params">(Worker w)</span> </span>&#123;</span><br><span class="line">    <span class="comment">//可能有多个线程在执行</span></span><br><span class="line">    <span class="keyword">final</span> ReentrantLock mainLock = <span class="keyword">this</span>.mainLock;</span><br><span class="line">    mainLock.lock();</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="comment">//如果不是null</span></span><br><span class="line">        <span class="keyword">if</span> (w != <span class="keyword">null</span>)</span><br><span class="line">            <span class="comment">//集合删除任务</span></span><br><span class="line">            workers.remove(w);</span><br><span class="line">        <span class="comment">//删除线程数</span></span><br><span class="line">        decrementWorkerCount();</span><br><span class="line">        <span class="comment">//尝试终止</span></span><br><span class="line">        tryTerminate();</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        mainLock.unlock();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="runWorker-执行任务"><a href="#runWorker-执行任务" class="headerlink" title="runWorker 执行任务"></a>runWorker 执行任务</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//添加工作任务，参数Worker</span></span><br><span class="line"> <span class="function"><span class="keyword">final</span> <span class="keyword">void</span> <span class="title">runWorker</span><span class="params">(Worker w)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//获取当前线程</span></span><br><span class="line">        Thread wt = Thread.currentThread();</span><br><span class="line">        Runnable task = w.firstTask;</span><br><span class="line">        <span class="comment">//赋值为null</span></span><br><span class="line">        w.firstTask = <span class="keyword">null</span>;</span><br><span class="line">        <span class="comment">//释放锁。如果此时线程池的状态要是showdown那么要停止线程</span></span><br><span class="line">        w.unlock(); </span><br><span class="line">        <span class="keyword">boolean</span> completedAbruptly = <span class="keyword">true</span>;</span><br><span class="line">        <span class="comment">//这里如果发生异常，直接走finally，processWorkerExit传入的参数就是w，和true</span></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">//如果task不是null,或者task = getTask()不等于null</span></span><br><span class="line">            <span class="keyword">while</span> (task != <span class="keyword">null</span> || (task = getTask()) != <span class="keyword">null</span>) &#123;</span><br><span class="line">                <span class="comment">//加锁</span></span><br><span class="line">                w.lock();</span><br><span class="line">                <span class="comment">//如果是stop状态。或者中断</span></span><br><span class="line">               <span class="keyword">if</span> ((runStateAtLeast(ctl.get(), STOP) ||</span><br><span class="line">                     (Thread.interrupted() &amp;&amp;</span><br><span class="line">                      runStateAtLeast(ctl.get(), STOP))) &amp;&amp; !wt.isInterrupted())</span><br><span class="line">                    <span class="comment">//打断线程</span></span><br><span class="line">                    wt.interrupt();</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    <span class="comment">//beforeExecute 这个是个空的方法</span></span><br><span class="line">                    beforeExecute(wt, task);</span><br><span class="line">                    Throwable thrown = <span class="keyword">null</span>;</span><br><span class="line">                    <span class="keyword">try</span> &#123;</span><br><span class="line">                        task.run();</span><br><span class="line">                    &#125; <span class="keyword">catch</span> (RuntimeException x) &#123;</span><br><span class="line">                        thrown = x; <span class="keyword">throw</span> x;</span><br><span class="line">                    &#125; <span class="keyword">catch</span> (Error x) &#123;</span><br><span class="line">                        thrown = x; <span class="keyword">throw</span> x;</span><br><span class="line">                    &#125; <span class="keyword">catch</span> (Throwable x) &#123;</span><br><span class="line">                        thrown = x; <span class="keyword">throw</span> <span class="keyword">new</span> Error(x);</span><br><span class="line">                    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">                        <span class="comment">//afterExecute 这个是个空的方法</span></span><br><span class="line">                        afterExecute(task, thrown);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">                    task = <span class="keyword">null</span>;</span><br><span class="line">                    <span class="comment">//任务技术器增加</span></span><br><span class="line">                    w.completedTasks++;</span><br><span class="line">                    <span class="comment">//释放锁</span></span><br><span class="line">                    w.unlock();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            completedAbruptly = <span class="keyword">false</span>;</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            <span class="comment">//清理线程任务</span></span><br><span class="line">            processWorkerExit(w, completedAbruptly);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h5 id="processWorkerExit清理工作"><a href="#processWorkerExit清理工作" class="headerlink" title="processWorkerExit清理工作"></a>processWorkerExit清理工作</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//2个参数，Worker 工作对象，completedAbruptly</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">processWorkerExit</span><span class="params">(Worker w, <span class="keyword">boolean</span> completedAbruptly)</span> </span>&#123;</span><br><span class="line">    <span class="comment">//如果是true，说明执行任务发生异常，减少工作任务计数器</span></span><br><span class="line">    <span class="keyword">if</span> (completedAbruptly)  </span><br><span class="line">         decrementWorkerCount();</span><br><span class="line">    <span class="keyword">final</span> ReentrantLock mainLock = <span class="keyword">this</span>.mainLock;</span><br><span class="line">    mainLock.lock();</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        completedTaskCount += w.completedTasks;</span><br><span class="line">        workers.remove(w);</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        mainLock.unlock();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//尝试终止</span></span><br><span class="line">    tryTerminate();</span><br><span class="line">    <span class="comment">//获取运行状态，</span></span><br><span class="line">    <span class="keyword">int</span> c = ctl.get();</span><br><span class="line">    <span class="comment">//如果运行状态小于stop</span></span><br><span class="line">    <span class="keyword">if</span> (runStateLessThan(c, STOP)) &#123;</span><br><span class="line">        <span class="comment">//执行任务成功，</span></span><br><span class="line">        <span class="keyword">if</span> (!completedAbruptly) &#123;</span><br><span class="line">            <span class="comment">//根据allowCoreThreadTimeOut这个状态来获取值（allowCoreThreadTimeOut 默认是false,就是即使线程池空闲核心线程池也要保持活动状态，如果是true就用keepAliveTime 超时等待工作）</span></span><br><span class="line">            <span class="keyword">int</span> min = allowCoreThreadTimeOut ? <span class="number">0</span> : corePoolSize;</span><br><span class="line">            <span class="comment">//如果是tue,min=0，并且队列里有任务</span></span><br><span class="line">            <span class="keyword">if</span> (min == <span class="number">0</span> &amp;&amp; ! workQueue.isEmpty())</span><br><span class="line">                min = <span class="number">1</span>;</span><br><span class="line">            <span class="comment">//计算线程工作的数量，如果大于min直接返回</span></span><br><span class="line">            <span class="keyword">if</span> (workerCountOf(c) &gt;= min)</span><br><span class="line">                <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//添加一个空的任务，来保证core的数量</span></span><br><span class="line">        addWorker(<span class="keyword">null</span>, <span class="keyword">false</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>####shutdown 方法</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//关闭任务</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">shutdown</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">final</span> ReentrantLock mainLock = <span class="keyword">this</span>.mainLock;</span><br><span class="line">        mainLock.lock();</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">//这里检查权限</span></span><br><span class="line">            checkShutdownAccess();</span><br><span class="line">            <span class="comment">//设置线程池运行状态，设置成SHUTDOWN，成功后返回ture</span></span><br><span class="line">            advanceRunState(SHUTDOWN);</span><br><span class="line">            <span class="comment">//中断线程，如果是runing状态的等运行完成</span></span><br><span class="line">            interruptIdleWorkers();</span><br><span class="line">            onShutdown();</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            mainLock.unlock();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//尝试终止</span></span><br><span class="line">        tryTerminate();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>####shutdownnow 方法</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//立即结束</span></span><br><span class="line"> <span class="function"><span class="keyword">public</span> List&lt;Runnable&gt; <span class="title">shutdownNow</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        List&lt;Runnable&gt; tasks;</span><br><span class="line">        <span class="keyword">final</span> ReentrantLock mainLock = <span class="keyword">this</span>.mainLock;</span><br><span class="line">        mainLock.lock();</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">//检查权限</span></span><br><span class="line">            checkShutdownAccess();</span><br><span class="line">            <span class="comment">//设置状态为stop</span></span><br><span class="line">            advanceRunState(STOP);</span><br><span class="line">            <span class="comment">//不管线程是不是运行，直接中断</span></span><br><span class="line">            interruptWorkers();</span><br><span class="line">            <span class="comment">//把任务循环放进list中</span></span><br><span class="line">            tasks = drainQueue();</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            mainLock.unlock();</span><br><span class="line">        &#125;</span><br><span class="line">        tryTerminate();</span><br><span class="line">        <span class="keyword">return</span> tasks;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">interruptWorkers</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">final</span> ReentrantLock mainLock = <span class="keyword">this</span>.mainLock;</span><br><span class="line">        mainLock.lock();</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">for</span> (Worker w : workers)</span><br><span class="line">                  <span class="comment">//直接中断</span></span><br><span class="line">                w.interruptIfStarted();</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            mainLock.unlock();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h4 id="checkShutdownAccess"><a href="#checkShutdownAccess" class="headerlink" title="checkShutdownAccess"></a>checkShutdownAccess</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//检查有没有终止权限</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">checkShutdownAccess</span><span class="params">()</span> </span>&#123;    </span><br><span class="line">            <span class="comment">//获取权限认证</span></span><br><span class="line">        SecurityManager security = System.getSecurityManager();</span><br><span class="line">        <span class="comment">//如果不是null</span></span><br><span class="line">        <span class="keyword">if</span> (security != <span class="keyword">null</span>) &#123;</span><br><span class="line">            security.checkPermission(shutdownPerm);</span><br><span class="line">            <span class="keyword">final</span> ReentrantLock mainLock = <span class="keyword">this</span>.mainLock;</span><br><span class="line">            mainLock.lock();</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                <span class="keyword">for</span> (Worker w : workers)</span><br><span class="line">                    <span class="comment">//检查访问权限</span></span><br><span class="line">                    security.checkAccess(w.thread);</span><br><span class="line">            &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">                mainLock.unlock();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>####tryTerminate<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//尝试终止</span></span><br><span class="line"><span class="function"><span class="keyword">final</span> <span class="keyword">void</span> <span class="title">tryTerminate</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (;;) &#123;</span><br><span class="line">            <span class="keyword">int</span> c = ctl.get();</span><br><span class="line">            <span class="comment">//检查状态，是不是满足终止状态的条件，如果不满足就返回</span></span><br><span class="line">            <span class="keyword">if</span> (isRunning(c) ||</span><br><span class="line">                runStateAtLeast(c, TIDYING) ||</span><br><span class="line">                (runStateOf(c) == SHUTDOWN &amp;&amp; ! workQueue.isEmpty()))</span><br><span class="line">                <span class="keyword">return</span>;</span><br><span class="line">                </span><br><span class="line">            <span class="comment">//如果线程工作线程不是0，那么久中断正在等待任务的线程然后返回</span></span><br><span class="line">            <span class="keyword">if</span> (workerCountOf(c) != <span class="number">0</span>)&#123;</span><br><span class="line">               interruptIdleWorkers(ONLY_ONE);</span><br><span class="line">                <span class="keyword">return</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">final</span> ReentrantLock mainLock = <span class="keyword">this</span>.mainLock;</span><br><span class="line">            mainLock.lock();</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                <span class="comment">//更新状态</span></span><br><span class="line">                <span class="keyword">if</span> (ctl.compareAndSet(c, ctlOf(TIDYING, <span class="number">0</span>))) &#123;</span><br><span class="line">                    <span class="keyword">try</span> &#123;</span><br><span class="line">                        terminated();</span><br><span class="line">                    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">                        <span class="comment">//更新成终止状态</span></span><br><span class="line">                        ctl.set(ctlOf(TERMINATED, <span class="number">0</span>));</span><br><span class="line">                        <span class="comment">//唤醒等待节点。</span></span><br><span class="line">                        termination.signalAll();</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="keyword">return</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">                mainLock.unlock();</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>##内部类Worker解析<br>首先先看一下类图<br><img src="https://cmlanche-1251406926.cos.ap-guangzhou.myqcloud.com/blog/eu65e.png?x-oss-process=style/logomark" alt="image-20190719095655850"><br>     Worker extends AbstractQueuedSynchronizer implements Runnable，worker继承了aqs 实现了runnbale的接口</p>
+<ol>
+<li>###内部类重要参数<br> 1.serialVersionUID emmm，这个是为了防止javac的警告<br> 2.final Thread thread 工作线程，由ThreadFactory传入，如果创建失败就传入个null<br> 3.Runnable firstTask 运行的第一任务，可能为null<br> 4.volatile long completedTasks 执行任务的数量</li>
+</ol>
+<p>####构造方法</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">//传进来了一个runnable</span><br><span class="line">Worker(Runnable firstTask) &#123;</span><br><span class="line">            setState(-1);</span><br><span class="line">            this.firstTask = firstTask;</span><br><span class="line">            this.thread </span><br><span class="line">            //用线程工厂来创建线程</span><br><span class="line">            =getThreadFactory().newThread(this);</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+<p>####重要方法</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//执行的方法</span></span><br><span class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  runWorker(<span class="keyword">this</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//中断线程，状态大于0，线程不是null.不是中断状态</span></span><br><span class="line"> <span class="function"><span class="keyword">void</span> <span class="title">interruptIfStarted</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            Thread t;</span><br><span class="line">            <span class="keyword">if</span> (getState() &gt;= <span class="number">0</span> &amp;&amp; (t = thread) != <span class="keyword">null</span> &amp;&amp; !t.isInterrupted()) &#123;</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    t.interrupt();</span><br><span class="line">                &#125; <span class="keyword">catch</span> (SecurityException ignore) &#123;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+<p>​    </p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.cmlanche.com/2019/07/19/类加载机制整理/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="cmlanche">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="https://avatars3.githubusercontent.com/u/5886757?v=4&s=400&u=c3fdc83b9817d98d87ed84c8e768855fd628c745">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cmlanche">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/07/19/类加载机制整理/" itemprop="url">类加载机制整理</a></h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-19T09:54:15+08:00">
+                2019-07-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/小胖出品/" itemprop="url" rel="index">
+                    <span itemprop="name">小胖出品</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2019/07/19/类加载机制整理/" class="leancloud_visitors" data-flag-title="类加载机制整理">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  1,370 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  6 分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="类加载相关"><a href="#类加载相关" class="headerlink" title="类加载相关"></a>类加载相关</h1><p>classLoader相关类的初始化 </p>
+<p>##加载流程</p>
+<h2 id="加载"><a href="#加载" class="headerlink" title="加载"></a>加载</h2><pre><code>待完善
+</code></pre><h2 id="连接"><a href="#连接" class="headerlink" title="连接"></a>连接</h2><pre><code>待完善
+</code></pre><p>##类的初始化<br>主要详解类的初始化。</p>
+<p>###可以初初始化的几种情况</p>
+<h4 id="主动使用"><a href="#主动使用" class="headerlink" title="主动使用"></a>主动使用</h4><pre><code>1.当使用new这个关键字实例化对象、读取或者设置一个类的静态字段，以及调用一个类的静态方法时会触发类的初始化(final 修饰的静态字段除外)。
+2.使用java.lang.reflect包的方法对类进行反射调用时，如果这个类还没有进行过初始化，则会触发该类的初始化。
+3.当初始化一个类的时候，如果其父类还没有进行过初始化，那么久先初始化其父类
+4.指定一个要执行的主类的时候(包含main()函数)
+5.jdk1.7开始提供了动态语言相关（invokedynamic 指令）
+</code></pre><h4 id="被动使用-不会初始化"><a href="#被动使用-不会初始化" class="headerlink" title="被动使用 不会初始化"></a>被动使用 不会初始化</h4><pre><code>1.通过数组定义应用类。
+2.子类引用父类的静态字段，是子类的被动使用不会初始化子类。
+3.static final修饰的常量(Random 这种运行时间才确定的值除外)。
+</code></pre><h4 id="主动使用几种情况"><a href="#主动使用几种情况" class="headerlink" title="主动使用几种情况"></a>主动使用几种情况</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">场景<span class="number">1</span>.new 关键字主动使用</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestOne</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    <span class="comment">//这里new 了一个 TestOneParent</span></span><br><span class="line">        TestOneParent testOneParent = <span class="keyword">new</span> TestOneParent();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TestOneParent</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> String s = <span class="string">"Hello word"</span>;</span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">"this  static  block"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">会发现在控制台输出<span class="string">"this  static  block"</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">场景<span class="number">2</span>. 使用反射的时候会主动初始化</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestFive</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        ClassLoader classLoader = ClassLoader.getSystemClassLoader();</span><br><span class="line">        Class clazz = classLoader.     loadClass(<span class="string">"com.jvm.classloader.relyclass.FiveTestClass"</span>);</span><br><span class="line">        System.out.println(clazz);</span><br><span class="line">        System.out.println(<span class="string">"-------"</span>);</span><br><span class="line">        clazz = Class.forName(<span class="string">"com.jvm.classloader.relyclass.FiveTestClass"</span>);</span><br><span class="line">        System.out.println(clazz.getName());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">FiveTestClass</span> </span>&#123;</span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">"hello word"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">输出</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">com</span>.<span class="title">jvm</span>.<span class="title">classloader</span>.<span class="title">relyclass</span>.<span class="title">FiveTestClass</span></span></span><br><span class="line"><span class="class">-------</span></span><br><span class="line"><span class="class"><span class="title">hello</span> <span class="title">word</span></span></span><br><span class="line"><span class="class"><span class="title">com</span>.<span class="title">jvm</span>.<span class="title">classloader</span>.<span class="title">relyclass</span>.<span class="title">FiveTestClass</span></span></span><br><span class="line"><span class="class"></span></span><br><span class="line"><span class="class">由此可见，<span class="title">ClassLoader</span>.<span class="title">loadClass</span> 不会使类进行初始化。<span class="title">loadClass</span>的方法只是把字节码对象加载到内存当中。</span></span><br><span class="line">而Class.forName("xxxx")会对类做初始化,我们来看下forName的方法</span><br><span class="line"> <span class="meta">@CallerSensitive</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Class&lt;?&gt; forName(String className)<span class="keyword">throws</span> ClassNotFoundException &#123;</span><br><span class="line">        Class&lt;?&gt; caller = Reflection.getCallerClass();</span><br><span class="line">        <span class="keyword">return</span> forName0(className, <span class="keyword">true</span>, ClassLoader.getClassLoader(caller), caller);</span><br><span class="line">    &#125;</span><br><span class="line">这个方法上的注释说 A call </span><br><span class="line">to &#123;<span class="meta">@code</span> forName(<span class="string">"X"</span>)&#125; causes the </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">named</span> </span>&#123;<span class="meta">@code</span> X&#125; to be initialized. 类名为x的类会被初始化,</span><br><span class="line">它调用的 <span class="keyword">native</span>方法。</span><br><span class="line">嗯，等我看看hotspot的时候再回来补充。</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="number">3</span>.使用子类的时候会主动初始化其父类。</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestOne</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        TestChild testChild  = <span class="keyword">new</span> TestChild();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TestOneParent</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> String s = <span class="string">"Hello word"</span>;</span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">"this  static  block"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TestChild</span> <span class="keyword">extends</span> <span class="title">TestOneParent</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> String skr = <span class="string">"skr"</span>;</span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">"child  one static  block"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">会发现 这样的输出</span><br><span class="line"><span class="keyword">this</span>  <span class="keyword">static</span>  block（这是父类的输出）</span><br><span class="line">child  one <span class="keyword">static</span>  block（这是子类的输出）</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="number">4</span>.指定一个要执行的主类的时候(包含main()函数)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test4</span> </span>&#123;</span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">"staci block"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"hello  test4"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code>5.非常遗憾，第五种情况我暂时还模拟不出来。
+</code></pre><h4 id="被动引用为什么不会初始化解析"><a href="#被动引用为什么不会初始化解析" class="headerlink" title="被动引用为什么不会初始化解析"></a>被动引用为什么不会初始化解析</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">    <span class="number">1</span>.通过数组定义应用类。我们来查看下代码</span><br><span class="line">    <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test5</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//1</span></span><br><span class="line">        String[] strings = <span class="keyword">new</span> String[<span class="number">10</span>];</span><br><span class="line">        <span class="comment">//2</span></span><br><span class="line">    System.out.println(strings.getClass());</span><br><span class="line">    &#125;</span><br><span class="line">    在<span class="number">1</span>.处定义了一个<span class="number">10</span>个长度的字符串数组,</span><br><span class="line">    然后在输出这个数组的class类型:class [Ljava.lang.String;</span><br><span class="line">    让我们来反编译一下这个类的字节码 执行以下Javap -v +xxx.class</span><br><span class="line">    ![-w1272](media/<span class="number">15601533760261</span>/<span class="number">15619025813654</span>.jpg)</span><br><span class="line">anewarray:是jvm中的指令,在运行时创建一个新的数组对象，创建一个引用类型的数组并将其压入栈顶。</span><br><span class="line">class  [L, [这个代表的是一维数组，L+java.lang.String.会发现其中的类型就是元素的类型</span><br><span class="line"></span><br><span class="line">咱们来看一下基本类型的数组是什么样结构的</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//1</span></span><br><span class="line">        <span class="keyword">int</span>[] ints = <span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">10</span>];</span><br><span class="line">        <span class="comment">//2</span></span><br><span class="line">        System.out.println(ints.getClass());</span><br><span class="line">    &#125;</span><br><span class="line">    在<span class="number">1</span>处定义了一个<span class="number">10</span>长度的<span class="keyword">int</span>类型的数组</span><br><span class="line">    2还是输出，但是输出的内容变了。class [I</span><br><span class="line">    让我们来反编译一下这个类的字节码 执行以下Javap -v +xxx.class</span><br><span class="line">![-w1122](media/<span class="number">15601533760261</span>/<span class="number">15619033399256</span>.jpg)</span><br><span class="line">看这个指令换成了newarray，他的作用就是创建一个基本类型的数组并将其压入栈顶。</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="number">2</span>.<span class="keyword">static</span> <span class="keyword">final</span>修饰的常量</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test6</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        System.out.println(Test6_1.i);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Test6_1</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> i = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">"test6_1 static block"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">可以发现不会发打印出来 test6_1 <span class="keyword">static</span> block</span><br><span class="line">让我们来编译一下这个类的<span class="class"><span class="keyword">class</span>文件</span></span><br><span class="line">![-w1231](media/15601533760261/15619046847976.jpg)</span><br><span class="line">可以看到这个iconst_1助记符，这个是给<span class="keyword">int</span> 类型赋值然后压到栈顶。这就说明如果调用<span class="keyword">static</span> <span class="keyword">final</span> 的常量 在编译期间就在调用的类的常量池中确定了。</span><br><span class="line"></span><br><span class="line">咱们再来写一下不能再编译期间确定值得。</span><br><span class="line">更改Test6_1的代码</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Test6_1</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> i = <span class="keyword">new</span> Random().nextInt(<span class="number">100</span>);</span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">"test6_1 static block"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">然后执行会发现静态代码块被输出了。</span><br><span class="line">然后在编译一下<span class="class"><span class="keyword">class</span>文件</span></span><br><span class="line"><span class="class">发现</span></span><br><span class="line">![-w1190](media/15601533760261/15619049449977.jpg)</span><br><span class="line">变成了getstatic指令 代表<span class="keyword">int</span>的偏移量 也就是定位的地址。</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="number">3</span>.子类引用父类的静态字段，是子类的被动使用不会初始化子类。</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test7</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        System.out.println(Test7_2.i);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Test7_1</span></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> i =<span class="number">5</span>;</span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">"Test7_1 static block"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Test7_2</span> <span class="keyword">extends</span> <span class="title">Test7_1</span></span>&#123;</span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">"Test7_2 static block"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">输出是</span><br><span class="line">Test7_1 <span class="keyword">static</span> block</span><br><span class="line"><span class="number">5</span></span><br></pre></td></tr></table></figure>
+<p>##classLoader<br>    Java中有3种类加载器。<br>AppClassLoader,ExtClassLoader,BootstrapClassloader</p>
+<p>##classLoader命名空间</p>
+<p>##双亲委派模型</p>
+<p>##类的卸载</p>
+<p>​    </p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://www.cmlanche.com/2019/07/12/记录一次网络拥塞导致线程池处于等待状态/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1393,768 +2219,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.cmlanche.com/2019/06/09/2019年阿里云主机优惠购买指南/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="cmlanche">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="https://avatars3.githubusercontent.com/u/5886757?v=4&s=400&u=c3fdc83b9817d98d87ed84c8e768855fd628c745">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="cmlanche">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/06/09/2019年阿里云主机优惠购买指南/" itemprop="url">2019年阿里云主机优惠购买指南</a></h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-09T12:03:27+08:00">
-                2019-06-09
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/主机优惠/" itemprop="url" rel="index">
-                    <span itemprop="name">主机优惠</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-             <span id="/2019/06/09/2019年阿里云主机优惠购买指南/" class="leancloud_visitors" data-flag-title="2019年阿里云主机优惠购买指南">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计&#58;</span>
-                
-                <span title="字数统计">
-                  555 字
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
-                
-                <span title="阅读时长">
-                  2 分钟
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <blockquote>
-<p>阿里云对中国用户来说是最好的云计算服务厂商了，而它提供的优惠也多种多样，不管对玩主机的新手还是老手，面对各种各样的活动都会陷入眼花缭乱的困境，因此，我专门写一篇文章来给大家抽丝剥茧，详细描绘一下对不同的用户怎么购买主机才是最优惠的。</p>
-</blockquote>
-<h3 id="优惠活动图"><a href="#优惠活动图" class="headerlink" title="优惠活动图"></a>优惠活动图</h3><p>本人是拥有十年程序猿开发经验，大学本科四年，工作6年，软件工程出身，所以我用我们程序猿特有的软件来绘制一个优惠活动图。</p>
-<p><img src="https://zhaozhuji1.oss-cn-beijing.aliyuncs.com/zhaozhuji/2019-06-08-095844.jpg?x-oss-process=style/logomark" alt="主机购买指南"></p>
-<p>大概花了半个多小时绘制玩这张活动图 /(ㄒoㄒ)/~~</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/06/09/2019年阿里云主机优惠购买指南/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.cmlanche.com/2019/05/27/免费logo创建器launchaco.com/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="cmlanche">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="https://avatars3.githubusercontent.com/u/5886757?v=4&s=400&u=c3fdc83b9817d98d87ed84c8e768855fd628c745">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="cmlanche">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/05/27/免费logo创建器launchaco.com/" itemprop="url">免费logo创建器launchaco</a></h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-27T12:36:00+08:00">
-                2019-05-27
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/独立开发者必备产品帮助工具/" itemprop="url" rel="index">
-                    <span itemprop="name">独立开发者必备产品帮助工具</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-             <span id="/2019/05/27/免费logo创建器launchaco.com/" class="leancloud_visitors" data-flag-title="免费logo创建器launchaco">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计&#58;</span>
-                
-                <span title="字数统计">
-                  503 字
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
-                
-                <span title="阅读时长">
-                  2 分钟
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>今天发现一个超级好用，并且免费的logo创建器，<a href="https://www.launchaco.com/" target="_blank" rel="noopener">launchaco.com</a>，之前用过<a href="https://shapefactory.co/" target="_blank" rel="noopener">shapefactory.co</a>，也很好用，但是贵的令人发指，一个做好的logo，需要44美金。而今天发现了<code>launchaco.com</code>，感觉发现了一块宝藏，忍不住想分享。好了，现在来复盘一下整个使用流程。</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/05/27/免费logo创建器launchaco.com/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.cmlanche.com/2019/05/20/独立开发者必须要有付出成倍努力才能成功的觉悟/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="cmlanche">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="https://avatars3.githubusercontent.com/u/5886757?v=4&s=400&u=c3fdc83b9817d98d87ed84c8e768855fd628c745">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="cmlanche">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/05/20/独立开发者必须要有付出成倍努力才能成功的觉悟/" itemprop="url">独立开发者的觉悟</a></h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-20T12:44:55+08:00">
-                2019-05-20
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/独立开发者/" itemprop="url" rel="index">
-                    <span itemprop="name">独立开发者</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-             <span id="/2019/05/20/独立开发者必须要有付出成倍努力才能成功的觉悟/" class="leancloud_visitors" data-flag-title="独立开发者的觉悟">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计&#58;</span>
-                
-                <span title="字数统计">
-                  323 字
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
-                
-                <span title="阅读时长">
-                  1 分钟
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p><img src="https://cmlanche-1251406926.cos.ap-guangzhou.myqcloud.com/blog/gko5e.png" alt="image-20190520130055901"></p>
-<p>经常会做梦，我能躺着挣钱吗？</p>
-<p>作为一穷二白的白丁来讲，这只能做梦了。</p>
-<p>做任何一个产品，都需要花心血去维护运营的。</p>
-<p>不管这个产品是需要怎样的劳动，是轻工具型，还是重内容型，都需要长时间的专注努力，才可能达到你想要的成功。</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/05/20/独立开发者必须要有付出成倍努力才能成功的觉悟/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.cmlanche.com/2019/05/15/购买阿里云遇到Permission-denied的问题/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="cmlanche">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="https://avatars3.githubusercontent.com/u/5886757?v=4&s=400&u=c3fdc83b9817d98d87ed84c8e768855fd628c745">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="cmlanche">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/05/15/购买阿里云遇到Permission-denied的问题/" itemprop="url">购买阿里云遇到Permission denied的问题</a></h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-15T21:24:11+08:00">
-                2019-05-15
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/阿里云/" itemprop="url" rel="index">
-                    <span itemprop="name">阿里云</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-             <span id="/2019/05/15/购买阿里云遇到Permission-denied的问题/" class="leancloud_visitors" data-flag-title="购买阿里云遇到Permission denied的问题">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计&#58;</span>
-                
-                <span title="字数统计">
-                  349 字
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
-                
-                <span title="阅读时长">
-                  1 分钟
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>最近我的新项目友链联盟<a href="https://youlianplus.com" target="_blank" rel="noopener">youlianplus.com</a>项目即将完成，准备拿到阿里云试试，在阿里云华北3购买了一台迷你服务器，1核1g40g硬盘，打算测试一下。</p>
-<p>买了之后，准备用ssh登录进去，结果出现了个<code>permission denied</code>权限被拒绝的问题，详情如下：</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/05/15/购买阿里云遇到Permission-denied的问题/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2207,7 +2271,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">66</span>
+                  <span class="site-state-item-count">70</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -2218,7 +2282,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-count">11</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -2229,7 +2293,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">83</span>
+                  <span class="site-state-item-count">85</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
