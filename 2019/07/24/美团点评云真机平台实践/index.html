@@ -81,13 +81,13 @@
 
 
 
-<meta name="description" content="背景随着美团点评业务越来越多，研发团队越来越庞大，对测试手机的需求显著增长。这对公司来说是一笔不小的开支，但现有测试手机资源分配不均，利用率也非常有限，导致各个团队开发、测试过程中都很难做到多机型覆盖。怎么样合理、高效利用这些测试手机资源，是摆在我们面前的一道难题。 现有的方案为了解决这些问题，业内也出现了一些手机管理和在线调试使用的工具或平台，比较常见的有:  OpenSTF 百度MTC的远程真">
+<meta name="description" content="背景随着美团点评业务越来越多，研发团队越来越庞大，对测试手机的需求显著增长。这对公司来说是一笔不小的开支，但现有测试手机资源分配不均，利用率也非常有限，导致各个团队开发、测试过程中都很难做到多机型覆盖。怎么样合理、高效利用这些测试手机资源，是摆在我们面前的一道难题。">
 <meta name="keywords" content="云真机">
 <meta property="og:type" content="article">
 <meta property="og:title" content="美团点评云真机平台实践">
 <meta property="og:url" content="http://www.cmlanche.com/2019/07/24/美团点评云真机平台实践/index.html">
 <meta property="og:site_name" content="cmlanche">
-<meta property="og:description" content="背景随着美团点评业务越来越多，研发团队越来越庞大，对测试手机的需求显著增长。这对公司来说是一笔不小的开支，但现有测试手机资源分配不均，利用率也非常有限，导致各个团队开发、测试过程中都很难做到多机型覆盖。怎么样合理、高效利用这些测试手机资源，是摆在我们面前的一道难题。 现有的方案为了解决这些问题，业内也出现了一些手机管理和在线调试使用的工具或平台，比较常见的有:  OpenSTF 百度MTC的远程真">
+<meta property="og:description" content="背景随着美团点评业务越来越多，研发团队越来越庞大，对测试手机的需求显著增长。这对公司来说是一笔不小的开支，但现有测试手机资源分配不均，利用率也非常有限，导致各个团队开发、测试过程中都很难做到多机型覆盖。怎么样合理、高效利用这些测试手机资源，是摆在我们面前的一道难题。">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://zhaozhuji1.oss-cn-beijing.aliyuncs.com/zhaozhuji/resources/mpd2a.png">
 <meta property="og:image" content="https://zhaozhuji1.oss-cn-beijing.aliyuncs.com/zhaozhuji/resources/izjho.gif">
@@ -96,10 +96,10 @@
 <meta property="og:image" content="https://zhaozhuji1.oss-cn-beijing.aliyuncs.com/zhaozhuji/resources/ppx4b.png">
 <meta property="og:image" content="https://zhaozhuji1.oss-cn-beijing.aliyuncs.com/zhaozhuji/resources/5qbm5.png">
 <meta property="og:image" content="https://zhaozhuji1.oss-cn-beijing.aliyuncs.com/zhaozhuji/resources/a1qy6.png">
-<meta property="og:updated_time" content="2019-07-24T09:49:53.000Z">
+<meta property="og:updated_time" content="2019-07-24T09:52:23.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="美团点评云真机平台实践">
-<meta name="twitter:description" content="背景随着美团点评业务越来越多，研发团队越来越庞大，对测试手机的需求显著增长。这对公司来说是一笔不小的开支，但现有测试手机资源分配不均，利用率也非常有限，导致各个团队开发、测试过程中都很难做到多机型覆盖。怎么样合理、高效利用这些测试手机资源，是摆在我们面前的一道难题。 现有的方案为了解决这些问题，业内也出现了一些手机管理和在线调试使用的工具或平台，比较常见的有:  OpenSTF 百度MTC的远程真">
+<meta name="twitter:description" content="背景随着美团点评业务越来越多，研发团队越来越庞大，对测试手机的需求显著增长。这对公司来说是一笔不小的开支，但现有测试手机资源分配不均，利用率也非常有限，导致各个团队开发、测试过程中都很难做到多机型覆盖。怎么样合理、高效利用这些测试手机资源，是摆在我们面前的一道难题。">
 <meta name="twitter:image" content="https://zhaozhuji1.oss-cn-beijing.aliyuncs.com/zhaozhuji/resources/mpd2a.png">
 
 
@@ -411,7 +411,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  3,674 字
+                  3,692 字
                 </span>
               
 
@@ -449,6 +449,7 @@
 
       
         <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>随着美团点评业务越来越多，研发团队越来越庞大，对测试手机的需求显著增长。这对公司来说是一笔不小的开支，但现有测试手机资源分配不均，利用率也非常有限，导致各个团队开发、测试过程中都很难做到多机型覆盖。怎么样合理、高效利用这些测试手机资源，是摆在我们面前的一道难题。</p>
+<a id="more"></a>
 <h3 id="现有的方案"><a href="#现有的方案" class="headerlink" title="现有的方案"></a>现有的方案</h3><p>为了解决这些问题，业内也出现了一些手机管理和在线调试使用的工具或平台，比较常见的有:</p>
 <ul>
 <li>OpenSTF</li>
@@ -611,7 +612,7 @@
 <h3 id="产品优化"><a href="#产品优化" class="headerlink" title="产品优化"></a>产品优化</h3><p>我们计划继续扩展产品功能，比如支持Log日志展示和性能数据采集等。目前云真机平台已经在美团点评内部平稳运行超过两年，我们会继续不断迭代版本、打磨产品，提供更好的使用体验。</p>
 <h2 id="作者简介"><a href="#作者简介" class="headerlink" title="作者简介"></a>作者简介</h2><p>东初，大众点评平台质量工具组负责人。7年互联网行业测试、开发经验，2015年加入原大众点评。先后主导了云真机平台、单元测试平台、web安全实验平台等项目的开发，致力于用工具来提升研发团队的工作效率。</p>
 <p>李帅，大众点评高级测试开发工程师。2015年加入原大众点评，主要负责云真机平台的开发以及客户端底层组件的测试。热衷于钻研测试领域的前沿技术，并推动了多项新技术落地。</p>
-<h2 id="原文信息"><a href="#原文信息" class="headerlink" title="原文信息"></a>原文信息</h2><p>作者：美团技术团队</p>
+<h2 id="原文信息-好文章值得完整复制收藏，避免原文也没了"><a href="#原文信息-好文章值得完整复制收藏，避免原文也没了" class="headerlink" title="原文信息(好文章值得完整复制收藏，避免原文也没了)"></a>原文信息(好文章值得完整复制收藏，避免原文也没了)</h2><p>作者：美团技术团队</p>
 <p>链接：<a href="https://juejin.im/post/5b5556eae51d45195f0b3422" target="_blank" rel="noopener">https://juejin.im/post/5b5556eae51d45195f0b3422</a></p>
 <p>来源：掘金</p>
 <p>著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。</p>
@@ -892,7 +893,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#背景"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#现有的方案"><span class="nav-number">1.1.</span> <span class="nav-text">现有的方案</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#遇到的问题"><span class="nav-number">1.2.</span> <span class="nav-text">遇到的问题</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#我们的方案"><span class="nav-number">2.</span> <span class="nav-text">我们的方案</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#架构设计"><span class="nav-number">2.1.</span> <span class="nav-text">架构设计</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#架构的优势"><span class="nav-number">2.2.</span> <span class="nav-text">架构的优势</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#特色功能"><span class="nav-number">3.</span> <span class="nav-text">特色功能</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#与客户端自动化相结合"><span class="nav-number">3.1.</span> <span class="nav-text">与客户端自动化相结合</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#预约功能"><span class="nav-number">3.2.</span> <span class="nav-text">预约功能</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#画质调节"><span class="nav-number">3.3.</span> <span class="nav-text">画质调节</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#App-Mock"><span class="nav-number">3.4.</span> <span class="nav-text">App Mock</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#App-Inspector"><span class="nav-number">3.5.</span> <span class="nav-text">App Inspector</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据报表"><span class="nav-number">3.6.</span> <span class="nav-text">数据报表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其他小功能"><span class="nav-number">3.7.</span> <span class="nav-text">其他小功能</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#未来规划"><span class="nav-number">4.</span> <span class="nav-text">未来规划</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#iOS手机支持"><span class="nav-number">4.1.</span> <span class="nav-text">iOS手机支持</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#产品优化"><span class="nav-number">4.2.</span> <span class="nav-text">产品优化</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#作者简介"><span class="nav-number">5.</span> <span class="nav-text">作者简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#原文信息"><span class="nav-number">6.</span> <span class="nav-text">原文信息</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#背景"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#现有的方案"><span class="nav-number">1.1.</span> <span class="nav-text">现有的方案</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#遇到的问题"><span class="nav-number">1.2.</span> <span class="nav-text">遇到的问题</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#我们的方案"><span class="nav-number">2.</span> <span class="nav-text">我们的方案</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#架构设计"><span class="nav-number">2.1.</span> <span class="nav-text">架构设计</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#架构的优势"><span class="nav-number">2.2.</span> <span class="nav-text">架构的优势</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#特色功能"><span class="nav-number">3.</span> <span class="nav-text">特色功能</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#与客户端自动化相结合"><span class="nav-number">3.1.</span> <span class="nav-text">与客户端自动化相结合</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#预约功能"><span class="nav-number">3.2.</span> <span class="nav-text">预约功能</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#画质调节"><span class="nav-number">3.3.</span> <span class="nav-text">画质调节</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#App-Mock"><span class="nav-number">3.4.</span> <span class="nav-text">App Mock</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#App-Inspector"><span class="nav-number">3.5.</span> <span class="nav-text">App Inspector</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据报表"><span class="nav-number">3.6.</span> <span class="nav-text">数据报表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其他小功能"><span class="nav-number">3.7.</span> <span class="nav-text">其他小功能</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#未来规划"><span class="nav-number">4.</span> <span class="nav-text">未来规划</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#iOS手机支持"><span class="nav-number">4.1.</span> <span class="nav-text">iOS手机支持</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#产品优化"><span class="nav-number">4.2.</span> <span class="nav-text">产品优化</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#作者简介"><span class="nav-number">5.</span> <span class="nav-text">作者简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#原文信息-好文章值得完整复制收藏，避免原文也没了"><span class="nav-number">6.</span> <span class="nav-text">原文信息(好文章值得完整复制收藏，避免原文也没了)</span></a></li></ol></div>
             
 
           </div>
