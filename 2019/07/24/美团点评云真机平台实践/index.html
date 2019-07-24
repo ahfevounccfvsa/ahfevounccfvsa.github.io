@@ -1,0 +1,1538 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="云真机,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="cmlanche" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="背景随着美团点评业务越来越多，研发团队越来越庞大，对测试手机的需求显著增长。这对公司来说是一笔不小的开支，但现有测试手机资源分配不均，利用率也非常有限，导致各个团队开发、测试过程中都很难做到多机型覆盖。怎么样合理、高效利用这些测试手机资源，是摆在我们面前的一道难题。 现有的方案为了解决这些问题，业内也出现了一些手机管理和在线调试使用的工具或平台，比较常见的有:  OpenSTF 百度MTC的远程真">
+<meta name="keywords" content="云真机">
+<meta property="og:type" content="article">
+<meta property="og:title" content="美团点评云真机平台实践">
+<meta property="og:url" content="http://www.cmlanche.com/2019/07/24/美团点评云真机平台实践/index.html">
+<meta property="og:site_name" content="cmlanche">
+<meta property="og:description" content="背景随着美团点评业务越来越多，研发团队越来越庞大，对测试手机的需求显著增长。这对公司来说是一笔不小的开支，但现有测试手机资源分配不均，利用率也非常有限，导致各个团队开发、测试过程中都很难做到多机型覆盖。怎么样合理、高效利用这些测试手机资源，是摆在我们面前的一道难题。 现有的方案为了解决这些问题，业内也出现了一些手机管理和在线调试使用的工具或平台，比较常见的有:  OpenSTF 百度MTC的远程真">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://zhaozhuji1.oss-cn-beijing.aliyuncs.com/zhaozhuji/resources/mpd2a.png">
+<meta property="og:image" content="https://zhaozhuji1.oss-cn-beijing.aliyuncs.com/zhaozhuji/resources/izjho.gif">
+<meta property="og:image" content="https://zhaozhuji1.oss-cn-beijing.aliyuncs.com/zhaozhuji/resources/ykq4i.gif">
+<meta property="og:image" content="https://zhaozhuji1.oss-cn-beijing.aliyuncs.com/zhaozhuji/resources/tb4mj.gif">
+<meta property="og:image" content="https://zhaozhuji1.oss-cn-beijing.aliyuncs.com/zhaozhuji/resources/ppx4b.png">
+<meta property="og:image" content="https://zhaozhuji1.oss-cn-beijing.aliyuncs.com/zhaozhuji/resources/5qbm5.png">
+<meta property="og:image" content="https://zhaozhuji1.oss-cn-beijing.aliyuncs.com/zhaozhuji/resources/a1qy6.png">
+<meta property="og:updated_time" content="2019-07-24T09:49:53.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="美团点评云真机平台实践">
+<meta name="twitter:description" content="背景随着美团点评业务越来越多，研发团队越来越庞大，对测试手机的需求显著增长。这对公司来说是一笔不小的开支，但现有测试手机资源分配不均，利用率也非常有限，导致各个团队开发、测试过程中都很难做到多机型覆盖。怎么样合理、高效利用这些测试手机资源，是摆在我们面前的一道难题。 现有的方案为了解决这些问题，业内也出现了一些手机管理和在线调试使用的工具或平台，比较常见的有:  OpenSTF 百度MTC的远程真">
+<meta name="twitter:image" content="https://zhaozhuji1.oss-cn-beijing.aliyuncs.com/zhaozhuji/resources/mpd2a.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.cmlanche.com/2019/07/24/美团点评云真机平台实践/">
+
+
+
+
+
+  <title>美团点评云真机平台实践 | cmlanche</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?c59df7cbbe6f65012be25796d2bd37e3";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">cmlanche</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description">越努力越幸运</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-友链+">
+          <a href="/youlianplus/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-youlianplus"></i> <br>
+            
+            友链+
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+          <div class="indeprods">
+        </div>
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.cmlanche.com/2019/07/24/美团点评云真机平台实践/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="cmlanche">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="https://avatars3.githubusercontent.com/u/5886757?v=4&s=400&u=c3fdc83b9817d98d87ed84c8e768855fd628c745">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cmlanche">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">美团点评云真机平台实践</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-24T17:36:22+08:00">
+                2019-07-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/自动化技术/" itemprop="url" rel="index">
+                    <span itemprop="name">自动化技术</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2019/07/24/美团点评云真机平台实践/" class="leancloud_visitors" data-flag-title="美团点评云真机平台实践">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  3,674 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  13 分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>随着美团点评业务越来越多，研发团队越来越庞大，对测试手机的需求显著增长。这对公司来说是一笔不小的开支，但现有测试手机资源分配不均，利用率也非常有限，导致各个团队开发、测试过程中都很难做到多机型覆盖。怎么样合理、高效利用这些测试手机资源，是摆在我们面前的一道难题。</p>
+<h3 id="现有的方案"><a href="#现有的方案" class="headerlink" title="现有的方案"></a>现有的方案</h3><p>为了解决这些问题，业内也出现了一些手机管理和在线调试使用的工具或平台，比较常见的有:</p>
+<ul>
+<li>OpenSTF</li>
+<li>百度MTC的远程真机调试</li>
+<li>Testin的云真机</li>
+<li>腾讯WeTest的云真机</li>
+<li>阿里MQC的远程真机租用</li>
+</ul>
+<p>其中OpenSTF是开源项目，其他的平台大多也都是基于OpenSTF原理实现的。因此，我们对OpenSTF项目进行了深入研究。</p>
+<h3 id="遇到的问题"><a href="#遇到的问题" class="headerlink" title="遇到的问题"></a>遇到的问题</h3><p>我们首先按照OpenSTF官方的方案进行了搭建，并进行了小规模的应用，但渐渐的我们发现了它的一些问题：</p>
+<ul>
+<li>模块过多而且耦合紧密，解耦难度较大，每次修改需要更新所有模块，难以快速迭代开发。</li>
+<li>部分技术选型落后。由于OpenSTF出现的时间比较早，部分技术已经落后于目前的主流。例如OpenSTF前端选用AngularJS 1.0进行开发，在生态链方面已经落后于其他流行的框架；数据库方面选用非关系型数据库RethinkDB，在数据计算和性能方面弱于MySQL等关系型数据库，同时RethinkDB资料较少，不便于开发与维护。</li>
+<li>OpenSTF屏幕图像传输采用图片单张传输的方式进行，而且画质不能由用户来调节，实际应用中占用带宽很高，在网络比较差的情况下会有严重的卡顿现象，体验很差。</li>
+</ul>
+<h2 id="我们的方案"><a href="#我们的方案" class="headerlink" title="我们的方案"></a>我们的方案</h2><h3 id="架构设计"><a href="#架构设计" class="headerlink" title="架构设计"></a>架构设计</h3><p>根据业务场景的需要，并吸取了OpenSTF结构优点，我们采用Agent/Server模型的模块化设计方案。下面分别介绍主要模块的功能：</p>
+<ul>
+<li>Agent模块。Agent模块与OpenSTF的provider类似，部署在服务器上或者用户的电脑上，Agent连接真实的手机，并且将手机的屏幕图像通过Websocket动态代理到Websocket服务器上，然后通过消息中心来进行消息的传递。</li>
+<li>Server模块。Server用来集中管理和调度手机，与OpenSTF结构不同的是，我们的Server端包含Web服务器、Websocket服务器、动态代理以及消息处理服务等部分，Server将用户的访问动态代理到对应的Web服务器和Websocket服务器上，并通过消息处理模块向消息中心传递消息，实现用户与Agent端手机的交互。</li>
+<li>数据存储模块。数据存储模块用来保存整个平台的数据，例如手机的状态、用户使用记录等。数据存储模块由MySQL数据库和一个RPC服务组成，Server不再直接读写数据库，而是通过一个RPC服务来进行数据的读写操作。</li>
+<li>消息中心。与OpenSTF的triproxy功能类似，是连接手机和Server的枢纽，消息中心主要处理屏幕的操作以及手机的状态变更等消息。</li>
+</ul>
+<p>通过模块化设计，项目结构比OpenSTF更加清晰。下面是整个系统的设计图：</p>
+<p><img src="https://zhaozhuji1.oss-cn-beijing.aliyuncs.com/zhaozhuji/resources/mpd2a.png" alt="image-20190724174027146"></p>
+<h3 id="架构的优势"><a href="#架构的优势" class="headerlink" title="架构的优势"></a>架构的优势</h3><p>Agent模块我们直接复用了OpenSTF的provider大部分功能，包括minicap、minitouch等。在此基础上，我们也扩展了一部分OpenSTF缺失的功能，比如：</p>
+<ul>
+<li>在provider的基础上进行了二次开发，使其支持画质/帧率调节（下文会有详细说明）。</li>
+<li>加入健康检测功能，检测手机网络是否正常、是否设置了网络代理等。</li>
+<li>加入Inspector功能，方便获取UI控件树（下文会有详细说明）。</li>
+<li>对Agent进行了版本区分，便于Web端根据不同的Agent版本对相应的功能展示和隐藏。</li>
+</ul>
+<p>在Server模块中，我们引入了动态代理的机制，并且重新开发了Web部分，采用了Vue 2.0 + iView来实现，数据库采用了MySQL。</p>
+<p>相比OpenSTF原生架构，总结下来有以下优势：</p>
+<ul>
+<li>模块耦合程度低，开发和部署更方便。OpenSTF各个功能模块不仅数量多而且代码耦合紧密，在此基础上进行二次开发和部署非常困难。而我们将整个项目分为Server、Agent、消息中心、数据存储四个模块，四个模块功能和代码都是独立的，基本上没有耦合关系，支持快速迭代开发，部署也很方便。</li>
+<li>前端框架更主流，开发和维护成本低。OpenSTF前端是使用AngularJS 1.0实现的，AngularJS 1.0已经处于废弃阶段，各种第三方组件基本已经停止支持，AngularJS 2.0的社区和生态并未成熟，而我们采用了Vue 2.0前端框架，Vue 2.0相对已经成熟，在美团侧也已经有大量应用，能够快速开发高质量的Web功能。</li>
+<li>数据库性能强，设计灵活、维护方便。OpenSTF使用RethikDB作为数据库，RethikDB是一个NoSQL型数据库，它有非常多的缺点，比如处理大量数据时的性能很差，资料非常匮乏，排查问题和数据库维护都非常困难。而我们采用了MySQL数据库，很好的解决了这些问题，并且实现了Server模块与数据读写的分离，这样在更新数据库表结构的时候无须同时修改Server端的代码，只要保证RPC服务的接口格式一致即可，开发和维护更加方便。</li>
+</ul>
+<p>除了这些基础的功能之外，我们还开发了一些特色的功能，下面我们来详细介绍。</p>
+<h2 id="特色功能"><a href="#特色功能" class="headerlink" title="特色功能"></a>特色功能</h2><h3 id="与客户端自动化相结合"><a href="#与客户端自动化相结合" class="headerlink" title="与客户端自动化相结合"></a>与客户端自动化相结合</h3><p>为了合理、高效利用测试手机资源，我们与客户端自动化进行了结合，主要有两个方面：</p>
+<ul>
+<li>与集团内部的云测平台深度融合。在云测平台的服务器节点上部署Agent代码，为云测平台自动化任务创建者提供自动化过程展示和远程调试功能，同时将云测平台空闲的手机开放给更多人使用。</li>
+<li>开放API。我们开放了一些API给普通用户，供用户查询手机状态、占用手机、连接adb调试等，用户可以使用脚本调用API，然后直接在平台的手机上进行自动化测试。</li>
+</ul>
+<h3 id="预约功能"><a href="#预约功能" class="headerlink" title="预约功能"></a>预约功能</h3><p>当一台手机处于繁忙状态时，用户必须要等待手机空闲后才能使用，由于手机空闲时间不确定，就会给用户带来很大的不便。为了解决这个问题，我们开发了手机预约的功能，用户可以预约处于繁忙状态的手机，当手机空闲时，自动帮预约用户占用15分钟，并通过即时通讯工具通知预约人。</p>
+<h3 id="画质调节"><a href="#画质调节" class="headerlink" title="画质调节"></a>画质调节</h3><p>远程调试平台的核心是实时获取屏幕图像，由于屏幕传输需要比较大的网络带宽，在网络不佳的情况下就会出现卡顿现象。因此，我们针对不同的网络做了一些流畅度的优化，下面来介绍一下其中的细节。</p>
+<p>屏幕获取的原理是通过minicap来高速截图，每秒最高可达60张，然后将这些截图显示在Web上。因此，我们考虑从两个方面来优化网络带宽的占用，<strong>第一个是调节截图的质量</strong>，minicap本身支持调节画质（OpenSTF固定设置了80%的压缩比），关键代码如下：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> rate =  <span class="built_in">Number</span>(match[<span class="number">6</span>])</span><br><span class="line">    <span class="keyword">if</span> (rate &gt; <span class="number">2</span> &amp;&amp; rate &lt; <span class="number">100</span>) &#123;</span><br><span class="line">      log.info(rate)</span><br><span class="line">      <span class="keyword">if</span> (rate &gt; <span class="number">30</span>) &#123;</span><br><span class="line">        options.screenJpegQuality = <span class="number">80</span></span><br><span class="line">      &#125;<span class="keyword">else</span> <span class="keyword">if</span> (rate &gt; <span class="number">15</span>) &#123;</span><br><span class="line">        options.screenJpegQuality = <span class="number">50</span></span><br><span class="line">      &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">        options.screenJpegQuality = <span class="number">20</span></span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      frameProducer.restart()</span><br><span class="line">      framerate = rate</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p><strong>第二个是调节每秒发送的图片张数</strong>，也就是帧率，我们可以在Agent端控制发送图片的数量，关键代码如下：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"># 首先修改帧率发送部分：</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">wsFrameNotifier</span>(<span class="params">frame</span>) </span>&#123;  </span><br><span class="line">  <span class="keyword">if</span> (latesenttime == <span class="number">0</span> || <span class="built_in">Date</span>.now()-latesenttime &gt; <span class="number">1000</span>/framerate) &#123;  </span><br><span class="line">    latesenttime = <span class="built_in">Date</span>.now()  </span><br><span class="line">    <span class="keyword">return</span> send(frame, &#123;  </span><br><span class="line">      binary: <span class="literal">true</span>  </span><br><span class="line">    &#125;)  </span><br><span class="line">  &#125;  </span><br><span class="line">&#125;</span><br><span class="line"># 再加入调整帧率的代码：</span><br><span class="line"><span class="keyword">case</span> <span class="string">'rate'</span>:  </span><br><span class="line">  <span class="keyword">var</span> rate =  <span class="built_in">Number</span>(match[<span class="number">6</span>])  </span><br><span class="line">  <span class="keyword">if</span> (rate &gt; <span class="number">2</span> &amp;&amp; rate &lt; <span class="number">100</span>) &#123;  </span><br><span class="line">    framerate = rate  </span><br><span class="line">  &#125;  </span><br><span class="line">  <span class="keyword">break</span></span><br></pre></td></tr></table></figure>
+<p>那么，帧率和图片压缩比调节到多少才能满足不同网络环境的需要呢？我们先来看一组数据：</p>
+<table>
+<thead>
+<tr>
+<th><strong>图片压缩比</strong></th>
+<th>图片尺寸</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>100%</td>
+<td>69.82KB</td>
+</tr>
+<tr>
+<td>80%</td>
+<td>46.78KB</td>
+</tr>
+<tr>
+<td>50%</td>
+<td>41.87KB</td>
+</tr>
+<tr>
+<td>20%</td>
+<td>37.84KB</td>
+</tr>
+<tr>
+<td>10%</td>
+<td>35.84KB</td>
+</tr>
+</tbody>
+</table>
+<p>表中是使用minicap做的图片压缩实验，从数据中我们可以看到当图片质量降低到80%时图片大小降低比较明显，而图片质量并没有明显的下降。继续降低图片质量，图片大小降低有限。我们再来看另外一组数据：</p>
+<table>
+<thead>
+<tr>
+<th>帧率</th>
+<th>图片压缩比</th>
+<th>实际流量</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>60</td>
+<td>100%</td>
+<td>4.02M/S</td>
+</tr>
+<tr>
+<td>60</td>
+<td>80%</td>
+<td>2.74M/S</td>
+</tr>
+<tr>
+<td>60</td>
+<td>50%</td>
+<td>2.41M/S</td>
+</tr>
+<tr>
+<td>30</td>
+<td>80%</td>
+<td>1.43M/S</td>
+</tr>
+<tr>
+<td>30</td>
+<td>50%</td>
+<td>1.22M/S</td>
+</tr>
+<tr>
+<td>30</td>
+<td>20%</td>
+<td>1.10M/S</td>
+</tr>
+<tr>
+<td>15</td>
+<td>50%</td>
+<td>0.63M/S</td>
+</tr>
+<tr>
+<td>15</td>
+<td>20%</td>
+<td>0.55M/S</td>
+</tr>
+<tr>
+<td>15</td>
+<td>10%</td>
+<td>0.52M/S</td>
+</tr>
+</tbody>
+</table>
+<p>表中是各种帧率和压缩比组合产生的实际流量数据。</p>
+<p>从数据中我们可以看到最高帧率和压缩比的组合下，流量达到了4M/S，而80%压缩比时流量减小到了2.7M/S，降低非常明显。考虑到实际网络情况，我们将<strong>60帧、80%压缩作为了高画质选项</strong>。</p>
+<p>而图片质量从80%降低到50%时图片大小下降并不明显，此时降低帧率就成了很好的选择。当帧率降低到30帧时流量降低了一半，1.2M/S的流量能够满足大部分网络状况使用，30帧也能保证操作的流畅度，于是<strong>30帧、50%压缩比成为了中画质的选项</strong>。</p>
+<p>低画质主要是为了保证在较差的网络环境能够正常使用，500K/S的流量是红线。我们将<strong>15帧、20%压缩比作为低画质选项</strong>，此时图片质量和帧率较低，但能够保证基本的使用体验。</p>
+<p><img src="https://zhaozhuji1.oss-cn-beijing.aliyuncs.com/zhaozhuji/resources/izjho.gif" alt="img"></p>
+<p>除了通过降低图片质量和帧率来减小手机屏幕图像传输的流量外，将图像使用H264等编码压缩成视频传输也是一种有效降低流量的办法，相对于图片，图像的压缩率将会更高，用户的操作体验也会更好。但是图像压缩编码原理比较复杂，相关技术我们还在研究当中。</p>
+<h3 id="App-Mock"><a href="#App-Mock" class="headerlink" title="App Mock"></a>App Mock</h3><p>在做App测试过程中经常需要抓包，一般情况下，我们通过修改WiFi的代理然后用抓包工具就可以实现。但是这样做的效率比较低，多个工具切换也非常不便。借助集团的Mock平台，我们开发了一键Mock功能，能够快速完成相应App的Mock操作。带来的好处是我们可以一边操作App，一边查看App发出的请求，大大提高了测试的效率。</p>
+<p><img src="https://zhaozhuji1.oss-cn-beijing.aliyuncs.com/zhaozhuji/resources/ykq4i.gif" alt="img"></p>
+<h3 id="App-Inspector"><a href="#App-Inspector" class="headerlink" title="App Inspector"></a>App Inspector</h3><p>App Inspector功能可以让用户在平台上使用真机的同时查看页面控件树及页面元素，并且支持Xpath，更加方便高效的查找页面元素，给UI自动化测试提供了很大便利。</p>
+<p><img src="https://zhaozhuji1.oss-cn-beijing.aliyuncs.com/zhaozhuji/resources/tb4mj.gif" alt="img"></p>
+<p>这个功能我们是借助Uiautomator实现的。基本原理是写一个Uiautomator用例，用来获取当前页面的Hierarchy，然后将用例打包成一个JAR放到Agent端。当在Web端触发获取控件树时，Agent将JAR包推送到手机上并运行，此时会在手机端生成一个XML文件。然后再使用cat命令获取XML内容并在前端解析。用例核心代码如下：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">launch</span> <span class="keyword">extends</span> <span class="title">UiAutomatorTestCase</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testDumpHierarchy</span><span class="params">()</span> <span class="keyword">throws</span> UiObjectNotFoundException </span>&#123;</span><br><span class="line">        File file = <span class="keyword">new</span> File(<span class="string">"/data/local/tmp/local/tmp/uidump.xml"</span>);</span><br><span class="line">        UiDevice uiDevice = getUiDevice();</span><br><span class="line">        String filename = <span class="string">"uidump.xml"</span>;</span><br><span class="line">        uiDevice.dumpWindowHierarchy(filename);</span><br><span class="line">    &#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当然，你也可以用adb命令来获取Hierarchy：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">adb shell uiautomator dump /data/local/tmp/uidump.xml</span><br></pre></td></tr></table></figure>
+<p>但这种方式不能获取动态页面，比如视频播放页面。</p>
+<h3 id="数据报表"><a href="#数据报表" class="headerlink" title="数据报表"></a>数据报表</h3><p>为了更好的了解平台的运营情况，我们做了详细的数据统计，主要从使用次数、使用时间、设备数量、使用分布等方面进行统计。目前我们管理的手机近300台，平均每个月有超过500名研发人员在使用我们的平台，每天的使用次数达到280次，每天总使用时长超过60小时。</p>
+<p><img src="https://zhaozhuji1.oss-cn-beijing.aliyuncs.com/zhaozhuji/resources/ppx4b.png" alt="img"></p>
+<p><img src="https://zhaozhuji1.oss-cn-beijing.aliyuncs.com/zhaozhuji/resources/5qbm5.png" alt="img"></p>
+<h3 id="其他小功能"><a href="#其他小功能" class="headerlink" title="其他小功能"></a>其他小功能</h3><p>除了以上几个比较大的功能点，我们也做了一些贴心的小功能，比如：检测手机网络是否设置代理、检测手机已安装的应用版本及安装时间、快速安装最新版本的测试包、支持App内的Schema跳转等等。这些小功能为研发人员节省了很多时间，提升了他们的工作效率。</p>
+<p><img src="https://zhaozhuji1.oss-cn-beijing.aliyuncs.com/zhaozhuji/resources/a1qy6.png" alt="img"></p>
+<h2 id="未来规划"><a href="#未来规划" class="headerlink" title="未来规划"></a>未来规划</h2><h3 id="iOS手机支持"><a href="#iOS手机支持" class="headerlink" title="iOS手机支持"></a>iOS手机支持</h3><p>目前，云真机平台只支持Android手机，对iOS手机的支持正在进行中。我们已经初步完成了主要功能的开发，预计很快将与大家见面。</p>
+<h3 id="产品优化"><a href="#产品优化" class="headerlink" title="产品优化"></a>产品优化</h3><p>我们计划继续扩展产品功能，比如支持Log日志展示和性能数据采集等。目前云真机平台已经在美团点评内部平稳运行超过两年，我们会继续不断迭代版本、打磨产品，提供更好的使用体验。</p>
+<h2 id="作者简介"><a href="#作者简介" class="headerlink" title="作者简介"></a>作者简介</h2><p>东初，大众点评平台质量工具组负责人。7年互联网行业测试、开发经验，2015年加入原大众点评。先后主导了云真机平台、单元测试平台、web安全实验平台等项目的开发，致力于用工具来提升研发团队的工作效率。</p>
+<p>李帅，大众点评高级测试开发工程师。2015年加入原大众点评，主要负责云真机平台的开发以及客户端底层组件的测试。热衷于钻研测试领域的前沿技术，并推动了多项新技术落地。</p>
+<h2 id="原文信息"><a href="#原文信息" class="headerlink" title="原文信息"></a>原文信息</h2><p>作者：美团技术团队</p>
+<p>链接：<a href="https://juejin.im/post/5b5556eae51d45195f0b3422" target="_blank" rel="noopener">https://juejin.im/post/5b5556eae51d45195f0b3422</a></p>
+<p>来源：掘金</p>
+<p>著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+      <div>
+        <div id="wechat_subscriber" style="display: block; padding: 10px 0; margin: 20px auto; width: 100%; text-align: center">
+    <img id="wechat_subscriber_qcode" src="/uploads/gongzhonghao.jpg" alt="cmlanche wechat" style="width: 200px; max-width: 100%;">
+    <div>欢迎您扫一扫上面的微信公众号，订阅独立开发者</div>
+</div>
+
+      </div>
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    cmlanche
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://www.cmlanche.com/2019/07/24/美团点评云真机平台实践/" title="美团点评云真机平台实践">http://www.cmlanche.com/2019/07/24/美团点评云真机平台实践/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/云真机/" rel="tag"># 云真机</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/07/24/热情不减，开启转变，专访独立产品设计师 Allen/" rel="next" title>
+                <i class="fa fa-chevron-left"></i> 
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        
+<script>
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='//bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="https://avatars3.githubusercontent.com/u/5886757?v=4&s=400&u=c3fdc83b9817d98d87ed84c8e768855fd628c745" alt="cmlanche">
+            
+              <p class="site-author-name" itemprop="name">cmlanche</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">68</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">84</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/cmlanche" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-globe"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://weibo.com/cmlanche" target="_blank" title="Weibo">
+                    
+                      <i class="fa fa-fw fa-globe"></i>Weibo</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友链
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://mianbaoduo.com/" title="面包多(Online Sell)" target="_blank">面包多(Online Sell)</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://zhaozhuji.info/" title="找主机网" target="_blank">找主机网</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://atjason.com/" title="Jason" target="_blank">Jason</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://codespots.com/" title="CodeSpots" target="_blank">CodeSpots</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://ops-coffee.cn/" title="运维咖啡吧" target="_blank">运维咖啡吧</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://kuo.lu/" title="KuoLu" target="_blank">KuoLu</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.baozy.com/" title="包子" target="_blank">包子</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.vpsd.cn/" title="vps导航" target="_blank">vps导航</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://congz.club/" title="Congz.club" target="_blank">Congz.club</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://fengtalk.com/" title="冯言疯语" target="_blank">冯言疯语</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#背景"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#现有的方案"><span class="nav-number">1.1.</span> <span class="nav-text">现有的方案</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#遇到的问题"><span class="nav-number">1.2.</span> <span class="nav-text">遇到的问题</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#我们的方案"><span class="nav-number">2.</span> <span class="nav-text">我们的方案</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#架构设计"><span class="nav-number">2.1.</span> <span class="nav-text">架构设计</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#架构的优势"><span class="nav-number">2.2.</span> <span class="nav-text">架构的优势</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#特色功能"><span class="nav-number">3.</span> <span class="nav-text">特色功能</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#与客户端自动化相结合"><span class="nav-number">3.1.</span> <span class="nav-text">与客户端自动化相结合</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#预约功能"><span class="nav-number">3.2.</span> <span class="nav-text">预约功能</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#画质调节"><span class="nav-number">3.3.</span> <span class="nav-text">画质调节</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#App-Mock"><span class="nav-number">3.4.</span> <span class="nav-text">App Mock</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#App-Inspector"><span class="nav-number">3.5.</span> <span class="nav-text">App Inspector</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据报表"><span class="nav-number">3.6.</span> <span class="nav-text">数据报表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其他小功能"><span class="nav-number">3.7.</span> <span class="nav-text">其他小功能</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#未来规划"><span class="nav-number">4.</span> <span class="nav-text">未来规划</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#iOS手机支持"><span class="nav-number">4.1.</span> <span class="nav-text">iOS手机支持</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#产品优化"><span class="nav-number">4.2.</span> <span class="nav-text">产品优化</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#作者简介"><span class="nav-number">5.</span> <span class="nav-text">作者简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#原文信息"><span class="nav-number">6.</span> <span class="nav-text">原文信息</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">cmlanche</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script id="ribbon" type="text/javascript" size="200" alpha="0.1" zindex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("Vi44LQT7TQmENDPlLnbjbgmr-gzGzoHsz", "rB0cEcQ09hqDXQrXpOkWfyO6");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
