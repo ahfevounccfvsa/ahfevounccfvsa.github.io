@@ -308,6 +308,182 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.cmlanche.com/2018/06/20/hexo-deployers/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="cmlanche">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="https://avatars3.githubusercontent.com/u/5886757?v=4&s=400&u=c3fdc83b9817d98d87ed84c8e768855fd628c745">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cmlanche">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/06/20/hexo-deployers/" itemprop="url">hexo自动部署到git、ftp（虚拟主机等）、云服务器的方式</a></h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-20T08:19:12+08:00">
+                2018-06-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/06/20/hexo-deployers/" class="leancloud_visitors" data-flag-title="hexo自动部署到git、ftp（虚拟主机等）、云服务器的方式">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  465 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  2 分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>自动部署很有用，当你写完文章后，直接使用<code>hexo d</code>就可以自动更新你的网站了</p>
+<h3 id="部署到git"><a href="#部署到git" class="headerlink" title="部署到git"></a>部署到git</h3><p>首先你需要在你的blog下安装git deployer插件：<code>npm install hexo-deployer-git --save</code>，然后再把如下代码添加到你的_config.yml文件中</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span>## git deploy</span><br><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  repo: https://github.com/cmlanche/cmlanche.github.io.git  # 你的远程仓库</span><br><span class="line">  branch: master # 你的远程残酷分支</span><br><span class="line">  message: "hello guys" # 每次提交的信息</span><br></pre></td></tr></table></figure>
+<p>需要注意的是，部署到git需要再本地安装你ssh key，也就是说允许本地进行读写远程git仓库，否则你会没权限的</p>
+<h3 id="部署到ftp服务器"><a href="#部署到ftp服务器" class="headerlink" title="部署到ftp服务器"></a>部署到ftp服务器</h3><p>你可能会用一台虚拟主机来部署你的hexo个人站点，那么fip怎么部署? 首先你需要下载安装ftp deployer插件：<code>npm install hexo-deployer-ftpsync --save</code>，然后把你下面的代码贴到你的_config.yml中，注意修改ftp的相关参数。</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span>### ftp deploy</span><br><span class="line">deploy:</span><br><span class="line"> type: ftpsync</span><br><span class="line"> host: ftpserver # ftp服务器地址</span><br><span class="line"> user: ftpusername # ftp用户名</span><br><span class="line"> pass: xxxx # 你的ftp用户密码</span><br><span class="line"> remote: xxx # 你要上传到的地址，例如/wwwroot</span><br><span class="line"> port: 21 # ftp端口，不同的ftp可能会不一样</span><br><span class="line"> delete: true # 上传本地文件是否删除ftp中的所有文件</span><br><span class="line"> verbose: true # 是否打印调试信息</span><br><span class="line"> ignore_errors: false # 是否忽略错误</span><br></pre></td></tr></table></figure>
+<h3 id="部署到远程主机，通常如VPS或者云服务器"><a href="#部署到远程主机，通常如VPS或者云服务器" class="headerlink" title="部署到远程主机，通常如VPS或者云服务器"></a>部署到远程主机，通常如VPS或者云服务器</h3><p>同样要下载hexo deployer: <code>npm install hexo-deployer-rsync --save</code>，然后代码奉上：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  type: rsync</span><br><span class="line">  host: &lt;host&gt; # 主机地址</span><br><span class="line">  user: &lt;user&gt; # 用户名</span><br><span class="line">  root: &lt;root&gt; # 要上传到的目录</span><br><span class="line">  port: [port] # Default is 22</span><br><span class="line">  delete: [true|false] # Default is true</span><br><span class="line">  args: &lt;rsync args&gt;</span><br><span class="line">  verbose: [true|false] # Default is true</span><br><span class="line">  ignore_errors: [true|false] # Default is false</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>关于我</p>
+</blockquote>
+<p>一个试图摆脱“地心引力”的黑衣剑士</p>
+<p>一个主机深度评测站主：<a href="http://www.hostreport.cn" target="_blank" rel="noopener">HostReport.cn</a></p>
+<p>一个向往自由职业的自由人</p>
+<p>个人博客：<a href="http://www.cmlanche.com">cmlanche.com</a></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://www.cmlanche.com/2018/06/20/静态模板方法的用法/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1884,172 +2060,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.cmlanche.com/2017/08/10/Jenkins自动集成小记(一)/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="cmlanche">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="https://avatars3.githubusercontent.com/u/5886757?v=4&s=400&u=c3fdc83b9817d98d87ed84c8e768855fd628c745">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="cmlanche">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/08/10/Jenkins自动集成小记(一)/" itemprop="url">Jenkins自动集成小记</a></h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-10T22:33:02+08:00">
-                2017-08-10
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-             <span id="/2017/08/10/Jenkins自动集成小记(一)/" class="leancloud_visitors" data-flag-title="Jenkins自动集成小记">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计&#58;</span>
-                
-                <span title="字数统计">
-                  1,083 字
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
-                
-                <span title="阅读时长">
-                  4 分钟
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>Jenkins是用来自动构建任务的，也许你还不知道什么叫自动构建任务，它的意思是可以针对某个任务进行自动化，比如你开发的某个软件，每次写完代码提交到<code>github</code>之后，你可以设置让Jenkins自动进行打包构建发布包或者进行Units测试，发布报告，不用你每次手工在<code>IDE</code>中去Build，尤其是当打包非常繁琐的时候，用自动化构建可以极大的提高工作效率。</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/08/10/Jenkins自动集成小记(一)/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2102,7 +2112,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">69</span>
+                  <span class="site-state-item-count">70</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
