@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Manual QC Labeled Samples (702)</title>
+  <style>
+    :root {
+      --bg: #f5f0e8; --panel: #fffdf9; --line: #d8cfbf; --ink: #27231d; --muted: #6d665d; --accent: #1e6b63;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; color: var(--ink); background: linear-gradient(180deg, #fbf7ef 0%, var(--bg) 100%);
+      font-family: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+    }
+    .shell { width: min(1200px, calc(100vw - 24px)); margin: 18px auto 32px; }
+    .panel { background: var(--panel); border: 1px solid var(--line); border-radius: 18px; padding: 18px; margin-bottom: 16px; }
+    h1, h2 { margin: 0 0 8px; }
+    .sub { color: var(--muted); }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin-top: 14px; }
+    .card { display: block; text-decoration: none; color: inherit; background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: 18px; }
+    .card h2 { font-size: 22px; }
+    .card p { margin: 0; color: var(--muted); }
+    .count { margin-top: 10px; font-size: 28px; color: var(--accent); font-weight: 700; }
+    .links { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 12px; }
+    .links a { text-decoration: none; color: var(--accent); padding: 8px 12px; border-radius: 999px; border: 1px solid var(--line); background: white; }
+    .tsne { display: block; width: 100%; border-radius: 12px; border: 1px solid var(--line); background: white; }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <section class="panel">
+      <h1>Manual QC Labeled Samples (702)</h1>
+      <p class="sub">人工标注 QC 数据三类展示页，可直接分享给老师或合作方浏览。</p>
+      <div class="links">
+        <a href="./qc_combined_all_labeled.csv">下载标注 CSV</a>
+      </div>
+      <div class="grid">
+        
+      <a class="card" href="./usable_single_cell/index.html">
+        <h2>Usable Single Cell</h2>
+        <p>usable_single_cell</p>
+        <div class="count">474 张</div>
+      </a>
+
+      <a class="card" href="./uncertain/index.html">
+        <h2>Uncertain</h2>
+        <p>uncertain</p>
+        <div class="count">143 张</div>
+      </a>
+
+      <a class="card" href="./reject/index.html">
+        <h2>Reject</h2>
+        <p>reject</p>
+        <div class="count">85 张</div>
+      </a>
+
+      </div>
+    </section>
+    
+    <section class="panel">
+      <h2>t-SNE Visualization</h2>
+      <p>702 张人工标注样本的二维可视化。</p>
+      <a href="./tsne_qc_labels.png"><img class="tsne" src="./tsne_qc_labels.png" alt="t-SNE"></a>
+    </section>
+
+  </div>
+</body>
+</html>
