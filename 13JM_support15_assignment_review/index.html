@@ -82,6 +82,29 @@
     .section-head {
       margin-bottom: 10px;
     }
+    .count-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 10px;
+      margin-top: 12px;
+    }
+    .count-card {
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 12px;
+      text-align: center;
+    }
+    .count-cluster {
+      font-size: 13px;
+      color: var(--muted);
+    }
+    .count-value {
+      margin-top: 6px;
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--accent);
+    }
     h2 {
       margin: 0;
       font-size: 22px;
@@ -143,6 +166,19 @@
       <div class="section-head">
         <h2>Assigned</h2>
         <div class="sub">高置信吸附样本，按预测类别分组展示。</div>
+      </div>
+      <div class="count-grid">
+
+        <div class="count-card">
+          <div class="count-cluster">cluster 5</div>
+          <div class="count-value">16</div>
+        </div>
+
+        <div class="count-card">
+          <div class="count-cluster">cluster 10</div>
+          <div class="count-value">284</div>
+        </div>
+
       </div>
     </section>
 
