@@ -3,24 +3,240 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>13JM Known Split</title>
+  <title>13JM Known Navigator</title>
   <style>
-    body { margin: 0; font-family: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif; background: linear-gradient(180deg, #f7f3ea 0%, #eee5d5 100%); color: #2b241c; }
-    .shell { width: min(1100px, calc(100vw - 32px)); margin: 36px auto; }
-    h1 { margin: 0 0 10px; font-size: 30px; }
-    p { color: #675d52; line-height: 1.6; }
-    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; margin-top: 20px; }
-    a.card { display: block; text-decoration: none; color: inherit; background: rgba(255, 252, 247, 0.95); border: 1px solid #d7cab4; border-radius: 18px; padding: 18px; box-shadow: 0 10px 26px rgba(66, 53, 32, 0.08); }
-    a.card:hover { border-color: #2c7369; transform: translateY(-1px); }
-    .title { font-size: 19px; font-weight: 700; margin-bottom: 8px; }
-    .desc { font-size: 14px; color: #675d52; line-height: 1.5; }
+    :root {
+      --bg: #f4efe6;
+      --paper: rgba(255, 252, 247, 0.96);
+      --line: #d9ccb8;
+      --ink: #2b241c;
+      --muted: #6d6458;
+      --accent: #2c7369;
+      --accent-soft: #e8f4f1;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+      color: var(--ink);
+      background: linear-gradient(180deg, #faf6ef 0%, var(--bg) 100%);
+    }
+    .shell {
+      width: min(1500px, calc(100vw - 24px));
+      margin: 16px auto;
+    }
+    .hero {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 18px 20px;
+      margin-bottom: 14px;
+    }
+    h1 {
+      margin: 0 0 8px;
+      font-size: 28px;
+    }
+    .sub {
+      color: var(--muted);
+      line-height: 1.6;
+      font-size: 14px;
+    }
+    .layout {
+      display: grid;
+      grid-template-columns: 270px minmax(0, 1fr);
+      gap: 14px;
+      align-items: start;
+    }
+    .sidebar,
+    .viewer-shell {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+    }
+    .sidebar {
+      position: sticky;
+      top: 12px;
+      padding: 16px;
+      max-height: calc(100vh - 40px);
+      overflow: auto;
+    }
+    .sidebar-title {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+    .sidebar-sub {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+      margin-bottom: 12px;
+    }
+    .class-list {
+      display: grid;
+      gap: 8px;
+    }
+    .class-btn {
+      appearance: none;
+      width: 100%;
+      text-align: left;
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--ink);
+      border-radius: 14px;
+      padding: 10px 12px;
+      cursor: pointer;
+      transition: 0.15s ease;
+      font-size: 14px;
+    }
+    .class-btn:hover {
+      border-color: var(--accent);
+      transform: translateY(-1px);
+    }
+    .class-btn.active {
+      background: var(--accent-soft);
+      border-color: var(--accent);
+      color: var(--accent);
+      font-weight: 700;
+    }
+    .viewer-shell {
+      padding: 12px;
+    }
+    .viewer-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      padding: 4px 6px 12px;
+      flex-wrap: wrap;
+    }
+    .viewer-title {
+      font-size: 20px;
+      font-weight: 700;
+    }
+    .viewer-sub {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+    .viewer-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .link-btn {
+      display: inline-flex;
+      align-items: center;
+      text-decoration: none;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 7px 12px;
+      background: #fff;
+      color: var(--ink);
+      font-size: 13px;
+    }
+    .link-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    iframe {
+      display: block;
+      width: 100%;
+      min-height: 82vh;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: #fff;
+    }
+    @media (max-width: 980px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+      .sidebar {
+        position: static;
+        max-height: none;
+      }
+      iframe {
+        min-height: 70vh;
+      }
+    }
   </style>
 </head>
 <body>
   <div class="shell">
-    <h1>Known Editable Split Pages</h1>
-    <p>这是按类拆开的轻量版 known 标注页。每次只打开一个类，更适合 VS Code Remote 场景。</p>
-    <div class="grid"><a class="card" href="./known_cluster_0/index.html"><div class="title">Known class 0</div><div class="desc">80 张候选，单类轻量编辑页。</div></a><a class="card" href="./known_cluster_1/index.html"><div class="title">Known class 1</div><div class="desc">80 张候选，单类轻量编辑页。</div></a><a class="card" href="./known_cluster_10/index.html"><div class="title">Known class 10</div><div class="desc">80 张候选，单类轻量编辑页。</div></a><a class="card" href="./known_cluster_11/index.html"><div class="title">Known class 11</div><div class="desc">80 张候选，单类轻量编辑页。</div></a><a class="card" href="./known_cluster_12/index.html"><div class="title">Known class 12</div><div class="desc">80 张候选，单类轻量编辑页。</div></a><a class="card" href="./known_cluster_15/index.html"><div class="title">Known class 15</div><div class="desc">80 张候选，单类轻量编辑页。</div></a><a class="card" href="./known_cluster_16/index.html"><div class="title">Known class 16</div><div class="desc">80 张候选，单类轻量编辑页。</div></a><a class="card" href="./known_cluster_18/index.html"><div class="title">Known class 18</div><div class="desc">80 张候选，单类轻量编辑页。</div></a><a class="card" href="./known_cluster_2/index.html"><div class="title">Known class 2</div><div class="desc">80 张候选，单类轻量编辑页。</div></a><a class="card" href="./known_cluster_3/index.html"><div class="title">Known class 3</div><div class="desc">80 张候选，单类轻量编辑页。</div></a><a class="card" href="./known_cluster_5/index.html"><div class="title">Known class 5</div><div class="desc">80 张候选，单类轻量编辑页。</div></a><a class="card" href="./known_cluster_6/index.html"><div class="title">Known class 6</div><div class="desc">80 张候选，单类轻量编辑页。</div></a><a class="card" href="./known_cluster_7/index.html"><div class="title">Known class 7</div><div class="desc">80 张候选，单类轻量编辑页。</div></a><a class="card" href="./known_cluster_9/index.html"><div class="title">Known class 9</div><div class="desc">80 张候选，单类轻量编辑页。</div></a></div>
+    <div class="hero">
+      <h1>Known Editable Navigator</h1>
+      <div class="sub">这是你要的“同一个页面里切类”版本。左边点某个类，右边就在同一页里切到该类的编辑页，不再需要来回打开很多页面。</div>
+    </div>
+
+    <div class="layout">
+      <aside class="sidebar">
+        <div class="sidebar-title">Known Classes</div>
+        <div class="sidebar-sub">点任意类后，右侧会直接显示该类的轻量编辑页。</div>
+        <div class="class-list" id="class-list"></div>
+      </aside>
+
+      <section class="viewer-shell">
+        <div class="viewer-head">
+          <div>
+            <div class="viewer-title" id="viewer-title">Known class 0</div>
+            <div class="viewer-sub" id="viewer-sub">当前正在查看单类轻量编辑页。</div>
+          </div>
+          <div class="viewer-actions">
+            <a class="link-btn" id="open-direct" href="./known_cluster_0/index.html" target="_blank" rel="noopener noreferrer">新标签打开当前类</a>
+          </div>
+        </div>
+        <iframe id="viewer-frame" src="./known_cluster_0/index.html" title="Known class viewer"></iframe>
+      </section>
+    </div>
   </div>
+
+  <script>
+    const classes = [
+      { slug: "known_cluster_0", label: "Known class 0" },
+      { slug: "known_cluster_1", label: "Known class 1" },
+      { slug: "known_cluster_2", label: "Known class 2" },
+      { slug: "known_cluster_3", label: "Known class 3" },
+      { slug: "known_cluster_5", label: "Known class 5" },
+      { slug: "known_cluster_6", label: "Known class 6" },
+      { slug: "known_cluster_7", label: "Known class 7" },
+      { slug: "known_cluster_9", label: "Known class 9" },
+      { slug: "known_cluster_10", label: "Known class 10" },
+      { slug: "known_cluster_11", label: "Known class 11" },
+      { slug: "known_cluster_12", label: "Known class 12" },
+      { slug: "known_cluster_15", label: "Known class 15" },
+      { slug: "known_cluster_16", label: "Known class 16" },
+      { slug: "known_cluster_18", label: "Known class 18" }
+    ];
+
+    const list = document.getElementById("class-list");
+    const frame = document.getElementById("viewer-frame");
+    const title = document.getElementById("viewer-title");
+    const sub = document.getElementById("viewer-sub");
+    const direct = document.getElementById("open-direct");
+
+    function selectClass(slug) {
+      const item = classes.find((entry) => entry.slug === slug) || classes[0];
+      frame.src = `./${item.slug}/index.html`;
+      title.textContent = item.label;
+      sub.textContent = `${item.label} 的轻量编辑页已经加载在当前页面里。`;
+      direct.href = `./${item.slug}/index.html`;
+      document.querySelectorAll(".class-btn").forEach((btn) => {
+        btn.classList.toggle("active", btn.dataset.slug === item.slug);
+      });
+      window.location.hash = item.slug;
+    }
+
+    classes.forEach((item) => {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "class-btn";
+      btn.dataset.slug = item.slug;
+      btn.textContent = item.label;
+      btn.addEventListener("click", () => selectClass(item.slug));
+      list.appendChild(btn);
+    });
+
+    const initial = window.location.hash.replace(/^#/, "");
+    selectClass(initial || classes[0].slug);
+  </script>
 </body>
 </html>
