@@ -3,427 +3,242 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>13JM Few-Shot 快速验证汇报</title>
+  <title>13JM few-shot quick 实验汇报</title>
   <style>
     :root {
-      --bg0: #f4f7fb;
-      --bg1: #ffffff;
+      --bg: #f5f7fb;
+      --card: #ffffff;
       --ink: #0f172a;
-      --muted: #4b5563;
-      --brand: #0b7285;
-      --brand-2: #1e3a8a;
-      --good: #0f766e;
-      --warn: #b45309;
+      --muted: #475569;
       --line: #dbe3ee;
-      --shadow: 0 10px 35px rgba(15, 23, 42, 0.08);
+      --brand: #0a6e8c;
     }
     * { box-sizing: border-box; }
     html, body {
+      width: 100%;
+      height: 100%;
       margin: 0;
-      padding: 0;
-      width: 100%;
-      height: 100%;
-      font-family: "PingFang SC", "Noto Sans SC", "Microsoft YaHei", "Segoe UI", sans-serif;
+      font-family: "PingFang SC", "Noto Sans SC", "Microsoft YaHei", sans-serif;
       color: var(--ink);
-      background:
-        radial-gradient(circle at 10% 10%, #dff3f8 0%, transparent 40%),
-        radial-gradient(circle at 85% 20%, #dde7ff 0%, transparent 42%),
-        radial-gradient(circle at 25% 90%, #eaf7ef 0%, transparent 38%),
-        var(--bg0);
+      background: radial-gradient(circle at 10% 0%, #e5f4fb 0%, transparent 35%),
+                  radial-gradient(circle at 90% 10%, #e8ecff 0%, transparent 30%),
+                  var(--bg);
       overflow: hidden;
-    }
-    .deck {
-      width: 100%;
-      height: 100%;
-      position: relative;
     }
     .slide {
       display: none;
-      width: 100%;
       height: 100%;
-      padding: 36px 52px 42px;
-      animation: fadeIn 0.25s ease;
+      padding: 28px 36px 40px;
+      overflow: auto;
+      animation: fade .2s ease;
     }
-    .slide.active { display: flex; flex-direction: column; }
+    .slide.active { display: block; }
     .card {
-      background: var(--bg1);
+      background: var(--card);
       border: 1px solid var(--line);
-      border-radius: 16px;
-      box-shadow: var(--shadow);
-      padding: 24px 28px;
-      margin-bottom: 16px;
+      border-radius: 14px;
+      padding: 18px 20px;
+      margin-bottom: 14px;
     }
-    h1, h2, h3 { margin: 0 0 10px; line-height: 1.2; }
-    h1 { font-size: 44px; letter-spacing: 0.2px; }
-    h2 { font-size: 31px; }
-    h3 { font-size: 22px; }
-    p, li { font-size: 20px; line-height: 1.55; margin: 0; }
+    h1 { margin: 0 0 10px; font-size: 40px; }
+    h2 { margin: 0 0 10px; font-size: 30px; }
+    h3 { margin: 0 0 8px; font-size: 22px; }
+    p, li { font-size: 19px; line-height: 1.55; margin: 0; }
+    ul { margin: 0; padding-left: 22px; }
     .muted { color: var(--muted); }
-    .small { font-size: 16px; }
-    .xl { font-size: 25px; }
-    .mono {
-      font-family: "SFMono-Regular", Consolas, Menlo, monospace;
-      font-size: 15px;
-      color: #374151;
-      background: #f3f6fb;
-      border: 1px solid #e4e9f2;
-      padding: 3px 6px;
-      border-radius: 6px;
-    }
-    .row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-    }
-    .row3 {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 14px;
-    }
-    ul { margin: 0; padding-left: 24px; }
-    .pill {
+    .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .chip {
       display: inline-block;
-      padding: 6px 10px;
+      border: 1px solid #9ec7d6;
+      background: #edf8fc;
+      color: #0b4d5f;
       border-radius: 999px;
-      font-size: 15px;
-      margin-right: 8px;
-      border: 1px solid;
+      padding: 4px 10px;
+      font-size: 14px;
+      margin-right: 6px;
     }
-    .ok { color: var(--good); border-color: #6ee7b7; background: #ecfdf5; }
-    .focus { color: var(--brand-2); border-color: #93c5fd; background: #eff6ff; }
-    .warn { color: var(--warn); border-color: #fcd34d; background: #fffbeb; }
-    table {
+    .img {
       width: 100%;
-      border-collapse: collapse;
-      font-size: 18px;
-    }
-    th, td {
       border: 1px solid var(--line);
-      padding: 10px 12px;
-      text-align: left;
-      vertical-align: middle;
-    }
-    th { background: #f8fbff; font-weight: 700; }
-    .delta-up { color: #0f766e; font-weight: 700; }
-    .delta-down { color: #be123c; font-weight: 700; }
-    .progress {
-      position: absolute;
-      left: 52px;
-      right: 52px;
-      bottom: 16px;
-      height: 8px;
-      background: #e5edf7;
-      border-radius: 8px;
-      overflow: hidden;
-    }
-    .progress > div {
-      width: 0%;
-      height: 100%;
-      background: linear-gradient(90deg, var(--brand), var(--brand-2));
-      transition: width 0.2s ease;
+      border-radius: 10px;
+      background: #fff;
+      display: block;
     }
     .footer {
-      margin-top: auto;
+      position: fixed;
+      left: 36px;
+      right: 36px;
+      bottom: 12px;
       display: flex;
       justify-content: space-between;
-      align-items: center;
       color: #64748b;
-      font-size: 15px;
+      font-size: 14px;
     }
     .kbd {
-      display: inline-block;
       border: 1px solid #cbd5e1;
       border-bottom-width: 2px;
-      background: #fff;
       border-radius: 6px;
-      padding: 2px 7px;
-      font-size: 13px;
-      margin: 0 2px;
+      padding: 1px 6px;
+      background: #fff;
     }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(8px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    @media (max-width: 960px) {
-      .slide { padding: 22px 18px 34px; overflow-y: auto; }
-      .row, .row3 { grid-template-columns: 1fr; }
-      h1 { font-size: 34px; }
-      h2 { font-size: 27px; }
-      p, li { font-size: 18px; }
-      .progress { left: 18px; right: 18px; }
+    @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+    @media (max-width: 980px) {
+      .slide { padding: 16px 14px 42px; }
+      .row2 { grid-template-columns: 1fr; }
+      h1 { font-size: 30px; }
+      h2 { font-size: 24px; }
+      p, li { font-size: 17px; }
+      .footer { left: 14px; right: 14px; }
     }
   </style>
 </head>
 <body>
-  <div class="deck">
-    <section class="slide active">
-      <div class="card" style="padding: 30px 32px;">
-        <h1>13JM Few-Shot 快速验证汇报</h1>
-        <p class="xl muted">corrected Cell-DINO vs DINOv2 (no-extra-crop)</p>
-        <p style="margin-top: 16px;">
-          <span class="pill ok">状态: Completed & Valid</span>
-          <span class="pill focus">数据: 2026-04-22 快速人工导出集</span>
-          <span class="pill warn">定位: 趋势判断, 非论文终版</span>
-        </p>
-      </div>
-      <div class="row">
-        <div class="card">
-          <h3>本次要回答的问题</h3>
-          <ul>
-            <li>13JM 上是否已出现可见的 known 分类信号？</li>
-            <li>当前 reject 是否已能和 known 拉开？</li>
-            <li>DINOv2 no-extra-crop 是否值得作为下一阶段主线？</li>
-          </ul>
-        </div>
-        <div class="card">
-          <h3>一句话结论</h3>
-          <p>DINOv2 在 known-vs-reject 边界上更强，Cell-DINO 在 known 内部细分类更强。下一步主押注 DINOv2 no-extra-crop，同时保留 Cell-DINO 强基线。</p>
-        </div>
-      </div>
-      <div class="footer">
-        <span>FS / 13JM quick known-reject eval</span>
-        <span><span class="kbd">←</span><span class="kbd">→</span> 翻页</span>
-      </div>
-    </section>
+  <section class="slide active">
+    <div class="card">
+      <h1>13JM few-shot quick 实验汇报</h1>
+      <p class="muted">主题：corrected Cell-DINO vs DINOv2 no-extra-crop</p>
+      <p style="margin-top:10px;">
+        <span class="chip">数据时间: 2026-04-22</span>
+        <span class="chip">状态: completed</span>
+        <span class="chip">用途: 快速趋势验证</span>
+      </p>
+    </div>
+    <div class="card">
+      <h3>这次只回答 2 件事</h3>
+      <ul>
+        <li>我们做了什么实验流程？</li>
+        <li>从结果图上看，两条线各自表现如何？</li>
+      </ul>
+    </div>
+    <div class="card">
+      <p>操作说明：<span class="kbd">←</span> <span class="kbd">→</span> 切页；点页面左半/右半也可切页。</p>
+    </div>
+  </section>
 
-    <section class="slide">
-      <div class="card">
-        <h2>实验范围与设置</h2>
-      </div>
-      <div class="row">
-        <div class="card">
-          <h3>数据组成</h3>
-          <ul>
-            <li>support: 253 张 (14 类)</li>
-            <li>known eval: 832 张</li>
-            <li>reject eval: 313 张 (与 known 重叠 1 张, 已去重后 312)</li>
-            <li>评估总量: 1144 张 (known + reject 去重后)</li>
-          </ul>
-        </div>
-        <div class="card">
-          <h3>方法对比</h3>
-          <ul>
-            <li>分支 A: corrected Cell-DINO 特征 + support assignment v2</li>
-            <li>分支 B: DINOv2 pretrained + 224 resize + no extra center crop</li>
-            <li>统一决策输出: assigned / uncertain / unknown</li>
-          </ul>
-        </div>
-      </div>
-      <div class="card">
-        <p class="small">说明: 本次为快速趋势验证，目的在于判断后续投入方向，不替代正式 gold-eval 结论。</p>
-      </div>
-      <div class="footer"><span>2 / 7</span><span>数据与协议</span></div>
-    </section>
+  <section class="slide">
+    <div class="card">
+      <h2>我们做了什么（流程页）</h2>
+    </div>
+    <div class="card">
+      <h3>Step 1. 准备评估数据</h3>
+      <ul>
+        <li>support set：253 张，14 类（remove17 版本）</li>
+        <li>known_eval：832 张</li>
+        <li>reject_eval：313 张（与 known 重叠 1 张，去重后 312）</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Step 2. 两条特征线并行对比</h3>
+      <ul>
+        <li>线 A：corrected Cell-DINO 特征</li>
+        <li>线 B：DINOv2 pretrained + 224 resize + no extra crop</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Step 3. 统一下游决策</h3>
+      <ul>
+        <li>同一脚本：support assignment v2</li>
+        <li>同一输出口径：assigned / uncertain / unknown</li>
+        <li>同一评估对象：known_eval + reject_eval 去重集</li>
+      </ul>
+    </div>
+  </section>
 
-    <section class="slide">
-      <div class="card">
-        <h2>严格 Open-set 结果 (阈值生效)</h2>
-      </div>
-      <div class="card">
-        <table>
-          <thead>
-            <tr>
-              <th>指标</th>
-              <th>corrected Cell-DINO</th>
-              <th>DINOv2 no-extra-crop</th>
-              <th>变化 (DINOv2 - Cell)</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>known_correct_assign_rate</td>
-              <td>0.3113</td>
-              <td>0.4760</td>
-              <td class="delta-up">+0.1647</td>
-            </tr>
-            <tr>
-              <td>known_reject_rate</td>
-              <td>0.6863</td>
-              <td>0.3522</td>
-              <td class="delta-up">-0.3341</td>
-            </tr>
-            <tr>
-              <td>reject_reject_rate</td>
-              <td>0.9135</td>
-              <td>0.9135</td>
-              <td>0.0000</td>
-            </tr>
-            <tr>
-              <td>reject_assigned_rate</td>
-              <td>0.0865</td>
-              <td>0.0865</td>
-              <td>0.0000</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="row">
-        <div class="card">
-          <h3>解读</h3>
-          <p>在 reject 拒识率几乎不变的前提下，DINOv2 明显减少了 known 的“误拒”，提升了 known 的可接受样本比例。</p>
-        </div>
-        <div class="card">
-          <h3>业务含义</h3>
-          <p>对“先把已知/非已知边界拉开”这一目标，DINOv2 no-extra-crop 更符合当前方向。</p>
-        </div>
-      </div>
-      <div class="footer"><span>3 / 7</span><span>Open-set 对比</span></div>
-    </section>
+  <section class="slide">
+    <div class="card">
+      <h2>结果图 1：严格 open-set 指标</h2>
+      <p class="muted">图里是最终决策口径（阈值生效）</p>
+    </div>
+    <div class="card">
+      <img class="img" src="./assets/fig1_open_set_metrics.png" alt="Strict open-set metrics" />
+    </div>
+    <div class="card">
+      <p>这张图只看两点：known_correct_assign_rate 和 known_reject_rate。DINOv2 线在这两项上更好，reject 侧两线基本一致。</p>
+    </div>
+  </section>
 
-    <section class="slide">
-      <div class="card">
-        <h2>去掉拒识阈值后的特征信号</h2>
-      </div>
-      <div class="row">
-        <div class="card">
-          <h3>known 内部 few-shot 分类</h3>
-          <table>
-            <thead>
-              <tr><th>指标</th><th>Cell-DINO</th><th>DINOv2</th></tr>
-            </thead>
-            <tbody>
-              <tr><td>known_proto_top1_acc</td><td class="delta-up">0.8966</td><td>0.6190</td></tr>
-              <tr><td>known_knn_top1_acc</td><td class="delta-up">0.8990</td><td>0.6262</td></tr>
-            </tbody>
-          </table>
-        </div>
-        <div class="card">
-          <h3>known-vs-reject 可分性 (AUROC)</h3>
-          <table>
-            <thead>
-              <tr><th>指标</th><th>Cell-DINO</th><th>DINOv2</th></tr>
-            </thead>
-            <tbody>
-              <tr><td>prototype_top1_sim</td><td>0.8796</td><td class="delta-up">0.9374</td></tr>
-              <tr><td>knn_mean_sim</td><td>0.8862</td><td class="delta-up">0.9328</td></tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-      <div class="card">
-        <h3>核心解释</h3>
-        <p>Cell-DINO 更擅长“known 类内部细分”；DINOv2 更擅长“known 与 reject 的边界分离”。两者优势互补，但当前主任务优先级更偏向后者。</p>
-      </div>
-      <div class="footer"><span>4 / 7</span><span>Feature Signal</span></div>
-    </section>
+  <section class="slide">
+    <div class="card">
+      <h2>结果图 2：去阈值后的特征信号</h2>
+      <p class="muted">图里不看拒识阈值，只看特征本身能力</p>
+    </div>
+    <div class="card">
+      <img class="img" src="./assets/fig2_feature_signal_metrics.png" alt="Feature signal metrics" />
+    </div>
+    <div class="card">
+      <p>这张图只看两点：known 内部分类（Cell-DINO 高）和 known-vs-reject 分离（DINOv2 高）。</p>
+    </div>
+  </section>
 
-    <section class="slide">
-      <div class="card">
-        <h2>决策结论 (给导师/组会可直接说)</h2>
-      </div>
-      <div class="row3">
-        <div class="card">
-          <h3>结论 1</h3>
-          <p>13JM 当前人工集上，已出现稳定可见的分类/拒识信号，不是“完全无效”。</p>
-        </div>
-        <div class="card">
-          <h3>结论 2</h3>
-          <p>corrected Cell-DINO 是强基线，尤其在 known 内部 few-shot 细分上仍有明显优势。</p>
-        </div>
-        <div class="card">
-          <h3>结论 3</h3>
-          <p>DINOv2 no-extra-crop 更适合下一阶段主押注，重点在 known-vs-reject 边界建模。</p>
-        </div>
-      </div>
-      <div class="card">
-        <h3>建议落地</h3>
-        <ul>
-          <li>主线: DINOv2 no-extra-crop 持续推进</li>
-          <li>对照: 保留 corrected Cell-DINO 作为基线</li>
-          <li>目标: 在不牺牲 reject 拒识率的情况下继续提升 known 保留率</li>
-        </ul>
-      </div>
-      <div class="footer"><span>5 / 7</span><span>结论页</span></div>
-    </section>
+  <section class="slide">
+    <div class="card">
+      <h2>结果图 3：决策构成（DINOv2）</h2>
+    </div>
+    <div class="card">
+      <img class="img" src="./assets/fig3_dino_decision_breakdown.png" alt="DINO decision breakdown" />
+    </div>
+    <div class="card">
+      <h2 style="margin-top:8px;">结果图 4：决策构成（Cell-DINO）</h2>
+    </div>
+    <div class="card">
+      <img class="img" src="./assets/fig4_cell_decision_breakdown.png" alt="Cell decision breakdown" />
+    </div>
+  </section>
 
-    <section class="slide">
-      <div class="card">
-        <h2>局限与风险提示</h2>
-      </div>
-      <div class="row">
-        <div class="card">
-          <h3>当前局限</h3>
-          <ul>
-            <li>本次是快速导出集验证，不是最终 gold-eval</li>
-            <li>unknown 类别尚未完整纳入正式评估口径</li>
-            <li>人工导出集曾出现 known/reject 重叠样本，说明还需进一步清洗</li>
-          </ul>
-        </div>
-        <div class="card">
-          <h3>已明确边界</h3>
-          <ul>
-            <li>本结论可用于“方向决策”</li>
-            <li>暂不用于“论文最终数字”</li>
-            <li>后续需在正式评估集复核趋势是否保持</li>
-          </ul>
-        </div>
-      </div>
-      <div class="footer"><span>6 / 7</span><span>风险边界</span></div>
-    </section>
+  <section class="slide">
+    <div class="card">
+      <h2>结果图 5：DINOv2 样例图</h2>
+      <p class="muted">四行分别是：known correct assigned / known not assigned / reject rejected / reject assigned(error)</p>
+    </div>
+    <div class="card">
+      <img class="img" src="./assets/fig5_dino_qualitative_grid.png" alt="DINO qualitative grid" />
+    </div>
+  </section>
 
-    <section class="slide">
-      <div class="card">
-        <h2>下一步执行计划</h2>
-      </div>
-      <div class="row">
-        <div class="card">
-          <h3>短期 (本周)</h3>
-          <ul>
-            <li>清理 known/reject 边界样本，移除重叠与明显污染项</li>
-            <li>把“大细胞但截坏”样本从 reject 中分流，单列候选新类池</li>
-            <li>继续 DINOv2 no-extra-crop 路线的目标域 SSL 版本验证</li>
-          </ul>
-        </div>
-        <div class="card">
-          <h3>中期 (下一阶段)</h3>
-          <ul>
-            <li>在正式 gold-eval 上重跑 known/reject 指标</li>
-            <li>对比 pretrained vs target-SSL 的稳健性与阈值可迁移性</li>
-            <li>形成可复现汇报包: 指标 + 可视化 +误例分析</li>
-          </ul>
-        </div>
-      </div>
-      <div class="card small">
-        <p>记录来源:
-          <span class="mono">/home/wangqianqian/project/FS/experiment_records/2026-04-22_quick_13JM_known_reject_eval.md</span>
-        </p>
-      </div>
-      <div class="footer"><span>7 / 7</span><span>End</span></div>
-    </section>
+  <section class="slide">
+    <div class="card">
+      <h2>结果图 6：Cell-DINO 样例图</h2>
+      <p class="muted">四行类别与上一页一致，便于并排看差异</p>
+    </div>
+    <div class="card">
+      <img class="img" src="./assets/fig6_cell_qualitative_grid.png" alt="Cell qualitative grid" />
+    </div>
+    <div class="card">
+      <h3>本页仅附输出位置（不写主观总结）</h3>
+      <ul>
+        <li>指标汇总 JSON：<code>./assets/computed_metrics.json</code></li>
+        <li>图文件目录：<code>./assets/</code></li>
+      </ul>
+    </div>
+  </section>
 
-    <div class="progress"><div id="bar"></div></div>
+  <div class="footer">
+    <span id="idx">1 / 7</span>
+    <span>13JM quick eval report</span>
   </div>
 
   <script>
-    (function () {
-      const slides = Array.from(document.querySelectorAll(".slide"));
-      const bar = document.getElementById("bar");
-      let idx = 0;
-
-      function render() {
-        slides.forEach((s, i) => s.classList.toggle("active", i === idx));
-        bar.style.width = ((idx + 1) / slides.length * 100).toFixed(2) + "%";
-        document.title = `13JM 汇报 (${idx + 1}/${slides.length})`;
-      }
-
-      function next() { idx = Math.min(idx + 1, slides.length - 1); render(); }
-      function prev() { idx = Math.max(idx - 1, 0); render(); }
-
-      window.addEventListener("keydown", (e) => {
-        if (e.key === "ArrowRight" || e.key === "PageDown" || e.key === " ") next();
-        if (e.key === "ArrowLeft" || e.key === "PageUp") prev();
-        if (e.key === "Home") { idx = 0; render(); }
-        if (e.key === "End") { idx = slides.length - 1; render(); }
-      });
-
-      window.addEventListener("click", (e) => {
-        const w = window.innerWidth || document.documentElement.clientWidth;
-        if (e.clientX > w * 0.5) next();
-        else prev();
-      });
-
-      render();
-    })();
+    const slides = Array.from(document.querySelectorAll(".slide"));
+    const idx = document.getElementById("idx");
+    let i = 0;
+    const render = () => {
+      slides.forEach((s, n) => s.classList.toggle("active", n === i));
+      idx.textContent = `${i + 1} / ${slides.length}`;
+      document.title = `13JM 汇报 (${i + 1}/${slides.length})`;
+    };
+    const next = () => { i = Math.min(i + 1, slides.length - 1); render(); };
+    const prev = () => { i = Math.max(i - 1, 0); render(); };
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowRight" || e.key === "PageDown" || e.key === " ") next();
+      if (e.key === "ArrowLeft" || e.key === "PageUp") prev();
+      if (e.key === "Home") { i = 0; render(); }
+      if (e.key === "End") { i = slides.length - 1; render(); }
+    });
+    window.addEventListener("click", (e) => {
+      const w = window.innerWidth || document.documentElement.clientWidth;
+      if (e.clientX > w / 2) next(); else prev();
+    });
+    render();
   </script>
 </body>
 </html>

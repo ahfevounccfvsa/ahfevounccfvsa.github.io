@@ -1,0 +1,46 @@
+{
+  "dino": {
+    "known_correct_assign_rate": 0.47596153846153844,
+    "known_reject_rate": 0.35216346153846156,
+    "reject_reject_rate": 0.9134615384615384,
+    "reject_assigned_rate": 0.08653846153846154,
+    "known_proto_top1_acc": 0.6189903846153846,
+    "known_knn_top1_acc": 0.6262019230769231,
+    "prototype_auc": 0.93737287352071,
+    "knn_auc": 0.9327693540433926,
+    "decision_counts_known": {
+      "assigned": 539,
+      "uncertain": 271,
+      "unknown": 22
+    },
+    "decision_counts_reject": {
+      "unknown": 148,
+      "uncertain": 137,
+      "assigned": 27
+    },
+    "known_n": 832,
+    "reject_n": 312
+  },
+  "cell": {
+    "known_correct_assign_rate": 0.3112980769230769,
+    "known_reject_rate": 0.6862980769230769,
+    "reject_reject_rate": 0.9134615384615384,
+    "reject_assigned_rate": 0.08653846153846154,
+    "known_proto_top1_acc": 0.8966346153846154,
+    "known_knn_top1_acc": 0.8990384615384616,
+    "prototype_auc": 0.8796015933185404,
+    "knn_auc": 0.8862295056706114,
+    "decision_counts_known": {
+      "unknown": 296,
+      "uncertain": 275,
+      "assigned": 261
+    },
+    "decision_counts_reject": {
+      "unknown": 278,
+      "assigned": 27,
+      "uncertain": 7
+    },
+    "known_n": 832,
+    "reject_n": 312
+  }
+}
