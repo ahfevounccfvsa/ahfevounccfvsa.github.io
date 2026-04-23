@@ -4,18 +4,28 @@
 <link rel="stylesheet" href="./styles.css"/>
 <title>COSMOS gallery (subset800)</title></head><body><div class="container">
 <div class="card">
-<div class="h1">COSMOS 图像+标签快速浏览（subset800，每类展示前 100）</div>
-<div class="p">manifest: <code>/home/wangqianqian/project/FS/experiments/2026-04-23_cosmos_external_benchmark/cosmos_800_manifest.csv</code></div>
+<div class="h1">COSMOS 图像+标签快速浏览（subset800：每类 200；本页每类仅展示前 100）</div>
+<div class="p">
+数据来源：Mahyar Salek et al., <em>COSMOS: a platform for real-time morphology-based, label-free cell sorting using deep learning</em>, Communications Biology, 2023-09-22（DOI: 10.1038/s42003-023-05325-9）。
+</div>
+<div class="p">
+论文数据可用性声明：公开了 “images used to generate presented UMAPs” 以及对应的 embeddings/predictions/labels，并指向 <code>deepcell/Salek_2022</code>。
+</div>
 <div class="kv">
-<div>classes</div><div><code>[&#x27;FNRBC&#x27;, &#x27;LIVER_CARCINOMA&#x27;, &#x27;NSCLC&#x27;, &#x27;WBC&#x27;]</code></div>
+<div>公开原始 images</div><div><code>2400</code> 张（每类 600）</div>
+<div>本仓库展示</div><div><code>subset800</code>（均衡采样：每类 200，总 800；页面展示每类前 100 张缩略图 = 共 400 张）</div>
+<div>classes</div><div><code>FNRBC / WBC / NSCLC / LIVER_CARCINOMA</code></div>
+<div>标签解释</div><div><code>WBC≈PBMC</code>（外周血免疫细胞背景），<code>FNRBC</code>（胎儿有核红细胞），<code>NSCLC</code>（非小细胞肺癌细胞系），<code>LIVER_CARCINOMA≈HCC</code>（肝细胞癌细胞系）</div>
+<div>manifest</div><div><code>/home/wangqianqian/project/FS/experiments/2026-04-23_cosmos_external_benchmark/cosmos_800_manifest.csv</code></div>
 <div>label_map.json</div><div><code>/home/wangqianqian/project/FS/experiments/2026-04-23_cosmos_external_benchmark/label_map.json</code></div>
+<div>FS 实验记录</div><div><code>/home/wangqianqian/project/FS/experiment_records/2026-04-23_cosmos_external_benchmark.md</code></div>
 </div>
 </div>
 <div class="card">
 <div class="h1">按类别浏览</div>
-<div style="margin:8px 0;"><span class="chip">FNRBC</span> total_in_subset: <code>200</code> &nbsp; <a href="./label_FNRBC.html">open</a></div>
-<div style="margin:8px 0;"><span class="chip">LIVER_CARCINOMA</span> total_in_subset: <code>200</code> &nbsp; <a href="./label_LIVER_CARCINOMA.html">open</a></div>
-<div style="margin:8px 0;"><span class="chip">NSCLC</span> total_in_subset: <code>200</code> &nbsp; <a href="./label_NSCLC.html">open</a></div>
-<div style="margin:8px 0;"><span class="chip">WBC</span> total_in_subset: <code>200</code> &nbsp; <a href="./label_WBC.html">open</a></div>
+<div style="margin:8px 0;"><span class="chip">FNRBC</span> subset_count: <code>200</code> &nbsp; <a href="./label_FNRBC.html">open</a></div>
+<div style="margin:8px 0;"><span class="chip">WBC</span> subset_count: <code>200</code> &nbsp; <a href="./label_WBC.html">open</a></div>
+<div style="margin:8px 0;"><span class="chip">NSCLC</span> subset_count: <code>200</code> &nbsp; <a href="./label_NSCLC.html">open</a></div>
+<div style="margin:8px 0;"><span class="chip">LIVER_CARCINOMA</span> subset_count: <code>200</code> &nbsp; <a href="./label_LIVER_CARCINOMA.html">open</a></div>
 </div>
 </div></body></html>
