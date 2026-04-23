@@ -111,6 +111,13 @@
       </ul>
     </div>
     <div class="card">
+      <h3>先说清楚：数据不是“全量逐张人工标注”</h3>
+      <ul>
+        <li>本次使用的是“人工筛选评估集”（manual export），不是全库每张图都手工标完</li>
+        <li>PPT 里的结果图是模型在该评估集上的输出，不是人工打分结果图</li>
+      </ul>
+    </div>
+    <div class="card">
       <h3>先把名词说人话</h3>
       <ul>
         <li>known：我们已经确认过类别的细胞（已知类）</li>
@@ -122,6 +129,34 @@
     </div>
     <div class="card">
       <p>操作说明：<span class="kbd">←</span> <span class="kbd">→</span> 切页；点页面左半/右半也可切页。</p>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="card">
+      <h2>数据从哪来（给陌生人看的一页）</h2>
+    </div>
+    <div class="card">
+      <h3>1) 原始图像来源</h3>
+      <ul>
+        <li>来自项目 13JM 的单细胞图像库（并非为本次实验新采图）</li>
+        <li>图像路径根目录：<code>/home/wangqianqian/project/FS/data/13JM+CAOV3+MNT1/</code></li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>2) 人工参与的数据环节</h3>
+      <ul>
+        <li><strong>support set（253 张）</strong>：先聚类，再人工清理后形成的“已知类参考样本”</li>
+        <li><strong>known_eval（832 张）</strong> 和 <strong>reject_eval（312 张）</strong>：由人工从候选池导出得到的评估集</li>
+        <li>因此这是“人工筛选标注集”，不是“全量逐张标注集”</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>3) 模型输出的数据环节</h3>
+      <ul>
+        <li>模型只负责对评估集做判定：assigned / uncertain / unknown</li>
+        <li>PPT 中所有柱状图、样例图，都是模型输出结果的可视化</li>
+      </ul>
     </div>
   </section>
 
@@ -225,7 +260,7 @@
   </section>
 
   <div class="footer">
-    <span id="idx">1 / 7</span>
+    <span id="idx">1 / 8</span>
     <span>13JM quick eval report (plain language)</span>
   </div>
 
