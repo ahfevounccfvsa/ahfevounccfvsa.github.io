@@ -1,0 +1,85 @@
+:root {
+  --bg: #f5f1e8;
+  --panel: #fffdf9;
+  --line: #d8cfc1;
+  --ink: #26231e;
+  --muted: #6f685d;
+  --accent: #1e6b63;
+  --shadow: rgba(48, 35, 18, 0.08);
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: radial-gradient(circle at top, #fffdf8 0%, var(--bg) 60%);
+  color: var(--ink);
+  font-family: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+}
+.shell { width: min(1820px, calc(100vw - 24px)); margin: 16px auto 40px; }
+.toolbar {
+  position: sticky; top: 0; z-index: 20;
+  background: rgba(255, 253, 249, 0.96);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 14px 18px;
+  backdrop-filter: blur(8px);
+  margin-bottom: 16px;
+}
+h1 { margin: 0; font-size: 26px; }
+.sub { margin-top: 6px; color: var(--muted); font-size: 14px; line-height: 1.6; }
+.nav { margin-top: 10px; display: flex; gap: 8px; flex-wrap: wrap; }
+.nav a {
+  text-decoration: none;
+  color: var(--accent);
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: white;
+  border: 1px solid var(--line);
+  font-size: 13px;
+}
+.section {
+  margin-bottom: 20px;
+  background: rgba(255, 253, 249, 0.72);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 14px;
+  box-shadow: 0 8px 18px var(--shadow);
+}
+.section h2 { margin: 0 0 10px; font-size: 18px; }
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 10px;
+}
+.cell {
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  overflow: hidden;
+}
+.cell img { width: 100%; height: auto; display: block; }
+.cap {
+  padding: 7px 9px;
+  border-top: 1px solid var(--line);
+  font-size: 12px;
+  color: var(--muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 12px;
+}
+.card {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 14px 14px 12px;
+  box-shadow: 0 8px 18px var(--shadow);
+}
+.card h3 { margin: 0; font-size: 16px; }
+.card p { margin: 8px 0 0; color: var(--muted); line-height: 1.55; font-size: 13px; }
