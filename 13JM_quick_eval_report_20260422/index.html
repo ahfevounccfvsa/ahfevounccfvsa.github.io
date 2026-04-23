@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>13JM few-shot quick 实验汇报</title>
+  <title>13JM 快速实验汇报（白话版）</title>
   <style>
     :root {
       --bg: #f5f7fb;
@@ -95,8 +95,8 @@
 <body>
   <section class="slide active">
     <div class="card">
-      <h1>13JM few-shot quick 实验汇报</h1>
-      <p class="muted">主题：corrected Cell-DINO vs DINOv2 no-extra-crop</p>
+      <h1>13JM 快速实验汇报（白话版）</h1>
+      <p class="muted">主题：两种“图像特征提取方案”对比（Cell-DINO vs DINOv2）</p>
       <p style="margin-top:10px;">
         <span class="chip">数据时间: 2026-04-22</span>
         <span class="chip">状态: completed</span>
@@ -104,10 +104,20 @@
       </p>
     </div>
     <div class="card">
-      <h3>这次只回答 2 件事</h3>
+      <h3>这次只回答 2 件事（不讲绕话）</h3>
       <ul>
-        <li>我们做了什么实验流程？</li>
-        <li>从结果图上看，两条线各自表现如何？</li>
+        <li>我们具体做了什么？</li>
+        <li>结果图说明了什么？</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>先把名词说人话</h3>
+      <ul>
+        <li>known：我们已经确认过类别的细胞（已知类）</li>
+        <li>reject：明显不该进已知类的图（垃圾/多细胞/异常等）</li>
+        <li>support set：每个已知类给模型的“参考样本”</li>
+        <li>assigned：模型认为可以分到某个已知类</li>
+        <li>uncertain / unknown：模型不够确定，先不分配</li>
       </ul>
     </div>
     <div class="card">
@@ -117,68 +127,70 @@
 
   <section class="slide">
     <div class="card">
-      <h2>我们做了什么（流程页）</h2>
+      <h2>我们做了什么（流程）</h2>
     </div>
     <div class="card">
       <h3>Step 1. 准备评估数据</h3>
       <ul>
-        <li>support set：253 张，14 类（remove17 版本）</li>
-        <li>known_eval：832 张</li>
-        <li>reject_eval：313 张（与 known 重叠 1 张，去重后 312）</li>
+        <li>给模型的参考样本（support）：253 张，14 类</li>
+        <li>用于检验“已知类是否分对”的图片（known_eval）：832 张</li>
+        <li>用于检验“该不该拒绝”的图片（reject_eval）：313 张，其中 1 张与 known 重复，已去重到 312 张</li>
       </ul>
     </div>
     <div class="card">
       <h3>Step 2. 两条特征线并行对比</h3>
       <ul>
-        <li>线 A：corrected Cell-DINO 特征</li>
-        <li>线 B：DINOv2 pretrained + 224 resize + no extra crop</li>
+        <li>方案 A：Cell-DINO 特征（当前基线）</li>
+        <li>方案 B：DINOv2 特征（只做 resize，不再额外中心裁剪）</li>
       </ul>
     </div>
     <div class="card">
       <h3>Step 3. 统一下游决策</h3>
       <ul>
-        <li>同一脚本：support assignment v2</li>
-        <li>同一输出口径：assigned / uncertain / unknown</li>
-        <li>同一评估对象：known_eval + reject_eval 去重集</li>
+        <li>两条线都用同一个判定脚本</li>
+        <li>两条线都输出同样三种结果：assigned / uncertain / unknown</li>
+        <li>两条线都在同一批评估图片上比较</li>
       </ul>
     </div>
   </section>
 
   <section class="slide">
     <div class="card">
-      <h2>结果图 1：严格 open-set 指标</h2>
-      <p class="muted">图里是最终决策口径（阈值生效）</p>
+      <h2>结果图 1：最终判定结果（最关键）</h2>
+      <p class="muted">这张图是“真正交付时会看到的结果”，不是中间分数</p>
     </div>
     <div class="card">
       <img class="img" src="./assets/fig1_open_set_metrics.png" alt="Strict open-set metrics" />
     </div>
     <div class="card">
-      <p>这张图只看两点：known_correct_assign_rate 和 known_reject_rate。DINOv2 线在这两项上更好，reject 侧两线基本一致。</p>
+      <p>这张图怎么看：1. “known_correct_assign”越高越好（已知类分对更多）；2. “known_reject”越低越好（少错拒）。在这两点上 DINOv2 更好；reject 两条线基本持平。</p>
     </div>
   </section>
 
   <section class="slide">
     <div class="card">
-      <h2>结果图 2：去阈值后的特征信号</h2>
-      <p class="muted">图里不看拒识阈值，只看特征本身能力</p>
+      <h2>结果图 2：不加判定门槛时的能力</h2>
+      <p class="muted">这张图用于看“模型底子”，不代表最终业务判定</p>
     </div>
     <div class="card">
       <img class="img" src="./assets/fig2_feature_signal_metrics.png" alt="Feature signal metrics" />
     </div>
     <div class="card">
-      <p>这张图只看两点：known 内部分类（Cell-DINO 高）和 known-vs-reject 分离（DINOv2 高）。</p>
+      <p>这张图怎么看：左边两项看“已知类细分能力”（Cell-DINO 更高）；右边两项看“已知类 vs 拒绝类分离能力”（DINOv2 更高）。</p>
     </div>
   </section>
 
   <section class="slide">
     <div class="card">
-      <h2>结果图 3：决策构成（DINOv2）</h2>
+      <h2>结果图 3：DINOv2 的判定构成</h2>
+      <p class="muted">每根柱子是数量分布：assigned / uncertain / unknown</p>
     </div>
     <div class="card">
       <img class="img" src="./assets/fig3_dino_decision_breakdown.png" alt="DINO decision breakdown" />
     </div>
     <div class="card">
-      <h2 style="margin-top:8px;">结果图 4：决策构成（Cell-DINO）</h2>
+      <h2 style="margin-top:8px;">结果图 4：Cell-DINO 的判定构成</h2>
+      <p class="muted">和上一张同口径，便于直接对照</p>
     </div>
     <div class="card">
       <img class="img" src="./assets/fig4_cell_decision_breakdown.png" alt="Cell decision breakdown" />
@@ -187,8 +199,8 @@
 
   <section class="slide">
     <div class="card">
-      <h2>结果图 5：DINOv2 样例图</h2>
-      <p class="muted">四行分别是：known correct assigned / known not assigned / reject rejected / reject assigned(error)</p>
+      <h2>结果图 5：DINOv2 样例图（看图感受）</h2>
+      <p class="muted">四行从上到下分别是：已知类分对 / 已知类没分配 / reject 被拒绝 / reject 被误分配</p>
     </div>
     <div class="card">
       <img class="img" src="./assets/fig5_dino_qualitative_grid.png" alt="DINO qualitative grid" />
@@ -197,14 +209,14 @@
 
   <section class="slide">
     <div class="card">
-      <h2>结果图 6：Cell-DINO 样例图</h2>
-      <p class="muted">四行类别与上一页一致，便于并排看差异</p>
+      <h2>结果图 6：Cell-DINO 样例图（同口径）</h2>
+      <p class="muted">四行定义和上一页完全一致，方便一眼对比</p>
     </div>
     <div class="card">
       <img class="img" src="./assets/fig6_cell_qualitative_grid.png" alt="Cell qualitative grid" />
     </div>
     <div class="card">
-      <h3>本页仅附输出位置（不写主观总结）</h3>
+      <h3>原始输出位置（方便追溯）</h3>
       <ul>
         <li>指标汇总 JSON：<code>./assets/computed_metrics.json</code></li>
         <li>图文件目录：<code>./assets/</code></li>
@@ -214,7 +226,7 @@
 
   <div class="footer">
     <span id="idx">1 / 7</span>
-    <span>13JM quick eval report</span>
+    <span>13JM quick eval report (plain language)</span>
   </div>
 
   <script>
