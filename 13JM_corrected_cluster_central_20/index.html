@@ -35,6 +35,12 @@
       backdrop-filter: blur(8px);
       margin-bottom: 16px;
     }
+    .toolbar-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
     h1 { margin: 0; font-size: 28px; }
     .sub { margin-top: 6px; color: var(--muted); font-size: 14px; }
     .toolbar-actions {
@@ -70,6 +76,13 @@
       border-color: #b5d7cb;
       color: #176352;
     }
+    .btn-ghost {
+      background: #faf7f1;
+      border-color: #e7dfd1;
+      color: #5f584f;
+      padding: 6px 10px;
+      font-size: 12px;
+    }
     .stats {
       margin-top: 12px;
       display: flex;
@@ -95,6 +108,19 @@
       border: 1px solid var(--line);
       background: white;
       font-size: 13px;
+    }
+
+    /* Collapse the sticky toolbar so it doesn't block the gallery. */
+    body.toolbar-collapsed .toolbar {
+      padding: 10px 14px;
+      margin-bottom: 10px;
+    }
+    body.toolbar-collapsed .sub,
+    body.toolbar-collapsed .toolbar-actions,
+    body.toolbar-collapsed .stats,
+    body.toolbar-collapsed .toc,
+    body.toolbar-collapsed .umap-panel {
+      display: none;
     }
     .cluster {
       background: rgba(255, 253, 249, 0.75);
@@ -207,7 +233,10 @@
 <body>
   <div class="shell">
     <div class="toolbar">
-      <h1>13JM corrected Cell-DINO: 20 most central samples per cluster</h1>
+      <div class="toolbar-top">
+        <h1>13JM corrected Cell-DINO: 20 most central samples per cluster</h1>
+        <button class="btn btn-ghost" id="toggle-toolbar" type="button">收起工具栏</button>
+      </div>
       <div class="sub">每个 cluster 展示离该 cluster 质心最近的 20 张图，中心性基于输入特征空间中的欧氏距离。这里已经升级为可清洗页面，可以单图删除、整类删除，并导出 few-shot support set。</div>
       <div class="toolbar-actions">
         <button class="btn" id="reset-all" type="button">重置全部</button>
@@ -4247,6 +4276,26 @@
         refreshAll();
       }
     });
+
+    const toggleToolbarBtn = document.getElementById("toggle-toolbar");
+    const TOOLBAR_COLLAPSE_KEY = "fs_toolbar_collapsed_v1";
+    function setToolbarCollapsed(collapsed) {
+      document.body.classList.toggle("toolbar-collapsed", collapsed);
+      toggleToolbarBtn.textContent = collapsed ? "展开工具栏" : "收起工具栏";
+      try {
+        window.localStorage.setItem(TOOLBAR_COLLAPSE_KEY, collapsed ? "1" : "0");
+      } catch (_e) {
+      }
+    }
+    toggleToolbarBtn.addEventListener("click", () => {
+      setToolbarCollapsed(!document.body.classList.contains("toolbar-collapsed"));
+    });
+    try {
+      const saved = window.localStorage.getItem(TOOLBAR_COLLAPSE_KEY);
+      // Default to collapsed to avoid blocking the gallery on first open.
+      setToolbarCollapsed(saved === null ? true : saved === "1");
+    } catch (_e) {
+    }
 
     loadPersistedState();
     refreshAll();
