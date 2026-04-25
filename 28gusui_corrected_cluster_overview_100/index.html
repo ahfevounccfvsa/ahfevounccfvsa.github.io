@@ -59,6 +59,26 @@
       background: white;
       font-size: 13px;
     }
+    .umap-panel {
+      background: rgba(255, 253, 249, 0.96);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 14px 18px;
+      margin: -4px 0 16px;
+    }
+    .umap-title {
+      font-weight: 800;
+      font-size: 14px;
+      color: var(--muted);
+      margin-bottom: 10px;
+    }
+    .umap-img {
+      width: min(980px, 100%);
+      display: block;
+      border-radius: 14px;
+      border: 1px solid #e3dbce;
+      background: #faf7f1;
+    }
     .cluster {
       background: rgba(255, 253, 249, 0.75);
       border: 1px solid var(--line);
@@ -111,6 +131,14 @@
       <div class="toc">
         <a href="#cluster-0">cluster 0</a><a href="#cluster-1">cluster 1</a><a href="#cluster-2">cluster 2</a><a href="#cluster-3">cluster 3</a><a href="#cluster-4">cluster 4</a><a href="#cluster-5">cluster 5</a><a href="#cluster-6">cluster 6</a><a href="#cluster-7">cluster 7</a><a href="#cluster-8">cluster 8</a><a href="#cluster-9">cluster 9</a><a href="#cluster-10">cluster 10</a><a href="#cluster-11">cluster 11</a><a href="#cluster-12">cluster 12</a><a href="#cluster-13">cluster 13</a><a href="#cluster-14">cluster 14</a><a href="#cluster-15">cluster 15</a><a href="#cluster-16">cluster 16</a><a href="#cluster-17">cluster 17</a><a href="#cluster-18">cluster 18</a><a href="#cluster-19">cluster 19</a><a href="#cluster-20">cluster 20</a>
       </div>
+    </div>
+
+    <div class="umap-panel">
+      <div class="umap-title">UMAP（Louvain cluster 编号已直接标在图上）</div>
+      <a href="./umap_louvain_numbered.png" target="_blank" rel="noopener">
+        <img class="umap-img" src="./umap_thumb.jpg" loading="lazy" alt="UMAP">
+      </a>
+      <div class="sub" style="margin-top:10px;">点击图片可打开原图。</div>
     </div>
     
     <section class="cluster" id="cluster-0">

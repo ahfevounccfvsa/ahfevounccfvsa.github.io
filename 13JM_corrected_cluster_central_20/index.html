@@ -182,6 +182,26 @@
     .hidden-input {
       display: none;
     }
+    .umap-panel {
+      background: rgba(255, 253, 249, 0.96);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 14px 18px;
+      margin: -4px 0 16px;
+    }
+    .umap-title {
+      font-weight: 800;
+      font-size: 14px;
+      color: var(--muted);
+      margin-bottom: 10px;
+    }
+    .umap-img {
+      width: min(980px, 100%);
+      display: block;
+      border-radius: 14px;
+      border: 1px solid #e3dbce;
+      background: #faf7f1;
+    }
   </style>
 </head>
 <body>
@@ -203,6 +223,14 @@
         <div class="pill" id="active-cluster-pill">保留 cluster 0 / 0</div>
       </div>
       <div class="toc"><a class="toc-link" data-cluster-link="0" href="#cluster-0">0</a><a class="toc-link" data-cluster-link="1" href="#cluster-1">1</a><a class="toc-link" data-cluster-link="2" href="#cluster-2">2</a><a class="toc-link" data-cluster-link="3" href="#cluster-3">3</a><a class="toc-link" data-cluster-link="4" href="#cluster-4">4</a><a class="toc-link" data-cluster-link="5" href="#cluster-5">5</a><a class="toc-link" data-cluster-link="6" href="#cluster-6">6</a><a class="toc-link" data-cluster-link="7" href="#cluster-7">7</a><a class="toc-link" data-cluster-link="8" href="#cluster-8">8</a><a class="toc-link" data-cluster-link="9" href="#cluster-9">9</a><a class="toc-link" data-cluster-link="10" href="#cluster-10">10</a><a class="toc-link" data-cluster-link="11" href="#cluster-11">11</a><a class="toc-link" data-cluster-link="12" href="#cluster-12">12</a><a class="toc-link" data-cluster-link="13" href="#cluster-13">13</a><a class="toc-link" data-cluster-link="14" href="#cluster-14">14</a><a class="toc-link" data-cluster-link="15" href="#cluster-15">15</a><a class="toc-link" data-cluster-link="16" href="#cluster-16">16</a><a class="toc-link" data-cluster-link="17" href="#cluster-17">17</a><a class="toc-link" data-cluster-link="18" href="#cluster-18">18</a></div>
+    </div>
+
+    <div class="umap-panel">
+      <div class="umap-title">UMAP（Louvain cluster 编号已直接标在图上）</div>
+      <a href="./umap_louvain_numbered.png" target="_blank" rel="noopener">
+        <img class="umap-img" src="./umap_thumb.jpg" loading="lazy" alt="UMAP">
+      </a>
+      <div class="sub" style="margin-top:10px;">点击图片可打开原图。</div>
     </div>
     
     <section class="cluster" id="cluster-0" data-cluster-id="0">

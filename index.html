@@ -44,6 +44,16 @@
       border-radius: 18px;
       padding: 18px;
     }
+    .thumb {
+      width: 100%;
+      height: 190px;
+      margin-top: 12px;
+      border-radius: 14px;
+      border: 1px solid #e7dfd1;
+      background: #faf7f1;
+      object-fit: contain;
+      display: block;
+    }
     .title {
       font-size: 22px;
       font-weight: 800;
@@ -80,14 +90,17 @@
       <a class="card" href="./13JM_corrected_cluster_central_20/index.html">
         <div class="title">13JM corrected cluster central 20</div>
         <div class="meta">13JM corrected Cell-DINO 聚类结果。每个 cluster 展示距离该类质心最近的 20 张图，便于人工查看代表性形态。</div>
+        <img class="thumb" src="./13JM_corrected_cluster_central_20/umap_thumb.jpg" loading="lazy" alt="UMAP preview">
       </a>
       <a class="card" href="./13JM_dinov2_pretrained_cluster_overview_100/index.html">
         <div class="title">13JM DINOv2 pretrained cluster overview 100</div>
         <div class="meta">13JM pretrained DINOv2 PCA15/Louvain 聚类结果。远程浏览友好版：总目录不加载图片，点进每个 cluster 后展示随机 100 张。</div>
+        <img class="thumb" src="./13JM_dinov2_pretrained_cluster_overview_100/umap_thumb.jpg" loading="lazy" alt="UMAP preview">
       </a>
       <a class="card" href="./13JM_dinov2_adapted_from_28gusui_e5_cluster_overview_100/index.html">
         <div class="title">13JM adapted DINOv2 from 28gusui e5 overview 100</div>
         <div class="meta">使用 28gusui&pizang 域自适应 5 epoch 后的 DINOv2，在 13JM 上提特征并 Louvain 聚类。远程浏览友好版：每个 cluster 单独页面随机 100 张。</div>
+        <img class="thumb" src="./13JM_dinov2_adapted_from_28gusui_e5_cluster_overview_100/umap_thumb.jpg" loading="lazy" alt="UMAP preview">
       </a>
       <a class="card" href="./13JM_gold_eval_v1_known_editable_remove17/index.html">
         <div class="title">13JM gold eval known editable remove17</div>
@@ -116,10 +129,12 @@
       <a class="card" href="./28gusui_corrected_cluster_central_20/index.html">
         <div class="title">28gusui corrected cluster central 20</div>
         <div class="meta">28gusui corrected Cell-DINO 聚类结果。每个 cluster 展示距离该类质心最近的 20 张图，便于人工挑代表性样本或构建 support set。</div>
+        <img class="thumb" src="./28gusui_corrected_cluster_central_20/umap_thumb.jpg" loading="lazy" alt="UMAP preview">
       </a>
       <a class="card" href="./28gusui_corrected_cluster_overview_100/index.html">
         <div class="title">28gusui corrected cluster overview 100</div>
         <div class="meta">28gusui corrected Cell-DINO 聚类总览页。每个 cluster 随机展示 100 张图，用于快速浏览类内形态和杂质情况。</div>
+        <img class="thumb" src="./28gusui_corrected_cluster_overview_100/umap_thumb.jpg" loading="lazy" alt="UMAP preview">
       </a>
       <a class="card" href="./usable_2000/index.html">
         <div class="title">usable_single_cell</div>
