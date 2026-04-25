@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>13JM 快速实验汇报（白话版）</title>
+  <title>13JM 快速实验汇报（白话+专业版）</title>
   <style>
     :root {
       --bg: #f5f7fb;
@@ -12,6 +12,9 @@
       --muted: #475569;
       --line: #dbe3ee;
       --brand: #0a6e8c;
+      --good: #0b7a4b;
+      --warn: #b45309;
+      --bad: #b42318;
     }
     * { box-sizing: border-box; }
     html, body {
@@ -20,11 +23,13 @@
       margin: 0;
       font-family: "PingFang SC", "Noto Sans SC", "Microsoft YaHei", sans-serif;
       color: var(--ink);
-      background: radial-gradient(circle at 10% 0%, #e5f4fb 0%, transparent 35%),
-                  radial-gradient(circle at 90% 10%, #e8ecff 0%, transparent 30%),
-                  var(--bg);
+      background:
+        radial-gradient(circle at 10% 0%, #e5f4fb 0%, transparent 35%),
+        radial-gradient(circle at 90% 10%, #e8ecff 0%, transparent 30%),
+        var(--bg);
       overflow: hidden;
     }
+
     .slide {
       display: none;
       height: 100%;
@@ -33,30 +38,98 @@
       animation: fade .2s ease;
     }
     .slide.active { display: block; }
+
     .card {
       background: var(--card);
       border: 1px solid var(--line);
       border-radius: 14px;
       padding: 18px 20px;
       margin-bottom: 14px;
+      box-shadow: 0 1px 0 rgba(2, 6, 23, 0.02);
     }
-    h1 { margin: 0 0 10px; font-size: 40px; }
+
+    h1 { margin: 0 0 10px; font-size: 40px; letter-spacing: 0.2px; }
     h2 { margin: 0 0 10px; font-size: 30px; }
     h3 { margin: 0 0 8px; font-size: 22px; }
-    p, li { font-size: 19px; line-height: 1.55; margin: 0; }
+
+    p, li { font-size: 18px; line-height: 1.62; margin: 0; }
     ul { margin: 0; padding-left: 22px; }
+
     .muted { color: var(--muted); }
     .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+
+    code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      background: #eef2ff;
+      border: 1px solid #dbeafe;
+      padding: 2px 6px;
+      border-radius: 6px;
+      color: #1e3a8a;
+    }
+
     .chip {
-      display: inline-block;
-      border: 1px solid #9ec7d6;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid #cfe7f1;
       background: #edf8fc;
       color: #0b4d5f;
       border-radius: 999px;
-      padding: 4px 10px;
-      font-size: 14px;
-      margin-right: 6px;
+      padding: 6px 10px;
+      font-size: 13px;
+      margin-right: 8px;
+      margin-bottom: 8px;
     }
+    .dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 999px;
+      background: var(--brand);
+      display: inline-block;
+    }
+
+    .kpi {
+      margin-top: 10px;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+    .kpi-box {
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 12px 14px;
+      background: #fbfdff;
+    }
+    .kpi-title { font-size: 13px; color: var(--muted); }
+    .kpi-value { margin-top: 6px; font-size: 26px; font-weight: 800; }
+    .kpi-sub { margin-top: 4px; font-size: 13px; color: var(--muted); }
+
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      background: #fff;
+      margin-top: 10px;
+    }
+    .table th, .table td {
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      font-size: 14px;
+      vertical-align: middle;
+    }
+    .table th {
+      background: #f8fbff;
+      color: #334155;
+      font-weight: 800;
+    }
+    .table tr:last-child td { border-bottom: none; }
+    .num { font-variant-numeric: tabular-nums; }
+    .good { color: var(--good); font-weight: 800; }
+    .bad { color: var(--bad); font-weight: 800; }
+
     .img {
       width: 100%;
       border: 1px solid var(--line);
@@ -64,6 +137,15 @@
       background: #fff;
       display: block;
     }
+
+    .callout {
+      margin-top: 10px;
+      border-left: 4px solid #0ea5e9;
+      background: #f0f9ff;
+      border-radius: 10px;
+      padding: 12px 14px;
+    }
+
     .footer {
       position: fixed;
       left: 36px;
@@ -73,6 +155,7 @@
       justify-content: space-between;
       color: #64748b;
       font-size: 14px;
+      pointer-events: none;
     }
     .kbd {
       border: 1px solid #cbd5e1;
@@ -81,187 +164,323 @@
       padding: 1px 6px;
       background: #fff;
     }
+
     @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+
     @media (max-width: 980px) {
       .slide { padding: 16px 14px 42px; }
       .row2 { grid-template-columns: 1fr; }
       h1 { font-size: 30px; }
       h2 { font-size: 24px; }
-      p, li { font-size: 17px; }
+      p, li { font-size: 16px; }
       .footer { left: 14px; right: 14px; }
+      .kpi { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
+  <!-- Slide 1: Title + one-line takeaway -->
   <section class="slide active">
     <div class="card">
-      <h1>13JM 快速实验汇报（白话版）</h1>
-      <p class="muted">主题：两种“图像特征提取方案”对比（Cell-DINO vs DINOv2）</p>
+      <h1>13JM 快速实验汇报（白话 + 专业版）</h1>
+      <p class="muted">主题：两种特征提取方案对比（<strong>Cell-DINO</strong> vs <strong>DINOv2</strong>），用于 few-shot + open-set 的“分配/拒绝”任务。</p>
       <p style="margin-top:10px;">
-        <span class="chip">数据时间: 2026-04-22</span>
-        <span class="chip">状态: completed</span>
-        <span class="chip">用途: 快速趋势验证</span>
+        <span class="chip"><span class="dot"></span><strong>数据时间</strong> 2026-04-22</span>
+        <span class="chip"><span class="dot"></span><strong>状态</strong> completed</span>
+        <span class="chip"><span class="dot"></span><strong>用途</strong> 快速趋势判断（不是最终论文结论）</span>
       </p>
-    </div>
-    <div class="card">
-      <h3>这次只回答 2 件事（不讲绕话）</h3>
-      <ul>
-        <li>我们具体做了什么？</li>
-        <li>结果图说明了什么？</li>
-      </ul>
-    </div>
-    <div class="card">
-      <h3>先说清楚：数据不是“全量逐张人工标注”</h3>
-      <ul>
-        <li>本次使用的是“人工筛选评估集”（manual export），不是全库每张图都手工标完</li>
-        <li>PPT 里的结果图是模型在该评估集上的输出，不是人工打分结果图</li>
-      </ul>
-    </div>
-    <div class="card">
-      <h3>先把名词说人话</h3>
-      <ul>
-        <li>known：我们已经确认过类别的细胞（已知类）</li>
-        <li>reject：明显不该进已知类的图（垃圾/多细胞/异常等）</li>
-        <li>support set：每个已知类给模型的“参考样本”</li>
-        <li>assigned：模型认为可以分到某个已知类</li>
-        <li>uncertain / unknown：模型不够确定，先不分配</li>
-      </ul>
-    </div>
-    <div class="card">
-      <p>操作说明：<span class="kbd">←</span> <span class="kbd">→</span> 切页；点页面左半/右半也可切页。</p>
-    </div>
-  </section>
 
-  <section class="slide">
-    <div class="card">
-      <h2>数据从哪来（给陌生人看的一页）</h2>
+      <div class="kpi">
+        <div class="kpi-box">
+          <div class="kpi-title">已知类：正确分配率（越高越好）</div>
+          <div class="kpi-value num"><span class="good">DINOv2 47.6%</span> vs Cell 31.1%</div>
+          <div class="kpi-sub">+16.5 个百分点（在 known_eval 上）</div>
+        </div>
+        <div class="kpi-box">
+          <div class="kpi-title">已知类：被错拒率（越低越好）</div>
+          <div class="kpi-value num"><span class="good">DINOv2 35.2%</span> vs Cell 68.6%</div>
+          <div class="kpi-sub">-33.4 个百分点（Cell 明显“太保守”）</div>
+        </div>
+        <div class="kpi-box">
+          <div class="kpi-title">拒绝集：被成功拒绝率（越高越好）</div>
+          <div class="kpi-value num">两者均 <span class="good">91.3%</span></div>
+          <div class="kpi-sub">reject_eval 上两条线持平</div>
+        </div>
+      </div>
+
+      <div class="callout">
+        <p><strong>一句话结论：</strong>在这次 quick eval 的“能分就分、该拒就拒”口径下，<strong>DINOv2 更适合作为后续 few-shot/open-set 的默认特征底座</strong>；Cell-DINO 在“已知类内细分”很强，但在这套判定规则下更容易把已知类错拒掉。</p>
+      </div>
     </div>
+
     <div class="card">
-      <h3>1) 原始图像来源</h3>
+      <h3>操作说明</h3>
       <ul>
-        <li>来自项目 13JM 的单细胞图像库（并非为本次实验新采图）</li>
-        <li>图像路径根目录：<code>/home/wangqianqian/project/FS/data/13JM+CAOV3+MNT1/</code></li>
-      </ul>
-    </div>
-    <div class="card">
-      <h3>2) 人工参与的数据环节</h3>
-      <ul>
-        <li><strong>support set（253 张）</strong>：先聚类，再人工清理后形成的“已知类参考样本”</li>
-        <li><strong>known_eval（832 张）</strong> 和 <strong>reject_eval（312 张）</strong>：由人工从候选池导出得到的评估集</li>
-        <li>因此这是“人工筛选标注集”，不是“全量逐张标注集”</li>
-      </ul>
-    </div>
-    <div class="card">
-      <h3>3) 模型输出的数据环节</h3>
-      <ul>
-        <li>模型只负责对评估集做判定：assigned / uncertain / unknown</li>
-        <li>PPT 中所有柱状图、样例图，都是模型输出结果的可视化</li>
+        <li><span class="kbd">←</span> <span class="kbd">→</span> 切页；点击页面左半/右半也可切页。</li>
+        <li>本报告把“名词、数据来源、口径、结论、局限、下一步”一次讲清楚，方便给陌生人看。</li>
       </ul>
     </div>
   </section>
 
+  <!-- Slide 2: What question + what is measured -->
   <section class="slide">
     <div class="card">
-      <h2>我们做了什么（流程）</h2>
+      <h2>这次到底在回答什么？</h2>
+      <p class="muted">不是在比“谁的 accuracy 更高”，而是在比：在开放集 few-shot 场景下，谁更像一个“可用的分配器/拒识器”。</p>
     </div>
+
     <div class="card">
-      <h3>Step 1. 准备评估数据</h3>
+      <h3>任务定义（白话）</h3>
       <ul>
-        <li>给模型的参考样本（support）：253 张，14 类</li>
-        <li>用于检验“已知类是否分对”的图片（known_eval）：832 张</li>
-        <li>用于检验“该不该拒绝”的图片（reject_eval）：313 张，其中 1 张与 known 重复，已去重到 312 张</li>
+        <li>我们有 14 个“已知类”（由人工清理后的 support set 定义）。</li>
+        <li>对于一张待评估图片，模型要做 3 选 1：</li>
+        <li><strong>assigned</strong>：能分到某个已知类（并给出是哪一类）。</li>
+        <li><strong>uncertain</strong>：看着像细胞/有结构，但不够确定，先不硬分。</li>
+        <li><strong>unknown</strong>：更像“非已知类/垃圾/超出覆盖范围”，直接不分到任何已知类。</li>
+      </ul>
+      <div class="callout" style="margin-top:12px;">
+        <p><strong>我们最关心两件事：</strong></p>
+        <ul>
+          <li><strong>已知类能不能分对</strong>（known_correct_assign_rate ↑）</li>
+          <li><strong>已知类不要被错拒</strong>（known_reject_rate ↓）</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Slide 3: Data -->
+  <section class="slide">
+    <div class="card">
+      <h2>数据从哪来？是否“全量人工标注”？</h2>
+      <p class="muted">结论先说在前面：不是全量逐张标注；这是一套人工筛选出来的评估集，用于快速判断趋势。</p>
+    </div>
+
+    <div class="card">
+      <h3>原始图像来源</h3>
+      <ul>
+        <li>项目内部 13JM 图像库：<code>/home/wangqianqian/project/FS/data/13JM+CAOV3+MNT1/</code></li>
       </ul>
     </div>
+
     <div class="card">
-      <h3>Step 2. 两条特征线并行对比</h3>
+      <h3>本次人工参与的数据环节</h3>
       <ul>
-        <li>方案 A：Cell-DINO 特征（当前基线）</li>
-        <li>方案 B：DINOv2 特征（只做 resize，不再额外中心裁剪）</li>
+        <li><strong>support set：</strong>253 张，14 类（每类若干“参考图”）。</li>
+        <li><strong>known_eval：</strong>832 张（用于测试“已知类是否分对/是否被错拒”）。</li>
+        <li><strong>reject_eval：</strong>312 张（用于测试“垃圾/异常是否会被错分进已知类”）。</li>
+        <li>因此这是一套“人工筛选评估集”，不是“全库每张图都人工标注”。</li>
       </ul>
     </div>
+
     <div class="card">
-      <h3>Step 3. 统一下游决策</h3>
+      <h3>重要提醒（避免误读）</h3>
       <ul>
-        <li>两条线都用同一个判定脚本</li>
-        <li>两条线都输出同样三种结果：assigned / uncertain / unknown</li>
-        <li>两条线都在同一批评估图片上比较</li>
+        <li>评估集可能存在选择偏差（例如：known_eval 更像“相对清晰的已知类样本”）。</li>
+        <li>所以它适合做“快速对比趋势”，不适合直接写成最终论文数字。</li>
       </ul>
     </div>
   </section>
 
+  <!-- Slide 4: Methods compared -->
   <section class="slide">
     <div class="card">
-      <h2>结果图 1：最终判定结果（最关键）</h2>
-      <p class="muted">这张图是“真正交付时会看到的结果”，不是中间分数</p>
+      <h2>对比的两条线（变量控制）</h2>
+      <p class="muted">我们只换“特征提取 backbone”，下游决策脚本与评估集保持一致，尽量做到公平对比。</p>
     </div>
+
     <div class="card">
+      <h3>方案 A：Cell-DINO（当前基线）</h3>
+      <ul>
+        <li>使用 Cell-DINO 特征作为 embedding。</li>
+        <li>下游用同一套 open-set 判定规则得到 assigned / uncertain / unknown。</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>方案 B：DINOv2（pretrained, no-extra-crop）</h3>
+      <ul>
+        <li>使用 DINOv2 特征作为 embedding。</li>
+        <li>特征提取时：仅做 resize，不再额外中心裁剪（no-extra-crop）。</li>
+        <li>下游仍用同一套判定规则输出 assigned / uncertain / unknown。</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>为什么这次要“no-extra-crop”</h3>
+      <ul>
+        <li>目的：减少对细胞位置偏移/裁剪中心的敏感性，让特征更稳定。</li>
+        <li>注意：这不代表最佳预处理已确定；只是本轮 quick eval 的固定设置。</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Slide 5: Results table + fig1 -->
+  <section class="slide">
+    <div class="card">
+      <h2>核心结果（带数字，一页看懂）</h2>
+      <p class="muted">下面的数字都来自 <code>assets/computed_metrics.json</code>，对应同一批评估图片（known_eval=832, reject_eval=312）。</p>
+
+      <table class="table">
+        <thead>
+          <tr>
+            <th>指标（口径）</th>
+            <th class="num">DINOv2</th>
+            <th class="num">Cell-DINO</th>
+            <th>读法</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>known_correct_assign_rate</strong></td>
+            <td class="num good">0.476</td>
+            <td class="num">0.311</td>
+            <td>已知类里“分配且分对”的比例（越高越好）</td>
+          </tr>
+          <tr>
+            <td><strong>known_reject_rate</strong></td>
+            <td class="num good">0.352</td>
+            <td class="num bad">0.686</td>
+            <td>已知类里“被拒/不分配”的比例（越低越好）</td>
+          </tr>
+          <tr>
+            <td><strong>reject_reject_rate</strong></td>
+            <td class="num">0.913</td>
+            <td class="num">0.913</td>
+            <td>拒绝集里“成功拒绝”的比例（越高越好）</td>
+          </tr>
+          <tr>
+            <td><strong>reject_assigned_rate</strong></td>
+            <td class="num">0.087</td>
+            <td class="num">0.087</td>
+            <td>拒绝集里“被错分到已知类”的比例（越低越好）</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="callout">
+        <p><strong>解读：</strong>DINOv2 的优势主要来自两点：<strong>更多 known 能被正确分配</strong>，以及<strong>显著减少 known 被错拒</strong>。在 reject 的“能否拒绝”上两者持平。</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>图 1：open-set 指标可视化（同上口径）</h3>
       <img class="img" src="./assets/fig1_open_set_metrics.png" alt="Strict open-set metrics" />
-    </div>
-    <div class="card">
-      <p>这张图怎么看：1. “known_correct_assign”越高越好（已知类分对更多）；2. “known_reject”越低越好（少错拒）。在这两点上 DINOv2 更好；reject 两条线基本持平。</p>
+      <p class="muted" style="margin-top:10px;">建议看法：先看 known_correct_assign / known_reject 两根柱（业务更敏感）；reject 两根柱本轮差不多。</p>
     </div>
   </section>
 
+  <!-- Slide 6: Decision breakdown -->
   <section class="slide">
     <div class="card">
-      <h2>结果图 2：不加判定门槛时的能力</h2>
-      <p class="muted">这张图用于看“模型底子”，不代表最终业务判定</p>
+      <h2>判定分布：它到底“更敢分”还是“更会分”？</h2>
+      <p class="muted">这两张图展示各自对 known_eval 与 reject_eval 的 assigned / uncertain / unknown 数量分布。</p>
     </div>
+
+    <div class="row2">
+      <div class="card">
+        <h3>DINOv2 分布</h3>
+        <img class="img" src="./assets/fig3_dino_decision_breakdown.png" alt="DINO decision breakdown" />
+        <p class="muted" style="margin-top:10px;">known_eval：assigned 539 / uncertain 271 / unknown 22。</p>
+      </div>
+      <div class="card">
+        <h3>Cell-DINO 分布</h3>
+        <img class="img" src="./assets/fig4_cell_decision_breakdown.png" alt="Cell decision breakdown" />
+        <p class="muted" style="margin-top:10px;">known_eval：assigned 261 / uncertain 275 / unknown 296（明显更保守）。</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>一段话总结</h3>
+      <ul>
+        <li>Cell-DINO 在本轮规则下更容易把大量 known 判成 unknown（导致 known_reject_rate 高）。</li>
+        <li>DINOv2 更倾向于把 known 放进 assigned/uncertain，而不是直接 unknown；这对“可交付”更友好。</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Slide 7: Feature-signal metrics -->
+  <section class="slide">
+    <div class="card">
+      <h2>特征“底子” vs “最终判定”为什么不一致？</h2>
+      <p class="muted">这页帮助解释一个常见困惑：为什么 Cell-DINO 的类内识别指标更高，但最终 open-set 决策反而更差。</p>
+    </div>
+
     <div class="card">
       <img class="img" src="./assets/fig2_feature_signal_metrics.png" alt="Feature signal metrics" />
-    </div>
-    <div class="card">
-      <p>这张图怎么看：左边两项看“已知类细分能力”（Cell-DINO 更高）；右边两项看“已知类 vs 拒绝类分离能力”（DINOv2 更高）。</p>
-    </div>
-  </section>
-
-  <section class="slide">
-    <div class="card">
-      <h2>结果图 3：DINOv2 的判定构成</h2>
-      <p class="muted">每根柱子是数量分布：assigned / uncertain / unknown</p>
-    </div>
-    <div class="card">
-      <img class="img" src="./assets/fig3_dino_decision_breakdown.png" alt="DINO decision breakdown" />
-    </div>
-    <div class="card">
-      <h2 style="margin-top:8px;">结果图 4：Cell-DINO 的判定构成</h2>
-      <p class="muted">和上一张同口径，便于直接对照</p>
-    </div>
-    <div class="card">
-      <img class="img" src="./assets/fig4_cell_decision_breakdown.png" alt="Cell decision breakdown" />
+      <div class="callout">
+        <p><strong>读法：</strong></p>
+        <ul>
+          <li><strong>类内细分能力</strong>（known_proto_top1_acc / known_knn_top1_acc）：Cell-DINO 更高（≈0.897 vs 0.620）。</li>
+          <li><strong>已知 vs 拒绝的分离</strong>（AUC）：DINOv2 更高（≈0.937 vs 0.880）。</li>
+        </ul>
+      </div>
+      <p class="muted" style="margin-top:10px;">换句话说：Cell-DINO 更像“强分类器”，但在这套 open-set 阈值/拒识规则里更容易把已知类推到拒绝侧；DINOv2 更像“更稳的分离器”。</p>
     </div>
   </section>
 
+  <!-- Slide 8: Qualitative examples -->
   <section class="slide">
     <div class="card">
-      <h2>结果图 5：DINOv2 样例图（看图感受）</h2>
-      <p class="muted">四行从上到下分别是：已知类分对 / 已知类没分配 / reject 被拒绝 / reject 被误分配</p>
+      <h2>定性对比（看图就明白差异）</h2>
+      <p class="muted">两张图的四行定义一致：已知类分对 / 已知类没分配 / reject 被拒绝 / reject 被误分配。</p>
     </div>
-    <div class="card">
-      <img class="img" src="./assets/fig5_dino_qualitative_grid.png" alt="DINO qualitative grid" />
-    </div>
-  </section>
 
-  <section class="slide">
-    <div class="card">
-      <h2>结果图 6：Cell-DINO 样例图（同口径）</h2>
-      <p class="muted">四行定义和上一页完全一致，方便一眼对比</p>
+    <div class="row2">
+      <div class="card">
+        <h3>DINOv2 样例</h3>
+        <img class="img" src="./assets/fig5_dino_qualitative_grid.png" alt="DINO qualitative grid" />
+      </div>
+      <div class="card">
+        <h3>Cell-DINO 样例</h3>
+        <img class="img" src="./assets/fig6_cell_qualitative_grid.png" alt="Cell qualitative grid" />
+      </div>
     </div>
+
     <div class="card">
-      <img class="img" src="./assets/fig6_cell_qualitative_grid.png" alt="Cell qualitative grid" />
-    </div>
-    <div class="card">
-      <h3>原始输出位置（方便追溯）</h3>
+      <h3>建议你看这两点（最省时间）</h3>
       <ul>
-        <li>指标汇总 JSON：<code>./assets/computed_metrics.json</code></li>
-        <li>图文件目录：<code>./assets/</code></li>
+        <li>对比“已知类没分配”那一行：Cell-DINO 更容易把看着正常的已知类样本推到不分配。</li>
+        <li>对比“reject 被误分配”那一行：两条线本轮差距不大（与数字一致）。</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Slide 9: Limits + next steps -->
+  <section class="slide">
+    <div class="card">
+      <h2>局限与下一步（把风险说清楚）</h2>
+    </div>
+
+    <div class="card">
+      <h3>这份 quick eval 的局限</h3>
+      <ul>
+        <li><strong>评估集不是全量逐张标注</strong>：有选择偏差风险。</li>
+        <li><strong>阈值/规则影响很大</strong>：同一个 backbone，在不同阈值下可能出现不同 trade-off。</li>
+        <li><strong>只覆盖 known vs reject</strong>：对“unknown/other”更复杂的开放集场景仍不足。</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>我们下一步该怎么做（建议路径）</h3>
+      <ul>
+        <li>把 DINOv2 作为 13JM few-shot/open-set 的默认特征底座，继续做：中间域预训练 → 目标域适配 → 统一评估。</li>
+        <li>建立独立的 <strong>gold eval</strong>（不与 support set 重叠），否则评估容易“看起来很好但不可复现”。</li>
+        <li>把“阈值/拒识规则”显式纳入实验记录（避免换人后无法解释差异）。</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>可追溯文件</h3>
+      <ul>
+        <li>指标汇总：<code>./assets/computed_metrics.json</code></li>
+        <li>图文件：<code>./assets/fig1~fig6_*.png</code></li>
       </ul>
     </div>
   </section>
 
   <div class="footer">
-    <span id="idx">1 / 8</span>
-    <span>13JM quick eval report (plain language)</span>
+    <span id="idx">1 / 9</span>
+    <span>13JM quick eval report (rewritten)</span>
   </div>
 
   <script>
