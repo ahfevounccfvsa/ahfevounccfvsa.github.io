@@ -35,6 +35,13 @@
       backdrop-filter: blur(8px);
       margin-bottom: 16px;
     }
+    .toolbar-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
     h1 {
       margin: 0;
       font-size: 28px;
@@ -44,6 +51,23 @@
       color: var(--muted);
       font-size: 14px;
     }
+    .btn-ghost {
+      appearance: none;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 6px 10px;
+      background: #faf7f1;
+      color: #5f584f;
+      cursor: pointer;
+      font-size: 12px;
+      transition: 0.15s ease;
+    }
+    .btn-ghost:hover {
+      border-color: #b5d7cb;
+      color: var(--accent);
+      transform: translateY(-1px);
+    }
+
     .toc {
       margin-top: 12px;
       display: flex;
@@ -59,6 +83,17 @@
       background: white;
       font-size: 13px;
     }
+    /* Collapse the sticky toolbar so it doesn't block the gallery. */
+    body.toolbar-collapsed .toolbar {
+      padding: 10px 14px;
+      margin-bottom: 10px;
+    }
+    body.toolbar-collapsed .sub,
+    body.toolbar-collapsed .toc,
+    body.toolbar-collapsed .umap-panel {
+      display: none;
+    }
+
     .umap-panel {
       background: rgba(255, 253, 249, 0.96);
       border: 1px solid var(--line);
@@ -126,7 +161,10 @@
 <body>
   <div class="shell">
     <div class="toolbar">
-      <h1>28gusui corrected Cell-DINO Louvain cluster overview (100 / cluster)</h1>
+      <div class="toolbar-top">
+        <h1>28gusui corrected Cell-DINO Louvain cluster overview (100 / cluster)</h1>
+        <button class="btn-ghost" id="toggle-toolbar" type="button">收起导航</button>
+      </div>
       <div class="sub">共 21 个 cluster，每个 cluster 固定抽样 100 张展示。</div>
       <div class="toc">
         <a href="#cluster-0">cluster 0</a><a href="#cluster-1">cluster 1</a><a href="#cluster-2">cluster 2</a><a href="#cluster-3">cluster 3</a><a href="#cluster-4">cluster 4</a><a href="#cluster-5">cluster 5</a><a href="#cluster-6">cluster 6</a><a href="#cluster-7">cluster 7</a><a href="#cluster-8">cluster 8</a><a href="#cluster-9">cluster 9</a><a href="#cluster-10">cluster 10</a><a href="#cluster-11">cluster 11</a><a href="#cluster-12">cluster 12</a><a href="#cluster-13">cluster 13</a><a href="#cluster-14">cluster 14</a><a href="#cluster-15">cluster 15</a><a href="#cluster-16">cluster 16</a><a href="#cluster-17">cluster 17</a><a href="#cluster-18">cluster 18</a><a href="#cluster-19">cluster 19</a><a href="#cluster-20">cluster 20</a>
@@ -10810,5 +10848,25 @@
     </section>
 
   </div>
+  <script>
+    const toggleToolbarBtn = document.getElementById("toggle-toolbar");
+    const TOOLBAR_COLLAPSE_KEY = "fs_toolbar_collapsed_28_overview100_v1";
+    function setToolbarCollapsed(collapsed) {
+      document.body.classList.toggle("toolbar-collapsed", collapsed);
+      toggleToolbarBtn.textContent = collapsed ? "展开导航" : "收起导航";
+      try {
+        window.localStorage.setItem(TOOLBAR_COLLAPSE_KEY, collapsed ? "1" : "0");
+      } catch (_e) {}
+    }
+    toggleToolbarBtn.addEventListener("click", () => {
+      setToolbarCollapsed(!document.body.classList.contains("toolbar-collapsed"));
+    });
+    try {
+      const saved = window.localStorage.getItem(TOOLBAR_COLLAPSE_KEY);
+      // Default to collapsed to show images immediately.
+      setToolbarCollapsed(saved === null ? true : saved === "1");
+    } catch (_e) {}
+  </script>
+
 </body>
 </html>
