@@ -86,8 +86,12 @@ p,
 
 .toolbar-actions,
 .cluster-actions,
+.group-actions,
 .card-actions,
-.hidden-input {
+.hidden-input,
+.select-chip,
+.split-chip,
+.mini-btn {
   display: none;
 }
 
@@ -132,19 +136,24 @@ p,
   background: #f8faf7;
 }
 
-.cluster {
+.cluster,
+.group,
+.panel {
   border-color: var(--show-line);
   border-radius: 12px;
   background: rgba(255,253,248,0.88);
   box-shadow: 0 14px 34px rgba(31,41,37,0.07);
 }
 
-.cluster-header {
+.cluster-header,
+.group-header {
   padding-bottom: 10px;
   border-bottom: 1px solid var(--show-line);
 }
 
-.cluster h2 {
+.cluster h2,
+.group h2,
+.panel h2 {
   color: var(--show-blue);
   font-size: 24px;
 }
@@ -163,6 +172,13 @@ p,
 .grid img {
   border-radius: 8px;
   background: #151716;
+}
+
+.submeta,
+.merge-meta,
+.split-meta,
+.state-pill {
+  color: var(--show-muted);
 }
 
 body.toolbar-collapsed .umap-panel {
