@@ -231,6 +231,7 @@
       background: #faf7f1;
     }
   </style>
+  <link rel="stylesheet" href="../result-showcase.css">
 </head>
 <body>
   <div class="shell">
@@ -239,7 +240,7 @@
         <h1>28gusui corrected Cell-DINO central 20 / cluster</h1>
         <button class="btn btn-ghost" id="toggle-toolbar" type="button">收起工具栏</button>
       </div>
-      <div class="sub">每个 cluster 展示离该 cluster 质心最近的 20 张图，中心性基于输入特征空间中的欧氏距离。这里已经升级为可清洗页面，可以单图删除、整类删除，并导出 few-shot support set。</div>
+      <div class="sub">上方是带 cluster 编号的 UMAP 总览，下方按 cluster 展示距离质心最近的 20 张代表细胞。这个页面用于快速审阅 28gusui corrected Cell-DINO 聚类结构与各类形态。</div>
       <div class="toolbar-actions">
         <button class="btn" id="reset-all" type="button">重置全部</button>
         <button class="btn" id="toggle-hidden" type="button">隐藏已删除</button>
