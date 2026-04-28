@@ -31,7 +31,7 @@
 <body>
   <div class="shell">
     <div class="toolbar">
-      <h1>13JM DINOv2 adapted from 28gusui e5 cluster overview</h1>
+      <div class="showcase-titlebar"><h1>13JM DINOv2 adapted from 28gusui e5 cluster overview</h1><button class="showcase-toggle" type="button" data-showcase-toggle aria-expanded="true">收起工具栏</button></div>
       <div class="sub">上方是带 cluster 编号的 UMAP 总览，下方按 cluster 展示每类 100 张代表细胞。用于观察 28gusui 域自适应后在 13JM 上的聚类形态。</div>
       <div class="stats">
         <div class="pill">28 clusters</div>
@@ -354,5 +354,18 @@
       </div>
     </section>
   </div>
+  <script>
+    (function () {
+      const toggle = document.querySelector("[data-showcase-toggle]");
+      const toolbar = document.querySelector(".toolbar");
+      if (!toggle || !toolbar) return;
+      toggle.addEventListener("click", () => {
+        toolbar.classList.toggle("is-collapsed");
+        const collapsed = toolbar.classList.contains("is-collapsed");
+        toggle.textContent = collapsed ? "展开工具栏" : "收起工具栏";
+        toggle.setAttribute("aria-expanded", String(!collapsed));
+      });
+    })();
+  </script>
 </body>
 </html>

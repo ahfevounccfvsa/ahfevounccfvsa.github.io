@@ -56,6 +56,43 @@ body {
   padding: 28px;
 }
 
+.showcase-titlebar {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.showcase-toggle {
+  appearance: none;
+  flex: 0 0 auto;
+  margin-top: 2px;
+  padding: 7px 11px;
+  border: 1px solid rgba(20,108,100,0.22);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--show-green);
+  cursor: pointer;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.showcase-toggle:hover {
+  background: var(--show-soft);
+}
+
+.toolbar.is-collapsed {
+  padding-bottom: 18px;
+}
+
+.toolbar.is-collapsed .sub,
+.toolbar.is-collapsed .stats,
+.toolbar.is-collapsed .toc,
+.toolbar.is-collapsed .toolbar-actions {
+  display: none;
+}
+
 .header {
   padding: 28px;
 }
@@ -99,6 +136,12 @@ p,
 .toc,
 .nav {
   gap: 8px;
+}
+
+.toc {
+  max-height: 132px;
+  overflow: auto;
+  padding-right: 4px;
 }
 
 .pill,
@@ -194,6 +237,14 @@ body.toolbar-collapsed .umap-panel {
   .toolbar,
   .header {
     padding: 20px;
+  }
+
+  .showcase-titlebar {
+    display: block;
+  }
+
+  .showcase-toggle {
+    margin-top: 12px;
   }
 
   .grid {

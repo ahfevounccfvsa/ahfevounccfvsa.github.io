@@ -281,8 +281,8 @@
 <body>
   <div class="shell">
     <div class="toolbar">
-      <h1>13JM Gold Eval v1 Known Classes (remove17)</h1>
-      <div class="sub">按 known class 分组展示 13JM gold eval v1 候选细胞。cluster 17 已从 known 中移除；这里用于快速审阅每个 known class 的形态一致性。</div>
+      <div class="showcase-titlebar"><h1>13JM Gold Eval v1 Known Classes (remove17)</h1><button class="showcase-toggle" type="button" data-showcase-toggle aria-expanded="true">收起工具栏</button></div>
+      <div class="sub">这个页面展示的是 13JM 数据集中准备用作 gold evaluation 的“已知类”候选细胞。每个 Known class 对应一个人工保留的细胞类别/聚类分组，下面直接展示该类的代表图片，方便检查同一类内部是否形态一致、是否混入明显错误样本。原来的 cluster 17 被判断为双细胞/不适合作为 known class，因此已经从这里移除。</div>
       <div class="toolbar-actions">
         <button class="btn" id="reset-all" type="button">重置全部</button>
         <button class="btn" id="toggle-hidden" type="button">隐藏已删除</button>
@@ -18886,6 +18886,19 @@
 
     loadPersistedState();
     refreshAll();
+  </script>
+  <script>
+    (function () {
+      const toggle = document.querySelector("[data-showcase-toggle]");
+      const toolbar = document.querySelector(".toolbar");
+      if (!toggle || !toolbar) return;
+      toggle.addEventListener("click", () => {
+        toolbar.classList.toggle("is-collapsed");
+        const collapsed = toolbar.classList.contains("is-collapsed");
+        toggle.textContent = collapsed ? "展开工具栏" : "收起工具栏";
+        toggle.setAttribute("aria-expanded", String(!collapsed));
+      });
+    })();
   </script>
 </body>
 </html>

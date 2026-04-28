@@ -28,7 +28,7 @@
 <body>
   <div class="shell">
     <div class="toolbar">
-      <h1>Manual QC Labeled Samples (702)</h1>
+      <div class="showcase-titlebar"><h1>Manual QC Labeled Samples (702)</h1><button class="showcase-toggle" type="button" data-showcase-toggle aria-expanded="true">收起工具栏</button></div>
       <div class="sub">上方是 702 张人工标注 QC 样本的二维可视化，下方按 usable_single_cell / uncertain / reject 三类直接展示示范细胞。</div>
       <div class="stats"><div class="pill">702 labeled cells</div><div class="pill">3 QC classes</div><a class="pill" href="./qc_combined_all_labeled.csv">下载标注 CSV</a></div>
       <div class="toc"><a class="toc-link" href="#usable_single_cell">Usable Single Cell</a><a class="toc-link" href="#uncertain">Uncertain</a><a class="toc-link" href="#reject">Reject</a></div>
@@ -7082,5 +7082,18 @@
       </div>
     </section>
   </div>
+  <script>
+    (function () {
+      const toggle = document.querySelector("[data-showcase-toggle]");
+      const toolbar = document.querySelector(".toolbar");
+      if (!toggle || !toolbar) return;
+      toggle.addEventListener("click", () => {
+        toolbar.classList.toggle("is-collapsed");
+        const collapsed = toolbar.classList.contains("is-collapsed");
+        toggle.textContent = collapsed ? "展开工具栏" : "收起工具栏";
+        toggle.setAttribute("aria-expanded", String(!collapsed));
+      });
+    })();
+  </script>
 </body>
 </html>

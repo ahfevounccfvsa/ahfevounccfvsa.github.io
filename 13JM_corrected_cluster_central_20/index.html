@@ -235,7 +235,7 @@
   <div class="shell">
     <div class="toolbar">
       <div class="toolbar-top">
-        <h1>13JM corrected Cell-DINO: 20 most central samples per cluster</h1>
+        <div class="showcase-titlebar"><h1>13JM corrected Cell-DINO: 20 most central samples per cluster</h1><button class="showcase-toggle" type="button" data-showcase-toggle aria-expanded="true">收起工具栏</button></div>
         <button class="btn btn-ghost" id="toggle-toolbar" type="button">收起工具栏</button>
       </div>
       <div class="sub">上方是带 cluster 编号的 UMAP 总览，下方按 cluster 展示距离质心最近的 20 张代表细胞。这个页面用于快速审阅 13JM corrected Cell-DINO 聚类结构与各类形态。</div>
@@ -4300,6 +4300,19 @@
 
     loadPersistedState();
     refreshAll();
+  </script>
+  <script>
+    (function () {
+      const toggle = document.querySelector("[data-showcase-toggle]");
+      const toolbar = document.querySelector(".toolbar");
+      if (!toggle || !toolbar) return;
+      toggle.addEventListener("click", () => {
+        toolbar.classList.toggle("is-collapsed");
+        const collapsed = toolbar.classList.contains("is-collapsed");
+        toggle.textContent = collapsed ? "展开工具栏" : "收起工具栏";
+        toggle.setAttribute("aria-expanded", String(!collapsed));
+      });
+    })();
   </script>
 </body>
 </html>
