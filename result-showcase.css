@@ -155,6 +155,75 @@ p,
   font-weight: 760;
 }
 
+.toc a.is-active,
+.nav a.is-active,
+.quick-jump a.is-active {
+  border-color: rgba(48,79,124,0.34);
+  background: #edf3f8;
+  color: var(--show-blue);
+}
+
+.quick-jump {
+  position: fixed;
+  right: 18px;
+  top: 50%;
+  z-index: 40;
+  width: 164px;
+  max-height: min(68vh, 520px);
+  padding: 12px;
+  border: 1px solid rgba(20,108,100,0.18);
+  border-radius: 12px;
+  background: rgba(255,253,248,0.94);
+  box-shadow: 0 18px 54px rgba(31,41,37,0.16);
+  backdrop-filter: blur(10px);
+  opacity: 0;
+  transform: translate(10px, -50%);
+  pointer-events: none;
+  transition: opacity 0.18s ease, transform 0.18s ease;
+}
+
+.quick-jump.is-visible {
+  opacity: 1;
+  transform: translate(0, -50%);
+  pointer-events: auto;
+}
+
+.quick-jump-title {
+  margin-bottom: 9px;
+  color: var(--show-muted);
+  font-size: 12px;
+  font-weight: 860;
+}
+
+.quick-jump-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px;
+  max-height: calc(min(68vh, 520px) - 42px);
+  overflow: auto;
+  padding-right: 2px;
+}
+
+.quick-jump a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 30px;
+  padding: 5px 7px;
+  border: 1px solid rgba(20,108,100,0.22);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--show-green);
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 820;
+  line-height: 1.15;
+}
+
+.quick-jump a:hover {
+  background: var(--show-soft);
+}
+
 .umap-panel,
 .umap {
   margin-top: 18px;
@@ -245,6 +314,37 @@ body.toolbar-collapsed .umap-panel {
 
   .showcase-toggle {
     margin-top: 12px;
+  }
+
+  .quick-jump {
+    left: 10px;
+    right: 10px;
+    top: auto;
+    bottom: 10px;
+    width: auto;
+    max-height: none;
+    padding: 10px;
+    transform: translateY(10px);
+  }
+
+  .quick-jump.is-visible {
+    transform: translateY(0);
+  }
+
+  .quick-jump-title {
+    display: none;
+  }
+
+  .quick-jump-list {
+    display: flex;
+    max-height: none;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 0 0 2px;
+  }
+
+  .quick-jump a {
+    min-width: 42px;
   }
 
   .grid {

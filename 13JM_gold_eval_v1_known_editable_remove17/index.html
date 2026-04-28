@@ -18887,18 +18887,6 @@
     loadPersistedState();
     refreshAll();
   </script>
-  <script>
-    (function () {
-      const toggle = document.querySelector("[data-showcase-toggle]");
-      const toolbar = document.querySelector(".toolbar");
-      if (!toggle || !toolbar) return;
-      toggle.addEventListener("click", () => {
-        toolbar.classList.toggle("is-collapsed");
-        const collapsed = toolbar.classList.contains("is-collapsed");
-        toggle.textContent = collapsed ? "展开工具栏" : "收起工具栏";
-        toggle.setAttribute("aria-expanded", String(!collapsed));
-      });
-    })();
-  </script>
+  <script src="../result-showcase.js"></script>
 </body>
 </html>
