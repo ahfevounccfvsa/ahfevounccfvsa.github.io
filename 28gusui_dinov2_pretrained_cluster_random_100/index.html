@@ -3,194 +3,170 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>28gusui pretrained DINOv2 - random 100 cells per cluster</title>
+  <title>28骨髓 DINOv2 pretrained Louvain cluster random 100</title>
   <style>
     :root {
-      --bg: #f6f3ed;
+      --bg: #f7f1e7;
       --panel: #fffdf8;
-      --ink: #27231d;
-      --muted: #6d665d;
-      --line: #d8cfbf;
-      --accent: #1e6b63;
-      --accent-soft: #e8f2ef;
+      --ink: #25211b;
+      --muted: #70675d;
+      --line: #d9cfbf;
+      --accent: #14675f;
     }
     * { box-sizing: border-box; }
     body {
       margin: 0;
       color: var(--ink);
       background: var(--bg);
-      font-family: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
+      font-family: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
     }
-    .shell { width: min(1280px, calc(100vw - 24px)); margin: 18px auto 42px; }
-    .topbar {
-      display: flex;
-      justify-content: space-between;
-      gap: 14px;
-      align-items: flex-start;
-      margin-bottom: 16px;
-      padding: 16px 0;
-      border-bottom: 1px solid var(--line);
-    }
-    .crumb { color: var(--accent); text-decoration: none; font-size: 14px; }
-    h1 { margin: 0; font-size: 30px; line-height: 1.15; }
-    h2 { margin: 0 0 8px; font-size: 22px; }
+    .shell { width: min(1500px, calc(100vw - 24px)); margin: 18px auto 48px; }
+    .toolbar { background: var(--panel); border: 1px solid var(--line); border-radius: 18px; padding: 16px; margin-bottom: 16px; }
+    h1 { margin: 0; font-size: 28px; }
     .sub { margin-top: 8px; color: var(--muted); line-height: 1.55; }
-    .panel {
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      padding: 16px;
-      margin-bottom: 16px;
-    }
-    .summary {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-      gap: 10px;
-      margin-top: 14px;
-    }
-    .stat { border: 1px solid var(--line); border-radius: 8px; padding: 10px; background: #fff; }
-    .stat b { display: block; font-size: 18px; }
-    .stat span { color: var(--muted); font-size: 12px; }
-    .umap { width: 100%; max-height: 78vh; object-fit: contain; background: #fff; border: 1px solid var(--line); border-radius: 8px; }
-    .cluster-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 10px; }
-    .cluster-card {
-      display: block;
-      color: inherit;
-      text-decoration: none;
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      padding: 12px;
-      background: #fff;
-    }
-    .cluster-card:hover { border-color: var(--accent); background: var(--accent-soft); }
-    .cluster-title { font-weight: 800; font-size: 18px; }
-    .cluster-meta { color: var(--muted); margin-top: 4px; font-size: 13px; }
-    .thumb-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(132px, 1fr));
-      gap: 10px;
-    }
-    .thumb-card { border: 1px solid var(--line); border-radius: 8px; padding: 8px; background: #fff; }
-    .thumb-card img {
+    .stats { margin-top: 12px; display: flex; gap: 8px; flex-wrap: wrap; }
+    .pill { display: inline-flex; padding: 6px 10px; border-radius: 999px; background: white; border: 1px solid var(--line); color: var(--muted); font-size: 12px; }
+    .toc { margin-top: 12px; display: flex; gap: 8px; flex-wrap: wrap; }
+    .toc a { color: var(--accent); text-decoration: none; background: white; border: 1px solid var(--line); border-radius: 999px; padding: 7px 12px; display: inline-block; font-size: 13px; }
+    .umap-panel { background: var(--panel); border: 1px solid var(--line); border-radius: 18px; padding: 16px; margin-bottom: 16px; }
+    .umap-title { margin-bottom: 10px; color: var(--muted); font-weight: 800; font-size: 14px; }
+    .umap-img { width: min(980px, 100%); display: block; border-radius: 14px; border: 1px solid #e3dbce; background: #faf7f1; }
+    .cluster { background: rgba(255,253,249,.75); border: 1px solid var(--line); border-radius: 18px; padding: 14px; margin-bottom: 16px; }
+    .cluster-header { margin-bottom: 10px; }
+    .cluster h2 { margin: 0 0 6px; font-size: 22px; }
+    .cluster-meta { color: var(--muted); font-size: 13px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(132px, 1fr)); gap: 10px; }
+    .cluster-nav { grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); }
+    .card { background: #fff; border: 1px solid #e3dbce; border-radius: 12px; padding: 7px; overflow: hidden; color: inherit; text-decoration: none; }
+    .card:hover { border-color: var(--accent); }
+    .card img {
       display: block;
       width: 100%;
       aspect-ratio: 1 / 1;
-      object-fit: contain;
+      object-fit: cover;
       background: #111;
-      border-radius: 6px;
+      border-radius: 8px;
     }
-    .name { margin-top: 6px; color: var(--muted); font-size: 11px; line-height: 1.35; word-break: break-all; }
+    .cluster-card-title { color: var(--accent); font-weight: 800; font-size: 18px; }
+    .name { margin-top: 6px; color: #655d54; font-size: 10px; line-height: 1.25; overflow-wrap: anywhere; }
     </style>
+  <link rel="stylesheet" href="../result-showcase.css">
 </head>
 <body>
 
   <main class="shell">
-    <div class="topbar">
-      <div>
-        <h1>28gusui pretrained DINOv2 - random 100 cells per cluster</h1>
-        <div class="sub">Full 28gusui&amp;pizang, pretrained DINOv2, zscore + PCA15 + Louvain. UMAP uses on-plot numeric cluster labels.</div>
-        <div class="summary"><div class="stat"><b>360257</b><span>images</span></div><div class="stat"><b>18</b><span>clusters</span></div><div class="stat"><b>1800</b><span>sampled</span></div><div class="stat"><b>0.7203224301338196</b><span>PCA var</span></div></div>
+    <div class="toolbar">
+      <div class="showcase-titlebar">
+        <h1>28骨髓 DINOv2 pretrained Louvain cluster random 100</h1>
+        <button class="showcase-toggle" type="button" data-showcase-toggle aria-expanded="true">收起工具栏</button>
       </div>
+      <div class="sub">28骨髓 full data；DINOv2 pretrained 特征，CLAHE + crop224，z-score + PCA15 + Louvain。上方是带 cluster 编号的 UMAP，总览入口按 cluster 进入，每类随机展示 100 张细胞。</div>
+      <div class="stats"><div class="pill">360257 images</div><div class="pill">18 clusters</div><div class="pill">1800 sampled</div><div class="pill">0.7203224301338196 PCA var</div></div>
+      <div class="toc"><a class="toc-link" href="clusters/cluster_0.html">cluster 0</a><a class="toc-link" href="clusters/cluster_1.html">cluster 1</a><a class="toc-link" href="clusters/cluster_2.html">cluster 2</a><a class="toc-link" href="clusters/cluster_3.html">cluster 3</a><a class="toc-link" href="clusters/cluster_4.html">cluster 4</a><a class="toc-link" href="clusters/cluster_5.html">cluster 5</a><a class="toc-link" href="clusters/cluster_6.html">cluster 6</a><a class="toc-link" href="clusters/cluster_7.html">cluster 7</a><a class="toc-link" href="clusters/cluster_8.html">cluster 8</a><a class="toc-link" href="clusters/cluster_9.html">cluster 9</a><a class="toc-link" href="clusters/cluster_10.html">cluster 10</a><a class="toc-link" href="clusters/cluster_11.html">cluster 11</a><a class="toc-link" href="clusters/cluster_12.html">cluster 12</a><a class="toc-link" href="clusters/cluster_13.html">cluster 13</a><a class="toc-link" href="clusters/cluster_14.html">cluster 14</a><a class="toc-link" href="clusters/cluster_15.html">cluster 15</a><a class="toc-link" href="clusters/cluster_16.html">cluster 16</a><a class="toc-link" href="clusters/cluster_17.html">cluster 17</a></div>
     </div>
-    <section class="panel">
-      <h2>UMAP</h2>
-      <img class="umap" src="umap_louvain_labeled.png" alt="UMAP with numeric cluster labels">
-    </section>
-    <section class="panel">
-      <h2>Cluster 随机图像入口</h2>
-      <div class="cluster-grid">
-        <a class="cluster-card" href="clusters/cluster_0.html">
-          <div class="cluster-title">cluster 0</div>
+    <div class="umap-panel">
+      <div class="umap-title">UMAP（cluster 编号已直接标在图上）</div>
+      <a href="./umap_louvain_labeled.png" target="_blank" rel="noopener"><img class="umap-img" src="./umap_louvain_labeled.png" loading="lazy" alt="UMAP with numeric cluster labels"></a>
+    </div>
+    <section class="cluster" id="cluster-index">
+      <div class="cluster-header">
+        <h2>Cluster 随机图像入口</h2>
+        <div class="cluster-meta">每个入口打开一个轻量详情页，同时展示 UMAP 和该 cluster 的随机细胞图像。</div>
+      </div>
+      <div class="grid cluster-nav">
+        <a class="card" href="clusters/cluster_0.html">
+          <div class="cluster-card-title">cluster 0</div>
           <div class="cluster-meta">31074 张；随机展示 100 张</div>
         </a>
 
-        <a class="cluster-card" href="clusters/cluster_1.html">
-          <div class="cluster-title">cluster 1</div>
+        <a class="card" href="clusters/cluster_1.html">
+          <div class="cluster-card-title">cluster 1</div>
           <div class="cluster-meta">22165 张；随机展示 100 张</div>
         </a>
 
-        <a class="cluster-card" href="clusters/cluster_2.html">
-          <div class="cluster-title">cluster 2</div>
+        <a class="card" href="clusters/cluster_2.html">
+          <div class="cluster-card-title">cluster 2</div>
           <div class="cluster-meta">16124 张；随机展示 100 张</div>
         </a>
 
-        <a class="cluster-card" href="clusters/cluster_3.html">
-          <div class="cluster-title">cluster 3</div>
+        <a class="card" href="clusters/cluster_3.html">
+          <div class="cluster-card-title">cluster 3</div>
           <div class="cluster-meta">6100 张；随机展示 100 张</div>
         </a>
 
-        <a class="cluster-card" href="clusters/cluster_4.html">
-          <div class="cluster-title">cluster 4</div>
+        <a class="card" href="clusters/cluster_4.html">
+          <div class="cluster-card-title">cluster 4</div>
           <div class="cluster-meta">5689 张；随机展示 100 张</div>
         </a>
 
-        <a class="cluster-card" href="clusters/cluster_5.html">
-          <div class="cluster-title">cluster 5</div>
+        <a class="card" href="clusters/cluster_5.html">
+          <div class="cluster-card-title">cluster 5</div>
           <div class="cluster-meta">25209 张；随机展示 100 张</div>
         </a>
 
-        <a class="cluster-card" href="clusters/cluster_6.html">
-          <div class="cluster-title">cluster 6</div>
+        <a class="card" href="clusters/cluster_6.html">
+          <div class="cluster-card-title">cluster 6</div>
           <div class="cluster-meta">27501 张；随机展示 100 张</div>
         </a>
 
-        <a class="cluster-card" href="clusters/cluster_7.html">
-          <div class="cluster-title">cluster 7</div>
+        <a class="card" href="clusters/cluster_7.html">
+          <div class="cluster-card-title">cluster 7</div>
           <div class="cluster-meta">22766 张；随机展示 100 张</div>
         </a>
 
-        <a class="cluster-card" href="clusters/cluster_8.html">
-          <div class="cluster-title">cluster 8</div>
+        <a class="card" href="clusters/cluster_8.html">
+          <div class="cluster-card-title">cluster 8</div>
           <div class="cluster-meta">34355 张；随机展示 100 张</div>
         </a>
 
-        <a class="cluster-card" href="clusters/cluster_9.html">
-          <div class="cluster-title">cluster 9</div>
+        <a class="card" href="clusters/cluster_9.html">
+          <div class="cluster-card-title">cluster 9</div>
           <div class="cluster-meta">17923 张；随机展示 100 张</div>
         </a>
 
-        <a class="cluster-card" href="clusters/cluster_10.html">
-          <div class="cluster-title">cluster 10</div>
+        <a class="card" href="clusters/cluster_10.html">
+          <div class="cluster-card-title">cluster 10</div>
           <div class="cluster-meta">11691 张；随机展示 100 张</div>
         </a>
 
-        <a class="cluster-card" href="clusters/cluster_11.html">
-          <div class="cluster-title">cluster 11</div>
+        <a class="card" href="clusters/cluster_11.html">
+          <div class="cluster-card-title">cluster 11</div>
           <div class="cluster-meta">26715 张；随机展示 100 张</div>
         </a>
 
-        <a class="cluster-card" href="clusters/cluster_12.html">
-          <div class="cluster-title">cluster 12</div>
+        <a class="card" href="clusters/cluster_12.html">
+          <div class="cluster-card-title">cluster 12</div>
           <div class="cluster-meta">22877 张；随机展示 100 张</div>
         </a>
 
-        <a class="cluster-card" href="clusters/cluster_13.html">
-          <div class="cluster-title">cluster 13</div>
+        <a class="card" href="clusters/cluster_13.html">
+          <div class="cluster-card-title">cluster 13</div>
           <div class="cluster-meta">25483 张；随机展示 100 张</div>
         </a>
 
-        <a class="cluster-card" href="clusters/cluster_14.html">
-          <div class="cluster-title">cluster 14</div>
+        <a class="card" href="clusters/cluster_14.html">
+          <div class="cluster-card-title">cluster 14</div>
           <div class="cluster-meta">28803 张；随机展示 100 张</div>
         </a>
 
-        <a class="cluster-card" href="clusters/cluster_15.html">
-          <div class="cluster-title">cluster 15</div>
+        <a class="card" href="clusters/cluster_15.html">
+          <div class="cluster-card-title">cluster 15</div>
           <div class="cluster-meta">29937 张；随机展示 100 张</div>
         </a>
 
-        <a class="cluster-card" href="clusters/cluster_16.html">
-          <div class="cluster-title">cluster 16</div>
+        <a class="card" href="clusters/cluster_16.html">
+          <div class="cluster-card-title">cluster 16</div>
           <div class="cluster-meta">2293 张；随机展示 100 张</div>
         </a>
 
-        <a class="cluster-card" href="clusters/cluster_17.html">
-          <div class="cluster-title">cluster 17</div>
+        <a class="card" href="clusters/cluster_17.html">
+          <div class="cluster-card-title">cluster 17</div>
           <div class="cluster-meta">3552 张；随机展示 100 张</div>
         </a>
 </div>
     </section>
   </main>
 
+<script src="../result-showcase.js"></script>
 </body>
 </html>
