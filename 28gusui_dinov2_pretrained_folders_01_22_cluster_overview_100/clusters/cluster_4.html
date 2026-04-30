@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>28骨髓 folders 01-22 DINOv2 pretrained Louvain cluster overview - cluster 4</title>
+  <style>
+    :root {
+      --bg: #f7f1e7;
+      --panel: #fffdf8;
+      --ink: #25211b;
+      --muted: #70675d;
+      --line: #d9cfbf;
+      --accent: #14675f;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--bg);
+      font-family: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+    }
+    .shell { width: min(1500px, calc(100vw - 24px)); margin: 18px auto 48px; }
+    .toolbar { background: var(--panel); border: 1px solid var(--line); border-radius: 18px; padding: 16px; margin-bottom: 16px; }
+    h1 { margin: 0; font-size: 28px; }
+    .sub { margin-top: 8px; color: var(--muted); line-height: 1.55; }
+    .stats { margin-top: 12px; display: flex; gap: 8px; flex-wrap: wrap; }
+    .pill { display: inline-flex; padding: 6px 10px; border-radius: 999px; background: white; border: 1px solid var(--line); color: var(--muted); font-size: 12px; }
+    .toc { margin-top: 12px; display: flex; gap: 8px; flex-wrap: wrap; }
+    .toc a { color: var(--accent); text-decoration: none; background: white; border: 1px solid var(--line); border-radius: 999px; padding: 7px 12px; display: inline-block; font-size: 13px; }
+    .umap-panel { background: var(--panel); border: 1px solid var(--line); border-radius: 18px; padding: 16px; margin-bottom: 16px; }
+    .umap-title { margin-bottom: 10px; color: var(--muted); font-weight: 800; font-size: 14px; }
+    .umap-img { width: min(980px, 100%); display: block; border-radius: 14px; border: 1px solid #e3dbce; background: #faf7f1; }
+    .cluster { background: rgba(255,253,249,.75); border: 1px solid var(--line); border-radius: 18px; padding: 14px; margin-bottom: 16px; }
+    .cluster-header { margin-bottom: 10px; }
+    .cluster h2 { margin: 0 0 6px; font-size: 22px; }
+    .cluster-meta { color: var(--muted); font-size: 13px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(132px, 1fr)); gap: 10px; }
+    .cluster-nav { grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); }
+    .card { background: #fff; border: 1px solid #e3dbce; border-radius: 12px; padding: 7px; overflow: hidden; color: inherit; text-decoration: none; }
+    .card:hover { border-color: var(--accent); }
+    .card img {
+      display: block;
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      background: #111;
+      border-radius: 8px;
+    }
+    .cluster-card-title { color: var(--accent); font-weight: 800; font-size: 18px; }
+    .name { margin-top: 6px; color: #655d54; font-size: 10px; line-height: 1.25; overflow-wrap: anywhere; }
+    </style>
+  <link rel="stylesheet" href="../../result-showcase.css">
+</head>
+<body>
+
+  <main class="shell">
+    <div class="toolbar">
+      <div class="showcase-titlebar">
+        <h1>28骨髓 folders 01-22 DINOv2 pretrained Louvain cluster overview / cluster 4</h1>
+        <button class="showcase-toggle" type="button" data-showcase-toggle aria-expanded="true">收起工具栏</button>
+      </div>
+      <div class="sub">带编号 UMAP 和该 cluster 的随机细胞图像。本页随机抽样 100 张，用于快速检查该类形态是否一致。</div>
+      <div class="stats">
+        <div class="pill">cluster 4</div>
+        <div class="pill">5152 cells in cluster</div>
+        <div class="pill">100 random cells shown</div>
+      </div>
+      <div class="toc"><a href="../index.html">返回总览</a></div>
+    </div>
+    <div class="umap-panel">
+      <div class="umap-title">UMAP（cluster 编号已直接标在图上）</div>
+      <a href="../umap_louvain_labeled.png" target="_blank" rel="noopener"><img class="umap-img" src="../umap_louvain_labeled.png" loading="lazy" alt="UMAP with numeric cluster labels"></a>
+    </div>
+    <section class="cluster" id="cluster-4" data-cluster-id="4">
+      <div class="cluster-header">
+        <h2>cluster 4</h2>
+        <div class="cluster-meta">该 cluster 共 5152 张；本页展示 100 张随机细胞。</div>
+      </div>
+      <div class="grid">
+        <article class="card">
+          <img src="../thumbs/cluster_4/000_cell_1761646821966_912349010008_99464_0000.jpg" loading="lazy" alt="cell_1761646821966_912349010008_99464_0000.png">
+          <div class="name">cell_1761646821966_912349010008_99464_0000.png</div>
+        </article>
+
+        <article class="card">
+          <img src="../thumbs/cluster_4/001_cell_1761645928035_912349010008_25871_0000.jpg" loading="lazy" alt="cell_1761645928035_912349010008_25871_0000.png">
+          <div class="name">cell_1761645928035_912349010008_25871_0000.png</div>
+        </article>
+
+        <article class="card">
+          <img src="../thumbs/cluster_4/002_cell_1761646420213_912349010008_65416_0000.jpg" loading="lazy" alt="cell_1761646420213_912349010008_65416_0000.png">
+          <div class="name">cell_1761646420213_912349010008_65416_0000.png</div>
+        </article>
+
+        <article class="card">
+          <img src="../thumbs/cluster_4/003_cell_1761645875696_912349010008_21908_0000.jpg" loading="lazy" alt="cell_1761645875696_912349010008_21908_0000.png">
+          <div class="name">cell_1761645875696_912349010008_21908_0000.png</div>
+        </article>
+
+        <article class="card">
+          <img src="../thumbs/cluster_4/004_cell_1761646543305_912349010008_76372_0000.jpg" loading="lazy" alt="cell_1761646543305_912349010008_76372_0000.png">
+          <div class="name">cell_1761646543305_912349010008_76372_0000.png</div>
+        </article>
+
+        <article class="card">
+          <img src="../thumbs/cluster_4/005_cell_1761646915360_912349010008_107268_0000.jpg" loading="lazy" alt="cell_1761646915360_912349010008_107268_0000.png">
+          <div class="name">cell_1761646915360_912349010008_107268_0000.png</div>
+        </article>
+
+        <article class="card">
+          <img src="../thumbs/cluster_4/006_cell_1761646555931_912349010008_77388_0000.jpg" loading="lazy" alt="cell_1761646555931_912349010008_77388_0000.png">
+          <div class="name">cell_1761646555931_912349010008_77388_0000.png</div>
+        </article>
+
+        <article class="card">
+          <img src="../thumbs/cluster_4/007_cell_1761646861137_912349010008_102821_0000.jpg" loading="lazy" alt="cell_1761646861137_912349010008_102821_0000.png">
+          <div class="name">cell_1761646861137_912349010008_102821_0000.png</div>
+        </article>
+
+        <article class="card">
+          <img src="../thumbs/cluster_4/008_cell_1761646062306_912349010008_37128_0100.jpg" loading="lazy" alt="cell_1761646062306_912349010008_37128_0100.png">
+          <div class="name">cell_1761646062306_912349010008_37128_0100.png</div>
+        </article>
+
+        <article class="card">
+          <img src="../thumbs/cluster_4/009_cell_1761646578096_912349010008_79086_0100.jpg" loading="lazy" alt="cell_1761646578096_912349010008_79086_0100.png">
+          <div class="name">cell_1761646578096_912349010008_79086_0100.png</div>
+        </article>
+
+        <article class="card">
+          <img src="../thumbs/cluster_4/010_cell_1761646465208_912349010008_69528_0000.jpg" loading="lazy" alt="cell_1761646465208_912349010008_69528_0000.png">
+          <div class="name">cell_1761646465208_912349010008_69528_0000.png</div>
+        </article>
+
+        <article class="card">
+          <img src="../thumbs/cluster_4/011_cell_1761646070417_912349010008_37706_0100.jpg" loading="lazy" alt="cell_1761646070417_912349010008_37706_0100.png">
+          <div class="name">cell_1761646070417_912349010008_37706_0100.png</div>
+        </article>
+
+        <article class="card">
+          <img src="../thumbs/cluster_4/012_cell_1761646485639_912349010008_71403_0000.jpg" loading="lazy" alt="cell_1761646485639_912349010008_71403_0000.png">
+          <div class="name">cell_1761646485639_912349010008_71403_0000.png</div>
+        </article>
+
+        <article class="card">
+          <img src="../thumbs/cluster_4/013_cell_1761645877396_912349010008_22060_0000.jpg" loading="lazy" alt="cell_1761645877396_912349010008_22060_0000.png">
+          <div class="name">cell_1761645877396_912349010008_22060_0000.png</div>
+        </article>
+
+        <article class="card">
+          <img src="../thumbs/cluster_4/014_cell_1761645784166_912349010008_14446_0000.jpg" loading="lazy" alt="cell_1761645784166_912349010008_14446_0000.png">
+          <div class="name">cell_1761645784166_912349010008_14446_0000.png</div>
+        </article>
+
+        <article class="card">
+          <img src="../thumbs/cluster_4/015_cell_1761646401214_912349010008_63854_0100.jpg" loading="lazy" alt="cell_1761646401214_912349010008_63854_0100.png">
+          <div class="name">cell_1761646401214_912349010008_63854_0100.png</div>
+        </article>
+
+        <article class="card">
+          <img src="../thumbs/cluster_4/016_cell_1761646733378_912349010008_92170_0100.jpg" loading="lazy" alt="cell_1761646733378_912349010008_92170_0100.png">
+          <div class="name">cell_1761646733378_912349010008_92170_0100.png</div>
+        </article>
+
+        <article class="card">
+          <img src="../thumbs/cluster_4/017_cell_1761646263571_912349010008_52492_0100.jpg" loading="lazy" alt="cell_1761646263571_912349010008_52492_0100.png">
+          <div class="name">cell_1761646263571_912349010008_52492_0100.png</div>
+        </article>
+
+        <article class="card">
+          <img src="../thumbs/cluster_4/018_cell_1761646576185_912349010008_78932_0000.jpg" loading="lazy" alt="cell_1761646576185_912349010008_78932_0000.png">
+          <div class="name">cell_1761646576185_912349010008_78932_0000.png</div>
+        </article>
+
+        <article class="card">
+          <img src="../thumbs/cluster_4/019_cell_1761645946983_912349010008_27380_0000.jpg" loading="lazy" alt="cell_1761645946983_912349010008_27380_0000.png">
+          <div class="name">cell_1761645946983_912349010008_27380_0000.png</div>
+        </article>
+
+        <article class="card">
+          <img src="../thumbs/cluster_4/020_cell_1761646894318_912349010008_105524_0100.jpg" loading="lazy" alt="cell_1761646894318_912349010008_105524_0100.png">
+          <div class="name">cell_1761646894318_912349010008_105524_0100.png</div>
+        </article>
+
+        <article class="card">
+          <img src="../thumbs/cluster_4/021_cell_1761646569458_912349010008_78380_0100.jpg" loading="lazy" alt="cell_1761646569458_912349010008_78380_0100.png">
+          <div class="name">cell_1761646569458_912349010008_78380_0100.png</div>
+        </article>
+
+        <article class="card">
+          <img src="../thumbs/cluster_4/022_cell_1761645759778_912349010008_12664_0100.jpg" loading="lazy" alt="cell_1761645759778_912349010008_12664_0100.png">
+          <div class="name">cell_1761645759778_912349010008_12664_0100.png</div>
+        </article>
+
+        <article class="card">
+          <img src="../thumbs/cluster_4/023_cell_1761645939635_912349010008_26735_0100.jpg" loading="lazy" alt="cell_1761645939635_912349010008_26735_0100.png">
+          <div class="name">cell_1761645939635_912349010008_26735_0100.png</div>
+        </article>
+
+        <article class="card">
+          <img src="../thumbs/cluster_4/024_cell_1761646648089_912349010008_84929_0100.jpg" loading="lazy" alt="cell_1761646648089_912349010008_84929_0100.png">
+          <div class="name">cell_1761646648089_912349010008_84929_0100.png</div>
+        </article>
+
+        <article class="card">
+          <img src="../thumbs/cluster_4/025_cell_1761645973834_912349010008_29540_0000.jpg" loading="lazy" alt="cell_1761645973834_912349010008_29540_0000.png">
+          <div class="name">cell_1761645973834_912349010008_29540_0000.png</div>
+        </article>
+
+        <article class="card">
+          <img src="../thumbs/cluster_4/026_cell_1761646396356_912349010008_63491_0100.jpg" loading="lazy" alt="cell_1761646396356_912349010008_63491_0100.png">
+          <div class="name">cell_1761646396356_912349010008_63491_0100.png</div>
+        </article>
+
+        <article class="card">
+          <img src="../thumbs/cluster_4/027_cell_1761646746282_912349010008_93197_0000.jpg" loading="lazy" alt="cell_1761646746282_912349010008_93197_0000.png">
+          <div class="name">cell_1761646746282_912349010008_93197_0000.png</div>
+        </article>
+
+        <article class="card">
+          <img src="../thumbs/cluster_4/028_cell_1761646432039_912349010008_66513_0000.jpg" loading="lazy" alt="cell_1761646432039_912349010008_66513_0000.png">
+          <div class="name">cell_1761646432039_912349010008_66513_0000.png</div>
+        </article>
+
+        <article class="card">
+          <img src="../thumbs/cluster_4/029_cell_1761645809489_912349010008_16389_0000.jpg" loading="lazy" alt="cell_1761645809489_912349010008_16389_0000.png">
+          <div class="name">cell_1761645809489_912349010008_16389_0000.png</div>
+        </article>
+
+        <article class="card">
+          <img src="../thumbs/cluster_4/030_cell_1761646412158_912349010008_64716_0000.jpg" loading="lazy" alt="cell_1761646412158_912349010008_64716_0000.png">
+          <div class="name">cell_1761646412158_912349010008_64716_0000.png</div>
+        </article>
+
+        <article class="card">
+          <img src="../thumbs/cluster_4/031_cell_1761645951443_912349010008_27744_0000.jpg" loading="lazy" alt="cell_1761645951443_912349010008_27744_0000.png">
+          <div class="name">cell_1761645951443_912349010008_27744_0000.png</div>
+        </article>
+
+        <article class="card">
+          <img src="../thumbs/cluster_4/032_cell_1761646738764_912349010008_92596_0000.jpg" loading="lazy" alt="cell_1761646738764_912349010008_92596_0000.png">
+          <div class="name">cell_1761646738764_912349010008_92596_0000.png</div>
+        </article>
+
+        <article class="card">
+          <img src="../thumbs/cluster_4/033_cell_1761646598524_912349010008_80630_0000.jpg" loading="lazy" alt="cell_1761646598524_912349010008_80630_0000.png">
+          <div class="name">cell_1761646598524_912349010008_80630_0000.png</div>
+        </article>
+
+        <article class="card">
+          <img src="../thumbs/cluster_4/034_cell_1761646412791_912349010008_64767_0100.jpg" loading="lazy" alt="cell_1761646412791_912349010008_64767_0100.png">
+          <div class="name">cell_1761646412791_912349010008_64767_0100.png</div>
+        </article>
+
+        <article class="card">
+          <img src="../thumbs/cluster_4/035_cell_1761646747925_912349010008_93305_0000.jpg" loading="lazy" alt="cell_1761646747925_912349010008_93305_0000.png">
+          <div class="name">cell_1761646747925_912349010008_93305_0000.png</div>
+        </article>
+
+        <article class="card">
+          <img src="../thumbs/cluster_4/036_cell_1761645853813_912349010008_19969_0100.jpg" loading="lazy" alt="cell_1761645853813_912349010008_19969_0100.png">
+          <div class="name">cell_1761645853813_912349010008_19969_0100.png</div>
+        </article>
+
+        <article class="card">
+          <img src="../thumbs/cluster_4/037_cell_1761645719594_912349010008_9730_0000.jpg" loading="lazy" alt="cell_1761645719594_912349010008_9730_0000.png">
+          <div class="name">cell_1761645719594_912349010008_9730_0000.png</div>
+        </article>
+
+        <article class="card">
+          <img src="../thumbs/cluster_4/038_cell_1761645885714_912349010008_22729_0000.jpg" loading="lazy" alt="cell_1761645885714_912349010008_22729_0000.png">
+          <div class="name">cell_1761645885714_912349010008_22729_0000.png</div>
+        </article>
+
+        <article class="card">
+          <img src="../thumbs/cluster_4/039_cell_1761645890823_912349010008_23087_0100.jpg" loading="lazy" alt="cell_1761645890823_912349010008_23087_0100.png">
+          <div class="name">cell_1761645890823_912349010008_23087_0100.png</div>
+        </article>
+
+        <article class="card">
+          <img src="../thumbs/cluster_4/040_cell_1761646831872_912349010008_100337_0000.jpg" loading="lazy" alt="cell_1761646831872_912349010008_100337_0000.png">
+          <div class="name">cell_1761646831872_912349010008_100337_0000.png</div>
+        </article>
+
+        <article class="card">
+          <img src="../thumbs/cluster_4/041_cell_1761646453687_912349010008_68478_0100.jpg" loading="lazy" alt="cell_1761646453687_912349010008_68478_0100.png">
+          <div class="name">cell_1761646453687_912349010008_68478_0100.png</div>
+        </article>
+
+        <article class="card">
+          <img src="../thumbs/cluster_4/042_cell_1761646782526_912349010008_96105_0100.jpg" loading="lazy" alt="cell_1761646782526_912349010008_96105_0100.png">
+          <div class="name">cell_1761646782526_912349010008_96105_0100.png</div>
+        </article>
+
+        <article class="card">
+          <img src="../thumbs/cluster_4/043_cell_1761646808146_912349010008_98303_0000.jpg" loading="lazy" alt="cell_1761646808146_912349010008_98303_0000.png">
+          <div class="name">cell_1761646808146_912349010008_98303_0000.png</div>
+        </article>
+
+        <article class="card">
+          <img src="../thumbs/cluster_4/044_cell_1761646917948_912349010008_107480_0000.jpg" loading="lazy" alt="cell_1761646917948_912349010008_107480_0000.png">
+          <div class="name">cell_1761646917948_912349010008_107480_0000.png</div>
+        </article>
+
+        <article class="card">
+          <img src="../thumbs/cluster_4/045_cell_1761646177684_912349010008_45582_0000.jpg" loading="lazy" alt="cell_1761646177684_912349010008_45582_0000.png">
+          <div class="name">cell_1761646177684_912349010008_45582_0000.png</div>
+        </article>
+
+        <article class="card">
+          <img src="../thumbs/cluster_4/046_cell_1761645819149_912349010008_17145_0000.jpg" loading="lazy" alt="cell_1761645819149_912349010008_17145_0000.png">
+          <div class="name">cell_1761645819149_912349010008_17145_0000.png</div>
+        </article>
+
+        <article class="card">
+          <img src="../thumbs/cluster_4/047_cell_1761646719410_912349010008_90941_0100.jpg" loading="lazy" alt="cell_1761646719410_912349010008_90941_0100.png">
+          <div class="name">cell_1761646719410_912349010008_90941_0100.png</div>
+        </article>
+
+        <article class="card">
+          <img src="../thumbs/cluster_4/048_cell_1761646861178_912349010008_102824_0100.jpg" loading="lazy" alt="cell_1761646861178_912349010008_102824_0100.png">
+          <div class="name">cell_1761646861178_912349010008_102824_0100.png</div>
+        </article>
+
+        <article class="card">
+          <img src="../thumbs/cluster_4/049_cell_1761646149395_912349010008_43477_0000.jpg" loading="lazy" alt="cell_1761646149395_912349010008_43477_0000.png">
+          <div class="name">cell_1761646149395_912349010008_43477_0000.png</div>
+        </article>
+
+        <article class="card">
+          <img src="../thumbs/cluster_4/050_cell_1761645885015_912349010008_22683_0000.jpg" loading="lazy" alt="cell_1761645885015_912349010008_22683_0000.png">
+          <div class="name">cell_1761645885015_912349010008_22683_0000.png</div>
+        </article>
+
+        <article class="card">
+          <img src="../thumbs/cluster_4/051_cell_1761645882026_912349010008_22460_0000.jpg" loading="lazy" alt="cell_1761645882026_912349010008_22460_0000.png">
+          <div class="name">cell_1761645882026_912349010008_22460_0000.png</div>
+        </article>
+
+        <article class="card">
+          <img src="../thumbs/cluster_4/052_cell_1761646744813_912349010008_93067_0000.jpg" loading="lazy" alt="cell_1761646744813_912349010008_93067_0000.png">
+          <div class="name">cell_1761646744813_912349010008_93067_0000.png</div>
+        </article>
+
+        <article class="card">
+          <img src="../thumbs/cluster_4/053_cell_1761646844279_912349010008_101319_0100.jpg" loading="lazy" alt="cell_1761646844279_912349010008_101319_0100.png">
+          <div class="name">cell_1761646844279_912349010008_101319_0100.png</div>
+        </article>
+
+        <article class="card">
+          <img src="../thumbs/cluster_4/054_cell_1761646741365_912349010008_92797_0100.jpg" loading="lazy" alt="cell_1761646741365_912349010008_92797_0100.png">
+          <div class="name">cell_1761646741365_912349010008_92797_0100.png</div>
+        </article>
+
+        <article class="card">
+          <img src="../thumbs/cluster_4/055_cell_1761646056234_912349010008_36651_0100.jpg" loading="lazy" alt="cell_1761646056234_912349010008_36651_0100.png">
+          <div class="name">cell_1761646056234_912349010008_36651_0100.png</div>
+        </article>
+
+        <article class="card">
+          <img src="../thumbs/cluster_4/056_cell_1761646019012_912349010008_33388_0100.jpg" loading="lazy" alt="cell_1761646019012_912349010008_33388_0100.png">
+          <div class="name">cell_1761646019012_912349010008_33388_0100.png</div>
+        </article>
+
+        <article class="card">
+          <img src="../thumbs/cluster_4/057_cell_1761646545546_912349010008_76590_0000.jpg" loading="lazy" alt="cell_1761646545546_912349010008_76590_0000.png">
+          <div class="name">cell_1761646545546_912349010008_76590_0000.png</div>
+        </article>
+
+        <article class="card">
+          <img src="../thumbs/cluster_4/058_cell_1761646856983_912349010008_102448_0100.jpg" loading="lazy" alt="cell_1761646856983_912349010008_102448_0100.png">
+          <div class="name">cell_1761646856983_912349010008_102448_0100.png</div>
+        </article>
+
+        <article class="card">
+          <img src="../thumbs/cluster_4/059_cell_1761646682815_912349010008_88002_0000.jpg" loading="lazy" alt="cell_1761646682815_912349010008_88002_0000.png">
+          <div class="name">cell_1761646682815_912349010008_88002_0000.png</div>
+        </article>
+
+        <article class="card">
+          <img src="../thumbs/cluster_4/060_cell_1761646365019_912349010008_61098_0000.jpg" loading="lazy" alt="cell_1761646365019_912349010008_61098_0000.png">
+          <div class="name">cell_1761646365019_912349010008_61098_0000.png</div>
+        </article>
+
+        <article class="card">
+          <img src="../thumbs/cluster_4/061_cell_1761645971293_912349010008_29317_0100.jpg" loading="lazy" alt="cell_1761645971293_912349010008_29317_0100.png">
+          <div class="name">cell_1761645971293_912349010008_29317_0100.png</div>
+        </article>
+
+        <article class="card">
+          <img src="../thumbs/cluster_4/062_cell_1761646344577_912349010008_59362_0100.jpg" loading="lazy" alt="cell_1761646344577_912349010008_59362_0100.png">
+          <div class="name">cell_1761646344577_912349010008_59362_0100.png</div>
+        </article>
+
+        <article class="card">
+          <img src="../thumbs/cluster_4/063_cell_1761646522025_912349010008_74654_0100.jpg" loading="lazy" alt="cell_1761646522025_912349010008_74654_0100.png">
+          <div class="name">cell_1761646522025_912349010008_74654_0100.png</div>
+        </article>
+
+        <article class="card">
+          <img src="../thumbs/cluster_4/064_cell_1761646432201_912349010008_66523_0100.jpg" loading="lazy" alt="cell_1761646432201_912349010008_66523_0100.png">
+          <div class="name">cell_1761646432201_912349010008_66523_0100.png</div>
+        </article>
+
+        <article class="card">
+          <img src="../thumbs/cluster_4/065_cell_1761646508020_912349010008_73484_0100.jpg" loading="lazy" alt="cell_1761646508020_912349010008_73484_0100.png">
+          <div class="name">cell_1761646508020_912349010008_73484_0100.png</div>
+        </article>
+
+        <article class="card">
+          <img src="../thumbs/cluster_4/066_cell_1761646714843_912349010008_90573_0000.jpg" loading="lazy" alt="cell_1761646714843_912349010008_90573_0000.png">
+          <div class="name">cell_1761646714843_912349010008_90573_0000.png</div>
+        </article>
+
+        <article class="card">
+          <img src="../thumbs/cluster_4/067_cell_1761646493581_912349010008_72185_0100.jpg" loading="lazy" alt="cell_1761646493581_912349010008_72185_0100.png">
+          <div class="name">cell_1761646493581_912349010008_72185_0100.png</div>
+        </article>
+
+        <article class="card">
+          <img src="../thumbs/cluster_4/068_cell_1761646503546_912349010008_73126_0100.jpg" loading="lazy" alt="cell_1761646503546_912349010008_73126_0100.png">
+          <div class="name">cell_1761646503546_912349010008_73126_0100.png</div>
+        </article>
+
+        <article class="card">
+          <img src="../thumbs/cluster_4/069_cell_1761646795043_912349010008_97096_0000.jpg" loading="lazy" alt="cell_1761646795043_912349010008_97096_0000.png">
+          <div class="name">cell_1761646795043_912349010008_97096_0000.png</div>
+        </article>
+
+        <article class="card">
+          <img src="../thumbs/cluster_4/070_cell_1761646689777_912349010008_88641_0000.jpg" loading="lazy" alt="cell_1761646689777_912349010008_88641_0000.png">
+          <div class="name">cell_1761646689777_912349010008_88641_0000.png</div>
+        </article>
+
+        <article class="card">
+          <img src="../thumbs/cluster_4/071_cell_1761646300320_912349010008_55744_0000.jpg" loading="lazy" alt="cell_1761646300320_912349010008_55744_0000.png">
+          <div class="name">cell_1761646300320_912349010008_55744_0000.png</div>
+        </article>
+
+        <article class="card">
+          <img src="../thumbs/cluster_4/072_cell_1761646213753_912349010008_48436_0100.jpg" loading="lazy" alt="cell_1761646213753_912349010008_48436_0100.png">
+          <div class="name">cell_1761646213753_912349010008_48436_0100.png</div>
+        </article>
+
+        <article class="card">
+          <img src="../thumbs/cluster_4/073_cell_1761646555252_912349010008_77342_0100.jpg" loading="lazy" alt="cell_1761646555252_912349010008_77342_0100.png">
+          <div class="name">cell_1761646555252_912349010008_77342_0100.png</div>
+        </article>
+
+        <article class="card">
+          <img src="../thumbs/cluster_4/074_cell_1761646670349_912349010008_86866_0000.jpg" loading="lazy" alt="cell_1761646670349_912349010008_86866_0000.png">
+          <div class="name">cell_1761646670349_912349010008_86866_0000.png</div>
+        </article>
+
+        <article class="card">
+          <img src="../thumbs/cluster_4/075_cell_1761646749830_912349010008_93454_0100.jpg" loading="lazy" alt="cell_1761646749830_912349010008_93454_0100.png">
+          <div class="name">cell_1761646749830_912349010008_93454_0100.png</div>
+        </article>
+
+        <article class="card">
+          <img src="../thumbs/cluster_4/076_cell_1761646907680_912349010008_106614_0100.jpg" loading="lazy" alt="cell_1761646907680_912349010008_106614_0100.png">
+          <div class="name">cell_1761646907680_912349010008_106614_0100.png</div>
+        </article>
+
+        <article class="card">
+          <img src="../thumbs/cluster_4/077_cell_1761646810437_912349010008_98483_0100.jpg" loading="lazy" alt="cell_1761646810437_912349010008_98483_0100.png">
+          <div class="name">cell_1761646810437_912349010008_98483_0100.png</div>
+        </article>
+
+        <article class="card">
+          <img src="../thumbs/cluster_4/078_cell_1761646311414_912349010008_56660_0000.jpg" loading="lazy" alt="cell_1761646311414_912349010008_56660_0000.png">
+          <div class="name">cell_1761646311414_912349010008_56660_0000.png</div>
+        </article>
+
+        <article class="card">
+          <img src="../thumbs/cluster_4/079_cell_1761645891532_912349010008_23149_0100.jpg" loading="lazy" alt="cell_1761645891532_912349010008_23149_0100.png">
+          <div class="name">cell_1761645891532_912349010008_23149_0100.png</div>
+        </article>
+
+        <article class="card">
+          <img src="../thumbs/cluster_4/080_cell_1761646572571_912349010008_78641_0100.jpg" loading="lazy" alt="cell_1761646572571_912349010008_78641_0100.png">
+          <div class="name">cell_1761646572571_912349010008_78641_0100.png</div>
+        </article>
+
+        <article class="card">
+          <img src="../thumbs/cluster_4/081_cell_1761646535585_912349010008_75715_0100.jpg" loading="lazy" alt="cell_1761646535585_912349010008_75715_0100.png">
+          <div class="name">cell_1761646535585_912349010008_75715_0100.png</div>
+        </article>
+
+        <article class="card">
+          <img src="../thumbs/cluster_4/082_cell_1761645970888_912349010008_29282_0000.jpg" loading="lazy" alt="cell_1761645970888_912349010008_29282_0000.png">
+          <div class="name">cell_1761645970888_912349010008_29282_0000.png</div>
+        </article>
+
+        <article class="card">
+          <img src="../thumbs/cluster_4/083_cell_1761646869720_912349010008_103562_0000.jpg" loading="lazy" alt="cell_1761646869720_912349010008_103562_0000.png">
+          <div class="name">cell_1761646869720_912349010008_103562_0000.png</div>
+        </article>
+
+        <article class="card">
+          <img src="../thumbs/cluster_4/084_cell_1761646649892_912349010008_85088_0000.jpg" loading="lazy" alt="cell_1761646649892_912349010008_85088_0000.png">
+          <div class="name">cell_1761646649892_912349010008_85088_0000.png</div>
+        </article>
+
+        <article class="card">
+          <img src="../thumbs/cluster_4/085_cell_1761646362322_912349010008_60880_0100.jpg" loading="lazy" alt="cell_1761646362322_912349010008_60880_0100.png">
+          <div class="name">cell_1761646362322_912349010008_60880_0100.png</div>
+        </article>
+
+        <article class="card">
+          <img src="../thumbs/cluster_4/086_cell_1761646817548_912349010008_99105_0100.jpg" loading="lazy" alt="cell_1761646817548_912349010008_99105_0100.png">
+          <div class="name">cell_1761646817548_912349010008_99105_0100.png</div>
+        </article>
+
+        <article class="card">
+          <img src="../thumbs/cluster_4/087_cell_1761645851049_912349010008_19740_0000.jpg" loading="lazy" alt="cell_1761645851049_912349010008_19740_0000.png">
+          <div class="name">cell_1761645851049_912349010008_19740_0000.png</div>
+        </article>
+
+        <article class="card">
+          <img src="../thumbs/cluster_4/088_cell_1761645814460_912349010008_16781_0000.jpg" loading="lazy" alt="cell_1761645814460_912349010008_16781_0000.png">
+          <div class="name">cell_1761645814460_912349010008_16781_0000.png</div>
+        </article>
+
+        <article class="card">
+          <img src="../thumbs/cluster_4/089_cell_1761646654253_912349010008_85455_0000.jpg" loading="lazy" alt="cell_1761646654253_912349010008_85455_0000.png">
+          <div class="name">cell_1761646654253_912349010008_85455_0000.png</div>
+        </article>
+
+        <article class="card">
+          <img src="../thumbs/cluster_4/090_cell_1761646470059_912349010008_69956_0000.jpg" loading="lazy" alt="cell_1761646470059_912349010008_69956_0000.png">
+          <div class="name">cell_1761646470059_912349010008_69956_0000.png</div>
+        </article>
+
+        <article class="card">
+          <img src="../thumbs/cluster_4/091_cell_1761646008047_912349010008_32360_0100.jpg" loading="lazy" alt="cell_1761646008047_912349010008_32360_0100.png">
+          <div class="name">cell_1761646008047_912349010008_32360_0100.png</div>
+        </article>
+
+        <article class="card">
+          <img src="../thumbs/cluster_4/092_cell_1761645782573_912349010008_14309_0100.jpg" loading="lazy" alt="cell_1761645782573_912349010008_14309_0100.png">
+          <div class="name">cell_1761645782573_912349010008_14309_0100.png</div>
+        </article>
+
+        <article class="card">
+          <img src="../thumbs/cluster_4/093_cell_1761645922106_912349010008_25401_0000.jpg" loading="lazy" alt="cell_1761645922106_912349010008_25401_0000.png">
+          <div class="name">cell_1761645922106_912349010008_25401_0000.png</div>
+        </article>
+
+        <article class="card">
+          <img src="../thumbs/cluster_4/094_cell_1761646604938_912349010008_81223_0100.jpg" loading="lazy" alt="cell_1761646604938_912349010008_81223_0100.png">
+          <div class="name">cell_1761646604938_912349010008_81223_0100.png</div>
+        </article>
+
+        <article class="card">
+          <img src="../thumbs/cluster_4/095_cell_1761645740844_912349010008_11225_0000.jpg" loading="lazy" alt="cell_1761645740844_912349010008_11225_0000.png">
+          <div class="name">cell_1761645740844_912349010008_11225_0000.png</div>
+        </article>
+
+        <article class="card">
+          <img src="../thumbs/cluster_4/096_cell_1761646564986_912349010008_78052_0000.jpg" loading="lazy" alt="cell_1761646564986_912349010008_78052_0000.png">
+          <div class="name">cell_1761646564986_912349010008_78052_0000.png</div>
+        </article>
+
+        <article class="card">
+          <img src="../thumbs/cluster_4/097_cell_1761646241973_912349010008_50755_0100.jpg" loading="lazy" alt="cell_1761646241973_912349010008_50755_0100.png">
+          <div class="name">cell_1761646241973_912349010008_50755_0100.png</div>
+        </article>
+
+        <article class="card">
+          <img src="../thumbs/cluster_4/098_cell_1761646013906_912349010008_32939_0100.jpg" loading="lazy" alt="cell_1761646013906_912349010008_32939_0100.png">
+          <div class="name">cell_1761646013906_912349010008_32939_0100.png</div>
+        </article>
+
+        <article class="card">
+          <img src="../thumbs/cluster_4/099_cell_1761646665950_912349010008_86454_0100.jpg" loading="lazy" alt="cell_1761646665950_912349010008_86454_0100.png">
+          <div class="name">cell_1761646665950_912349010008_86454_0100.png</div>
+        </article>
+</div>
+    </section>
+  </main>
+
+<script src="../../result-showcase.js"></script>
+</body>
+</html>
