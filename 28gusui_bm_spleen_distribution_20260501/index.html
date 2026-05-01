@@ -25,11 +25,11 @@
   <main class="shell">
     <header class="header">
       <h1>28骨髓/脾脏样本 UMAP 分布复现</h1>
-      <div class="sub">按文件夹来源复现示意图：上方为 01-22 骨髓与脾脏混合样本，下方为 34-59 脾脏样本。橙红色区域显示在同一个全量 UMAP 坐标中的样本分布；同一个模型内上下两图使用同一颜色标尺；灰色细胞块来自黑圈标出的局部区域。</div>
+      <div class="sub">按文件夹来源复现示意图：上方为 01-22 骨髓与脾脏混合样本，下方为 34-59 脾脏样本。橙红色区域显示在同一个全量 UMAP 坐标中的样本分布；同一个模型内上下两图使用同一颜色标尺；灰色细胞块来自黑圈标出的差异区域。</div>
     </header>
     <section class="note">
       <h2>这张图怎么看</h2>
-      <p>这张图不是重新把细胞随便摆出来的，而是先用已经提取好的 DINOv2 图像特征做 UMAP 降维，每个点代表一张细胞图。然后按原始文件夹把点分成两组：01-22 是骨髓和脾脏混合样本，34-59 是脾脏样本。橙红色越深，表示这一片 UMAP 区域里的细胞越集中。这里上下两张图用的是同一个“温度计”：同样深的红色，就代表差不多同样高的细胞集中程度。这样看上图和下图时，哪里更红就是真的哪里更集中；不会出现每张图都把自己的最高点单独涂成最红、导致上下不能比较的情况。黑圈圈出的是当前图里一个局部高密度区域，下面那排灰色细胞图就是从这个黑圈里的细胞候选点中抽出来的，所以它们对应的是圈里的那一部分细胞形态。</p>
+      <p>这张图不是重新把细胞随便摆出来的，而是先用已经提取好的 DINOv2 图像特征做 UMAP 降维，每个点代表一张细胞图。然后按原始文件夹把点分成两组：01-22 是骨髓和脾脏混合样本，34-59 是脾脏样本。橙红色越深，表示这一片 UMAP 区域里的细胞越集中。这里上下两张图用的是同一个“温度计”：同样深的红色，就代表差不多同样高的细胞集中程度。黑圈不是随便圈，也不是只圈每张图自己最密的地方；它是先把上下两组的 UMAP 分布做比较后选出来的差异区域。上图黑圈表示 01-22 相比 34-59 更明显富集的位置，下图黑圈表示 34-59 相比 01-22 更明显富集的位置。下面那排灰色细胞图只从对应黑圈里的点抽样，所以展示的是这个差异区域里的细胞形态。</p>
     </section>
 
       <section class="panel">
@@ -37,8 +37,8 @@
           <h2>28骨髓 adapted DINOv2 e5：骨髓脾脏混合样 vs 脾脏样本</h2>
           <div class="meta">使用 full 28gusui adapted DINOv2 e5 的同一套 UMAP 坐标，按文件夹来源拆分显示 01-22 与 34-59 的分布。</div>
         </div>
-        <a href="./adapted_e5_bm_spleen_distribution.png" target="_blank" rel="noopener">
-          <img class="figure" src="./adapted_e5_bm_spleen_distribution.png" alt="28骨髓 adapted DINOv2 e5：骨髓脾脏混合样 vs 脾脏样本">
+        <a href="./adapted_e5_bm_spleen_distribution.png?v=difference-regions-20260501-v1" target="_blank" rel="noopener">
+          <img class="figure" src="./adapted_e5_bm_spleen_distribution.png?v=difference-regions-20260501-v1" alt="28骨髓 adapted DINOv2 e5：骨髓脾脏混合样 vs 脾脏样本">
         </a>
       </section>
 
@@ -47,8 +47,8 @@
           <h2>28骨髓 pretrained DINOv2：骨髓脾脏混合样 vs 脾脏样本</h2>
           <div class="meta">使用 full 28gusui pretrained DINOv2 的同一套 UMAP 坐标，按文件夹来源拆分显示 01-22 与 34-59 的分布。</div>
         </div>
-        <a href="./pretrained_bm_spleen_distribution.png" target="_blank" rel="noopener">
-          <img class="figure" src="./pretrained_bm_spleen_distribution.png" alt="28骨髓 pretrained DINOv2：骨髓脾脏混合样 vs 脾脏样本">
+        <a href="./pretrained_bm_spleen_distribution.png?v=difference-regions-20260501-v1" target="_blank" rel="noopener">
+          <img class="figure" src="./pretrained_bm_spleen_distribution.png?v=difference-regions-20260501-v1" alt="28骨髓 pretrained DINOv2：骨髓脾脏混合样 vs 脾脏样本">
         </a>
       </section>
 

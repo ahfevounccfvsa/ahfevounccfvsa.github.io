@@ -25,11 +25,11 @@
   <main class="shell">
     <header class="header">
       <h1>28骨髓/脾脏样本 UMAP 分布复现（非统一颜色尺度）</h1>
-      <div class="sub">这个页面故意不统一上下两张图的颜色尺度：上方 01-22 和下方 34-59 各自把自己的最高密度区域显示成最红。灰色细胞块仍然来自黑圈标出的局部区域。</div>
+      <div class="sub">这个页面故意不统一上下两张图的颜色尺度：上方 01-22 和下方 34-59 各自把自己的最高密度区域显示成最红。灰色细胞块来自黑圈标出的上下差异区域。</div>
     </header>
     <section class="note">
       <h2>这张图怎么看</h2>
-      <p>这张图和最开始的无统一尺度版本一致：使用同一套 DINOv2 UMAP 坐标，按文件夹把细胞分成 01-22 骨髓与脾脏混合样本、34-59 脾脏样本；画密度时直接按各自 panel 里的原始点数来画。颜色上，每张小图都用自己的“温度计”：上图会把上图里最集中的地方涂成最红，下图也会把下图里最集中的地方涂成最红。所以这个版本更适合看每个样本内部哪里最集中、形状长什么样；但不适合直接比较上下两张图谁更密，因为两张图的红色不是同一个绝对标准。黑圈圈出的是当前图里的一个局部高密度区域，下面那排灰色细胞图就是从这个黑圈里的细胞候选点中抽出来的。</p>
+      <p>这张图和最开始的无统一尺度版本一致：使用同一套 DINOv2 UMAP 坐标，按文件夹把细胞分成 01-22 骨髓与脾脏混合样本、34-59 脾脏样本；画密度时直接按各自 panel 里的原始点数来画。颜色上，每张小图都用自己的“温度计”，所以这个版本适合看每个样本内部哪里最集中、形状长什么样，但不适合直接比较上下两张图谁更密。黑圈不是圈每张图自己最红的地方，而是圈上下两组差异更大的地方：上图圈 01-22 相比 34-59 更明显富集的位置，下图圈 34-59 相比 01-22 更明显富集的位置。下面那排灰色细胞图只从对应黑圈里的点抽样，所以展示的是这个差异区域里的细胞形态。</p>
     </section>
 
       <section class="panel">
@@ -37,8 +37,8 @@
           <h2>28骨髓 adapted DINOv2 e5：骨髓脾脏混合样 vs 脾脏样本</h2>
           <div class="meta">使用 full 28gusui adapted DINOv2 e5 的同一套 UMAP 坐标，按文件夹来源拆分显示 01-22 与 34-59 的分布。</div>
         </div>
-        <a href="./adapted_e5_bm_spleen_distribution.png?v=original-independent-20260501-v2" target="_blank" rel="noopener">
-          <img class="figure" src="./adapted_e5_bm_spleen_distribution.png?v=original-independent-20260501-v2" alt="28骨髓 adapted DINOv2 e5：骨髓脾脏混合样 vs 脾脏样本">
+        <a href="./adapted_e5_bm_spleen_distribution.png?v=difference-regions-20260501-v1" target="_blank" rel="noopener">
+          <img class="figure" src="./adapted_e5_bm_spleen_distribution.png?v=difference-regions-20260501-v1" alt="28骨髓 adapted DINOv2 e5：骨髓脾脏混合样 vs 脾脏样本">
         </a>
       </section>
 
@@ -47,8 +47,8 @@
           <h2>28骨髓 pretrained DINOv2：骨髓脾脏混合样 vs 脾脏样本</h2>
           <div class="meta">使用 full 28gusui pretrained DINOv2 的同一套 UMAP 坐标，按文件夹来源拆分显示 01-22 与 34-59 的分布。</div>
         </div>
-        <a href="./pretrained_bm_spleen_distribution.png?v=original-independent-20260501-v2" target="_blank" rel="noopener">
-          <img class="figure" src="./pretrained_bm_spleen_distribution.png?v=original-independent-20260501-v2" alt="28骨髓 pretrained DINOv2：骨髓脾脏混合样 vs 脾脏样本">
+        <a href="./pretrained_bm_spleen_distribution.png?v=difference-regions-20260501-v1" target="_blank" rel="noopener">
+          <img class="figure" src="./pretrained_bm_spleen_distribution.png?v=difference-regions-20260501-v1" alt="28骨髓 pretrained DINOv2：骨髓脾脏混合样 vs 脾脏样本">
         </a>
       </section>
 

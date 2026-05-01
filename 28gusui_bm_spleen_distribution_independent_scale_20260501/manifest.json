@@ -10,75 +10,77 @@
         "group": "mixed",
         "n": 171094,
         "ellipse_center": [
-          -1.8969401325714288,
-          -0.3122423801428571
+          -4.795355140571428,
+          3.4381390261428564
         ],
         "ellipse_width": 2.7534942576,
         "ellipse_height": 4.1091135408,
         "ellipse_angle": -17.0,
-        "n_cells_in_ellipse": 4237,
+        "n_cells_in_ellipse": 4430,
         "thumbs": [
-          "thumbs/adapted_e5/mixed/00_cell_1761645785537_912349010008_14549_0000.jpg",
-          "thumbs/adapted_e5/mixed/01_cell_1761646891317_912349010008_105262_0100.jpg",
-          "thumbs/adapted_e5/mixed/02_cell_1761645889223_912349010008_22992_0100.jpg",
-          "thumbs/adapted_e5/mixed/03_cell_1761646679442_912349010008_87717_0100.jpg",
-          "thumbs/adapted_e5/mixed/04_cell_1761646815419_912349010008_98933_0000.jpg",
-          "thumbs/adapted_e5/mixed/05_cell_1761646725730_912349010008_91479_0000.jpg",
-          "thumbs/adapted_e5/mixed/06_cell_1761646687068_912349010008_88423_0100.jpg",
-          "thumbs/adapted_e5/mixed/07_cell_1761646845301_912349010008_101422_0100.jpg",
-          "thumbs/adapted_e5/mixed/08_cell_1761646628704_912349010008_83190_0000.jpg",
-          "thumbs/adapted_e5/mixed/09_cell_1761645875551_912349010008_21889_0000.jpg"
+          "thumbs/adapted_e5/mixed/00_cell_1761646015358_912349010008_33071_0100.jpg",
+          "thumbs/adapted_e5/mixed/01_cell_1761646726273_912349010008_91525_0100.jpg",
+          "thumbs/adapted_e5/mixed/02_cell_1761646901073_912349010008_106102_0000.jpg",
+          "thumbs/adapted_e5/mixed/03_cell_1761646332046_912349010008_58374_0000.jpg",
+          "thumbs/adapted_e5/mixed/04_cell_1761645757873_912349010008_12534_0100.jpg",
+          "thumbs/adapted_e5/mixed/05_cell_1761646862822_912349010008_102988_0100.jpg",
+          "thumbs/adapted_e5/mixed/06_cell_1761646679665_912349010008_87734_0000.jpg",
+          "thumbs/adapted_e5/mixed/07_cell_1761646735889_912349010008_92363_0000.jpg",
+          "thumbs/adapted_e5/mixed/08_cell_1761645805306_912349010008_16078_0000.jpg",
+          "thumbs/adapted_e5/mixed/09_cell_1761646641858_912349010008_84361_0000.jpg"
         ],
         "thumb_sources": [
-          "/home/wangqianqian/project/FS/data/28gusui&pizang/03/03/cell_1761645785537_912349010008_14549_0000.png",
-          "/home/wangqianqian/project/FS/data/28gusui&pizang/03/21/cell_1761646891317_912349010008_105262_0100.png",
-          "/home/wangqianqian/project/FS/data/28gusui&pizang/03/04/cell_1761645889223_912349010008_22992_0100.png",
-          "/home/wangqianqian/project/FS/data/28gusui&pizang/03/17/cell_1761646679442_912349010008_87717_0100.png",
-          "/home/wangqianqian/project/FS/data/28gusui&pizang/03/20/cell_1761646815419_912349010008_98933_0000.png",
-          "/home/wangqianqian/project/FS/data/28gusui&pizang/03/18/cell_1761646725730_912349010008_91479_0000.png",
-          "/home/wangqianqian/project/FS/data/28gusui&pizang/03/18/cell_1761646687068_912349010008_88423_0100.png",
-          "/home/wangqianqian/project/FS/data/28gusui&pizang/03/20/cell_1761646845301_912349010008_101422_0100.png",
-          "/home/wangqianqian/project/FS/data/28gusui&pizang/03/17/cell_1761646628704_912349010008_83190_0000.png",
-          "/home/wangqianqian/project/FS/data/28gusui&pizang/03/04/cell_1761645875551_912349010008_21889_0000.png"
+          "/home/wangqianqian/project/FS/data/28gusui&pizang/03/06/cell_1761646015358_912349010008_33071_0100.png",
+          "/home/wangqianqian/project/FS/data/28gusui&pizang/03/18/cell_1761646726273_912349010008_91525_0100.png",
+          "/home/wangqianqian/project/FS/data/28gusui&pizang/03/21/cell_1761646901073_912349010008_106102_0000.png",
+          "/home/wangqianqian/project/FS/data/28gusui&pizang/03/12/cell_1761646332046_912349010008_58374_0000.png",
+          "/home/wangqianqian/project/FS/data/28gusui&pizang/03/02/cell_1761645757873_912349010008_12534_0100.png",
+          "/home/wangqianqian/project/FS/data/28gusui&pizang/03/21/cell_1761646862822_912349010008_102988_0100.png",
+          "/home/wangqianqian/project/FS/data/28gusui&pizang/03/17/cell_1761646679665_912349010008_87734_0000.png",
+          "/home/wangqianqian/project/FS/data/28gusui&pizang/03/18/cell_1761646735889_912349010008_92363_0000.png",
+          "/home/wangqianqian/project/FS/data/28gusui&pizang/03/03/cell_1761645805306_912349010008_16078_0000.png",
+          "/home/wangqianqian/project/FS/data/28gusui&pizang/03/17/cell_1761646641858_912349010008_84361_0000.png"
         ],
-        "scale_mode": "independent"
+        "scale_mode": "independent",
+        "region_mode": "between_group_difference"
       },
       {
         "group": "spleen",
         "n": 189163,
         "ellipse_center": [
-          3.6238503588571422,
-          -9.035955651285715
+          8.592561801142857,
+          17.542834314999997
         ],
         "ellipse_width": 2.7534942576,
         "ellipse_height": 4.1091135408,
         "ellipse_angle": 11.0,
-        "n_cells_in_ellipse": 3563,
+        "n_cells_in_ellipse": 2941,
         "thumbs": [
-          "thumbs/adapted_e5/spleen/00_cell_1761648472114_912349010008_44824_0100.jpg",
-          "thumbs/adapted_e5/spleen/01_cell_1761649036282_912349010008_98400_0000.jpg",
-          "thumbs/adapted_e5/spleen/02_cell_1761648863346_912349010008_82824_0100.jpg",
-          "thumbs/adapted_e5/spleen/03_cell_1761649075707_912349010008_102516_0100.jpg",
-          "thumbs/adapted_e5/spleen/04_cell_1761648256637_912349010008_25587_0000.jpg",
-          "thumbs/adapted_e5/spleen/05_cell_1761648359264_912349010008_34705_0000.jpg",
-          "thumbs/adapted_e5/spleen/06_cell_1761648867243_912349010008_83192_0000.jpg",
-          "thumbs/adapted_e5/spleen/07_cell_1761648120957_912349010008_15107_0000.jpg",
-          "thumbs/adapted_e5/spleen/08_cell_1761648463963_912349010008_44145_0100.jpg",
-          "thumbs/adapted_e5/spleen/09_cell_1761648712696_912349010008_67825_0100.jpg"
+          "thumbs/adapted_e5/spleen/00_cell_1761648158498_912349010008_17812_0000.jpg",
+          "thumbs/adapted_e5/spleen/01_cell_1761648059274_912349010008_11229_0100.jpg",
+          "thumbs/adapted_e5/spleen/02_cell_1761648712778_912349010008_67833_0000.jpg",
+          "thumbs/adapted_e5/spleen/03_cell_1761648519716_912349010008_48813_0000.jpg",
+          "thumbs/adapted_e5/spleen/04_cell_1761648127720_912349010008_15585_0100.jpg",
+          "thumbs/adapted_e5/spleen/05_cell_1761648792922_912349010008_75705_0000.jpg",
+          "thumbs/adapted_e5/spleen/06_cell_1761648601643_912349010008_56548_0100.jpg",
+          "thumbs/adapted_e5/spleen/07_cell_1761648207320_912349010008_21467_0100.jpg",
+          "thumbs/adapted_e5/spleen/08_cell_1761648557547_912349010008_52193_0000.jpg",
+          "thumbs/adapted_e5/spleen/09_cell_1761648155649_912349010008_17610_0000.jpg"
         ],
         "thumb_sources": [
-          "/home/wangqianqian/project/FS/data/28gusui&pizang/03/47/cell_1761648472114_912349010008_44824_0100.png",
-          "/home/wangqianqian/project/FS/data/28gusui&pizang/03/57/cell_1761649036282_912349010008_98400_0000.png",
-          "/home/wangqianqian/project/FS/data/28gusui&pizang/03/54/cell_1761648863346_912349010008_82824_0100.png",
-          "/home/wangqianqian/project/FS/data/28gusui&pizang/03/57/cell_1761649075707_912349010008_102516_0100.png",
-          "/home/wangqianqian/project/FS/data/28gusui&pizang/03/44/cell_1761648256637_912349010008_25587_0000.png",
-          "/home/wangqianqian/project/FS/data/28gusui&pizang/03/45/cell_1761648359264_912349010008_34705_0000.png",
-          "/home/wangqianqian/project/FS/data/28gusui&pizang/03/54/cell_1761648867243_912349010008_83192_0000.png",
-          "/home/wangqianqian/project/FS/data/28gusui&pizang/03/42/cell_1761648120957_912349010008_15107_0000.png",
-          "/home/wangqianqian/project/FS/data/28gusui&pizang/03/47/cell_1761648463963_912349010008_44145_0100.png",
-          "/home/wangqianqian/project/FS/data/28gusui&pizang/03/51/cell_1761648712696_912349010008_67825_0100.png"
+          "/home/wangqianqian/project/FS/data/28gusui&pizang/03/42/cell_1761648158498_912349010008_17812_0000.png",
+          "/home/wangqianqian/project/FS/data/28gusui&pizang/03/40/cell_1761648059274_912349010008_11229_0100.png",
+          "/home/wangqianqian/project/FS/data/28gusui&pizang/03/51/cell_1761648712778_912349010008_67833_0000.png",
+          "/home/wangqianqian/project/FS/data/28gusui&pizang/03/48/cell_1761648519716_912349010008_48813_0000.png",
+          "/home/wangqianqian/project/FS/data/28gusui&pizang/03/42/cell_1761648127720_912349010008_15585_0100.png",
+          "/home/wangqianqian/project/FS/data/28gusui&pizang/03/53/cell_1761648792922_912349010008_75705_0000.png",
+          "/home/wangqianqian/project/FS/data/28gusui&pizang/03/50/cell_1761648601643_912349010008_56548_0100.png",
+          "/home/wangqianqian/project/FS/data/28gusui&pizang/03/43/cell_1761648207320_912349010008_21467_0100.png",
+          "/home/wangqianqian/project/FS/data/28gusui&pizang/03/49/cell_1761648557547_912349010008_52193_0000.png",
+          "/home/wangqianqian/project/FS/data/28gusui&pizang/03/42/cell_1761648155649_912349010008_17610_0000.png"
         ],
-        "scale_mode": "independent"
+        "scale_mode": "independent",
+        "region_mode": "between_group_difference"
       }
     ]
   },
@@ -124,14 +126,15 @@
           "/home/wangqianqian/project/FS/data/28gusui&pizang/03/05/cell_1761645926145_912349010008_25740_0000.png",
           "/home/wangqianqian/project/FS/data/28gusui&pizang/03/02/cell_1761645764441_912349010008_12965_0100.png"
         ],
-        "scale_mode": "independent"
+        "scale_mode": "independent",
+        "region_mode": "between_group_difference"
       },
       {
         "group": "spleen",
         "n": 189163,
         "ellipse_center": [
-          0.4251013958571441,
-          14.79959814912857
+          0.3601922412857146,
+          14.713575198214286
         ],
         "ellipse_width": 2.5898752674,
         "ellipse_height": 2.16777836304,
@@ -161,7 +164,8 @@
           "/home/wangqianqian/project/FS/data/28gusui&pizang/03/51/cell_1761648679862_912349010008_64330_0000.png",
           "/home/wangqianqian/project/FS/data/28gusui&pizang/03/45/cell_1761648322698_912349010008_31323_0000.png"
         ],
-        "scale_mode": "independent"
+        "scale_mode": "independent",
+        "region_mode": "between_group_difference"
       }
     ]
   }
