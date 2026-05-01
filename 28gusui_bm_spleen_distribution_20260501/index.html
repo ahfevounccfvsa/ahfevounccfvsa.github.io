@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>28骨髓/脾脏样本 UMAP 分布复现</title>
+  <style>
+    body { margin: 0; background: #f6f7f3; color: #20242a; font-family: "Noto Sans SC", "Microsoft YaHei", sans-serif; }
+    .shell { width: min(1180px, calc(100vw - 28px)); margin: 24px auto 48px; }
+    .header, .panel { background: #fffdf8; border: 1px solid #d9ded5; border-radius: 16px; box-shadow: 0 18px 52px rgba(31,41,37,.10); }
+    .header { padding: 26px; margin-bottom: 18px; }
+    h1 { margin: 0; font-size: 34px; line-height: 1.12; }
+    .sub { margin-top: 10px; color: #66706a; line-height: 1.7; }
+    .panel { padding: 18px; margin-bottom: 22px; }
+    .panel-head { margin-bottom: 12px; }
+    h2 { margin: 0 0 6px; font-size: 24px; color: #304f7c; }
+    .meta { color: #66706a; line-height: 1.55; }
+    .figure { display: block; width: min(900px, 100%); margin: 0 auto; border-radius: 12px; border: 1px solid #e0e6dd; background: white; }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <header class="header">
+      <h1>28骨髓/脾脏样本 UMAP 分布复现</h1>
+      <div class="sub">按文件夹来源复现示意图：上方为 01-22 骨髓与脾脏混合样本，下方为 34-59 脾脏样本。橙红色区域显示在同一个全量 UMAP 坐标中的样本分布；同一个模型内上下两图使用同一颜色标尺；灰色细胞块来自黑圈标出的局部区域。</div>
+    </header>
+
+      <section class="panel">
+        <div class="panel-head">
+          <h2>28骨髓 adapted DINOv2 e5：骨髓脾脏混合样 vs 脾脏样本</h2>
+          <div class="meta">使用 full 28gusui adapted DINOv2 e5 的同一套 UMAP 坐标，按文件夹来源拆分显示 01-22 与 34-59 的分布。</div>
+        </div>
+        <a href="./adapted_e5_bm_spleen_distribution.png" target="_blank" rel="noopener">
+          <img class="figure" src="./adapted_e5_bm_spleen_distribution.png" alt="28骨髓 adapted DINOv2 e5：骨髓脾脏混合样 vs 脾脏样本">
+        </a>
+      </section>
+
+      <section class="panel">
+        <div class="panel-head">
+          <h2>28骨髓 pretrained DINOv2：骨髓脾脏混合样 vs 脾脏样本</h2>
+          <div class="meta">使用 full 28gusui pretrained DINOv2 的同一套 UMAP 坐标，按文件夹来源拆分显示 01-22 与 34-59 的分布。</div>
+        </div>
+        <a href="./pretrained_bm_spleen_distribution.png" target="_blank" rel="noopener">
+          <img class="figure" src="./pretrained_bm_spleen_distribution.png" alt="28骨髓 pretrained DINOv2：骨髓脾脏混合样 vs 脾脏样本">
+        </a>
+      </section>
+
+  </main>
+</body>
+</html>

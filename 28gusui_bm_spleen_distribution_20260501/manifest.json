@@ -1,0 +1,164 @@
+[
+  {
+    "slug": "adapted_e5",
+    "title": "28骨髓 adapted DINOv2 e5：骨髓脾脏混合样 vs 脾脏样本",
+    "description": "使用 full 28gusui adapted DINOv2 e5 的同一套 UMAP 坐标，按文件夹来源拆分显示 01-22 与 34-59 的分布。",
+    "coords": "/home/wangqianqian/project/FS/clustering_results/28gusui_dinov2_adapted_e5_zscore_pca15_louvain_20260430/umap_coords.csv",
+    "figure": "adapted_e5_bm_spleen_distribution.png",
+    "panels": [
+      {
+        "group": "mixed",
+        "n": 171094,
+        "ellipse_center": [
+          -1.8969401325714288,
+          -0.3122423801428571
+        ],
+        "ellipse_width": 2.7534942576,
+        "ellipse_height": 4.1091135408,
+        "ellipse_angle": -17.0,
+        "n_cells_in_ellipse": 4237,
+        "thumbs": [
+          "thumbs/adapted_e5/mixed/00_cell_1761645785537_912349010008_14549_0000.jpg",
+          "thumbs/adapted_e5/mixed/01_cell_1761646891317_912349010008_105262_0100.jpg",
+          "thumbs/adapted_e5/mixed/02_cell_1761645889223_912349010008_22992_0100.jpg",
+          "thumbs/adapted_e5/mixed/03_cell_1761646679442_912349010008_87717_0100.jpg",
+          "thumbs/adapted_e5/mixed/04_cell_1761646815419_912349010008_98933_0000.jpg",
+          "thumbs/adapted_e5/mixed/05_cell_1761646725730_912349010008_91479_0000.jpg",
+          "thumbs/adapted_e5/mixed/06_cell_1761646687068_912349010008_88423_0100.jpg",
+          "thumbs/adapted_e5/mixed/07_cell_1761646845301_912349010008_101422_0100.jpg",
+          "thumbs/adapted_e5/mixed/08_cell_1761646628704_912349010008_83190_0000.jpg",
+          "thumbs/adapted_e5/mixed/09_cell_1761645875551_912349010008_21889_0000.jpg"
+        ],
+        "thumb_sources": [
+          "/home/wangqianqian/project/FS/data/28gusui&pizang/03/03/cell_1761645785537_912349010008_14549_0000.png",
+          "/home/wangqianqian/project/FS/data/28gusui&pizang/03/21/cell_1761646891317_912349010008_105262_0100.png",
+          "/home/wangqianqian/project/FS/data/28gusui&pizang/03/04/cell_1761645889223_912349010008_22992_0100.png",
+          "/home/wangqianqian/project/FS/data/28gusui&pizang/03/17/cell_1761646679442_912349010008_87717_0100.png",
+          "/home/wangqianqian/project/FS/data/28gusui&pizang/03/20/cell_1761646815419_912349010008_98933_0000.png",
+          "/home/wangqianqian/project/FS/data/28gusui&pizang/03/18/cell_1761646725730_912349010008_91479_0000.png",
+          "/home/wangqianqian/project/FS/data/28gusui&pizang/03/18/cell_1761646687068_912349010008_88423_0100.png",
+          "/home/wangqianqian/project/FS/data/28gusui&pizang/03/20/cell_1761646845301_912349010008_101422_0100.png",
+          "/home/wangqianqian/project/FS/data/28gusui&pizang/03/17/cell_1761646628704_912349010008_83190_0000.png",
+          "/home/wangqianqian/project/FS/data/28gusui&pizang/03/04/cell_1761645875551_912349010008_21889_0000.png"
+        ]
+      },
+      {
+        "group": "spleen",
+        "n": 189163,
+        "ellipse_center": [
+          3.6238503588571422,
+          -9.035955651285715
+        ],
+        "ellipse_width": 2.7534942576,
+        "ellipse_height": 4.1091135408,
+        "ellipse_angle": 11.0,
+        "n_cells_in_ellipse": 3563,
+        "thumbs": [
+          "thumbs/adapted_e5/spleen/00_cell_1761648472114_912349010008_44824_0100.jpg",
+          "thumbs/adapted_e5/spleen/01_cell_1761649036282_912349010008_98400_0000.jpg",
+          "thumbs/adapted_e5/spleen/02_cell_1761648863346_912349010008_82824_0100.jpg",
+          "thumbs/adapted_e5/spleen/03_cell_1761649075707_912349010008_102516_0100.jpg",
+          "thumbs/adapted_e5/spleen/04_cell_1761648256637_912349010008_25587_0000.jpg",
+          "thumbs/adapted_e5/spleen/05_cell_1761648359264_912349010008_34705_0000.jpg",
+          "thumbs/adapted_e5/spleen/06_cell_1761648867243_912349010008_83192_0000.jpg",
+          "thumbs/adapted_e5/spleen/07_cell_1761648120957_912349010008_15107_0000.jpg",
+          "thumbs/adapted_e5/spleen/08_cell_1761648463963_912349010008_44145_0100.jpg",
+          "thumbs/adapted_e5/spleen/09_cell_1761648712696_912349010008_67825_0100.jpg"
+        ],
+        "thumb_sources": [
+          "/home/wangqianqian/project/FS/data/28gusui&pizang/03/47/cell_1761648472114_912349010008_44824_0100.png",
+          "/home/wangqianqian/project/FS/data/28gusui&pizang/03/57/cell_1761649036282_912349010008_98400_0000.png",
+          "/home/wangqianqian/project/FS/data/28gusui&pizang/03/54/cell_1761648863346_912349010008_82824_0100.png",
+          "/home/wangqianqian/project/FS/data/28gusui&pizang/03/57/cell_1761649075707_912349010008_102516_0100.png",
+          "/home/wangqianqian/project/FS/data/28gusui&pizang/03/44/cell_1761648256637_912349010008_25587_0000.png",
+          "/home/wangqianqian/project/FS/data/28gusui&pizang/03/45/cell_1761648359264_912349010008_34705_0000.png",
+          "/home/wangqianqian/project/FS/data/28gusui&pizang/03/54/cell_1761648867243_912349010008_83192_0000.png",
+          "/home/wangqianqian/project/FS/data/28gusui&pizang/03/42/cell_1761648120957_912349010008_15107_0000.png",
+          "/home/wangqianqian/project/FS/data/28gusui&pizang/03/47/cell_1761648463963_912349010008_44145_0100.png",
+          "/home/wangqianqian/project/FS/data/28gusui&pizang/03/51/cell_1761648712696_912349010008_67825_0100.png"
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "pretrained",
+    "title": "28骨髓 pretrained DINOv2：骨髓脾脏混合样 vs 脾脏样本",
+    "description": "使用 full 28gusui pretrained DINOv2 的同一套 UMAP 坐标，按文件夹来源拆分显示 01-22 与 34-59 的分布。",
+    "coords": "/home/wangqianqian/project/FS/clustering_results/28gusui_dinov2_pretrained_clahe_crop224_zscore_pca15_louvain_20260430/umap_coords.csv",
+    "figure": "pretrained_bm_spleen_distribution.png",
+    "panels": [
+      {
+        "group": "mixed",
+        "n": 171094,
+        "ellipse_center": [
+          -3.7939936512857138,
+          -1.4587395736714286
+        ],
+        "ellipse_width": 2.5898752674,
+        "ellipse_height": 2.16777836304,
+        "ellipse_angle": -17.0,
+        "n_cells_in_ellipse": 4620,
+        "thumbs": [
+          "thumbs/pretrained/mixed/00_cell_1761646177329_912349010008_45562_0000.jpg",
+          "thumbs/pretrained/mixed/01_cell_1761646693586_912349010008_88974_0100.jpg",
+          "thumbs/pretrained/mixed/02_cell_1761646217346_912349010008_48727_0000.jpg",
+          "thumbs/pretrained/mixed/03_cell_1761646257369_912349010008_51992_0000.jpg",
+          "thumbs/pretrained/mixed/04_cell_1761646054155_912349010008_36472_0100.jpg",
+          "thumbs/pretrained/mixed/05_cell_1761646807471_912349010008_98244_0000.jpg",
+          "thumbs/pretrained/mixed/06_cell_1761646419114_912349010008_65306_0100.jpg",
+          "thumbs/pretrained/mixed/07_cell_1761646605091_912349010008_81229_0000.jpg",
+          "thumbs/pretrained/mixed/08_cell_1761645926145_912349010008_25740_0000.jpg",
+          "thumbs/pretrained/mixed/09_cell_1761645764441_912349010008_12965_0100.jpg"
+        ],
+        "thumb_sources": [
+          "/home/wangqianqian/project/FS/data/28gusui&pizang/03/09/cell_1761646177329_912349010008_45562_0000.png",
+          "/home/wangqianqian/project/FS/data/28gusui&pizang/03/18/cell_1761646693586_912349010008_88974_0100.png",
+          "/home/wangqianqian/project/FS/data/28gusui&pizang/03/10/cell_1761646217346_912349010008_48727_0000.png",
+          "/home/wangqianqian/project/FS/data/28gusui&pizang/03/10/cell_1761646257369_912349010008_51992_0000.png",
+          "/home/wangqianqian/project/FS/data/28gusui&pizang/03/07/cell_1761646054155_912349010008_36472_0100.png",
+          "/home/wangqianqian/project/FS/data/28gusui&pizang/03/20/cell_1761646807471_912349010008_98244_0000.png",
+          "/home/wangqianqian/project/FS/data/28gusui&pizang/03/13/cell_1761646419114_912349010008_65306_0100.png",
+          "/home/wangqianqian/project/FS/data/28gusui&pizang/03/16/cell_1761646605091_912349010008_81229_0000.png",
+          "/home/wangqianqian/project/FS/data/28gusui&pizang/03/05/cell_1761645926145_912349010008_25740_0000.png",
+          "/home/wangqianqian/project/FS/data/28gusui&pizang/03/02/cell_1761645764441_912349010008_12965_0100.png"
+        ]
+      },
+      {
+        "group": "spleen",
+        "n": 189163,
+        "ellipse_center": [
+          0.4251013958571441,
+          14.79959814912857
+        ],
+        "ellipse_width": 2.5898752674,
+        "ellipse_height": 2.16777836304,
+        "ellipse_angle": 11.0,
+        "n_cells_in_ellipse": 1640,
+        "thumbs": [
+          "thumbs/pretrained/spleen/00_cell_1761648942108_912349010008_89824_0000.jpg",
+          "thumbs/pretrained/spleen/01_cell_1761649115348_912349010008_106773_0000.jpg",
+          "thumbs/pretrained/spleen/02_cell_1761648090895_912349010008_13271_0100.jpg",
+          "thumbs/pretrained/spleen/03_cell_1761649030538_912349010008_97865_0000.jpg",
+          "thumbs/pretrained/spleen/04_cell_1761648888001_912349010008_85260_0100.jpg",
+          "thumbs/pretrained/spleen/05_cell_1761648238630_912349010008_24003_0000.jpg",
+          "thumbs/pretrained/spleen/06_cell_1761647750428_912349010008_249_0100.jpg",
+          "thumbs/pretrained/spleen/07_cell_1761647787191_912349010008_524_0100.jpg",
+          "thumbs/pretrained/spleen/08_cell_1761648679862_912349010008_64330_0000.jpg",
+          "thumbs/pretrained/spleen/09_cell_1761648322698_912349010008_31323_0000.jpg"
+        ],
+        "thumb_sources": [
+          "/home/wangqianqian/project/FS/data/28gusui&pizang/03/55/cell_1761648942108_912349010008_89824_0000.png",
+          "/home/wangqianqian/project/FS/data/28gusui&pizang/03/58/cell_1761649115348_912349010008_106773_0000.png",
+          "/home/wangqianqian/project/FS/data/28gusui&pizang/03/41/cell_1761648090895_912349010008_13271_0100.png",
+          "/home/wangqianqian/project/FS/data/28gusui&pizang/03/57/cell_1761649030538_912349010008_97865_0000.png",
+          "/home/wangqianqian/project/FS/data/28gusui&pizang/03/54/cell_1761648888001_912349010008_85260_0100.png",
+          "/home/wangqianqian/project/FS/data/28gusui&pizang/03/43/cell_1761648238630_912349010008_24003_0000.png",
+          "/home/wangqianqian/project/FS/data/28gusui&pizang/03/35/cell_1761647750428_912349010008_249_0100.png",
+          "/home/wangqianqian/project/FS/data/28gusui&pizang/03/36/cell_1761647787191_912349010008_524_0100.png",
+          "/home/wangqianqian/project/FS/data/28gusui&pizang/03/51/cell_1761648679862_912349010008_64330_0000.png",
+          "/home/wangqianqian/project/FS/data/28gusui&pizang/03/45/cell_1761648322698_912349010008_31323_0000.png"
+        ]
+      }
+    ]
+  }
+]
