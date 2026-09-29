@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="5张无标注明场血涂片图像的探索性实验展示">
+  <title>无标注血涂片图像实验展示</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <aside class="side">
+    <a class="brand" href="#top"><b>CS</b><span>Cell-sort<br>pilot</span></a>
+    <nav aria-label="页面导航">
+      <a href="#overview">00 · 研究框架</a>
+      <a href="#exp1">01 · 传统形态探索</a>
+      <a href="#exp2">02 · 深度特征探索</a>
+      <a href="#exp3">03 · 外观规则演示</a>
+      <a href="#conclusion">04 · 结论与边界</a>
+    </nav>
+    <p class="side-note">5张图 · 0个真实标签<br>仅作定性探索</p>
+  </aside>
+
+  <main id="top">
+    <section class="hero" id="overview">
+      <div>
+        <p class="eyebrow">UNLABELED BRIGHT-FIELD SMEAR · PILOT</p>
+        <h1>五张图，<br>能说明什么？</h1>
+        <p class="lead">从传统形态特征、预训练深度特征到可解释外观规则，逐步检验无标注血涂片图像能够支持的分析边界。</p>
+        <div class="stats"><div><b>5</b><span>原始视野</span></div><div><b>1530×1280</b><span>单张分辨率</span></div><div><b>0</b><span>真实标签</span></div></div>
+      </div>
+      <figure><img src="assets/fields.jpg" alt="五张原始血涂片视野拼图"><figcaption>原始数据总览</figcaption></figure>
+    </section>
+
+    <section class="frame">
+      <p class="eyebrow">RESEARCH FRAME</p>
+      <h2>先定义证据，再解释结果</h2>
+      <div class="warning"><b>重要边界</b><p>一行记录代表一个算法候选，而非经专家确认的细胞。没有标注、临床计数、尺度信息和独立测试集，因此不计算准确率、F1或mAP，也不声称模型具有泛化能力。</p></div>
+      <div class="flow"><article><i>01</i><h3>定位与手工特征</h3><p>能否找到规则圆形目标？基础颜色和形态能否形成稳定分组？</p></article><article><i>02</i><h3>预训练视觉特征</h3><p>更复杂的深度特征是否形成清晰、可重复的自然分组？</p></article><article><i>03</i><h3>中性外观规则</h3><p>将候选组织为可审阅外观组，不赋予生物学身份。</p></article></div>
+    </section>
+
+    <section class="experiment" id="exp1">
+      <header><p class="eyebrow">EXPERIMENT 01 · COMPLETED</p><h2>传统形态特征无监督探索</h2><p>Hough圆定位 · 手工颜色/形态特征 · K-means</p></header>
+      <div class="methods"><article><b>01</b><h3>候选定位</h3><p>灰度化和中值滤波后进行Hough圆检测；半径10–25 px。</p></article><article><b>02</b><h3>特征提取</h3><p>半径、中心蓝色比例、暗色比例、外环黄色比例与BGR均值。</p></article><article><b>03</b><h3>无监督分组</h3><p><code>k=3</code> 是预设参数，不代表发现了3种细胞。</p></article></div>
+      <div class="resultbar"><div><b>3,526</b><span>圆形候选</span></div><div><b>2,055</b><span>Group 0</span></div><div><b>1,317</b><span>Group 1</span></div><div><b>154</b><span>Group 2</span></div><div><b>10</b><span>强蓝核候选</span></div></div>
+      <div class="feature"><figure><img src="assets/exp1-detection.jpg" alt="实验一候选检测总览"><figcaption>五张图的圆形候选检测总览</figcaption></figure><aside><p class="eyebrow">FINDING</p><h3>能够定位，不等于能够分类</h3><p>圆检测与多数规则环状目标吻合，但三个聚类在不同视野中的比例变化明显，颜色和亮度差异对分组影响较大。</p><p>因此 Group 0/1/2 没有已验证的细胞类型含义。</p></aside></div>
+      <figure class="gallery"><img src="assets/exp1-blue-core.jpg" alt="实验一的强蓝核候选画廊"><figcaption>强蓝核候选画廊 · 仅用于人工复核</figcaption></figure>
+    </section>
+
+    <section class="experiment tint" id="exp2">
+      <header><p class="eyebrow">EXPERIMENT 02 · PRELIMINARY</p><h2>预训练深度特征无监督探索</h2><p>ResNet-50特征 · PCA · 聚类稳定性检验</p></header>
+      <div class="metrics"><article><span>k=3 轮廓系数</span><b>0.0319</b><em>分离很弱</em></article><article><span>图像—聚类 Cramér’s V</span><b>0.266</b><em>存在视野关联</em></article><article><span>前2个PCA轴解释率</span><b>22.2%</b><em>二维展示</em></article><article><span>前32个PCA轴解释率</span><b>61.7%</b><em>用于聚类</em></article></div>
+      <div class="feature reverse"><aside><p class="eyebrow">DECISION</p><h3>更强的特征仍未产生清晰类别</h3><p>对<code>k=2–6</code>的扫描均显示低轮廓系数；聚类还与来源视野存在中等关联。</p><p>该实验反对把无监督簇直接命名为细胞类型。</p></aside><figure><img src="assets/exp2-pca.jpg" alt="实验二的深度特征PCA图，簇标签直接标注"><figcaption>深度特征PCA视图 · 簇标签直接标注</figcaption></figure></div>
+    </section>
+
+    <section class="experiment" id="exp3">
+      <header><p class="eyebrow">EXPERIMENT 03 · QUALITATIVE</p><h2>可解释的中性外观分组</h2><p>固定规则 · 全图叠加 · 不赋予生物学身份</p></header>
+      <div class="naming"><b>为什么不用“红细胞 / 白细胞 / 血小板”？</b><p>没有细胞学真值，外观相似不能证明生物学身份。因此这里只报告环状大目标、深蓝大目标和小蓝点。</p></div>
+      <div class="appearance"><article><i class="ring"></i><small>RING-LIKE OBJECT</small><h3>环状大目标</h3><b>3,516</b><span>Hough圆；未满足深蓝中心规则</span></article><article><i class="large"></i><small>DARK-BLUE LARGE</small><h3>深蓝大目标</h3><b>10</b><span>中心盘≥50%满足蓝紫色规则</span></article><article><i class="dot"></i><small>SMALL BLUE DOT</small><h3>小蓝点</h3><b>10</b><span>小型、紧致、背景相对干净</span></article></div>
+      <figure class="large-figure"><img src="assets/exp3-overview.jpg" alt="五张图的中性外观分组结果总览"><figcaption>绿色：环状大目标 · 红色：深蓝大目标 · 蓝色：小蓝点</figcaption></figure>
+      <div class="table-wrap"><table><caption>每张视野的外观候选数</caption><thead><tr><th>视野</th><th>环状大目标</th><th>深蓝大目标</th><th>小蓝点</th><th>合计</th></tr></thead><tbody><tr><td>Field 1</td><td>708</td><td>3</td><td>2</td><td>713</td></tr><tr><td>Field 2</td><td>727</td><td>1</td><td>1</td><td>729</td></tr><tr><td>Field 3</td><td>707</td><td>1</td><td>3</td><td>711</td></tr><tr><td>Field 4</td><td>685</td><td>2</td><td>1</td><td>689</td></tr><tr><td>Field 5</td><td>689</td><td>3</td><td>3</td><td>695</td></tr><tr class="total"><td>总计</td><td>3,516</td><td>10</td><td>10</td><td>3,536</td></tr></tbody></table></div>
+      <div class="triptych"><figure><img src="assets/exp3-ring-review.jpg" alt="环状大目标抽样复核"><figcaption>环状大目标 · 100个抽样</figcaption></figure><figure><img src="assets/exp3-dark-blue.jpg" alt="深蓝大目标画廊"><figcaption>深蓝大目标 · 全部10个</figcaption></figure><figure><img src="assets/exp3-small-blue.jpg" alt="小蓝点画廊"><figcaption>小蓝点 · 全部10个</figcaption></figure></div>
+      <div class="caution"><b>LOW CONFIDENCE</b><p>小蓝点是最不确定的一组。初始规则得到117个候选，其中许多是环状结构边缘碎片；加强过滤后仅保留10个，但仍可能是染色沉淀、碎屑或成像伪影。</p></div>
+    </section>
+
+    <section class="conclusion" id="conclusion"><p class="eyebrow">CONCLUSION</p><h2>这组数据支持与不支持什么</h2><div class="twocol"><article class="yes"><small>SUPPORTED</small><h3>目前证据支持</h3><ul><li>定位大量规则圆形、环状目标。</li><li>筛选外观明显不同的深蓝大目标。</li><li>建立透明、可复现的定性审阅流程。</li><li>作为预实验、方法示意或附图材料。</li></ul></article><article class="no"><small>NOT SUPPORTED</small><h3>目前证据不支持</h3><ul><li>数据天然存在三个真实细胞类别。</li><li>外观分组等同于特定细胞类型。</li><li>候选数等同于临床或生物学计数。</li><li>任何准确率、F1、mAP或泛化性能结论。</li></ul></article></div><div class="next"><small>最有决策价值的下一步</small><h3>由领域专家复核稀有候选，并获得同一成像流程下的可信对象级标注。</h3><p>只有拥有对象级标签和独立视野后，才适合训练并评估正式分类器。</p></div></section>
+    <footer>Five-field unlabeled morphology pilot · 结果仅用于探索、人工复核与方法展示，不构成诊断或生物学分类结论。</footer>
+  </main>
+</body>
+</html>
