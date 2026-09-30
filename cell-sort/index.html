@@ -3,67 +3,100 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="5张无标注明场血涂片图像的探索性实验展示">
-  <title>无标注血涂片图像实验展示</title>
+  <meta name="description" content="5张无标注明场血涂片图像的分割、外观发现与稳定性检验展示">
+  <title>无标注血涂片 · 外观发现实验</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <aside class="side">
-    <a class="brand" href="#top"><b>CS</b><span>Cell-sort<br>pilot</span></a>
+    <a class="brand" href="#top"><b>CS</b><span>Cell-sort<br>discovery</span></a>
     <nav aria-label="页面导航">
-      <a href="#overview">00 · 研究框架</a>
-      <a href="#exp1">01 · 传统形态探索</a>
-      <a href="#exp2">02 · 深度特征探索</a>
-      <a href="#exp3">03 · 外观规则演示</a>
-      <a href="#conclusion">04 · 结论与边界</a>
+      <a href="#frame">00 · 证据边界</a><a href="#segmentation">01 · 对象分割</a>
+      <a href="#global">02 · 全局发现</a><a href="#size">03 · 尺寸细分</a>
+      <a href="#shape">04 · 形态细分</a><a href="#final">05 · 最终结果</a>
+      <a href="#history">实验沿革</a>
     </nav>
-    <p class="side-note">5张图 · 0个真实标签<br>仅作定性探索</p>
+    <p class="side-note">5 张视野 · 0 个真值标签<br>探索性、定性证据</p>
   </aside>
 
   <main id="top">
-    <section class="hero" id="overview">
+    <section class="hero">
       <div>
-        <p class="eyebrow">UNLABELED BRIGHT-FIELD SMEAR · PILOT</p>
-        <h1>五张图，<br>能说明什么？</h1>
-        <p class="lead">从传统形态特征、预训练深度特征到可解释外观规则，逐步检验无标注血涂片图像能够支持的分析边界。</p>
-        <div class="stats"><div><b>5</b><span>原始视野</span></div><div><b>1530×1280</b><span>单张分辨率</span></div><div><b>0</b><span>真实标签</span></div></div>
+        <p class="eyebrow">UNLABELED BRIGHT-FIELD SMEAR · EXPLORATORY PIPELINE</p>
+        <h1>从一张图，<br>到五个外观簇</h1>
+        <p class="lead">不预设细胞类别、不训练本地深度网络。先分割单个图像对象，再以预训练视觉特征、颜色、尺寸和形态进行无监督发现与稳定性检验。</p>
+        <div class="stats"><div><b>5</b><span>原始视野</span></div><div><b>3,436</b><span>最终纳入对象</span></div><div><b>5</b><span>稳定外观簇</span></div></div>
       </div>
-      <figure><img src="assets/fields.jpg" alt="五张原始血涂片视野拼图"><figcaption>原始数据总览</figcaption></figure>
+      <figure><img src="assets/web/05-final-five-cluster-map.jpg" alt="五个最终外观簇在五张视野中的分配叠加图"><figcaption>最终结果叠加图 · 边框颜色表示外观簇，不表示生物学细胞类型</figcaption></figure>
     </section>
 
-    <section class="frame">
-      <p class="eyebrow">RESEARCH FRAME</p>
-      <h2>先定义证据，再解释结果</h2>
-      <div class="warning"><b>重要边界</b><p>一行记录代表一个算法候选，而非经专家确认的细胞。没有标注、临床计数、尺度信息和独立测试集，因此不计算准确率、F1或mAP，也不声称模型具有泛化能力。</p></div>
-      <div class="flow"><article><i>01</i><h3>定位与手工特征</h3><p>能否找到规则圆形目标？基础颜色和形态能否形成稳定分组？</p></article><article><i>02</i><h3>预训练视觉特征</h3><p>更复杂的深度特征是否形成清晰、可重复的自然分组？</p></article><article><i>03</i><h3>中性外观规则</h3><p>将候选组织为可审阅外观组，不赋予生物学身份。</p></article></div>
+    <section class="frame" id="frame">
+      <p class="eyebrow">EVIDENCE FRAME</p><h2>本页回答的是“外观能否稳定分层”</h2>
+      <div class="warning"><b>必须区分</b><p>一个对象是一个 Cellpose 实例掩膜，或一个独立补入的小目标候选；一个簇是算法依据图像特征发现的外观组。五张图没有对象级真值、临床计数或独立测试集，因此这里不报告准确率、F1、mAP，也不将簇命名为红细胞、白细胞或血小板。</p></div>
+      <div class="pipeline">
+        <article><i>01</i><h3>找对象</h3><p>Cellpose 零样本实例分割；另以独立小目标分支补入 7 个漏掉的微小点。</p></article>
+        <article><i>02</i><h3>提特征</h3><p>预训练 ResNet50 嵌入，加上颜色、面积、圆度、偏心率、长宽比等可解释特征。</p></article>
+        <article><i>03</i><h3>全局发现</h3><p>UMAP 降维展示；HDBSCAN 通过密度与参数扫描自动选择 3 个全局外观簇。</p></article>
+        <article><i>04</i><h3>局部细分</h3><p>仅保留通过稳定性标准的 GMM 尺寸拆分与 K-means 形态拆分，形成 5 簇。</p></article>
+      </div>
+      <p class="micro">ResNet50 仅使用公开预训练权重提取特征，未用这 5 张图重新训练或微调。</p>
     </section>
 
-    <section class="experiment" id="exp1">
-      <header><p class="eyebrow">EXPERIMENT 01 · COMPLETED</p><h2>传统形态特征无监督探索</h2><p>Hough圆定位 · 手工颜色/形态特征 · K-means</p></header>
-      <div class="methods"><article><b>01</b><h3>候选定位</h3><p>灰度化和中值滤波后进行Hough圆检测；半径10–25 px。</p></article><article><b>02</b><h3>特征提取</h3><p>半径、中心蓝色比例、暗色比例、外环黄色比例与BGR均值。</p></article><article><b>03</b><h3>无监督分组</h3><p><code>k=3</code> 是预设参数，不代表发现了3种细胞。</p></article></div>
-      <div class="resultbar"><div><b>3,526</b><span>圆形候选</span></div><div><b>2,055</b><span>Group 0</span></div><div><b>1,317</b><span>Group 1</span></div><div><b>154</b><span>Group 2</span></div><div><b>10</b><span>强蓝核候选</span></div></div>
-      <div class="feature"><figure><img src="assets/exp1-detection.jpg" alt="实验一候选检测总览"><figcaption>五张图的圆形候选检测总览</figcaption></figure><aside><p class="eyebrow">FINDING</p><h3>能够定位，不等于能够分类</h3><p>圆检测与多数规则环状目标吻合，但三个聚类在不同视野中的比例变化明显，颜色和亮度差异对分组影响较大。</p><p>因此 Group 0/1/2 没有已验证的细胞类型含义。</p></aside></div>
-      <figure class="gallery"><img src="assets/exp1-blue-core.jpg" alt="实验一的强蓝核候选画廊"><figcaption>强蓝核候选画廊 · 仅用于人工复核</figcaption></figure>
+    <section class="experiment" id="segmentation">
+      <header><p class="eyebrow">EXPERIMENT 01 · EXP004 · COMPLETED / PRELIMINARY</p><h2>零样本实例分割：先得到可审阅的对象</h2><p>Cellpose cyto3 · 预训练模型 · 不需要本地掩膜标注</p></header>
+      <div class="method-grid"><article><b>输入</b><p>5 张 1530 × 1280 明场视野。</p></article><article><b>分割</b><p>Cellpose cyto3，期望直径 30 px，最小实例面积 50 px。</p></article><article><b>质控</b><p>以既有 Hough 圆候选中心作非真值的一致性参照。</p></article></div>
+      <div class="resultbar"><div><b>3,724</b><span>Cellpose 实例掩膜</span></div><div><b>748–766</b><span>每张视野掩膜数</span></div><div><b>99.0%</b><span>Hough 中心覆盖率</span></div><div><b>7</b><span>后续独立小点补入</span></div></div>
+      <div class="feature"><figure><img src="assets/web/01-cellpose-segmentation.jpg" alt="Cellpose 在五张图上的实例分割边界总览"><figcaption>黄色圆：既有 Hough 参照；紫色边界：Cellpose 实例。二者一致不等于真实分割准确率。</figcaption></figure><aside><p class="eyebrow">结论</p><h3>分割足以支撑对象级外观分析</h3><p>绝大多数规则环状目标及明显蓝紫色目标都有可视化边界。边缘截断对象在后续聚类前移除，避免截断面积与形状造成伪簇。</p><p>小于 50 px 的孤立对象可能被主分割遗漏，因此另设小目标候选分支；这 7 个点仅在后续模型拟合后分配，不影响簇数选择。</p></aside></div>
     </section>
 
-    <section class="experiment tint" id="exp2">
-      <header><p class="eyebrow">EXPERIMENT 02 · PRELIMINARY</p><h2>预训练深度特征无监督探索</h2><p>ResNet-50特征 · PCA · 聚类稳定性检验</p></header>
-      <div class="metrics"><article><span>k=3 轮廓系数</span><b>0.0319</b><em>分离很弱</em></article><article><span>图像—聚类 Cramér’s V</span><b>0.266</b><em>存在视野关联</em></article><article><span>前2个PCA轴解释率</span><b>22.2%</b><em>二维展示</em></article><article><span>前32个PCA轴解释率</span><b>61.7%</b><em>用于聚类</em></article></div>
-      <div class="feature reverse"><aside><p class="eyebrow">DECISION</p><h3>更强的特征仍未产生清晰类别</h3><p>对<code>k=2–6</code>的扫描均显示低轮廓系数；聚类还与来源视野存在中等关联。</p><p>该实验反对把无监督簇直接命名为细胞类型。</p></aside><figure><img src="assets/exp2-pca.jpg" alt="实验二的深度特征PCA图，簇标签直接标注"><figcaption>深度特征PCA视图 · 簇标签直接标注</figcaption></figure></div>
+    <section class="experiment tint" id="global">
+      <header><p class="eyebrow">EXPERIMENT 02 · EXP008 · COMPLETED / PRELIMINARY</p><h2>全局自动发现：不预设最终类别数</h2><p>融合特征 · UMAP 仅用于展示 · HDBSCAN 参数扫描</p></header>
+      <div class="metrics"><article><span>进入全局发现的非边缘掩膜</span><b>3,429</b><em>统一对象表征</em></article><article><span>自动选择的全局簇数</span><b>3</b><em>并非人工设定</em></article><article><span>HDBSCAN relative validity</span><b>0.9325</b><em>所选密度解</em></article><article><span>不确定 / 噪声对象</span><b>0</b><em>所选解中</em></article></div>
+      <div class="feature reverse"><aside><p class="eyebrow">读图方式</p><h3>“3”是一个全局、粗粒度结果</h3><p>HDBSCAN 自动得到 3,382、30、17 个对象的三支。30 个蓝紫色外观对象仍混合了大小相差明显的目标；大主体也包含连续的轮廓变化。</p><p>因此这一步不是终点，更不是“已知三类细胞”的证明，而是确定值得进入局部稳定性检验的分支。</p></aside><figure><img src="assets/web/02-global-umap-hdbscan.jpg" alt="UMAP 和 HDBSCAN 得到的三个全局外观簇，数字标签直接显示"><figcaption>UMAP 可视化 · 圆圈中的 0、1、2 为 HDBSCAN 外观簇编号</figcaption></figure></div>
     </section>
 
-    <section class="experiment" id="exp3">
-      <header><p class="eyebrow">EXPERIMENT 03 · QUALITATIVE</p><h2>可解释的中性外观分组</h2><p>固定规则 · 全图叠加 · 不赋予生物学身份</p></header>
-      <div class="naming"><b>为什么不用“红细胞 / 白细胞 / 血小板”？</b><p>没有细胞学真值，外观相似不能证明生物学身份。因此这里只报告环状大目标、深蓝大目标和小蓝点。</p></div>
-      <div class="appearance"><article><i class="ring"></i><small>RING-LIKE OBJECT</small><h3>环状大目标</h3><b>3,516</b><span>Hough圆；未满足深蓝中心规则</span></article><article><i class="large"></i><small>DARK-BLUE LARGE</small><h3>深蓝大目标</h3><b>10</b><span>中心盘≥50%满足蓝紫色规则</span></article><article><i class="dot"></i><small>SMALL BLUE DOT</small><h3>小蓝点</h3><b>10</b><span>小型、紧致、背景相对干净</span></article></div>
-      <figure class="large-figure"><img src="assets/exp3-overview.jpg" alt="五张图的中性外观分组结果总览"><figcaption>绿色：环状大目标 · 红色：深蓝大目标 · 蓝色：小蓝点</figcaption></figure>
-      <div class="table-wrap"><table><caption>每张视野的外观候选数</caption><thead><tr><th>视野</th><th>环状大目标</th><th>深蓝大目标</th><th>小蓝点</th><th>合计</th></tr></thead><tbody><tr><td>Field 1</td><td>708</td><td>3</td><td>2</td><td>713</td></tr><tr><td>Field 2</td><td>727</td><td>1</td><td>1</td><td>729</td></tr><tr><td>Field 3</td><td>707</td><td>1</td><td>3</td><td>711</td></tr><tr><td>Field 4</td><td>685</td><td>2</td><td>1</td><td>689</td></tr><tr><td>Field 5</td><td>689</td><td>3</td><td>3</td><td>695</td></tr><tr class="total"><td>总计</td><td>3,516</td><td>10</td><td>10</td><td>3,536</td></tr></tbody></table></div>
-      <div class="triptych"><figure><img src="assets/exp3-ring-review.jpg" alt="环状大目标抽样复核"><figcaption>环状大目标 · 100个抽样</figcaption></figure><figure><img src="assets/exp3-dark-blue.jpg" alt="深蓝大目标画廊"><figcaption>深蓝大目标 · 全部10个</figcaption></figure><figure><img src="assets/exp3-small-blue.jpg" alt="小蓝点画廊"><figcaption>小蓝点 · 全部10个</figcaption></figure></div>
-      <div class="caution"><b>LOW CONFIDENCE</b><p>小蓝点是最不确定的一组。初始规则得到117个候选，其中许多是环状结构边缘碎片；加强过滤后仅保留10个，但仍可能是染色沉淀、碎屑或成像伪影。</p></div>
+    <section class="experiment" id="size">
+      <header><p class="eyebrow">EXPERIMENT 03 · EXP009 · COMPLETED / PRELIMINARY</p><h2>局部尺寸细分：仅拆开显著且可复现的混合支</h2><p>分支内 log(面积) 高斯混合模型（GMM）· BIC + 分离度 + bootstrap ARI</p></header>
+      <div class="split-grid"><article><small>被检验分支</small><b>蓝紫色外观支</b><p>全局簇 1 的 30 个 Cellpose 掩膜。</p></article><article><small>自动接受的模型</small><b>2 个高斯成分</b><p>小型 20 个，较大型 10 个。</p></article><article><small>稳定性证据</small><b>ARI = 1.00</b><p>50 次 bootstrap 的中位数。</p></article><article><small>模型差异</small><b>ΔBIC = 22.68</b><p>两成分优于单成分；分离度 6.66 SD。</p></article></div>
+      <figure class="wide"><img src="assets/web/03-local-size-gmm.jpg" alt="蓝紫色外观分支在对象面积上由高斯混合模型拆成两个簇"><figcaption>横轴为分割面积的 log(1 + area)。数字 1、2 为自动接受的局部尺寸成分编号。</figcaption></figure>
+      <div class="note"><b>补点的处理</b><p>7 个独立检测的小蓝紫点没有适配的 Cellpose 掩膜，不能与主对象一起拟合 GMM。模型确定后，7 个点均被分配至小型蓝紫色外观簇，因此该簇从 20 个掩膜变为最终 27 个对象。</p></div>
     </section>
 
-    <section class="conclusion" id="conclusion"><p class="eyebrow">CONCLUSION</p><h2>这组数据支持与不支持什么</h2><div class="twocol"><article class="yes"><small>SUPPORTED</small><h3>目前证据支持</h3><ul><li>定位大量规则圆形、环状目标。</li><li>筛选外观明显不同的深蓝大目标。</li><li>建立透明、可复现的定性审阅流程。</li><li>作为预实验、方法示意或附图材料。</li></ul></article><article class="no"><small>NOT SUPPORTED</small><h3>目前证据不支持</h3><ul><li>数据天然存在三个真实细胞类别。</li><li>外观分组等同于特定细胞类型。</li><li>候选数等同于临床或生物学计数。</li><li>任何准确率、F1、mAP或泛化性能结论。</li></ul></article></div><div class="next"><small>最有决策价值的下一步</small><h3>由领域专家复核稀有候选，并获得同一成像流程下的可信对象级标注。</h3><p>只有拥有对象级标签和独立视野后，才适合训练并评估正式分类器。</p></div></section>
-    <footer>Five-field unlabeled morphology pilot · 结果仅用于探索、人工复核与方法展示，不构成诊断或生物学分类结论。</footer>
+    <section class="experiment tint" id="shape">
+      <header><p class="eyebrow">EXPERIMENT 04 · EXP010 · COMPLETED / PRELIMINARY</p><h2>主体形态细分：规则/圆形与细长/不规则</h2><p>尺度无关轮廓描述符 · K-means 候选 k=2–6 · 多重稳定性门槛</p></header>
+      <div class="metrics"><article><span>接受的形态拆分</span><b>k = 2</b><em>3–6 均被拒绝</em></article><article><span>轮廓系数</span><b>0.491</b><em>主体分支内部</em></article><article><span>50 次 bootstrap ARI</span><b>0.957</b><em>中位数</em></article><article><span>跨视野 Cramér’s V</span><b>0.049</b><em>低视野关联</em></article></div>
+      <div class="feature"><figure><img src="assets/web/04-shape-kmeans-umap.jpg" alt="主体分支的形态UMAP，数字标签直接标注两个稳定簇"><figcaption>主体形态的 UMAP 展示 · 0 为较规则/圆形，1 为较细长、弯曲或不规则</figcaption></figure><aside><p class="eyebrow">接受规则</p><h3>不是“看起来可分”就拆分</h3><p>仅当最小子群比例、轮廓系数、多随机种子 ARI、bootstrap ARI、去除任一特征后的 ARI 和跨视野检验均达标时，才接受拆分。</p><p>最终两支分别为 2,883 与 499 个对象；中位偏心率为 0.448 与 0.707，支持“较圆”与“较细长/不规则”的中性描述。</p></aside></div>
+    </section>
+
+    <section class="experiment final" id="final">
+      <header><p class="eyebrow">EXPERIMENT 05 · CURRENT SYNTHESIS</p><h2>当前输出：5 个稳定外观簇</h2><p>3 个全局簇 → 蓝紫色支按尺寸拆分 → 大主体按形态拆分</p></header>
+      <div class="cluster-cards">
+        <article class="c0"><small>CLUSTER 0</small><b>2,883</b><h3>较规则 / 圆形轮廓</h3><p>主体形态分支的一支。</p></article><article class="c1"><small>CLUSTER 1</small><b>499</b><h3>较细长 / 不规则轮廓</h3><p>主体形态分支的另一支。</p></article><article class="c2"><small>CLUSTER 2</small><b>27</b><h3>小型蓝紫色对象</h3><p>20 个掩膜 + 7 个独立小点。</p></article><article class="c3"><small>CLUSTER 3</small><b>10</b><h3>大型深蓝紫色对象</h3><p>尺寸细分的较大成分。</p></article><article class="c4"><small>CLUSTER 4</small><b>17</b><h3>小型淡灰紧致掩膜</h3><p>含至少一个疑似分割伪影。</p></article>
+      </div>
+      <figure class="wide"><img src="assets/web/05-final-five-cluster-map.jpg" alt="五张图上的五个最终外观簇分配"><figcaption>五个视野的对象级分配叠加。顶部每行给出该视野内各簇数量；所有名称均为图像外观描述。</figcaption></figure>
+      <figure class="gallery"><img src="assets/web/06-final-cluster-gallery.jpg" alt="五个最终外观簇的代表性对象画廊"><figcaption>各簇代表性对象画廊。蓝、橙、绿、紫、粉的边界仅对应簇编号 0–4。</figcaption></figure>
+    </section>
+
+    <section class="history" id="history">
+      <p class="eyebrow">EXPERIMENT HISTORY</p><h2>已完成实验的决策路径</h2>
+      <div class="timeline">
+        <article><b>EXP001</b><p>Hough 圆与手工特征：建立候选定位基线；不把预设 k=3 解释成三类细胞。</p></article>
+        <article><b>EXP002</b><p>ResNet50 全图裁剪聚类：分离弱、视野关联明显，否定直接把深度簇当细胞类型。</p></article>
+        <article><b>EXP003</b><p>规则化外观演示：提供可视化审阅，不作为最终分类方案。</p></article>
+        <article><b>EXP004</b><p>Cellpose 零样本分割：为对象级颜色、面积、轮廓特征提供实例掩膜。</p></article>
+        <article><b>EXP006</b><p>融合特征诊断：发现边缘截断会造成形态伪簇，后续聚类改用非边缘对象。</p></article>
+        <article><b>EXP007–010</b><p>由稀有外观发现、自动全局聚类、尺寸细分到形态细分，形成当前五簇结果。</p></article>
+        <article><b>EXP011</b><p>已完成可复用输入目录流程验证；它是工程泛化测试，不增加生物学真值。</p></article>
+        <article class="running"><b>EXP012</b><p>Cellpose-SAM + DINOv2 仍在运行，尚无可报告的最终结果，未纳入本页结论。</p></article>
+      </div>
+    </section>
+
+    <section class="conclusion">
+      <p class="eyebrow">INTERPRETATION BOUNDARY</p><h2>当前证据支持什么，不支持什么</h2>
+      <div class="twocol"><article class="yes"><small>SUPPORTED</small><h3>支持</h3><ul><li>在这 5 个视野中，存在可重复审阅的 5 个图像外观层次。</li><li>蓝紫色外观支有显著、稳定的尺寸二分。</li><li>主体对象有通过多项稳定性门槛的圆/不规则形态二分。</li><li>作为预实验、方法流程和人工复核的可视化材料。</li></ul></article><article class="no"><small>NOT SUPPORTED</small><h3>不支持</h3><ul><li>这 5 个簇就是已知的 5 类生物学细胞。</li><li>它们可用于临床计数、诊断或泛化到新染色与新设备。</li><li>任何对象分类准确率、F1、mAP 或外部泛化结论。</li><li>“数据天然只有五类”的强结论。</li></ul></article></div>
+      <div class="next"><small>NEXT DECISION-USEFUL STEP</small><h3>请领域专家复核稀有簇，并建立对象级标签与独立视野。</h3><p>获得可信标签后，才能把当前的外观发现转化为正式的监督分类与定量评估；在此之前，它应被视为严谨的定性探索结果。</p></div>
+    </section>
+    <footer>Five-field unlabeled bright-field smear pilot · 页面展示为探索性无监督外观发现，不构成诊断、生物学细胞分类或临床计数。</footer>
   </main>
 </body>
 </html>
